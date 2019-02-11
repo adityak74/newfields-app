@@ -18,12 +18,14 @@
     "@material-ui/core": "3.9.0",
     "babel-polyfill": "6.26.0",
     "express": "4.16.3",
+    "express-winston": "^3.1.0",
     "joi": "14.3.1",
     "joi-phone-number": "^2.1.1",
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "recompose": "0.30.0",
-    "redux": "4.0.1"
+    "redux": "4.0.1",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -44,7 +46,7 @@
     "eslint-plugin-react": "7.7.0",
     "file-loader": "3.0.1",
     "html-webpack-plugin": "3.2.0",
-    "nodemon": "1.17.3",
+    "nodemon": "1.18.10",
     "style-loader": "0.23.0",
     "url-loader": "1.1.2",
     "webpack": "4.5.0",
