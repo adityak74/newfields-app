@@ -17,15 +17,20 @@
   "dependencies": {
     "@material-ui/core": "3.9.0",
     "babel-polyfill": "6.26.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "express": "4.16.3",
     "express-winston": "^3.1.0",
     "joi": "14.3.1",
+    "joi-date-extensions": "^1.2.0",
     "joi-phone-number": "^2.1.1",
+    "joi-postalcode": "^1.0.0",
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "recompose": "0.30.0",
     "redux": "4.0.1",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "xss": "^1.0.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

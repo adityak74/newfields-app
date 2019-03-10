@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        
+        <script type="text/javascript" src="JS_files/second_form.js"></script>
+        <link type ="text/css" rel="stylesheet" href="CSS/Form1.css">
+        <script type="text/javascript" src="JS_files/md5.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
+       
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.28.12/sweetalert2.all.js"></script>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
+        
+    </head>
+    <body>
+        <style>
+            .jumbotron {
+            background: url("Images/Header_1.png") no-repeat center center;
+            background-size: cover;
+            background-size: 100% 270px;
+             -webkit-background-size: 100% 100%;
+            -moz-background-size: 100% 100%;
+            -o-background-size: 100% 100%;
+            min-height: 270px;
+        }
+        </style>
+        <div style="background-color: white;" class="jumbotron jumbotron-fluid">
+            <div class="container" id="first_container" style="text-align:right;">
+                <img style="float:right;" src="Images/icon.png" ><br>
+                <h2 id="header_1" style="color: #595959;" align="right" class="display-5">NEWFIELDS</h2>
+                <hr align="right" style="width:100px; border: 1px groove #ffff1a;">
+                <label style="font-size: 15px;">35 Park Place</label><br>
+                <label style="font-size: 15px;">Cardiff</label><br>
+                <label style="font-size: 15px;">CF10 3RL</label>
+<!--            
+                <p class="lead"  align="right">Please use this page to create your profile</p>
+                <label style="font-size: 12px;float:right;">Please fill all the mandatory(*) fields</label>-->
+            </div>
+        </div>
+        
+        <div class="container">
+            <button class="btn btn-warning" id="" data-toggle="tooltip" data-placement="top" 
+                style=""title="Save form and continue later" type="">Save form
+            </button>
+            <br><br>
+            <form id="demo">
+                
+                <div class="form-group row">
+                    <label for="staticEmail" style="font-size: 20px;font-weight: bold;" class="col-sm-5 col-form-label">Your full name</label>
+                    <div class="col-sm-1">
+                        <select class="form-control" id="Title" required>
+                            <option value="">Title</option>
+                            <option>Mr</option>
+                            <option>Ms</option>
+                            <option>Mrs</option>
+                            <option>Dr</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="full_name" autocomplete="nope" placeholder="enter your full name" required>
+                    </div>
+                </div>
+                
+                <p style="font-weight: bold; font-size: 18px;">Your personal information</p>
+                <hr class="hr_style">
+
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">1.	Mobile phone number</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="mobile_number" placeholder="mobile number" autocomplete="nope" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">2.	Landline number (if you have one)</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="landline_no" placeholder="landline number"  autocomplete="nope">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">3.	Your email address</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="email_addr" placeholder="email address"  autocomplete="nope" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">4.	Your home address (including zip-code)</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="home_addr" placeholder="home address (including zip-code)" autocomplete="nope" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">5.	When did you move to this this address?</label>
+                    <div class="col-sm-5 input-group">
+                        <input data-provide="datepicker" class="form-control" id="addr_move_indate"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" onclick="show_date('0')">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">6.	What is the ownership of your home (own it/ renting/ owned by family)?</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="house_ownrship" required>
+                            <option value="">select house ownership</option>
+                            <option>Own it</option>
+                            <option>Renting</option>
+                            <option>Owned by family</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">7.	Please provide the address where you will be based for the duration of the visa process, 
+                                                                                        if you will not be at your home address:
+                    </label>
+                    <div class="col-sm-5">
+                        <textarea class="form-control" id="addr_while_visa" rows="3" placeholder="please provide details here" required></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">8.	The address you will be staying in the UK</label>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="uk_addr" onclick="uk_addrs('yes');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="uk_addr" onclick="uk_addrs('no');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row" id="" >
+                    <div class="col-sm-5 offset-md-5 offset-lg-5">
+                        <textarea class="form-control" style="display:none;" id="uk_addr_text_area" rows="3" autocomplete="nope" placeholder="please provide details here" ></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">9.	All nationalities you currently hold:</label>
+                    <div class="col-sm-5">
+                        <textarea class="form-control" id="nationalities" rows="3" placeholder="please provide details here" required></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">10.	Any National ID number you have (optional)</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="national_id" placeholder="National Id number" >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">11.	Have you ever been known by any other names (e.g. maiden name etc)?</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="_other_names" placeholder="Any other names" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">12.	Your relationship status ?</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="relationship_status" required>
+                            <option value="">select relationship status</option>
+                            <option>Single</option>
+                            <option>Married</option>
+                            <option>Civil Partner</option>
+                            <option>Unmarried Partner</option>
+                            <option>Divorced</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">13.	Have you had any convictions (including traffic offences and fines) – anywhere in the world</label>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="any_convictions" onclick="convictions('yes');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="any_convictions" onclick="convictions('no');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row" id="" >
+                    <div class="col-sm-5 offset-md-5 offset-lg-5">
+                        <textarea class="form-control" style="display:none;" id="conviction_text_area" rows="3" autocomplete="nope" placeholder="please provide details here" ></textarea>
+                    </div>
+                </div>
+                
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">14.	Have you had any visa refusals or exclusions or deportations – anywhere in the world</label>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="visa_refusals" onclick="visa('yes');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="visa_refusals" onclick="visa('no');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-5 offset-md-5 offset-lg-5">
+                        <textarea class="form-control" style="display:none;" id="visa_refusals_textarea" rows="3" autocomplete="nope" placeholder="any visa refusals, please provide details here" ></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">15.	Have you had any medical treatment you have received in the UK</label>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="medical" onclick="medical_treatment('yes');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="medical" onclick="medical_treatment('no');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-5 offset-md-5 offset-lg-5">
+                        <textarea class="form-control" style="display:none;" id="medical_textarea" rows="3" autocomplete="nope" placeholder="any visa refusals, please provide details here" ></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">16.	Have you had any UK National Insurance number you have received</label>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="uk_NINo" onclick="NINo('yes');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="uk_NINo" onclick="NINo('no');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-5 offset-md-5 offset-lg-5">
+                        <textarea class="form-control" style="display:none;" id="uk_nino_textarea" rows="3" autocomplete="nope" placeholder="any visa refusals, please provide details here" ></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">17.	Have you ever worked for an armed forces, a government, any media organisations, or any security organisations?</label>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="anyarmedforces" onclick="armed_forces('yes');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="anyarmedforces" onclick="armed_forces('no');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div  class="form-group row" >
+                    <label for="inputPassword" class="col-sm-5 col-form-label"></label>
+                    <div class="col-sm-5">
+                        <textarea style="display:none;" class="form-control" id="armedforces_textarea" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">18.	Do you have any immediate family in the UK? Please give details:</label>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="immediate_family" onclick="UK_immediate_family('yes');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="immediate_family" onclick="UK_immediate_family('no');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div  class="form-group row" >
+                    <label for="inputPassword" class="col-sm-5 col-form-label"></label>
+                    <div class="col-sm-5">
+                        <textarea style="display:none;" class="form-control" id="immediate_family_textarea" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">19.	What is the date you propose to travel to the UK?</label>
+                    <div class="input-group col-sm-5">
+                        <input data-provide="datepicker" class="form-control" id="Proposaldate_UK_entry"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" onclick="show_date('1')">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">20.	Will any family member will travel to the UK with you, on the same date?</label>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="familymembertravelalong" onclick="family_member_travelalong('yes');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="familymembertravelalong" onclick="family_member_travelalong('no');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div  class="form-group row" >
+                    <label for="inputPassword" class="col-sm-5 col-form-label"></label>
+                    <div class="col-sm-5">
+                        <textarea style="display:none;" class="form-control" id="family_member_travelalong_textarea" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">21.	Please list any overseas travels you have planned which will require you to have your passport before the date you intend to travel to the UK</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="any_overseas_travel" placeholder="Country" autocomplete="nope" required>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label"> 	-- Departure Date</label>
+                    <div class="input-group col-sm-5">
+                        <input data-provide="datepicker" class="form-control" id="Departuredate_UK"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" onclick="show_date('2')">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </div>
+                    </div> 
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label"> 	-- Return Date</label>
+                    <div class="input-group col-sm-5">
+                        <input data-provide="datepicker" class="form-control" id="Returndate_UK"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" onclick="show_date('3')">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </div>
+                    </div> 
+                </div>
+                
+                <br>
+                
+                
+<!--            Your family Details    -->
+                <p style="font-weight: bold; font-size: 18px;">Your family</p>
+                <hr class="hr_style">
+<!--Father details-->
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">1.	Your father:</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Full name</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text" class="form-control" id="fa_frst" autocomplete="nope" placeholder="enter here..." required>
+                            </div>
+<!--                            <div class="col-sm-3" style="padding-left: 0;">
+                                <input type="text" class="form-control" id="fa-lst" autocomplete="nope" placeholder="" required>
+                            </div>-->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country of birth</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="father_country_of_birth" autocomplete="nope" placeholder="country of birth" required>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="father_nationality" placeholder="nationality" required>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="father_Secondnationality" placeholder="any second nationality" required>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="father_DOB"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('4')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+<!--Mother details-->                
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">2.	Your Mother</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Full name</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text" class="form-control" id="mothers_f_na" autocomplete="nope" placeholder="enter here..." required>
+                            </div>
+<!--                            <div class="col-sm-3" style="padding-left: 0;">
+                                <input type="text" class="form-control" id="motherslast_name" autocomplete="nope" placeholder="last name..." required>
+                            </div>-->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country of birth</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="mothersCountryofBirth" autocomplete="nope" placeholder="country of birth" >
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="mother_nationality" placeholder="nationality" required>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="mother_Secondnationality" autocomplete="nope" placeholder="any second nationality" >
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="mother_DOB"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('5')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+<!--Life partner-->                
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">3.	Your partner (if any):</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Full name</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text" class="form-control" id="partner_fna" autocomplete="nope" placeholder="Enter here...">
+                            </div>
+<!--                            <div class="col-sm-3" style="padding-left: 0;">
+                                <input type="text" class="form-control" id="last_name" placeholder="last name..." required>
+                            </div>-->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country of birth</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="partner_countryofbirth" autocomplete="nope" placeholder="country of birth">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="partner_nationlity" autocomplete="nope" placeholder="nationality">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="partner_Snationlity" autocomplete="nope" placeholder="any second nationality">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="partner_DOB"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('6')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+<!--Children-->               
+                <div class="form-group row">
+                    <label for="inputPassword" id="firstchild_condition" style="font-weight: bold;" class="col-sm-5 col-form-label">4.	Your Children</label>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="firstchild1" onclick="firstchild('yes');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="firstchild1" onclick="firstchild('no');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+            <div id="childern_details1" style="display: none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">4.	Your first child (if any):</label>
+                </div>
+                <ul id="first_child">
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Full name</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text" class="form-control" id="child1_f_na" placeholder="Enter here..." >
+                            </div>
+<!--                            <div class="col-sm-3" style="padding-left: 0;">
+                                <input type="text" class="form-control" id="last_name" placeholder="last name..." >
+                            </div>-->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country of birth</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="child1_countryofbirth" autocomplete="nope" placeholder="country of birth" >
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="child1_nationality" autocomplete="nope" placeholder="nationality" >
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="child1_Snationality" autocomplete="nope" placeholder="any second nationality" >
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="child1_DOB"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('7')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
+                    type="button" onclick="Child_options('1')" >Add more
+                </button>
+            </div>   
+            <br>
+<!--second child-->
+            <div id="children_details2" style="display: none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">5.	Your second child:</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Full name</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text" class="form-control" id="child2_f_na" autocomplete="nope" placeholder="enter here ..." >
+                            </div>
+<!--                            <div class="col-sm-3" style="padding-left: 0;">
+                                <input type="text" class="form-control" id="last_name" placeholder="last name..." required>
+                            </div>-->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country of birth</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="child2_countryofbirth" autocomplete="nope" placeholder="country of birth" >
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="child2_nationality" autocomplete="nope" placeholder="nationality" >
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="child2_Snationality" autocomplete="nope" placeholder="any second nationality" >
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="child2_DOB"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('8')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="Child_options('2')">Remove
+                </button>
+            </div>    
+            <br>   
+       
+            
+            
+            
+      <!--continue from here-->      
+            
+            
+<!--Your last 5 visits to the UK in the last 10 years    -->
+                <!--<p style="font-weight: bold; font-size: 18px;">Did you visit UK in the last 10 years(max 5)</p>-->
+                <div class="form-group row">
+                    <p style="font-weight: bold; font-size: 18px;" class="col-sm-5 col-form-label">Did you visit UK in the last 10 years(max 5)</p>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="visit" onclick="visits('1');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="visit" onclick="visits('01');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <hr class="hr_style">
+<!--first visit-->
+            <div id="first_visit" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">1.	Visit 1</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the UK</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="UK_arrival_date1"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('9')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="UK_departure_date1"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('10')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="reason_ofvisit1" >
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary" id="add_second_visit" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="visits('2');">Add more
+                </button>
+                <br><br>
+            </div>
+           
+<!--second visit-->
+            <div id="second_visit" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">2.	Visit 2</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the UK </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="UK_arrival_date2"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('11')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="UK_departure_date2"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('12')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="reason_ofvisit2" >
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary" id="add_third_visit" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="visits('3');">Add more
+                </button>
+                <button class="btn btn-danger" id="remove_second_visit" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="visits('02');">Remove
+                </button>
+                <br><br>
+            </div>    
+<!--Third visit-->
+            <div id="third_visit" style="display:none;">    
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">3.	Visit 3</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the UK </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="UK_arrival_date3"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('13')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="UK_departure_date3"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('14')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="reason_ofvisit3" >
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary" id="add_fourth_visit" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="visits('4');">Add more
+                </button>
+                <button class="btn btn-danger" id="remove_third_visit" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="visits('03');">Remove
+                </button>
+                <br><br>
+            </div>
+<!--Fourth visit-->
+            <div id="fourth_visit" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">4.	Visit 4</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the UK </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="UK_arrival_date4"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('15')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="UK_departure_date4"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('16')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="reason_ofvisit4" >
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary" id="add_fourth_visit" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="visits('5');">Add more
+                </button>
+                <button class="btn btn-danger" id="remove_third_visit" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="visits('04');">Remove
+                </button>
+                <br><br>
+            </div>  
+
+<!--Fifth visit-->
+    <div id="fifth_visit" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">5.	Visit 5</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the UK </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="UK_arrival_date5"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('17')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="UK_departure_date5"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('18')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="reason_ofvisit5" >
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+               
+                <button class="btn btn-danger" id="remove_third_visit" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="visits('05');">Remove
+                </button>
+            <br>
+            </div>
+            <br>
+<!--Your last trips abroad to: Australia; NZ; Canada; USA; Europe, in the last 10 years-->
+                <!--<p style="font-weight: bold; font-size: 18px;">Your last trips abroad to: Australia; NZ; Canada; USA; Europe, in the last 10 years(max 5)</p>-->
+            <div class="form-group row">
+                <p style="font-weight: bold; font-size: 18px;" class="col-sm-5 col-form-label">Did you visit abroad to: Australia; NZ; Canada; USA; Europe, in the last 10 years(max 5)</p>
+                <div class="col-sm form-check form-check-inline" >
+                    <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                        <input  type="radio" value="Yes" class="form-check-input" name="optradio2" onclick="trips('1');" required>
+                        Yes
+                    </label>
+                </div>
+                <div class="col-sm form-check form-check-inline">
+                    <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                        <input type="radio" value="No" class="form-check-input" name="optradio2" onclick="trips('01');" >
+                        No
+                    </label>
+                </div>
+            </div>
+            <hr class="hr_style">
+<!--Trip 1 -->
+            <div id="first_Trip" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">1.	Trip 1</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country visited</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="country1" placeholder="enter here..." autocomplete="nope">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the country </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="date_arrival_country1"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('19')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="date_departure_country1"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('20')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="tripreason_ofvisit1" >
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="trips('2');">Add more
+                </button>
+                <br><br>
+            </div>    
+<!--Trip 2 -->
+            <div id="second_Trip" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">2.	Trip 2</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country visited</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="country2" placeholder="enter here..." autocomplete="nope" >
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the country </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="date_arrival_country2"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('21')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="date_departure_country2"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('22')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="tripreason_ofvisit2" >
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="trips('3');">Add more
+                </button>
+                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="trips('02');">Remove
+                </button>
+                <br><br>
+            </div>        
+<!--Trip 3 -->
+            <div id="third_Trip" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">3.	Trip 3</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country visited</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="country3" placeholder="enter here..." autocomplete="nope" >
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the country</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="date_arrival_country3"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('23')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="date_departure_country3"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('24')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="tripreason_ofvisit3">
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="trips('4');">Add more
+                </button>
+                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="trips('03');">Remove
+                </button>
+                <br><br>
+            </div>    
+<!--Trip 4 -->
+            <div id="fourth_Trip" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">4.	Trip 4</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country visited</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="country4" placeholder="enter here..." autocomplete="nope">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the country </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="date_arrival_country4"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('25')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="date_departure_country4"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('26')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="tripreason_ofvisit4">
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="trips('5');">Add more
+                </button>
+                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="trips('04');">Remove
+                </button>
+                <br><br>
+            </div>    
+<!--Trip 5 -->
+            <div id="fifth_Trip" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">5.	Trip 5</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country visited</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="country5" placeholder="enter here..." autocomplete="nope">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the country </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="date_arrival_country5"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('27')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="date_departure_country5"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('28')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="tripreason_ofvisit5">
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="trips('05');">Remove
+                </button>
+                <br><br>    
+            </div>    
+<!--Your last trips abroad to any other country not listed above, in the last 10 years-->
+                <!--<p style="font-weight: bold; font-size: 18px;">Your last trips abroad to any other country not listed above, in the last 10 years</p>-->
+                <div class="form-group row">
+                    <p style="font-weight: bold; font-size: 18px;" class="col-sm-5 col-form-label">Did you visit abroad to any other country not listed above, in the last 10 years<br>(max 5)</p>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="optradio3" onclick="other_trips('1');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="optradio3" onclick="other_trips('01');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <hr class="hr_style">
+<!--trip 1--> 
+            <div id="other_first_Trip" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">1.	Trip 1</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country visited</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="othertrip_country1" placeholder="enter here..."  autocomplete="nope">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the country </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="othertrip_arrivaldate1"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('29')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="othertrip_departuredate1"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('30')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="othertripreason_ofvisit1">
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="other_trips('2');">Add more
+                </button>
+                <br><br>
+            </div>  
+<!--other trip 2-->
+            <div id="other_second_Trip" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">2.	Trip 2</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country visited</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="othertrip_country2" placeholder="enter here..."  autocomplete="nope">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the country </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="othertrip_arrivaldate2"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('31')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="othertrip_departuredate2"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('32')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="othertripreason_ofvisit2">
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="other_trips('3');">Add more
+                </button>
+                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="other_trips('02');">Remove
+                </button>
+                <br><br>
+            </div>    
+<!--other trip 3-->
+            <div id="other_third_Trip" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">3.	Trip 3</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country visited</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="othertrip_country3" placeholder="enter here..."  autocomplete="nope">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the country </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="othertrip_arrivaldate3"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('33')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="othertrip_departuredate3"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('34')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="othertripreason_ofvisit3">
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="other_trips('4');">Add more
+                </button>
+                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="other_trips('03');">Remove
+                </button>
+                <br><br>
+            </div>
+<!--other fourth trip-->
+            <div id="other_fourth_Trip" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">4.	Trip 4</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country visited</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="othertrip_country4" placeholder="enter here..."  autocomplete="nope">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the country </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="othertrip_arrivaldate4"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('35')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="othertrip_departuredate4"  placeholder="dd/mm/yyyy"  autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('36')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="othertripreason_ofvisit4">
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="other_trips('5');">Add more
+                </button>
+                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="other_trips('04');">Remove
+                </button>
+                <br><br>
+            </div>
+
+<!--other fifth trip-->
+            <div id="other_fifth_Trip" style="display:none;">
+                <div class="form-group row">
+                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">5.	Trip 5</label>
+                </div>
+                <ul>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Country visited</label>
+                            <div class="col-sm-5" style="padding-left: 0;">
+                                <input type="text"  class="form-control" id="othertrip_country5" placeholder="enter here..."  autocomplete="nope">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of arrival to the country </label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="othertrip_arrivaldate5"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('37')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of departure</label>
+                            <div class="input-group col-sm-5 "style="padding-left: 0;">
+                                <input data-provide="datepicker" class="form-control" id="othertrip_departuredate5"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="show_date('38')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row" >
+                            <label for="inputPassword" class="col-sm-5 col-form-label">Reason for visit</label>
+                            <div class="col-sm-5" style="padding-left: 0;"> 
+                                <select class="form-control" id="othertripreason_ofvisit5">
+                                    <option value="">select reason</option>
+                                    <option>Tourist</option>
+                                    <option>Family visit</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="other_trips('05');">Remove
+                </button>
+                <br><br>
+            </div>    
+                
+<br><br>
+                <h5>Upload Documents</h5>
+                <hr>
+                
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">1.	Current country residence permit/visa(image)</label>
+                    <div class="col-sm-5">
+                        <input type="file" class="form-control-file" id="uk_visa_photo" >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">2.	Upload passport front page(image)</label>
+                    <div class="col-sm-5">
+                        <input type="file" class="form-control-file" id="passport_front_page" >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">3.	Upload second passport front page (if any)</label>
+                    <div class="col-sm-5">
+                        <input type="file" class=" form-control-file" id="passport_front_page" >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">4.	Any previous UK visa</label>
+                    <div class="col-sm-5">
+                        <input type="file" class="form-control-file" id="passport_front_page" >
+                    </div>
+                </div>
+                
+                <br><br>
+                <button class="btn btn-warning" id="" data-toggle="tooltip" data-placement="top"  
+                        title="Save form and continue later" type="">Save form
+                </button>
+                <button class="btn btn-primary" id="submit_details" data-toggle="tooltip" data-placement="top" 
+                        type="submit">Submit form
+                </button>
+
+
+
+
+
+
+            </form>
+        </div>
+        
+        <br><br><br><br>
+           
+        <footer class="fixed-bottom" id="page_footer">
+            <label>Version 1.0</label>    
+        </footer>
+        
+    </body>
+</html>

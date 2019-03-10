@@ -1,8 +1,8 @@
 // Only Legal countries to be added here
 
 const countries = {
-  US: 1,
-  UK: 2,
+  UK: 1,
+  US: 2,
   IN: 3,
 };
 
