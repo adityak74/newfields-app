@@ -1,7 +1,9 @@
 import express from 'express';
 import form1Validator from '../validation/validator/form1';
+import sqlInit from '../util/sqlInit';
 
 const router = express.Router();
+const conn = sqlInit();
 
 const buildInputObject = input => {
   const { 
@@ -107,6 +109,16 @@ router.post('/save', (req, res) => {
     // Save progress to Database
 
   });
+});
+
+router.get('/sqltest', (req, res) => {
+  conn.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+    if (error) res.send(error);
+    else {
+      res.send(`The solution is: ${results[0].solution}`);
+    }
+  });
+  conn.end();
 });
 
 export default router;
