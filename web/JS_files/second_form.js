@@ -5,6 +5,11 @@
  */
 
 $(document).ready(function(){
+    
+    $("#demo").submit(function(){
+        $('#myModal').modal('show');
+        return false;
+    });
   
     
     $("#addr_move_indate").datepicker({format: 'dd/mm/yyyy'});
@@ -566,4 +571,362 @@ function other_trips(option)
         $("#othertripreason_ofvisit5").val("");
         
     }
+}
+
+function form_submit()
+{
+    var UniqueID                                = $('#Unique_id').val();
+    
+    var TT_1                                    = document.getElementById("Title");
+    var TT_2                                    = TT_1.options[TT_1.selectedIndex];
+    var Title                                   = $(TT_2).val();  
+    
+    var full_name                               = $('#full_name').val(); 
+    var mobile_number                           = $('#mobile_number').val();
+    var landline_no                             = $('#landline_no').val();
+    var email_addr                              = $('#email_addr').val();
+    var home_addr                               = $('#home_addr').val();
+    var addr_move_indate                        = document.getElementById('addr_move_indate').value;
+    
+    var OO_1                                    = document.getElementById("house_ownrship");
+    var OO_2                                    = OO_1.options[OO_1.selectedIndex];
+    var house_ownrship                          = $(OO_2).val();
+    
+    var addr_while_visa                         = $('#addr_while_visa').val();
+    var uk_addr                                 = $("input[name=uk_addr]:checked").val();
+    var uk_addr_text_area                       = $('#uk_addr_text_area').val();
+    
+    var nationalities                           = $('#nationalities').val();
+    var national_id                             = $('#national_id').val();
+    var _other_names                            = $('#_other_names').val();
+    var RS1                                     = document.getElementById("relationship_status");
+    var RS2                                     = RS1.options[RS1.selectedIndex];
+    var relationship_status                     = $(RS2).val();
+    
+    var any_convictions                         = $("input[name=any_convictions]:checked").val();
+    var conviction_text_area                    = $('#conviction_text_area').val();
+    
+    var visa_refusals                           = $("input[name=visa_refusals]:checked").val();
+    var visa_refusals_textarea                  = $('#visa_refusals_textarea').val();
+    
+    var medical                                 = $("input[name=medical]:checked").val();
+    var medical_textarea                        = $('#medical_textarea').val();
+    
+    var uk_NINo                                 = $("input[name=uk_NINo]:checked").val();
+    var uk_nino_textarea                        = $('#uk_nino_textarea').val();
+    
+    var anyarmedforces                          = $("input[name=anyarmedforces]:checked").val();
+    var armedforces_textarea                    = $('#armedforces_textarea').val();
+    
+    var immediate_family                        = $("input[name=immediate_family]:checked").val();
+    var immediate_family_textarea               = $('#immediate_family_textarea').val();
+    
+    var Proposaldate_UK_entry                   = document.getElementById('Proposaldate_UK_entry').value;
+    
+    var familymembertravelalong                 = $("input[name=familymembertravelalong]:checked").val();
+    var family_member_travelalong_textarea      = $('#family_member_travelalong_textarea').val();
+    
+    var any_overseas_travel                     = $('#any_overseas_travel').val();
+    
+    var Departuredate_UK                        = document.getElementById('Departuredate_UK').value;
+    var Returndate_UK                           = document.getElementById('Returndate_UK').value;
+   
+//family details    
+    var fa_frst                                 = $('#fa_frst').val();
+    var father_country_of_birth                 = $('#father_country_of_birth').val();
+    var father_nationality                      = $('#father_nationality').val();
+    var father_Secondnationality                = $('#father_Secondnationality').val();
+    var father_DOB                              = document.getElementById('father_DOB').value;
+    
+    var mothers_f_na                            = $('#mothers_f_na').val();
+    var mothersCountryofBirth                   = $('#mothersCountryofBirth').val();
+    var mother_nationality                      = $('#mother_nationality').val();
+    var mother_Secondnationality                = $('#mother_Secondnationality').val();
+    var mother_DOB                              = document.getElementById('mother_DOB').value;
+    
+    var partner_fna                             = $('#partner_fna').val();
+    var partner_countryofbirth                  = $('#partner_countryofbirth').val();
+    var partner_nationlity                      = $('#partner_nationlity').val();
+    var partner_Snationality                    = $('#partner_Snationality').val();
+    var partner_DOB                             = document.getElementById('partner_DOB').value;
+    
+    var firstchild1                             = $("input[name=firstchild1]:checked").val();
+    var child1_f_na                             = $('#child1_f_na').val();
+    var child1_countryofbirth                   = $('#child1_countryofbirth').val();
+    var child1_nationality                      = $('#child1_nationality').val();
+    var child1_Snationality                     = $('#child1_Snationality').val();
+    var child1_DOB                              = document.getElementById('child1_DOB').value;
+    
+    var child2_f_na                             = $('#child2_f_na').val();
+    var child2_countryofbirth                   = $('#child2_countryofbirth').val();
+    var child2_nationality                      = $('#child2_nationality').val();
+    var child2_Snationality                     = $('#child2_Snationality').val();
+    var child2_DOB                              = document.getElementById('child2_DOB').value;
+
+//visits
+    var visit                                   = $("input[name=visit]:checked").val();
+    var UK_arrival_date1                        = document.getElementById('UK_arrival_date1').value;
+    var UK_departure_date1                      = document.getElementById('UK_departure_date1').value;
+    var RV11                                    = document.getElementById("reason_ofvisit1");
+    var RV111                                   = RV11.options[RV11.selectedIndex];
+    var reason_ofvisit1                         = $(RV111).val();
+    
+    var UK_arrival_date2                        = document.getElementById('UK_arrival_date2').value;
+    var UK_departure_date2                      = document.getElementById('UK_departure_date2').value;
+    var RV22                                    = document.getElementById("reason_ofvisit2");
+    var RV222                                   = RV22.options[RV22.selectedIndex];
+    var reason_ofvisit2                         = $(RV222).val();
+    
+    var UK_arrival_date3                        = document.getElementById('UK_arrival_date3').value;
+    var UK_departure_date3                      = document.getElementById('UK_departure_date3').value;
+    var RV33                                    = document.getElementById("reason_ofvisit3");
+    var RV333                                  = RV33.options[RV33.selectedIndex];
+    var reason_ofvisit3                         = $(RV333).val();
+    
+    var UK_arrival_date4                        = document.getElementById('UK_arrival_date4').value;
+    var UK_departure_date4                      = document.getElementById('UK_departure_date4').value;
+    var RV44                                    = document.getElementById("reason_ofvisit4");
+    var RV444                                   = RV44.options[RV44.selectedIndex];
+    var reason_ofvisit4                         = $(RV444).val();
+    
+    var UK_arrival_date5                        = document.getElementById('UK_arrival_date5').value;
+    var UK_departure_date5                      = document.getElementById('UK_departure_date5').value;
+    var RV55                                    = document.getElementById("reason_ofvisit5");
+    var RV555                                   = RV55.options[RV55.selectedIndex];
+    var reason_ofvisit5                         = $(RV555).val();
+    
+//trips    
+    var trip                                    = $("input[name=TRIP]:checked").val();
+    var country1                                = document.getElementById('country1').value;
+    var date_arrival_country1                   = document.getElementById('date_arrival_country1').value;
+    var date_departure_country1                 = document.getElementById('date_departure_country1').value;
+    var TR11                                    = document.getElementById("tripreason_ofvisit1");
+    var TR111                                   = TR11.options[TR11.selectedIndex];
+    var tripreason_ofvisit1                     = $(TR111).val();
+    
+    var country2                                = document.getElementById('country2').value;
+    var date_arrival_country2                   = document.getElementById('date_arrival_country2').value;
+    var date_departure_country2                 = document.getElementById('date_departure_country2').value;
+    var TR22                                    = document.getElementById("tripreason_ofvisit2");
+    var TR222                                   = TR22.options[TR22.selectedIndex];
+    var tripreason_ofvisit2                     = $(TR222).val();
+    
+    var country3                                = document.getElementById('country3').value;
+    var date_arrival_country3                   = document.getElementById('date_arrival_country3').value;
+    var date_departure_country3                 = document.getElementById('date_departure_country3').value;
+    var TR33                                    = document.getElementById("tripreason_ofvisit3");
+    var TR333                                   = TR33.options[TR33.selectedIndex];
+    var tripreason_ofvisit3                     = $(TR333).val();
+    
+    var country4                                = document.getElementById('country4').value;
+    var date_arrival_country4                   = document.getElementById('date_arrival_country4').value;
+    var date_departure_country4                 = document.getElementById('date_departure_country4').value;
+    var TR44                                    = document.getElementById("tripreason_ofvisit4");
+    var TR444                                   = TR44.options[TR44.selectedIndex];
+    var tripreason_ofvisit4                     = $(TR444).val();
+    
+    var country5                                = document.getElementById('country5').value;
+    var date_arrival_country5                   = document.getElementById('date_arrival_country5').value;
+    var date_departure_country5                 = document.getElementById('date_departure_country5').value;
+    var TR55                                    = document.getElementById("tripreason_ofvisit5");
+    var TR555                                   = TR55.options[TR55.selectedIndex];
+    var tripreason_ofvisit5                     = $(TR555).val();
+    
+//Other trips
+    var OTHER_TRIP                              = $("input[name=OTHER_TRIP]:checked").val();
+    var othertrip_country1                      = document.getElementById('othertrip_country1').value;
+    var othertrip_arrivaldate1                  = document.getElementById('othertrip_arrivaldate1').value;
+    var othertrip_departuredate1                = document.getElementById('othertrip_departuredate1').value;
+    var OR11                                    = document.getElementById("othertripreason_ofvisit1");
+    var OR111                                   = OR11.options[OR11.selectedIndex];
+    var othertripreason_ofvisit1                = $(OR111).val();
+    
+    var othertrip_country2                      = document.getElementById('othertrip_country2').value;
+    var othertrip_arrivaldate2                  = document.getElementById('othertrip_arrivaldate2').value;
+    var othertrip_departuredate2                = document.getElementById('othertrip_departuredate2').value;
+    var OR22                                    = document.getElementById("othertripreason_ofvisit2");
+    var OR222                                   = OR22.options[OR22.selectedIndex];
+    var othertripreason_ofvisit2                = $(OR222).val();
+    
+    var othertrip_country3                      = document.getElementById('othertrip_country3').value;
+    var othertrip_arrivaldate3                  = document.getElementById('othertrip_arrivaldate3').value;
+    var othertrip_departuredate3                = document.getElementById('othertrip_departuredate3').value;
+    var OR33                                    = document.getElementById("othertripreason_ofvisit3");
+    var OR333                                   = OR33.options[OR33.selectedIndex];
+    var othertripreason_ofvisit3                = $(OR333).val();
+    
+    var othertrip_country4                      = document.getElementById('othertrip_country4').value;
+    var othertrip_arrivaldate4                  = document.getElementById('othertrip_arrivaldate4').value;
+    var othertrip_departuredate4                = document.getElementById('othertrip_departuredate4').value;
+    var OR44                                    = document.getElementById("othertripreason_ofvisit4");
+    var OR444                                   = OR44.options[OR44.selectedIndex];
+    var othertripreason_ofvisit4                = $(OR444).val();
+    
+    var othertrip_country5                      = document.getElementById('othertrip_country5').value;
+    var othertrip_arrivaldate5                  = document.getElementById('othertrip_arrivaldate5').value;
+    var othertrip_departuredate5                = document.getElementById('othertrip_departuredate5').value;
+    var OR55                                    = document.getElementById("othertripreason_ofvisit5");
+    var OR555                                   = OR55.options[OR55.selectedIndex];
+    var othertripreason_ofvisit5                = $(OR555).val();
+    
+    //attachments data 
+    // i didnt know how to save the file (png, pdf, other format on the server)
+    
+    var form_data = {
+        UniqueID                            : UniqueID,
+        Title                               : Title,
+        full_name                           : full_name,
+        mobile_number                       : mobile_number,
+        landline_no                         : landline_no,
+        email_addr                          : email_addr,
+        home_addr                           : home_addr,
+        addr_move_indate                    : addr_move_indate,
+        house_ownrship                      : house_ownrship,
+        addr_while_visa                     : addr_while_visa,
+        uk_addr                             : uk_addr,
+        uk_addr_text_area                   : uk_addr_text_area,
+        nationalities                       : nationalities,
+        national_id                         : national_id,
+        _other_names                        : _other_names,
+        relationship_status                 : relationship_status,
+        any_convictions                     : any_convictions,
+        conviction_text_area                : conviction_text_area,
+        visa_refusals                       : visa_refusals,
+        visa_refusals_textarea              : visa_refusals_textarea,
+        medical                             : medical,
+        medical_textarea                    : medical_textarea,
+        uk_NINo                             : uk_NINo,
+        uk_nino_textarea                    : uk_nino_textarea,
+        anyarmedforces                      : anyarmedforces,
+        armedforces_textarea                : armedforces_textarea,
+        immediate_family                    : immediate_family,
+        immediate_family_textarea           : immediate_family_textarea,
+        Proposaldate_UK_entry               : Proposaldate_UK_entry,
+        familymembertravelalong             : familymembertravelalong,
+        family_member_travelalong_textarea  : family_member_travelalong_textarea,
+        any_overseas_travel                 : any_overseas_travel,
+        Departuredate_UK                    : Departuredate_UK,
+        Returndate_UK                       : Returndate_UK,
+
+        fa_frst                             : fa_frst,
+        father_country_of_birth             : father_country_of_birth,
+        father_nationality                  : father_nationality,
+        father_Secondnationality            : father_Secondnationality,
+        father_DOB                          : father_DOB,
+        
+        mothers_f_na                        : mothers_f_na,
+        mothersCountryofBirth               : mothersCountryofBirth,
+        mother_nationality                  : mother_nationality,
+        mother_Secondnationality            : mother_Secondnationality,
+        mother_DOB                          : mother_DOB,
+
+        partner_fna                         : partner_fna,
+        partner_countryofbirth              : partner_countryofbirth,
+        partner_nationlity                  : partner_nationlity,
+        partner_Snationality                : partner_Snationality,
+        partner_DOB                         : partner_DOB,
+        
+        firstchild1                         : firstchild1,
+        child1_f_na                         : child1_f_na,
+        child1_countryofbirth               : child1_countryofbirth,
+        child1_nationality                  : child1_nationality,
+        child1_Snationality                 : child1_Snationality,
+        child1_DOB                          : child1_DOB,
+
+        child2_f_na                         : child2_f_na,
+        child2_countryofbirth               : child2_countryofbirth,
+        child2_nationality                  : child2_nationality,
+        child2_Snationality                 : child2_Snationality,
+        child2_DOB                          : child2_DOB,
+
+        visit                               : visit,
+        UK_arrival_date1                    : UK_arrival_date1,
+        UK_departure_date1                  : UK_departure_date1,
+        reason_ofvisit1                     : reason_ofvisit1,
+
+        UK_arrival_date2                    : UK_arrival_date2,
+        UK_departure_date2                  : UK_departure_date2,
+        reason_ofvisit2                     : reason_ofvisit2,
+
+        UK_arrival_date3                    : UK_arrival_date3,
+        UK_departure_date3                  : UK_departure_date3,
+        reason_ofvisit3                     : reason_ofvisit3,
+
+        UK_arrival_date4                    : UK_arrival_date4,
+        UK_departure_date4                  : UK_departure_date4,
+        reason_ofvisit4                     : reason_ofvisit4,
+
+        UK_arrival_date5                    : UK_arrival_date5,
+        UK_departure_date5                  : UK_departure_date5,
+        reason_ofvisit5                     : reason_ofvisit5,
+
+        trip                                : trip,
+        country1                            : country1,
+        date_arrival_country1               : date_arrival_country1,
+        date_departure_country1             : date_departure_country1,
+        tripreason_ofvisit1                 : tripreason_ofvisit1,
+
+        country2                            : country2,
+        date_arrival_country2               : date_arrival_country2,
+        date_departure_country2             : date_departure_country2,
+        tripreason_ofvisit2                 : tripreason_ofvisit2,
+
+        country3                            : country3,
+        date_arrival_country3               : date_arrival_country3,
+        date_departure_country3             : date_departure_country3,
+        tripreason_ofvisit3                 : tripreason_ofvisit3,
+
+        country4                            : country4,
+        date_arrival_country4               : date_arrival_country4,
+        date_departure_country4             : date_departure_country4,
+        tripreason_ofvisit4                 : tripreason_ofvisit4,
+
+        country5                            : country5,
+        date_arrival_country5               : date_arrival_country5,
+        date_departure_country5             : date_departure_country5,
+        tripreason_ofvisit5                 : tripreason_ofvisit5,
+
+        OTHER_TRIP                          : OTHER_TRIP,
+        othertrip_country1                  : othertrip_country1,
+        othertrip_arrivaldate1              : othertrip_arrivaldate1,
+        othertrip_departuredate1            : othertrip_departuredate1,
+        othertripreason_ofvisit1            : othertripreason_ofvisit1,
+
+        othertrip_country2                  : othertrip_country2,
+        othertrip_arrivaldate2              : othertrip_arrivaldate2,
+        othertrip_departuredate2            : othertrip_departuredate2,
+        othertripreason_ofvisit2            : othertripreason_ofvisit2,
+
+        othertrip_country3                  : othertrip_country3,
+        othertrip_arrivaldate3              : othertrip_arrivaldate3,
+        othertrip_departuredate3            : othertrip_departuredate3,
+        othertripreason_ofvisit3            : othertripreason_ofvisit3,
+
+        othertrip_country4                  : othertrip_country4,
+        othertrip_arrivaldate4              : othertrip_arrivaldate4,
+        othertrip_departuredate4            : othertrip_departuredate4,
+        othertripreason_ofvisit4            : othertripreason_ofvisit4,
+
+        othertrip_country5                  : othertrip_country5,
+        othertrip_arrivaldate5              : othertrip_arrivaldate5,
+        othertrip_departuredate5            : othertrip_departuredate5,
+        othertripreason_ofvisit5            : othertripreason_ofvisit5
+        
+    };
+    
+    console.log('FORM-DATA', form_data);
+    $.ajax({
+        url : '',
+        data : form_data,
+        success : function(responseText) {
+            console.log("responseText: "+responseText);
+            swal({
+                html: 'Success!\n\
+                     <br>',
+                type: 'success',
+                confirmButtonText: 'Dismiss',
+                cancelButtonText: "CANCEL"
+            });
+        }
+    });
 }

@@ -60,7 +60,7 @@ and open the template in the editor.
             </button>
             <br><br>
             <form id="demo">
-                
+                <input id="Unique_id" type="hidden" autocomplete="nope">
                 <div class="form-group row">
                     <label for="staticEmail" style="font-size: 20px;font-weight: bold;" class="col-sm-5 col-form-label">Your full name</label>
                     <div class="col-sm-1">
@@ -414,7 +414,7 @@ and open the template in the editor.
                         <div class="form-group row" >
                             <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
                             <div class="col-sm-5" style="padding-left: 0;">
-                                <input type="text"  class="form-control" id="father_nationality" placeholder="nationality" required>
+                                <input type="text"  class="form-control" id="father_nationality" placeholder="nationality" >
                             </div>
                         </div>
                     </li>
@@ -422,7 +422,7 @@ and open the template in the editor.
                         <div class="form-group row" >
                             <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
                             <div class="col-sm-5" style="padding-left: 0;">
-                                <input type="text"  class="form-control" id="father_Secondnationality" placeholder="any second nationality" required>
+                                <input type="text"  class="form-control" id="father_Secondnationality" placeholder="any second nationality" >
                             </div>
                         </div>
                     </li>
@@ -430,7 +430,7 @@ and open the template in the editor.
                         <div class="form-group row" >
                             <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
                             <div class="input-group col-sm-5 "style="padding-left: 0;">
-                                <input data-provide="datepicker" class="form-control" id="father_DOB"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
+                                <input data-provide="datepicker" class="form-control" id="father_DOB"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
                                 <div class="input-group-append">
                                     <button class="btn btn-secondary" type="button" onclick="show_date('4')">
                                         <i class="fa fa-calendar"></i>
@@ -451,9 +451,6 @@ and open the template in the editor.
                             <div class="col-sm-5" style="padding-left: 0;">
                                 <input type="text" class="form-control" id="mothers_f_na" autocomplete="nope" placeholder="enter here..." required>
                             </div>
-<!--                            <div class="col-sm-3" style="padding-left: 0;">
-                                <input type="text" class="form-control" id="motherslast_name" autocomplete="nope" placeholder="last name..." required>
-                            </div>-->
                         </div>
                     </li>
                     <li>
@@ -468,7 +465,7 @@ and open the template in the editor.
                         <div class="form-group row" >
                             <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
                             <div class="col-sm-5" style="padding-left: 0;">
-                                <input type="text"  class="form-control" id="mother_nationality" placeholder="nationality" required>
+                                <input type="text"  class="form-control" id="mother_nationality" placeholder="nationality">
                             </div>
                         </div>
                     </li>
@@ -484,7 +481,7 @@ and open the template in the editor.
                         <div class="form-group row" >
                             <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
                             <div class="input-group col-sm-5 "style="padding-left: 0;">
-                                <input data-provide="datepicker" class="form-control" id="mother_DOB"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
+                                <input data-provide="datepicker" class="form-control" id="mother_DOB"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
                                 <div class="input-group-append">
                                     <button class="btn btn-secondary" type="button" onclick="show_date('5')">
                                         <i class="fa fa-calendar"></i>
@@ -505,9 +502,6 @@ and open the template in the editor.
                             <div class="col-sm-5" style="padding-left: 0;">
                                 <input type="text" class="form-control" id="partner_fna" autocomplete="nope" placeholder="Enter here...">
                             </div>
-<!--                            <div class="col-sm-3" style="padding-left: 0;">
-                                <input type="text" class="form-control" id="last_name" placeholder="last name..." required>
-                            </div>-->
                         </div>
                     </li>
                     <li>
@@ -530,7 +524,7 @@ and open the template in the editor.
                         <div class="form-group row" >
                             <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
                             <div class="col-sm-5" style="padding-left: 0;">
-                                <input type="text"  class="form-control" id="partner_Snationlity" autocomplete="nope" placeholder="any second nationality">
+                                <input type="text"  class="form-control" id="partner_Snationality" autocomplete="nope" placeholder="any second nationality">
                             </div>
                         </div>
                     </li>
@@ -982,13 +976,13 @@ and open the template in the editor.
                 <p style="font-weight: bold; font-size: 18px;" class="col-sm-5 col-form-label">Did you visit abroad to: Australia; NZ; Canada; USA; Europe, in the last 10 years(max 5)</p>
                 <div class="col-sm form-check form-check-inline" >
                     <label class="form-check-label col-form-label" style="margin-left: 6%;">
-                        <input  type="radio" value="Yes" class="form-check-input" name="optradio2" onclick="trips('1');" required>
+                        <input  type="radio" value="Yes" class="form-check-input" name="TRIP" onclick="trips('1');" required>
                         Yes
                     </label>
                 </div>
                 <div class="col-sm form-check form-check-inline">
                     <label class="form-check-label col-form-label" style="margin-left: 6%;">
-                        <input type="radio" value="No" class="form-check-input" name="optradio2" onclick="trips('01');" >
+                        <input type="radio" value="No" class="form-check-input" name="TRIP" onclick="trips('01');" >
                         No
                     </label>
                 </div>
@@ -1304,13 +1298,13 @@ and open the template in the editor.
                     <p style="font-weight: bold; font-size: 18px;" class="col-sm-5 col-form-label">Did you visit abroad to any other country not listed above, in the last 10 years<br>(max 5)</p>
                     <div class="col-sm form-check form-check-inline" >
                         <label class="form-check-label col-form-label" style="margin-left: 6%;">
-                            <input  type="radio" value="Yes" class="form-check-input" name="optradio3" onclick="other_trips('1');" required>
+                            <input  type="radio" value="Yes" class="form-check-input" name="OTHER_TRIP" onclick="other_trips('1');" required>
                             Yes
                         </label>
                     </div>
                     <div class="col-sm form-check form-check-inline">
                         <label class="form-check-label col-form-label" style="margin-left: 6%;">
-                            <input type="radio" value="No" class="form-check-input" name="optradio3" onclick="other_trips('01');" >
+                            <input type="radio" value="No" class="form-check-input" name="OTHER_TRIP" onclick="other_trips('01');" >
                             No
                         </label>
                     </div>
@@ -1660,7 +1654,30 @@ and open the template in the editor.
                         type="submit">Submit form
                 </button>
 
+                <div class="modal fade" id="myModal" >
+                    <div style="margin-top: 10%;" class="modal-dialog">
+                        <div  class="modal-content">
 
+                      <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Confirm Details</h4>
+                            <button type="button"  class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                      <!-- Modal body -->
+                        <div class="modal-body">
+                          Details entered will be forwarded to Newfields.
+                        </div>
+
+                      <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" id="confirm" onclick="form_submit();" class="btn btn-secondary" data-dismiss="modal">Confirm</button>
+                            <button type="button" id="cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                  </div>
+                </div>
 
 
 

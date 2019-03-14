@@ -119,6 +119,6 @@ export default ({ sqlConn }) => {
     });
   });
   
-  return router;  
+  return router;
 };
 

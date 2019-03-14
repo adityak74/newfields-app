@@ -6,3 +6,4 @@ yarn.lock
 *-lock.json
 .DS_Store
 /nbproject/private/
+.env.*
