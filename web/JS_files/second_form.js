@@ -840,78 +840,106 @@ function form_submit()
         child2_DOB                          : child2_DOB,
 
         visit                               : visit,
-        UK_arrival_date1                    : UK_arrival_date1,
-        UK_departure_date1                  : UK_departure_date1,
-        reason_ofvisit1                     : reason_ofvisit1,
-
-        UK_arrival_date2                    : UK_arrival_date2,
-        UK_departure_date2                  : UK_departure_date2,
-        reason_ofvisit2                     : reason_ofvisit2,
-
-        UK_arrival_date3                    : UK_arrival_date3,
-        UK_departure_date3                  : UK_departure_date3,
-        reason_ofvisit3                     : reason_ofvisit3,
-
-        UK_arrival_date4                    : UK_arrival_date4,
-        UK_departure_date4                  : UK_departure_date4,
-        reason_ofvisit4                     : reason_ofvisit4,
-
-        UK_arrival_date5                    : UK_arrival_date5,
-        UK_departure_date5                  : UK_departure_date5,
-        reason_ofvisit5                     : reason_ofvisit5,
+        visitInfo                           : [
+                                                {
+                                                    country: 'UK',
+                                                    arrivalDate: UK_arrival_date1,
+                                                    departureDate: UK_departure_date1,
+                                                    reasonInfo: reason_ofvisit1,
+                                                },
+                                                {
+                                                    country: 'UK',
+                                                    arrivalDate: UK_arrival_date2,
+                                                    departureDate: UK_departure_date2,
+                                                    reasonInfo: reason_ofvisit2,
+                                                },
+                                                {
+                                                    country: 'UK',
+                                                    arrivalDate: UK_arrival_date3,
+                                                    departureDate: UK_departure_date3,
+                                                    reasonInfo: reason_ofvisit3,
+                                                },
+                                                {
+                                                    country: 'UK',
+                                                    arrivalDate: UK_arrival_date4,
+                                                    departureDate: UK_departure_date4,
+                                                    reasonInfo: reason_ofvisit4,
+                                                },
+                                                {
+                                                    country: 'UK',
+                                                    arrivalDate: UK_arrival_date5,
+                                                    departureDate: UK_departure_date5,
+                                                    reasonInfo: reason_ofvisit5,
+                                                },
+                                            ],
 
         trip                                : trip,
-        country1                            : country1,
-        date_arrival_country1               : date_arrival_country1,
-        date_departure_country1             : date_departure_country1,
-        tripreason_ofvisit1                 : tripreason_ofvisit1,
-
-        country2                            : country2,
-        date_arrival_country2               : date_arrival_country2,
-        date_departure_country2             : date_departure_country2,
-        tripreason_ofvisit2                 : tripreason_ofvisit2,
-
-        country3                            : country3,
-        date_arrival_country3               : date_arrival_country3,
-        date_departure_country3             : date_departure_country3,
-        tripreason_ofvisit3                 : tripreason_ofvisit3,
-
-        country4                            : country4,
-        date_arrival_country4               : date_arrival_country4,
-        date_departure_country4             : date_departure_country4,
-        tripreason_ofvisit4                 : tripreason_ofvisit4,
-
-        country5                            : country5,
-        date_arrival_country5               : date_arrival_country5,
-        date_departure_country5             : date_departure_country5,
-        tripreason_ofvisit5                 : tripreason_ofvisit5,
+        tripInfo                            : [
+                                                {
+                                                    country: country1,
+                                                    arrivalDate: date_arrival_country1,
+                                                    departureDate: date_departure_country1,
+                                                    reasonInfo: tripreason_ofvisit1,
+                                                },
+                                                {
+                                                    country: country2,
+                                                    arrivalDate: date_arrival_country2,
+                                                    departureDate: date_departure_country2,
+                                                    reasonInfo: tripreason_ofvisit2,
+                                                },
+                                                {
+                                                    country: country3,
+                                                    arrivalDate: date_arrival_country3,
+                                                    departureDate: date_departure_country3,
+                                                    reasonInfo: tripreason_ofvisit3,
+                                                },
+                                                {
+                                                    country: country4,
+                                                    arrivalDate: date_arrival_country4,
+                                                    departureDate: date_departure_country4,
+                                                    reasonInfo: tripreason_ofvisit4,
+                                                },
+                                                {
+                                                    country: country5,
+                                                    arrivalDate: date_arrival_country5,
+                                                    departureDate: date_departure_country5,
+                                                    reasonInfo: tripreason_ofvisit5,
+                                                },
+                                            ],
 
         OTHER_TRIP                          : OTHER_TRIP,
-        othertrip_country1                  : othertrip_country1,
-        othertrip_arrivaldate1              : othertrip_arrivaldate1,
-        othertrip_departuredate1            : othertrip_departuredate1,
-        othertripreason_ofvisit1            : othertripreason_ofvisit1,
-
-        othertrip_country2                  : othertrip_country2,
-        othertrip_arrivaldate2              : othertrip_arrivaldate2,
-        othertrip_departuredate2            : othertrip_departuredate2,
-        othertripreason_ofvisit2            : othertripreason_ofvisit2,
-
-        othertrip_country3                  : othertrip_country3,
-        othertrip_arrivaldate3              : othertrip_arrivaldate3,
-        othertrip_departuredate3            : othertrip_departuredate3,
-        othertripreason_ofvisit3            : othertripreason_ofvisit3,
-
-        othertrip_country4                  : othertrip_country4,
-        othertrip_arrivaldate4              : othertrip_arrivaldate4,
-        othertrip_departuredate4            : othertrip_departuredate4,
-        othertripreason_ofvisit4            : othertripreason_ofvisit4,
-
-        othertrip_country5                  : othertrip_country5,
-        othertrip_arrivaldate5              : othertrip_arrivaldate5,
-        othertrip_departuredate5            : othertrip_departuredate5,
-        othertripreason_ofvisit5            : othertripreason_ofvisit5
-        
+        otherTripInfo                       : [
+                                                {
+                                                    country: othertrip_country1,
+                                                    arrivalDate: othertrip_arrivaldate1,
+                                                    departureDate: othertrip_departuredate1,
+                                                    reasonInfo: othertripreason_ofvisit1,
+                                                },
+                                                {
+                                                    country: othertrip_country2,
+                                                    arrivalDate: othertrip_arrivaldate2,
+                                                    departureDate: othertrip_departuredate2,
+                                                    reasonInfo: othertripreason_ofvisit2,
+                                                },
+                                                {
+                                                    country: othertrip_country3,
+                                                    arrivalDate: othertrip_arrivaldate3,
+                                                    departureDate: othertrip_departuredate3,
+                                                    reasonInfo: othertripreason_ofvisit3,
+                                                },
+                                                {
+                                                    country: othertrip_country4,
+                                                    arrivalDate: othertrip_arrivaldate4,
+                                                    departureDate: othertrip_departuredate4,
+                                                    reasonInfo: othertripreason_ofvisit4,
+                                                },
+                                                {
+                                                    country: othertrip_country5,
+                                                    arrivalDate: othertrip_arrivaldate5,
+                                                    departureDate: othertrip_departuredate5,
+                                                    reasonInfo: othertripreason_ofvisit5,
+                                                },
+                                            ],
     };
     
     console.log('FORM-DATA', form_data);
