@@ -785,7 +785,7 @@ function form_submit()
         addr_while_visa                     : addr_while_visa,
         uk_addr                             : uk_addr,
         uk_addr_text_area                   : uk_addr_text_area,
-        nationalities                       : nationalities,
+        nationalities                       : [nationalities],
         national_id                         : national_id,
         _other_names                        : _other_names,
         relationship_status                 : relationship_status,
@@ -810,33 +810,33 @@ function form_submit()
 
         fa_frst                             : fa_frst,
         father_country_of_birth             : father_country_of_birth,
-        father_nationality                  : father_nationality,
-        father_Secondnationality            : father_Secondnationality,
+        father_nationality                  : [father_nationality],
+        father_Secondnationality            : [father_Secondnationality],
         father_DOB                          : father_DOB,
         
         mothers_f_na                        : mothers_f_na,
         mothersCountryofBirth               : mothersCountryofBirth,
-        mother_nationality                  : mother_nationality,
-        mother_Secondnationality            : mother_Secondnationality,
+        mother_nationality                  : [mother_nationality],
+        mother_Secondnationality            : [mother_Secondnationality],
         mother_DOB                          : mother_DOB,
 
         partner_fna                         : partner_fna,
         partner_countryofbirth              : partner_countryofbirth,
-        partner_nationlity                  : partner_nationlity,
-        partner_Snationality                : partner_Snationality,
+        partner_nationlity                  : [partner_nationlity],
+        partner_Snationality                : [partner_Snationality],
         partner_DOB                         : partner_DOB,
         
         firstchild1                         : firstchild1,
         child1_f_na                         : child1_f_na,
         child1_countryofbirth               : child1_countryofbirth,
-        child1_nationality                  : child1_nationality,
-        child1_Snationality                 : child1_Snationality,
+        child1_nationality                  : [child1_nationality],
+        child1_Snationality                 : [child1_Snationality],
         child1_DOB                          : child1_DOB,
 
         child2_f_na                         : child2_f_na,
         child2_countryofbirth               : child2_countryofbirth,
-        child2_nationality                  : child2_nationality,
-        child2_Snationality                 : child2_Snationality,
+        child2_nationality                  : [child2_nationality],
+        child2_Snationality                 : [child2_Snationality],
         child2_DOB                          : child2_DOB,
 
         visit                               : visit,
@@ -907,7 +907,7 @@ function form_submit()
                                                 },
                                             ],
 
-        OTHER_TRIP                          : OTHER_TRIP,
+        other_trip                          : OTHER_TRIP,
         otherTripInfo                       : [
                                                 {
                                                     country: othertrip_country1,
@@ -944,7 +944,7 @@ function form_submit()
     
     console.log('FORM-DATA', form_data);
     $.ajax({
-        url : '',
+        url : 'http://localhost:8080/form2/save',
         data : form_data,
         success : function(responseText) {
             console.log("responseText: "+responseText);
