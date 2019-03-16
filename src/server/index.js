@@ -1,10 +1,10 @@
 import express from 'express';
-import os from 'os';
 import cors from 'cors';
 import winston from 'winston';
 import expressWinston from 'express-winston';
 import form1RouteHandler from './routes/form1';
 import form2RouteHandler from './routes/form2';
+import userRouteHandler from './routes/user';
 import bodyParser from 'body-parser';
 import sqlInit from './util/sqlInit';
 
@@ -31,7 +31,7 @@ app.use(expressWinston.logger({
 }));
 
 app.use(express.static('dist'));
-app.get('/api/getUsername', (req, res) => res.send({ platform: os.platform(), username: os.userInfo().username, userDir: os.userInfo().homedir }));
+app.use('/user', userRouteHandler({ sqlConn: sql }));
 app.use('/form1', form1RouteHandler({ sqlConn: sql }));
 app.use('/form2', form2RouteHandler({ sqlConn: sql }));
 
