@@ -3,7 +3,7 @@ import validateSignIn from '../validation/validator/signIn';
 import validateSignUp from '../validation/validator/signUp';
 
 
-export default ({ sqlConn }) => {
+export default ({ appUrl, sqlConn }) => {
   const router = express.Router();
   
   router.post('/sign-up', (req, res) => {
@@ -29,6 +29,8 @@ export default ({ sqlConn }) => {
   
     });
   });
+
+  router.get('/sign-in', (req, res) => res.render('pages/Login', { appLocation: appUrl }));
   
   return router;
 };

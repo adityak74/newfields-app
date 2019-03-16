@@ -1,7 +1,7 @@
 import express from 'express';
 import form2Validator from '../validation/validator/form2';
 
-export default ({ sqlConn }) => {
+export default ({ appUrl, sqlConn }) => {
   const router = express.Router();
 
   const buildInputObject = input => {
@@ -167,15 +167,8 @@ export default ({ sqlConn }) => {
   
     });
   });
-  
-  router.get('/sqltest', (req, res) => {
-    sqlConn.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-      if (error) res.send(error);
-      else {
-        res.send(`The solution is: ${results[0].solution}`);
-      }
-    });
-  });
+
+  router.get('/show', (req, res) => res.render('pages/form2', { appLocation: appUrl }));
   
   return router;
 };

@@ -29,6 +29,18 @@ export default (env = 'development') => {
         env: 'SQL_USER'
       },
     },
+    secret: {
+      default: 'tempsecret',
+      env: 'APP_SECRET',
+    },
+    location: {
+      default: 'http://localhost',
+      env: 'LOCATION_URL',
+    },
+    port: {
+      default: '3000',
+      env: 'PORT',
+    },
   });
 
   return conf;
