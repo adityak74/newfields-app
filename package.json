@@ -29,6 +29,7 @@
     "joi-date-extensions": "^1.2.0",
     "joi-phone-number": "^2.1.1",
     "joi-postalcode": "^1.0.0",
+    "md5": "^2.2.1",
     "mysql": "^2.16.0",
     "react": "16.5.2",
     "react-dom": "16.5.2",
