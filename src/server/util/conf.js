@@ -29,6 +29,16 @@ export default (env = 'development') => {
         env: 'SQL_USER'
       },
     },
+    aws: {
+      accessId: {
+        default: '',
+        env: 'AWS_ACCESS_ID',
+      },
+      secret: {
+        default: '',
+        env: 'AWS_SECRET'
+      }
+    },
     secret: {
       default: 'tempsecret',
       env: 'APP_SECRET',
