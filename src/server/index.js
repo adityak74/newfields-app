@@ -14,10 +14,14 @@ import bodyParser from 'body-parser';
 import sqlInit from './util/sqlInit';
 import config from './util/conf';
 import passportConfig from './util/passport';
+import sendMail from './util/sendMail';
 
 const app = express();
 const appConfig = config(process.env.NODE_ENV);
 const sql = sqlInit(appConfig);
+
+// email test
+const emailService = sendMail(appConfig);
 
 const appPort = appConfig.get('port');
 const appLocation = appConfig.get('location');
