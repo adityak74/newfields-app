@@ -51,6 +51,14 @@ export default (env = 'development') => {
       default: '3000',
       env: 'PORT',
     },
+    redisHost: {
+      default: 'localhost',
+      env: 'REDIS_HOST',
+    },
+    redisPort: {
+      default: 6379,
+      env: 'REDIS_PORT',
+    },
   });
 
   return conf;

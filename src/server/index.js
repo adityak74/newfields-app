@@ -5,8 +5,9 @@ import winston from 'winston';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
-import flash from 'connect-flash';
+import connectRedis from 'connect-redis';
 import expressWinston from 'express-winston';
+import redis from 'redis';
 import form1RouteHandler from './routes/form1';
 import form2RouteHandler from './routes/form2';
 import userRouteHandler from './routes/user';
@@ -20,6 +21,10 @@ const app = express();
 const appConfig = config(process.env.NODE_ENV);
 const sql = sqlInit(appConfig);
 
+const redisClient = redis.createClient();
+
+const redisStore = connectRedis(session);
+
 // email test
 const emailService = sendMail(appConfig);
 
@@ -31,23 +36,28 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '..', '/views'));
 
 app.use(cors());
-app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
+app.use(cookieParser(appConfig.get('secret')));
 // passport auth config stuff
 app.use(session({
   secret: appConfig.get('secret'),
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
+  store: new redisStore({
+    host: appConfig.get('redisHost'),
+    port: appConfig.get('redisPort'),
+    client: redisClient,
+    ttl: 260,
+  }),
 }));
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
 
 passportConfig(passport, sql);
+
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
 // Log the whole request and response body
 expressWinston.requestWhitelist.push('body');

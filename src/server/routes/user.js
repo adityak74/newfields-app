@@ -43,10 +43,12 @@ export default ({ appUrl, passport }) => {
               const newUser = {
                 userId: user.id,
               }
-              req.session.cookie.maxAge = 1000 * 60 * 3;
-              res.status(200).send(newUser);
+              req.logIn(user, (err) => {
+                if (err) return res.status(500).send(err.message);
+                else res.status(200).send(newUser);
+              });
             } else {
-              res.status(400).send(err.message);
+              return res.status(400).send(err.message);
             }  
         })(req, res);
       }
@@ -54,6 +56,11 @@ export default ({ appUrl, passport }) => {
   });
 
   router.get('/sign-in', (req, res) => res.render('pages/Login', { appLocation: appUrl }));
+
+  router.all('/sign-out', (req, res) => {
+    req.logOut();
+    res.status(200).send();
+  });
   
   return router;
 };

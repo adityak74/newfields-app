@@ -7,7 +7,7 @@ export default (passport, sqlConn) => {
   });
 
   passport.deserializeUser((id, done) => {
-    sqlConn.query("SELECT * FROM users WHERE id = ? ", [id], function(err, rows){
+    sqlConn.query("SELECT * FROM users WHERE id = ? ", [id], (err, rows) => {
       done(err, rows[0]);
     });
   });
