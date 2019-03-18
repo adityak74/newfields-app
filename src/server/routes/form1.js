@@ -1,5 +1,6 @@
 import express from 'express';
 import form1Validator from '../validation/validator/form1';
+import isLoggedIn from '../util/getIfAuthenticated';
 
 export default ({ appUrl, sqlConn }) => {
   const router = express.Router();
@@ -85,7 +86,7 @@ export default ({ appUrl, sqlConn }) => {
     };
   };
   
-  router.post('/submit', (req, res) => {
+  router.post('/submit', isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
   
@@ -97,7 +98,7 @@ export default ({ appUrl, sqlConn }) => {
     });
   });
   
-  router.post('/save', (req, res) => {
+  router.post('/save', isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
   
@@ -110,7 +111,11 @@ export default ({ appUrl, sqlConn }) => {
     });
   });
   
-  router.get('/show', (req, res) => res.render('pages/form1', { appLocation: appUrl }));
+  router.get('/show', isLoggedIn, (req, res) => res.render('pages/form1', { appLocation: appUrl }));
+
+  router.get('/getFormUID', isLoggedIn, (req, res) => {
+    res.send(getFormUIDHandler(1, req.user));
+  });
   
   return router;  
 };

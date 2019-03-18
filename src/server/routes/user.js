@@ -1,7 +1,9 @@
 import express from 'express';
 import validateSignIn from '../validation/validator/signIn';
 import validateSignUp from '../validation/validator/signUp';
+import isLoggedIn from '../util/getIfAuthenticated';
 
+import getFormUIDHandler from '../util/getFormUID';
 
 export default ({ appUrl, passport }) => {
   const router = express.Router();
@@ -43,10 +45,12 @@ export default ({ appUrl, passport }) => {
               const newUser = {
                 userId: user.id,
               }
-              req.session.cookie.maxAge = 1000 * 60 * 3;
-              res.status(200).send(newUser);
+              req.logIn(user, (err) => {
+                if (err) return res.status(500).send(err.message);
+                else res.status(200).send(newUser);
+              });
             } else {
-              res.status(400).send(err.message);
+              return res.status(400).send(err.message);
             }  
         })(req, res);
       }
@@ -54,6 +58,15 @@ export default ({ appUrl, passport }) => {
   });
 
   router.get('/sign-in', (req, res) => res.render('pages/Login', { appLocation: appUrl }));
+
+  router.all('/sign-out', isLoggedIn, (req, res) => {
+    req.logOut();
+    res.status(200).send();
+  });
+
+  router.get('/getFormUID', isLoggedIn, (req, res) => {
+    res.send(getFormUIDHandler(1, req.user));
+  });
   
   return router;
 };
