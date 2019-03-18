@@ -56,7 +56,7 @@ function handleSuccess(action, responseText) {
             if (responseText.userId) {
                 swal({
                     title: "Sign up success!",
-                    text: "Successfully registered. You can now log in.",
+                    text: "Successfully registered. Check your email for verification link to log in.",
                     icon: "success",
                     buttons: false,
                     dangerMode: false,
