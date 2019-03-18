@@ -4,27 +4,87 @@
  * and open the template in the editor.
  */
 
-const appLocation = window.location.origin;
+const actions = {
+    'signup': 0,
+    'signin': 1,
+    'forgot': 2,
+};
 
-$(document).ready(function(){
+const actionsEndpoint = {
+    0: '/user/sign-up',
+    1: '/user/sign-in',
+    2: '/user/forgot-password',
+}
+
+const appLocation = window.location.origin;
+let currentAction = actions.signin;
+
+function getFormDataOnAction(action) {
+    let form_data = {};
+    let email = '';
+    let password = '';
+    let name = '';
+
+    switch (action) {
+        case actions.signin:
+            email = $("#email").val();
+            password = $("#password").val();
+            form_data = { email, password };
+            break;
+        case actions.signup:
+            email = $("#register_email").val();
+            password = $("#register_password").val();
+            name = $("#register_name").val();
+            form_data = { email, password, name };
+            break;
+        case actions.forgot:
+            break;
+    }
+    return form_data;
+}
+
+function handleSuccess(action, responseText) {
+    switch (action) {
+        case actions.signin:
+            if (responseText.userId && responseText.admin) {
+                window.location.href = appLocation + '/admin/page';
+            } else if (responseText.userId) {
+                window.location.href = appLocation + '/user/dashboard';
+            }
+            break;
+        case actions.signup:
+            if (responseText.userId) {
+                swal({
+                    title: "Sign up success!",
+                    text: "Successfully registered. You can now log in.",
+                    icon: "success",
+                    buttons: false,
+                    dangerMode: false,
+                });
+                register(actions.signin);
+            }
+            break;
+        case actions.forgot:
+            break;
+    }
+}
+
+$(document).ready(function() {
     
-    $("#signIN").css('display','block');
-    $("#signup_option").css('display','block');
-    $("#forgetpassword_option").css("display","block");
+    // show sign in on start
+    // $("#signIN").css('display', 'block');
+    register(actions.signin);
+
+    $("#signup_option").css('display', 'block');
+    $("#forgetpassword_option").css('display', 'block');
 
     $("#user-credentials-form").submit(function() {
-        const email = $("#email").val();
-        const password = $("#password").val();
-        const form_data = { email, password };
+        let formData = getFormDataOnAction(currentAction);
         $.post({
-            url : appLocation + '/user/sign-in',
-            data : form_data,
+            url : appLocation + actionsEndpoint[`${currentAction}`],
+            data : formData,
             success : function(responseText) {
-                if (responseText.userId && responseText.admin) {
-                    window.location.href = appLocation + '/admin/page';
-                } else if (responseText.userId) {
-                    window.location.href = appLocation + '/user/dashboard';
-                }
+                handleSuccess(currentAction, responseText);
             },
             error: function(xhr) {
                 if(xhr.status === 400) {
@@ -39,6 +99,11 @@ $(document).ready(function(){
                             break;
                         case 'unverifiedAccount':
                             message = "Please verify your account by link sent to your email before you could log-in.";
+                            break;
+                        case 'duplicateUser':
+                            message = "This email already exists. Please login.";
+                            $("#email").val(formData.email ? formData.email : '');
+                            register(actions.signin);
                             break;
                         default: 
                             message = "Unidentified error occurred";
@@ -69,7 +134,8 @@ $(document).ready(function(){
 
 function register(option)
 {
-    if(option==='0')
+    currentAction = option;
+    if(option===0)
     {
         $("#label_header").text("Sign Up");
         $("#register").css("display","block");
@@ -79,7 +145,7 @@ function register(option)
         $("#signin_option").css("display","block");
         $("#forgetpassword_option").css("display","block");
     }
-    else if(option==='1')
+    else if(option===1)
     {
         $("#label_header").text("Sign In");
         $("#register").css("display","none");
@@ -89,7 +155,7 @@ function register(option)
         $("#signin_option").css("display","none");
         $("#forgetpassword_option").css("display","block");
     }
-    else if(option==='2')
+    else if(option===2)
     {
         $("#label_header").text("Forget password");
         $("#register").css("display","none");
@@ -98,5 +164,6 @@ function register(option)
         $("#signup_option").css('display','block');
         $("#signin_option").css("display","block");
         $("#forgetpassword_option").css("display","none");
+        $("#forgot_password_email").val($("#email").val());
     }
 }
