@@ -11,6 +11,7 @@ import redis from 'redis';
 import form1RouteHandler from './routes/form1';
 import form2RouteHandler from './routes/form2';
 import userRouteHandler from './routes/user';
+import adminRouteHandler from './routes/admin';
 import bodyParser from 'body-parser';
 import sqlInit from './util/sqlInit';
 import config from './util/conf';
@@ -81,9 +82,18 @@ app.use('/js', express.static(path.join(staticPath, 'js')));
 app.use('/css', express.static(path.join(staticPath, 'css')));
 app.use('/images', express.static(path.join(staticPath, 'images')));
 
+app.use('/admin', adminRouteHandler({ appUrl, passport, sqlConn: sql }));
 app.use('/user', userRouteHandler({ appUrl, passport, sqlConn: sql }));
 app.use('/form1', form1RouteHandler({ appUrl, sqlConn: sql }));
 app.use('/form2', form2RouteHandler({ appUrl, sqlConn: sql }));
+
+app.get('/', (req, res) => {
+  res.redirect('/user/sign-in');
+});
+
+app.get('*', (req, res) => {
+  res.redirect('/user/sign-in');
+});
 
 // Error logger makes sense after the router
 app.use(expressWinston.errorLogger({

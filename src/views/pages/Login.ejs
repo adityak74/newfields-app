@@ -10,10 +10,11 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.28.12/sweetalert2.all.js"></script>
+        
         <title>Login Page</title>
    <!--Made with love by Mutiullah Samim -->
    
@@ -24,8 +25,8 @@ and open the template in the editor.
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
 
 	<!--Custom styles-->
-	<link rel="stylesheet" type="text/css" href="<%= appLocation %>/CSS/Style.css">
-        
+	<link rel="stylesheet" type="text/css" href="<%= appLocation %>/css/Style.css">
+    <script src="<%= appLocation %>/js/login.js"></script>
     </head>
     <body>
         <style>
@@ -75,18 +76,18 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form id="user-credentials-form">
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="username">
+                                <input id="email" type="text" class="form-control" placeholder="email">
                             </div>
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-key"></i></span>
                                 </div>
-                                <input type="password" class="form-control" placeholder="password">
+                                <input id="password" type="password" class="form-control" placeholder="password">
                             </div>
                             <div class="row align-items-center remember">
                                 <input type="checkbox">Remember Me

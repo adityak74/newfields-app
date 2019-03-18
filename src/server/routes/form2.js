@@ -1,5 +1,6 @@
 import express from 'express';
 import form2Validator from '../validation/validator/form2';
+import isLoggedIn from '../util/getIfAuthenticated';
 
 export default ({ appUrl, sqlConn }) => {
   const router = express.Router();

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="<%= appLocation %>/js/admin-homepage.js"></script>
+    </head>
+    <body>
+        <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" id='requests'>
+                    <a class="nav-link active" href="#profile" role="tab" data-toggle="tab">Form 1</a>
+                </li>
+                <li class="nav-item" id='active1'>
+                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab">Form 2</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#references" role="tab" data-toggle="tab">references</a>
+                </li>
+            </ul>
+            
+            <div class="tab-content">
+            <br>
+<!--new client request content-->    
+            <div role="tabpanel" class="tab-pane fade in show active" id="profile">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Form 1 clients</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="request_client_table" class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <th style="width:10px;">Select</th>
+                                    <th>Client id</th>
+                                    <th>Name</th>
+                                    <th>Building</th>
+                                    <th>Street Name</th>
+                                    <th>Activation code</th>
+                                    <th>Status</th>
+                                </thead>
+                            </table>
+                        </div> 
+                    </div>
+                </div>  
+            </div>
+<!--active client profiles content-->            
+            <div role="tabpanel" class="tab-pane fade" id="buzz">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Active client profiles Table</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="active_client_table" class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <th style="width:10px;">Select</th>
+                                    <th>Client id</th>
+                                    <th>Name</th>
+                                    <th>Building</th>
+                                    <th>Street Name</th>
+                                    <th>Activation code</th>
+                                    <th>Status</th>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--request tab content-->            
+            <div role="tabpanel" class="tab-pane fade" id="references">ccc</div>
+            
+        </div>
+            
+        </div>
+        
+        <div id="lead_client_modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg" style="max-width:80%; width: 80%;">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Client Profile Activation</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                <div class="modal-body">
+                    <div class="container"> 
+                    
+                        <div class="form-group row">
+                            <div class="col-md-2 col-sm-12">
+                                <label for="ex2" class="col-form-label">Reference Id</label>
+                                <input class="form-control" id="ref_no" type="text" placeholder="request id" readonly>
+                            </div>
+                        </div>
+                                
+                        <div class="form-group row">
+                            <div class="col-md-2 col-sm-12">
+                                <label for="sel1" class="col-form-label">Title *</label>
+                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex1" class="col-form-label">First Name *</label>
+                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex2" class="col-form-label">Last Name *</label>
+                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                 
+                        <hr class="hr_style">
+
+                        
+                        <div class="form-group row">
+                            <div class="col-md-12 col-sm-12">
+                                <label for="ex2">Address</label> 
+                                <input class="form-control"  id="Addr" type="text" placeholder="address here..." readonly/> 
+                            </div>
+                        </div>
+                                
+                         <div class="form-group row">
+                            <div class="col-md-2 col-sm-12">
+                                <label for="sel1" class="col-form-label">Title *</label>
+                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex1" class="col-form-label">First Name *</label>
+                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex2" class="col-form-label">Last Name *</label>
+                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
+                            </div>
+                        </div>   
+                         
+                        
+                        <div class="form-group row">
+                            <div class="col-md-2 col-sm-12">
+                                <label for="sel1" class="col-form-label">Title *</label>
+                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex1" class="col-form-label">First Name *</label>
+                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex2" class="col-form-label">Last Name *</label>
+                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-md-2 col-sm-12">
+                                <label for="sel1" class="col-form-label">Title *</label>
+                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex1" class="col-form-label">First Name *</label>
+                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex2" class="col-form-label">Last Name *</label>
+                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-md-2 col-sm-12">
+                                <label for="sel1" class="col-form-label">Title *</label>
+                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex1" class="col-form-label">First Name *</label>
+                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex2" class="col-form-label">Last Name *</label>
+                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-md-2 col-sm-12">
+                                <label for="sel1" class="col-form-label">Title *</label>
+                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex1" class="col-form-label">First Name *</label>
+                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex2" class="col-form-label">Last Name *</label>
+                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    
+                </div>
+              </div>
+            </div>
+        </div>
+    </body>
+</html>

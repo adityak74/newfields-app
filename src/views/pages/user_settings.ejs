@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="<%= appLocation %>/js/settings-page.js"></script>
+    </head>
+    <body>
+        
+        <div class="d-sm-flex align-items-center justify-content-between mb-4" align="right">
+            <h5 class="h5 mb-0 text-gray-800" style="color:#77b300;" align="right">Settings</h5>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="card shadow mb-4">
+                          <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Profile</h6>
+                    </div>
+                    <div class="card-body">
+
+                        <form>
+                            <div class="form-group row">
+                                <label for="fullname" class="col-2 col-form-label"><i class="fas fa-2x fa-user-circle"></i></label>
+                                <div class="col-10">
+                                  <input type="text" class="form-control-plaintext" readonly  id="fullname" value="<%= userData.name %>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="location" class="col-2 col-form-label"><i class="fas fa-2x fa-map-marker"></i></label>
+                                <div class="col-10">
+                                  <input type="text" class="form-control-plaintext" readonly  id="location" value="<%= userData.location %>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="dob" class="col-2 col-form-label"><i class="fas fa-2x fa-calendar-alt"></i></label>
+                                <div class="col-10">
+                                  <input type="text" class="form-control-plaintext" readonly  id="dob" value="<%= userData.dateOfBirth %>">
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        
+        
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="card shadow mb-4">
+                          <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Credentials</h6>
+                    </div>
+                    <div class="card-body">
+
+                        <form>
+                            <div class="form-group row">
+                                <label for="email" class="col-2 col-form-label"><i class="fas fa-2x fa-envelope"></i></label>
+                                <div class="col-10">
+                                  <input type="text" class="form-control-plaintext" readonly  id="email" value="<%= userData.email %>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                
+                                <div class="col-10">
+                                  <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#myModal">
+                                    Change Password
+                                  </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="myModal" >
+            <div style="margin-top: 4%;" class="modal-dialog">
+            <div class="modal-content">
+
+        <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+          <!-- Modal body -->
+                <div class="modal-body">
+                    Please provide following details for change the credentials.
+                    <br><br>
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <label for="ex3" >Email Address </label>
+                            <img id="emailvalid1" style="display:none;  float:right;" src="<%= appLocation %>/images/tick.png" />
+                            <img id="emailinvalid1" style="display:none; float:right;" src="<%= appLocation %>/images/cancel.png" />
+                            <input class="form-control" id="email1" onchange="validate1()"  type="email" placeholder="xyz@gmail.com" autocomplete="nope" value="<%= userData.email %>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <label for="ex3">Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="login_password"  placeholder="New passsord" autocomplete="nope">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="myFunction('login_password')">
+                                      <i class="fa fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <label for="ex2">Confirm Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="confirmlogin_password" placeholder="Confirm new passsord" autocomplete="nope">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="myFunction('confirmlogin_password')">
+                                      <i class="fa fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <label id="Password_check"></label>
+                </div>
+
+          <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" id="confirm" onclick="form_submit();"  class="btn btn-secondary" >Confirm</button>
+                    <button type="button" id="cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        
+    </body>
+</html>
