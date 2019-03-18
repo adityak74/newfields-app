@@ -18,8 +18,10 @@ const appPort = appConfig.get('port');
 const appLocation = appConfig.get('location');
 const appUrl = `${appLocation}:${appPort}`;
 
+const viewsPath = path.join(__dirname, '..', 'views');
+
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '..', '/views'));
+app.set('views', viewsPath);
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -42,9 +44,10 @@ app.use(expressWinston.logger({
 }));
 
 // Website static stuff
-app.use('/js', express.static(path.join(__dirname, '..', '..', 'web', 'JS_files')));
-app.use('/css', express.static(path.join(__dirname, '..', '..', 'web', 'CSS')));
-app.use('/images', express.static(path.join(__dirname, '..', '..', 'web', 'Images')));
+const staticPath = path.join(viewsPath, 'static');
+app.use('/js', express.static(path.join(staticPath, 'js')));
+app.use('/css', express.static(path.join(staticPath, 'css')));
+app.use('/images', express.static(path.join(staticPath, 'images')));
 
 app.use('/user', userRouteHandler({ appUrl, sqlConn: sql }));
 app.use('/form1', form1RouteHandler({ appUrl, sqlConn: sql }));
