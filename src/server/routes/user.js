@@ -1,12 +1,13 @@
 import express from 'express';
 import validateSignIn from '../validation/validator/signIn';
 import validateSignUp from '../validation/validator/signUp';
+import validateVerifyEmail from '../validation/validator/verifyEmail';
 import isLoggedIn from '../util/getIfAuthenticated';
 import capitalizeFirst from '../util/capitalizeFirst';
 
 import getFormUIDHandler from '../util/getFormUID';
 
-export default ({ appUrl, passport }) => {
+export default ({ appUrl, passport, sqlConn }) => {
   const router = express.Router();
   
   router.post('/sign-up', (req, res) => {
@@ -92,6 +93,50 @@ export default ({ appUrl, passport }) => {
 
   router.get('/getFormUID', isLoggedIn, (req, res) => {
     res.send(getFormUIDHandler(1, req.user));
+  });
+
+  router.get('/email/verify', (req, res) => {
+    const email = req.query.email;
+    const token = req.query.token;
+
+    const input = {
+      email,
+      token,
+    };
+
+    const redirectToSignIn = () => {
+      res.header('Cache-Control', 'no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0');
+      res.header('Pragma', 'no-cache');
+      res.redirect('user/sign-in');
+    };
+
+    // add validate here then SQL query
+    validateVerifyEmail(input, {}, (err, sanitizedInput) => {
+      if (err) res.status(400).send(err);
+      sqlConn.query("SELECT * FROM users WHERE email = ? and token = ?", 
+        [sanitizedInput.email, sanitizedInput.token], 
+        (err, rows) => {
+          // found the user
+          if (rows.length) {
+            const userId = rows[0].id;
+            if (rows[0].isVerified) {
+              return redirectToSignIn();
+            }
+            sqlConn.query("UPDATE users SET isVerified = 1 where id = ?", [userId], (err, rows2) => {
+              if (rows2.changedRows) {
+                // redirect to login
+                redirectToSignIn();
+              } else {
+                res.status(400).send("Couldn't verify email. Please try again or contact admin.");
+              }
+            });
+          } else {
+            // user not found
+            res.status(400).send("Couldn't find email on database. Please sign up");
+          }
+      });
+    });
+
   });
   
   return router;

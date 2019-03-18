@@ -5,9 +5,8 @@ export default appConfig => ({
   emailHtmlData,
   emailTextData,
   emailSubject,
-  fromAddress,
+  fromAddress = "akarnam37@gmail.com",
 }) => {
-
   const { accessId, secret } = appConfig.get('aws');
 
   AWS.config.update({
@@ -43,6 +42,6 @@ export default appConfig => ({
 
   ses.sendEmail(params)
     .promise()
-    .then(data => console.log('SUBMIT TO AWS', data))
+    .then(data => console.log(data))
     .catch(error => console.log('Error sending email', error));
 };

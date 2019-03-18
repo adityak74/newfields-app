@@ -26,7 +26,7 @@ const redisClient = redis.createClient();
 
 const redisStore = connectRedis(session);
 
-// email test
+// email init
 const emailService = sendMail(appConfig);
 
 const appPort = appConfig.get('port');
@@ -57,7 +57,7 @@ app.use(session({
   }),
 }));
 
-passportConfig(passport, sql);
+passportConfig(appConfig, emailService, passport, sql);
 
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
@@ -83,7 +83,7 @@ app.use('/css', express.static(path.join(staticPath, 'css')));
 app.use('/images', express.static(path.join(staticPath, 'images')));
 
 app.use('/admin', adminRouteHandler({ appUrl, passport, sqlConn: sql }));
-app.use('/user', userRouteHandler({ appUrl, passport, sqlConn: sql }));
+app.use('/user', userRouteHandler({ appUrl, appSecret: appConfig.get('secret'), passport, sqlConn: sql }));
 app.use('/form1', form1RouteHandler({ appUrl, sqlConn: sql }));
 app.use('/form2', form2RouteHandler({ appUrl, sqlConn: sql }));
 
