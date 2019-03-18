@@ -71,7 +71,7 @@ function handleSuccess(action, responseText) {
 
 $(document).ready(function() {
     
-    // show sign in on start
+    // show sign in on start show some spinner or loader here
     // $("#signIN").css('display', 'block');
     register(actions.signin);
 
@@ -80,13 +80,17 @@ $(document).ready(function() {
 
     $("#user-credentials-form").submit(function() {
         let formData = getFormDataOnAction(currentAction);
+
+        //yaha add karna hai loading ka code 
         $.post({
             url : appLocation + actionsEndpoint[`${currentAction}`],
             data : formData,
             success : function(responseText) {
+                // yaha end karna hai for success yes before handleSuccess function
                 handleSuccess(currentAction, responseText);
             },
             error: function(xhr) {
+                // yaha bhi end karna hai if in case of error yes before everything else (OK janab)
                 if(xhr.status === 400) {
                     let message = "";
                     const error = xhr.responseText;
