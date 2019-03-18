@@ -36,11 +36,12 @@ export default (passport, sqlConn) => {
                   name: name,
                   email: email,
                   password: bcrypt.hashSync(password, null, null),  // use the generateHash function in our user model
+                  isVerified: 1,
                 };
 
-                var insertQuery = "INSERT INTO users ( name, email, password ) values (?, ?, ?)";
+                var insertQuery = "INSERT INTO users ( name, email, password, isVerified ) values (?, ?, ?, ?)";
 
-                sqlConn.query(insertQuery,[newUserMysql.name, newUserMysql.email, newUserMysql.password],function(err, rows) {
+                sqlConn.query(insertQuery,[newUserMysql.name, newUserMysql.email, newUserMysql.password, newUserMysql.isVerified],function(err, rows) {
                     newUserMysql.id = rows.insertId;
                     return done(null, newUserMysql);
                 });
