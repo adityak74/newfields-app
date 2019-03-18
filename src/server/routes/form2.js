@@ -169,6 +169,10 @@ export default ({ appUrl, sqlConn }) => {
   });
 
   router.get('/show', (req, res) => res.render('pages/form2', { appLocation: appUrl }));
+
+  router.get('/getFormUID', isLoggedIn, (req, res) => {
+    res.send(getFormUIDHandler(2, req.user));
+  });
   
   return router;
 };

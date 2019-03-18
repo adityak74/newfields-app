@@ -1,7 +1,9 @@
 import express from 'express';
 import validateSignIn from '../validation/validator/signIn';
 import validateSignUp from '../validation/validator/signUp';
+import isLoggedIn from '../util/getIfAuthenticated';
 
+import getFormUIDHandler from '../util/getFormUID';
 
 export default ({ appUrl, passport }) => {
   const router = express.Router();
@@ -57,9 +59,13 @@ export default ({ appUrl, passport }) => {
 
   router.get('/sign-in', (req, res) => res.render('pages/Login', { appLocation: appUrl }));
 
-  router.all('/sign-out', (req, res) => {
+  router.all('/sign-out', isLoggedIn, (req, res) => {
     req.logOut();
     res.status(200).send();
+  });
+
+  router.get('/getFormUID', isLoggedIn, (req, res) => {
+    res.send(getFormUIDHandler(1, req.user));
   });
   
   return router;
