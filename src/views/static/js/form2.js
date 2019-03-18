@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+const appLocation = window.location.origin;
+
 $(document).ready(function(){
     
     $("#demo").submit(function(){
@@ -944,7 +946,7 @@ function form_submit()
     
     console.log('FORM-DATA', form_data);
     $.ajax({
-        url : 'http://localhost:8080/form2/save',
+        url : appLocation + '/form2/save',
         data : form_data,
         success : function(responseText) {
             console.log("responseText: "+responseText);

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+const appLocation = window.location.origin;
 
-
-$(document).ready(function(){
+$(document).ready(function() {
     
     $("#email_address").on("change", validate);
 
@@ -23,7 +23,7 @@ $(document).ready(function(){
 //        format: 'yyyy-mm-dd'
 //     });
     
-    $("#Unique_id").val(md5(Date.now()));
+    // $("#Unique_id").val(md5(Date.now()));
     $("#date_UK_entry").datepicker({format: 'dd/mm/yyyy'});
     $("#next_planned_departure").datepicker({format: 'dd/mm/yyyy'});
     $("#UK_date_arrival_back").datepicker({format: 'dd/mm/yyyy'});
@@ -243,8 +243,6 @@ function form_submit()
     // attachments data 
     // i didnt know how to save the file (png, pdf, other format on the server)
     
-    console.log("md5: "+$("#Unique_id").val());
-    
     var form_data = {
         UniqueID                : UniqueID,
         Title                   : Title,
@@ -291,9 +289,11 @@ function form_submit()
         child2_dob              : child2_dob,
         child2_placeofbirth     : child2_placeofbirth
     };
+
+    
     
     $.post({
-        url : 'http://localhost:8080/form1/save',
+        url : appLocation + '/form1/save',
         data : form_data,
         success : function(responseText) {
             console.log("responseText: "+ JSON.stringify(responseText));
