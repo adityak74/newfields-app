@@ -90,7 +90,7 @@ $(document).ready(function() {
                 handleSuccess(currentAction, responseText);
             },
             error: function(xhr) {
-                // yaha bhi end karna hai if in case of error yes before everything else
+                // yaha bhi end karna hai if in case of error yes before everything else (OK janab)
                 if(xhr.status === 400) {
                     let message = "";
                     const error = xhr.responseText;
