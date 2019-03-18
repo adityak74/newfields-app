@@ -1,9 +1,9 @@
 .vscode
+nbproject
 node_modules
 dist
 *.log
 yarn.lock
 *-lock.json
 .DS_Store
-/nbproject/private/
 .env.*
