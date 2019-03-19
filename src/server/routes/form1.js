@@ -105,9 +105,6 @@ export default ({ appUrl, sqlConn }) => {
     form1Validator(inputObj, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
       else res.send(sanitizedInput);
-  
-      // Save progress to Database
-  
     });
   });
   

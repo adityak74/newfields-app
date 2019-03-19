@@ -117,12 +117,14 @@ export default ({ appUrl, passport, sqlConn }) => {
         [sanitizedInput.email, sanitizedInput.token], 
         (err, rows) => {
           // found the user
+          if (err) res.status(500).send(err);
           if (rows.length) {
             const userId = rows[0].id;
             if (rows[0].isVerified) {
               return redirectToSignIn();
             }
-            sqlConn.query("UPDATE users SET isVerified = 1 where id = ?", [userId], (err, rows2) => {
+            sqlConn.query("UPDATE users SET isVerified = 1 where id = ?", [userId], (err2, rows2) => {
+              if (err2) res.status(500).send(err2);
               if (rows2.changedRows) {
                 // redirect to login
                 redirectToSignIn();

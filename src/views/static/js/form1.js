@@ -8,7 +8,6 @@ const appLocation = window.location.origin;
 $(document).ready(function() {
     
     $("#email_address").on("change", validate);
-
     $("#demo").submit(function(){
         $('#myModal').modal('show');
            return false;
@@ -289,14 +288,12 @@ function form_submit()
         child2_dob              : child2_dob,
         child2_placeofbirth     : child2_placeofbirth
     };
-
-    
     
     $.post({
         url : appLocation + '/form1/save',
         data : form_data,
-        success : function(responseText) {
-            console.log("responseText: "+ JSON.stringify(responseText));
+        success : function() {
+            $("#errors").css("display", "none");
             swal({
                 html: 'Success!\n\
                      <br>',
@@ -308,15 +305,12 @@ function form_submit()
         error: function(xhr) {
             if(xhr.status === 400) {
                 const errors = xhr.responseJSON.details;
-                const prettyErrorText = errors.map(error => error.message.concat('\n')).join('');
-                
-                swal({
-                    title: "Oops?",
-                    text: prettyErrorText,
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
+                $("#errors_list").empty();
+                $("#errors").css("display", "block");
+                errors.forEach(error => {
+                    $("#errors_list").append('<li>' + error.message + '</li>');
                 });
+                $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
             }
             console.log(xhr);
         },

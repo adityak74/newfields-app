@@ -44,16 +44,17 @@ and open the template in the editor.
                 <label style="font-size: 15px;">35 Park Place</label><br>
                 <label style="font-size: 15px;">Cardiff</label><br>
                 <label style="font-size: 15px;">CF10 3RL</label>
-<!--            
-                <p class="lead"  align="right">Please use this page to create your profile</p>
-                <label style="font-size: 12px;float:right;">Please fill all the mandatory(*) fields</label>-->
             </div>
         </div>
         
         <div class="container">
             <button class="btn btn-warning" id="" data-toggle="tooltip" data-placement="top" 
-                style=""title="Save form and continue later" type="">Save form
+                title="Save form and continue later" type="">Save form
             </button>
+            <div id="errors" style="color: grey; border: 1px solid red; padding: 15px; margin: 20px; display: none;">
+                <ul id="errors_list">
+                </ul>
+            </div>
             <br><br>
             <form id="demo">
                 <input id="Unique_id" type="hidden" autocomplete="nope">
