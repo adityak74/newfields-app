@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css?family=Mukta');
 
 html,body{
-background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+background-image: url('/images/newfields_background.jpg');
 background-size: cover;
 background-repeat: no-repeat;
 height: 100%;
@@ -86,4 +86,26 @@ color: white;
 
 .links a{
 margin-left: 4px;
+}
+
+.overlay
+{
+    position: fixed;
+    left: 0; 
+    top: 0; 
+    right: 0; 
+    bottom: 0; 
+    z-index: 2;
+    background-color: rgba(255,255,255,0.8);
+}
+.overlay-content {
+    position: absolute;
+    transform: translateY(-50%);
+     -webkit-transform: translateY(-50%);
+     -ms-transform: translateY(-50%);
+    top: 40%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #555;
 }

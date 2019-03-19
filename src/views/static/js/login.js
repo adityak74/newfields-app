@@ -73,12 +73,15 @@ $(document).ready(function() {
     
     // show sign in on start show some spinner or loader here
     // $("#signIN").css('display', 'block');
+    
     register(actions.signin);
 
     $("#signup_option").css('display', 'block');
     $("#forgetpassword_option").css('display', 'block');
 
     $("#user-credentials-form").submit(function() {
+        $('#overlay1').show();
+        $('#img').show(); 
         let formData = getFormDataOnAction(currentAction);
 
         //yaha add karna hai loading ka code 
@@ -87,10 +90,14 @@ $(document).ready(function() {
             data : formData,
             success : function(responseText) {
                 // yaha end karna hai for success yes before handleSuccess function
+                $('#img').hide();
+                $('#overlay1').hide();
                 handleSuccess(currentAction, responseText);
             },
             error: function(xhr) {
                 // yaha bhi end karna hai if in case of error yes before everything else (OK janab)
+                $('#img').hide();
+                $('#overlay1').hide();
                 if(xhr.status === 400) {
                     let message = "";
                     const error = xhr.responseText;
