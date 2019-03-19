@@ -945,10 +945,11 @@ function form_submit()
     };
     
     console.log('FORM-DATA', form_data);
-    $.ajax({
+    $.post({
         url : appLocation + '/form2/save',
         data : form_data,
         success : function(responseText) {
+            $("#errors").css("display", "none");
             console.log("responseText: "+responseText);
             swal({
                 html: 'Success!\n\
@@ -957,6 +958,19 @@ function form_submit()
                 confirmButtonText: 'Dismiss',
                 cancelButtonText: "CANCEL"
             });
-        }
+        },
+        error: function(xhr) {
+            if(xhr.status === 400) {
+                const errors = xhr.responseJSON.details;
+                
+                $("#errors_list").empty();
+                $("#errors").css("display", "block");
+                errors.forEach(error => {
+                    $("#errors_list").append('<li>' + error.message + '</li>');
+                });
+                $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+            }
+            console.log(xhr);
+        },
     });
 }
