@@ -26,15 +26,20 @@ function change_content(identifier)
         $("#change_content").load(appLocation + '/user/settings');
     }
     else if(identifier==='sign-out')
-    {   
+    {   $('#overlay1').show();
+        $('#img').show();
         $.post({
             url : appLocation + '/user/sign-out',
             data : {},
             success : function() {
+                $('#img').hide();
+                $('#overlay1').hide();
                 window.history.forward();
                 window.location.href = appLocation + '/user/sign-in';
             },
             error: function(xhr) {
+                $('#img').hide();
+                $('#overlay1').hide();
                 swal({
                     title: "Server Error",
                     text: "It seems like the server is down or under maintainance, please check back later.",
