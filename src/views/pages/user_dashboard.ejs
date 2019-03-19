@@ -89,7 +89,16 @@ and open the template in the editor.
 
             <p class="lead"  align="left">You are logged in as <label><%= username %></label></p>
             <br>
-            <div id="change_content"></div>
+            <div id="change_content">
+                
+            </div>
+
+            <div id="overlay1" style="display:none" class="overlay">
+                <div class="overlay-content">
+                    <label id="overlay_label_text" style="font-size: 25px;"></label><br>
+                    <img id="img" style="display:none" src="<%= appLocation %>/images/Dual Ring.gif" />
+                </div>
+            </div>
             
         </div>
         
@@ -99,6 +108,8 @@ and open the template in the editor.
         <footer class="fixed-bottom" id="page_footer">
             <label>Version 1.0</label>    
         </footer>
+
+        
         
     </body>
 </html>
