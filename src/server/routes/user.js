@@ -2,12 +2,27 @@ import express from 'express';
 import validateSignIn from '../validation/validator/signIn';
 import validateSignUp from '../validation/validator/signUp';
 import validateVerifyEmail from '../validation/validator/verifyEmail';
+import validateChangePassword from '../validation/validator/changePassword';
+import validateResetPassword from '../validation/validator/resetPassword';
 import isLoggedIn from '../util/getIfAuthenticated';
 import capitalizeFirst from '../util/capitalizeFirst';
+import bcrypt from 'bcrypt-nodejs';
+import passwordGenerator from 'generate-password';
+import { renderFile as ejsRenderFile } from 'ejs';
+import path from 'path';
+
+const resetPasswordHTMLFile = path.join(
+  __dirname,
+  '..',
+  '..',
+  'views',
+  'pages',
+  'resetEmail.ejs',
+);
 
 import getFormUIDHandler from '../util/getFormUID';
 
-export default ({ appUrl, passport, sqlConn }) => {
+export default ({ appUrl, emailService, passport, sqlConn }) => {
   const router = express.Router();
   
   router.post('/sign-up', (req, res) => {
@@ -95,6 +110,72 @@ export default ({ appUrl, passport, sqlConn }) => {
     res.send(getFormUIDHandler(1, req.user));
   });
 
+  router.post('/change-password', isLoggedIn, (req, res) => {
+    const input = req.body;
+
+    validateChangePassword(input, {}, (err, sanitizedInput) => {
+      if (err) res.status(400).send(err);
+      else {
+        const userId = req.user.id;
+        const hashedPassword = bcrypt.hashSync(sanitizedInput.password, null, null);
+        sqlConn.query('UPDATE users SET password = ? where id = ?', [hashedPassword, userId], (err2, rows) => {
+          if (err2) res.status(500).send(err2);
+          if (rows.changedRows) {
+            res.status(200).send();
+          }
+        });
+      }
+    });
+  });
+
+  router.post('/forgot-password', (req, res) => {
+    const input = req.body;
+
+    validateResetPassword(input, {}, (err, sanitizedInput) => {
+      if (err) res.status(400).send(err);
+      else {
+        sqlConn.query('SELECT * from users where email = ?', [sanitizedInput.email], (err, rows) => {
+          if (err) res.status(500).send();
+          else {
+            if (rows.length) {
+              // generate random password for user. and send the email
+              const randomGeneratedPassword = passwordGenerator.generate({
+                length: 8,
+                uppercase: false,
+                strict: true,
+              });
+              const hashedRandomGeneratedPassword = bcrypt.hashSync(randomGeneratedPassword, null, null);
+              sqlConn.query('UPDATE users SET password = ? where id = ?', [hashedRandomGeneratedPassword, rows[0].id], (err2, rows2) => {
+                if (err2) res.status(500).send(err2);
+                if (rows2.changedRows) {
+                  const responseData = { userId: rows[0].id };
+                  ejsRenderFile(
+                    resetPasswordHTMLFile,
+                    {
+                      userName: rows[0].name,
+                      updatedPassword: randomGeneratedPassword,
+                    },
+                    (err, htmlString) => {
+                      emailService({
+                        toAddress: rows[0].email,
+                        emailHtmlData: htmlString,
+                        emailTextData: htmlString,
+                        emailSubject: "Newfields - Reset Password",
+                      });
+                  });
+                  res.status(200).send(responseData);
+                }
+              });
+            } else {
+              res.status(400).send('userNotFound');
+            }
+          }
+        });
+      }
+    });
+
+  });
+
   router.get('/email/verify', (req, res) => {
     const email = req.query.email;
     const token = req.query.token;
@@ -110,7 +191,6 @@ export default ({ appUrl, passport, sqlConn }) => {
       res.redirect('user/sign-in');
     };
 
-    // add validate here then SQL query
     validateVerifyEmail(input, {}, (err, sanitizedInput) => {
       if (err) res.status(400).send(err);
       sqlConn.query("SELECT * FROM users WHERE email = ? and token = ?", 

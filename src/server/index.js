@@ -83,7 +83,7 @@ app.use('/css', express.static(path.join(staticPath, 'css')));
 app.use('/images', express.static(path.join(staticPath, 'images')));
 
 app.use('/admin', adminRouteHandler({ appUrl, passport, sqlConn: sql }));
-app.use('/user', userRouteHandler({ appUrl, appSecret: appConfig.get('secret'), passport, sqlConn: sql }));
+app.use('/user', userRouteHandler({ appUrl, appSecret: appConfig.get('secret'), emailService, passport, sqlConn: sql }));
 app.use('/form1', form1RouteHandler({ appUrl, sqlConn: sql }));
 app.use('/form2', form2RouteHandler({ appUrl, sqlConn: sql }));
 

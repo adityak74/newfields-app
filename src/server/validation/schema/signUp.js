@@ -1,8 +1,9 @@
 import Joi from '../customJoi';
+import JoiEmail from './email';
 
 const schema = Joi.object().keys({
   name: Joi.string(),
-  email: Joi.string().email(),
+  email: JoiEmail,
   password: Joi.string(),
 });
 

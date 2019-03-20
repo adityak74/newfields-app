@@ -38,6 +38,8 @@ function getFormDataOnAction(action) {
             form_data = { email, password, name };
             break;
         case actions.forgot:
+            email = $('#forgot_password_email').val();
+            form_data = { email };
             break;
     }
     return form_data;
@@ -65,8 +67,28 @@ function handleSuccess(action, responseText) {
             }
             break;
         case actions.forgot:
+            if (responseText.userId) {
+                swal({
+                    title: "Reset password success!",
+                    text: "You password has been temporarily reset. Check your email for the new password to login.",
+                    icon: "success",
+                    buttons: false,
+                    dangerMode: false,
+                });
+                register(actions.signin);
+            }
             break;
     }
+}
+
+function show_overlay_img() {
+    $('#overlay1').show();
+    $('#img').show(); 
+}
+
+function hide_overlay_img() {
+    $('#overlay1').hide();
+    $('#img').hide(); 
 }
 
 $(document).ready(function() {
@@ -80,24 +102,18 @@ $(document).ready(function() {
     $("#forgetpassword_option").css('display', 'block');
 
     $("#user-credentials-form").submit(function() {
-        $('#overlay1').show();
-        $('#img').show(); 
+        show_overlay_img();
         let formData = getFormDataOnAction(currentAction);
 
-        //yaha add karna hai loading ka code 
         $.post({
             url : appLocation + actionsEndpoint[`${currentAction}`],
             data : formData,
             success : function(responseText) {
-                // yaha end karna hai for success yes before handleSuccess function
-                $('#img').hide();
-                $('#overlay1').hide();
+                hide_overlay_img();
                 handleSuccess(currentAction, responseText);
             },
             error: function(xhr) {
-                // yaha bhi end karna hai if in case of error yes before everything else (OK janab)
-                $('#img').hide();
-                $('#overlay1').hide();
+                hide_overlay_img();
                 if(xhr.status === 400) {
                     let message = "";
                     const error = xhr.responseText;
