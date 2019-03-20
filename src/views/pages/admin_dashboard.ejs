@@ -322,7 +322,7 @@ and open the template in the editor.
                         </div>
                         <br>
 
-                        <h5>Download customerDocuments</h5>
+                        <h5>Download customer documents</h5>
                         <hr class="hr_style">
                         
                         <div class="form-group row">
@@ -352,12 +352,31 @@ and open the template in the editor.
                         <div class="form-group row">
                             <label for="inputPassword" class="col-sm-5 col-form-label">4.	Biometric Residence Permit back</label>
                             <div class="col-sm-5">
-                                <input type="file" class="form-control-file" id="passport_BRP_back_page" >
                                 <button class="btn btn-warning" id="passport_BRP_front_page" data-toggle="tooltip" data-placement="right" 
                                         type="button" title='Download BRP back'>Download</button>
                                 </button>
                             </div>
                         </div>
+                        
+                        <h5>Application Status</h5>
+                        <hr class="hr_style">
+
+                        <div class="form-group row">
+                            <label for="staticEmail"  class="col-sm-5 col-form-label">Update application status</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="status_update">
+                                    <option value="">Application status</option>
+                                    <option>Application Process pending</option>
+                                    <option>Application Process completed</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" id="save_form" data-toggle="tooltip" data-placement="top" 
+                                    type="button" title='Update'>Update Application Status
+                                </button>
+                            </div>
+                        </div>
+                        
 
                     
                     </div>
