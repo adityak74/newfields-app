@@ -22,6 +22,9 @@ and open the template in the editor.
                 <li class="nav-item">
                     <a class="nav-link" href="#references" role="tab" data-toggle="tab">Incomplete Applications</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#processed_application" role="tab" data-toggle="tab">Processed Applications</a>
+                </li>
             </ul>
             
             <div class="tab-content">
@@ -80,6 +83,10 @@ and open the template in the editor.
             <div role="tabpanel" class="tab-pane fade" id="references">
                 Table under development
             </div>
+<!--request tab content-->            
+            <div role="tabpanel" class="tab-pane fade" id="processed_application">
+                Table under development
+            </div>
             
         </div>
             
@@ -95,77 +102,101 @@ and open the template in the editor.
                     </div>
                 <div class="modal-body" style="height:550px; overflow-y: scroll;">
                     <div class="container"> 
-                    
-                        <div class="form-group row">
-                            <div class="col-md-2 col-sm-12">
-                                <label for="ex2" class="col-form-label">Reference Id</label>
-                                <input class="form-control" id="ref_no" type="text" placeholder="request id" readonly>
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="ex1" class="col-form-label">Application Date</label>
-                                <input class="form-control" id="app_date1"  type="text" placeholder="application date" readonly>
-                            </div>
-                        </div>
-                        <hr class="hr_style">        
                         
                         <div class="form-group row">
-                            <div class="col-md-2 col-sm-12">
-                                <label for="sel1" class="col-form-label">Title</label>
+                            <label for="staticEmail" style="font-size: 20px;" class="col-sm-5 col-form-label">Full name</label>
+                            <div class="col-sm-1">
                                 <input class="form-control" id="title" placeholder="title" type="text" readonly>
                             </div>
-                            <div class="col-md-5 col-sm-12">
-                                <label for="ex1" class="col-form-label">Full Name</label>
-                                <input class="form-control" id="first_name1"  type="text" placeholder="full name" autocomplete="nope" readonly>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="full_name" placeholder="full name" readonly>
                             </div>
-                            
                         </div>
-                        <hr class="hr_style">
                         
                         <div class="form-group row">
-                            <div class="col-md-12 col-sm-12">
-                                <label for="ex2">Address</label> 
+                            <label for="inputPassword" class="col-sm-5 col-form-label">1.	Mobile phone number</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="mobile_number" placeholder="mobile number" readonly>
                             </div>
-                            <div class="col-md-3 col-sm-12">
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">2.	UK home address (including postcode)</label>
+                            <div class="col-sm-5">
                                 <input type="text" class="form-control" id="address_line1" placeholder="Address line 1..." autocomplete="nope" readonly>
                             </div>
-                            <div class="col-md-3 col-sm-12">
+                        </div>
+                        <div class="form-group row ">
+                            <div class="col-sm-5 offset-md-5 offset-lg-5">
                                 <input type="text" class="form-control" id="address_line2" placeholder="Address line 2..." autocomplete="nope" readonly>
                             </div>
                         </div>
-
                         <div class="form-group row">
-                            <div class="col-md-3 col-sm-12">
+                            <div class="col-sm-5 offset-md-5 offset-lg-5">
                                 <input type="text" class="form-control" id="town" placeholder="Town..." autocomplete="nope" readonly>
                             </div>
-                            <div class="col-md-3 col-sm-12">
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-5 offset-md-5 offset-lg-5">
                                 <input type="text" class="form-control" id="county" placeholder="County..." autocomplete="nope" readonly>
                             </div>
-                            <div class="col-md-3 col-sm-12">
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-5 offset-md-5 offset-lg-5">
                                 <input type="text" class="form-control" id="postcode" placeholder="Postcode..." autocomplete="nope" readonly>
                             </div>
                         </div>
-                        <hr class="hr_style"> 
-                        
                         <div class="form-group row">
-                            <div class="col-md-3 col-sm-12">
-                                <label for="sel1" class="col-form-label">Email Address</label>
+                            <label for="inputPassword" class="col-sm-5 col-form-label">3.   Email address</label>
+                            <div class="col-sm-5">
                                 <input type="email" class="form-control" id="email_address" placeholder="email address" autocomplete="nope" readonly>
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="sel1" class="col-form-label">Relationship status</label>
-                                <input type="text" class="form-control" id="relationship_status" placeholder="relationship status" autocomplete="nope" readonly>
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="sel1" class="col-form-label">Nationalities</label>
-                                <input type="text" class="form-control" id="nationalities" placeholder="nationalities..." autocomplete="nope" readonly>
                             </div>
                         </div>
                         
                         
-                        
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">4.	Relationship status</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="relationship_status" placeholder="relationship status" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">5.	All nationalities currently hold</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="nationalities" placeholder="nationalities" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">6.	The date entered the UK for the first time</label>
+                            <div class="col-sm-5">
+                                <input data-provide="datepicker" class="form-control" id="date_UK_entry"  placeholder="dd/mm/yyyy" readonly autocomplete="nope"> 
+                            </div>
+                        </div>
+
+                        <div class="form-group row" id="" >
+                            <div class="col-sm-5 offset-md-5 offset-lg-5">
+                                <textarea class="form-control" id="conviction_text_area" rows="3" autocomplete="nope" placeholder="any convictions" readonly></textarea>
+                            </div>
+                        </div>
+                    
+                        <div class="form-group row">
+                            <div class="col-sm-5 offset-md-5 offset-lg-5">
+                                <textarea class="form-control" id="visa_refusals_textarea" rows="3" autocomplete="nope" placeholder="any visa refusals" readonly></textarea>
+                            </div>
+                        </div>
+                    
+                    
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">9.	Details of any public funds you or your family have received in the UK</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="details_public_funds" placeholder="Any public funds" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                    
+                    
                     </div>
 
-                    
+                    <br><br>    
                     
                 </div>
               </div>
