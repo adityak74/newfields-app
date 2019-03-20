@@ -7,3 +7,4 @@ yarn.lock
 *-lock.json
 .DS_Store
 .env.*
+dump.rdb

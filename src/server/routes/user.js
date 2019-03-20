@@ -2,8 +2,10 @@ import express from 'express';
 import validateSignIn from '../validation/validator/signIn';
 import validateSignUp from '../validation/validator/signUp';
 import validateVerifyEmail from '../validation/validator/verifyEmail';
+import validateChangePassword from '../validation/validator/changePassword';
 import isLoggedIn from '../util/getIfAuthenticated';
 import capitalizeFirst from '../util/capitalizeFirst';
+import bcrypt from 'bcrypt-nodejs';
 
 import getFormUIDHandler from '../util/getFormUID';
 
@@ -93,6 +95,24 @@ export default ({ appUrl, passport, sqlConn }) => {
 
   router.get('/getFormUID', isLoggedIn, (req, res) => {
     res.send(getFormUIDHandler(1, req.user));
+  });
+
+  router.post('/change-password', isLoggedIn, (req, res) => {
+    const input = req.body;
+
+    validateChangePassword(input, {}, (err, sanitizedInput) => {
+      if (err) res.status(400).send(err);
+      else {
+        const userId = req.user.id;
+        const hashedPassword = bcrypt.hashSync(sanitizedInput.password, null, null);
+        sqlConn.query('UPDATE users SET password = ? where id = ?', [hashedPassword, userId], (err, rows) => {
+          if (err) res.status(500).send(err);
+          if (rows.changedRows) {
+            res.status(200).send();
+          }
+        });
+      }
+    });
   });
 
   router.get('/email/verify', (req, res) => {

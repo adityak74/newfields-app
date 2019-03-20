@@ -89,7 +89,7 @@ and open the template in the editor.
         <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Confirm Details</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" onclick="clear_all_fields();" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
           <!-- Modal body -->
@@ -101,7 +101,7 @@ and open the template in the editor.
                             <label for="ex3" >Email Address </label>
                             <img id="emailvalid1" style="display:none;  float:right;" src="<%= appLocation %>/images/tick.png" />
                             <img id="emailinvalid1" style="display:none; float:right;" src="<%= appLocation %>/images/cancel.png" />
-                            <input class="form-control" id="email1" onchange="validate1()"  type="email" placeholder="xyz@gmail.com" autocomplete="nope" value="<%= userData.email %>">
+                            <input disabled class="form-control" id="email1" type="email" placeholder="xyz@gmail.com" autocomplete="nope" value="<%= userData.email %>">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -110,8 +110,8 @@ and open the template in the editor.
                             <div class="input-group">
                                 <input type="password" class="form-control" id="login_password"  placeholder="New passsord" autocomplete="nope">
                                 <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button" onclick="myFunction('login_password')">
-                                      <i class="fa fa-eye"></i>
+                                    <button class="btn btn-secondary" type="button" onclick="toggleEye('login_password')">
+                                      <i class="fa fa-eye" id="eyecon_login_password"></i>
                                     </button>
                                 </div>
                             </div>
@@ -123,20 +123,21 @@ and open the template in the editor.
                             <div class="input-group">
                                 <input type="password" class="form-control" id="confirmlogin_password" placeholder="Confirm new passsord" autocomplete="nope">
                                 <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button" onclick="myFunction('confirmlogin_password')">
-                                      <i class="fa fa-eye"></i>
+                                    <button class="btn btn-secondary" type="button" onclick="toggleEye('confirmlogin_password')">
+                                      <i class="fa fa-eye" id="eyecon_confirmlogin_password"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <label id="Password_check"></label>
+                    <label id="Password_check">
+                    </label>
                 </div>
 
           <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="submit" id="confirm" onclick="form_submit();"  class="btn btn-secondary" >Confirm</button>
-                    <button type="button" id="cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="cancel" onclick="clear_all_fields();" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
             </div>
