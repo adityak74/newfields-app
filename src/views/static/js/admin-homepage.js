@@ -18,7 +18,7 @@ $(function () {
 
 function client_request_table()
 { 
-    var LCT = $('#request_client_table').DataTable();
+    var LCT = $('#form1_client_table').DataTable();
     
     $.ajax({
         url : '',
@@ -63,7 +63,7 @@ function Openclientinfo(id)
             },
         success : function(responseText) {
                 
-        $('#lead_client_modal').modal('show');   
+        $('#form1_request_modal').modal('show');   
         }
     });
  }
