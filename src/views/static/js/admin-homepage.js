@@ -36,12 +36,12 @@ function client_request_table()
                    i,// jsonObj[i]["NAME"],
                    i,// jsonObj[i]["PBUILDINGNAME"],
                    i,// jsonObj[i]["STREET_NAME"],
+                   i,
                    i,//  jsonObj[i]["ACTIVATION_CODE"],
                     "Pending"
                  //   parseInt(jsonObj[i]["PERMISSIONS"]) === 1 ? 'All Access' : 'Read Only',
                 ]).draw(false);
             }//onclick=\"(function(){UsersandPermission_edit_button(\'"+user_id+"\')})()\"
-          
         }
     });
 }

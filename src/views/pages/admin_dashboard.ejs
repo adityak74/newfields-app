@@ -20,7 +20,7 @@ and open the template in the editor.
                     <a class="nav-link" href="#buzz" role="tab" data-toggle="tab">Form 2</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#references" role="tab" data-toggle="tab">references</a>
+                    <a class="nav-link" href="#references" role="tab" data-toggle="tab">Incomplete Applications</a>
                 </li>
             </ul>
             
@@ -38,12 +38,13 @@ and open the template in the editor.
                             <table id="request_client_table" class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <th style="width:10px;">Select</th>
-                                    <th>Client id</th>
-                                    <th>Name</th>
-                                    <th>Building</th>
-                                    <th>Street Name</th>
-                                    <th>Activation code</th>
-                                    <th>Status</th>
+                                    <th>Submission Date</th>
+                                    <th>Reference id</th>
+                                    <th>Customer Name</th>
+                                    <th>Country</th>
+                                    <th>Email Address</th>
+                                    <th>Contact Details</th>
+                                    <th>Application Status</th>
                                 </thead>
                             </table>
                         </div> 
@@ -62,12 +63,13 @@ and open the template in the editor.
                             <table id="active_client_table" class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <th style="width:10px;">Select</th>
-                                    <th>Client id</th>
-                                    <th>Name</th>
-                                    <th>Building</th>
-                                    <th>Street Name</th>
-                                    <th>Activation code</th>
-                                    <th>Status</th>
+                                    <th>Submission Date</th>
+                                    <th>Reference id</th>
+                                    <th>Customer Name</th>
+                                    <th>Country</th>
+                                    <th>Email Address</th>
+                                    <th>Contact Details</th>
+                                    <th>Application Status</th>
                                 </thead>
                             </table>
                         </div>
@@ -75,21 +77,23 @@ and open the template in the editor.
                 </div>
             </div>
 <!--request tab content-->            
-            <div role="tabpanel" class="tab-pane fade" id="references">ccc</div>
+            <div role="tabpanel" class="tab-pane fade" id="references">
+                Table under development
+            </div>
             
         </div>
             
         </div>
         
-        <div id="lead_client_modal" class="modal fade" role="dialog">
+        <div id="lead_client_modal" class="modal fade" role="dialog" style="overflow-y: hidden;">
             <div class="modal-dialog modal-lg" style="max-width:80%; width: 80%;">
 
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Client Profile Activation</h4>
+                        <h4 class="modal-title">Customer Details</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                <div class="modal-body">
+                <div class="modal-body" style="height:550px; overflow-y: scroll;">
                     <div class="container"> 
                     
                         <div class="form-group row">
@@ -97,108 +101,68 @@ and open the template in the editor.
                                 <label for="ex2" class="col-form-label">Reference Id</label>
                                 <input class="form-control" id="ref_no" type="text" placeholder="request id" readonly>
                             </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="ex1" class="col-form-label">Application Date</label>
+                                <input class="form-control" id="app_date1"  type="text" placeholder="application date" readonly>
+                            </div>
                         </div>
-                                
+                        <hr class="hr_style">        
+                        
                         <div class="form-group row">
                             <div class="col-md-2 col-sm-12">
-                                <label for="sel1" class="col-form-label">Title *</label>
+                                <label for="sel1" class="col-form-label">Title</label>
                                 <input class="form-control" id="title" placeholder="title" type="text" readonly>
                             </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="ex1" class="col-form-label">First Name *</label>
-                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
+                            <div class="col-md-5 col-sm-12">
+                                <label for="ex1" class="col-form-label">Full Name</label>
+                                <input class="form-control" id="first_name1"  type="text" placeholder="full name" autocomplete="nope" readonly>
                             </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="ex2" class="col-form-label">Last Name *</label>
-                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
-                            </div>
+                            
                         </div>
-                 
                         <hr class="hr_style">
-
                         
                         <div class="form-group row">
                             <div class="col-md-12 col-sm-12">
                                 <label for="ex2">Address</label> 
-                                <input class="form-control"  id="Addr" type="text" placeholder="address here..." readonly/> 
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <input type="text" class="form-control" id="address_line1" placeholder="Address line 1..." autocomplete="nope" readonly>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <input type="text" class="form-control" id="address_line2" placeholder="Address line 2..." autocomplete="nope" readonly>
                             </div>
                         </div>
-                                
-                         <div class="form-group row">
-                            <div class="col-md-2 col-sm-12">
-                                <label for="sel1" class="col-form-label">Title *</label>
-                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="ex1" class="col-form-label">First Name *</label>
-                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="ex2" class="col-form-label">Last Name *</label>
-                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
-                            </div>
-                        </div>   
-                         
-                        
+
                         <div class="form-group row">
-                            <div class="col-md-2 col-sm-12">
-                                <label for="sel1" class="col-form-label">Title *</label>
-                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
+                            <div class="col-md-3 col-sm-12">
+                                <input type="text" class="form-control" id="town" placeholder="Town..." autocomplete="nope" readonly>
                             </div>
                             <div class="col-md-3 col-sm-12">
-                                <label for="ex1" class="col-form-label">First Name *</label>
-                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
+                                <input type="text" class="form-control" id="county" placeholder="County..." autocomplete="nope" readonly>
                             </div>
                             <div class="col-md-3 col-sm-12">
-                                <label for="ex2" class="col-form-label">Last Name *</label>
-                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
+                                <input type="text" class="form-control" id="postcode" placeholder="Postcode..." autocomplete="nope" readonly>
                             </div>
                         </div>
+                        <hr class="hr_style"> 
                         
                         <div class="form-group row">
-                            <div class="col-md-2 col-sm-12">
-                                <label for="sel1" class="col-form-label">Title *</label>
-                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="sel1" class="col-form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email_address" placeholder="email address" autocomplete="nope" readonly>
                             </div>
                             <div class="col-md-3 col-sm-12">
-                                <label for="ex1" class="col-form-label">First Name *</label>
-                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
+                                <label for="sel1" class="col-form-label">Relationship status</label>
+                                <input type="text" class="form-control" id="relationship_status" placeholder="relationship status" autocomplete="nope" readonly>
                             </div>
                             <div class="col-md-3 col-sm-12">
-                                <label for="ex2" class="col-form-label">Last Name *</label>
-                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
+                                <label for="sel1" class="col-form-label">Nationalities</label>
+                                <input type="text" class="form-control" id="nationalities" placeholder="nationalities..." autocomplete="nope" readonly>
                             </div>
                         </div>
                         
-                        <div class="form-group row">
-                            <div class="col-md-2 col-sm-12">
-                                <label for="sel1" class="col-form-label">Title *</label>
-                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="ex1" class="col-form-label">First Name *</label>
-                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="ex2" class="col-form-label">Last Name *</label>
-                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
-                            </div>
-                        </div>
                         
-                        <div class="form-group row">
-                            <div class="col-md-2 col-sm-12">
-                                <label for="sel1" class="col-form-label">Title *</label>
-                                <input class="form-control" id="title" placeholder="title" type="text" readonly>
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="ex1" class="col-form-label">First Name *</label>
-                                <input class="form-control" id="first_name1"  type="text" placeholder="first name" autocomplete="nope" readonly>
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label for="ex2" class="col-form-label">Last Name *</label>
-                                <input class="form-control" id="last_name1" type="text" placeholder="last name" autocomplete="nope" readonly>
-                            </div>
-                        </div>
+                        
                     </div>
 
                     
