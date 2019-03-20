@@ -12,6 +12,10 @@ $(document).ready(function () {
     
 });
 
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
 function client_request_table()
 { 
     var LCT = $('#request_client_table').DataTable();

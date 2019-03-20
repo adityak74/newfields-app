@@ -173,18 +173,19 @@ and open the template in the editor.
                             </div>
                         </div>
 
-                        <div class="form-group row" id="" >
-                            <div class="col-sm-5 offset-md-5 offset-lg-5">
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">7.	Details of any convictions (including traffic offences and fines) – anywhere in the world</label>
+                            <div class="col-sm-5">
                                 <textarea class="form-control" id="conviction_text_area" rows="3" autocomplete="nope" placeholder="any convictions" readonly></textarea>
                             </div>
                         </div>
                     
                         <div class="form-group row">
-                            <div class="col-sm-5 offset-md-5 offset-lg-5">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">8.	Details of any visa refusals or exclusions or deportation – anywhere in the world</label>
+                            <div class="col-sm-5 ">
                                 <textarea class="form-control" id="visa_refusals_textarea" rows="3" autocomplete="nope" placeholder="any visa refusals" readonly></textarea>
                             </div>
                         </div>
-                    
                     
                         <div class="form-group row">
                             <label for="inputPassword" class="col-sm-5 col-form-label">9.	Details of any public funds you or your family have received in the UK</label>
@@ -193,6 +194,171 @@ and open the template in the editor.
                             </div>
                         </div>
                     
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">10.	 Your UK national insurance number</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="UK_NINo" placeholder="UK national insurance number(NINo)" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">11.	 Your next planned departure from the UK on</label>
+                            <div class="col-sm-5 ">
+                                <input data-provide="datepicker" class="form-control" id="next_planned_departure"  placeholder="dd/mm/yyyy" readonly>
+                            </div>
+                        </div>
+                
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">12.	 Arrival back in the UK on</label>
+                            <div class="col-sm-5">
+                                <input data-provide="datepicker" class="form-control" id="UK_date_arrival_back"  placeholder="dd/mm/yyyy" readonly>
+                            </div>
+                        </div>
+
+                        <br>
+                        <h5>Partner Details</h5>
+                        <hr class="hr_style">
+
+                        <div class="form-group row">
+                            <label for="staticEmail"  class="col-sm-5 col-form-label">1.	Full name</label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" id="partner_Title" placeholder="title" readonly>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="partner_full_name" placeholder="partner full name" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">2.	Mobile phone number</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="partner_mobile_number" placeholder="mobile number" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">3.	UK home address (including postcode)</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="partner_uk_home_address" placeholder="UK home address" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">4.	All nationalities you currently hold</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="partner_nationalities" placeholder="enter nationalities" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">5.	Date of Birth</label>
+                            <div class="col-sm-5">
+                                <input data-provide="datepicker" class="form-control" id="partner_dob" placeholder="dd/mm/yyyy" autocomplete="nope" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">6.	Place of Birth</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="partner_placeofbirth" placeholder="place of birth" readonly>
+                            </div>
+                        </div>
+
+                        <br>
+                        <h5>Children Details</h5>
+                        
+                        <hr class="hr_style">
+                        <label style="font-weight:bold; display:inline-block;"><u>Child 1</u></label>
+
+                        <div class="form-group row">
+                            <label for="staticEmail"  class="col-sm-5 col-form-label">1.	Full name</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="child1_full_name" placeholder="enter full name" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">2.	All nationalities currently hold</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="child1_nationalities" placeholder="enter nationalities" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">3.	Date of Birth</label>
+                            <div class="col-sm-5">
+                                <input data-provide="datepicker" class="form-control" id="child1_dob" placeholder="dd/mm/yyyy" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">4.	Place of Birth</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="child1_placeofbirth" placeholder="place of birth" readonly>
+                            </div>
+                        </div>
+                        <br>
+
+                        <hr class="hr_style">
+                        <label style="font-weight:bold;display:inline-block;"><u>Child 2</u></label>
+
+                        <div class="form-group row">
+                            <label for="staticEmail"  class="col-sm-5 col-form-label">1.	Full name</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="child2_full_name" placeholder="enter full name" readonly>
+                            </div>
+                        </div>
+                    
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">2.	All nationalities currently hold</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="child2_nationalities" placeholder="enter nationalities" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">3.	Date of Birth</label>
+                            <div class="col-sm-5">
+                                <input data-provide="datepicker"  class="form-control" id="child2_dob" placeholder="dd/mm/yyyy" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">4.	Place of Birth</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="child2_placeofbirth" placeholder="place of birth" readonly>
+                            </div>
+                        </div>
+                        <br>
+
+                        <h5>Download customerDocuments</h5>
+                        <hr class="hr_style">
+                        
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">1.	Any previous UK visa</label>
+                            <div class="col-sm-5">
+                                <button class="btn btn-warning" id="uk_visa_photo" data-toggle="tooltip" data-placement="right" 
+                                        type="button" title='Download Uk visa document'>Download</button>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">2.	Upload passport front page</label>
+                            <div class="col-sm-5">
+                                <button class="btn btn-warning" id="passport_front_page" data-toggle="tooltip" data-placement="right" 
+                                        type="button" title='Download passport front'>Download</button>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">3.	Biometric Residence Permit front</label>
+                            <div class="col-sm-5">
+                                <button class="btn btn-warning" id="passport_BRP_front_page" data-toggle="tooltip" data-placement="right" 
+                                        type="button" title='Download BRP front'>Download</button>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-5 col-form-label">4.	Biometric Residence Permit back</label>
+                            <div class="col-sm-5">
+                                <input type="file" class="form-control-file" id="passport_BRP_back_page" >
+                                <button class="btn btn-warning" id="passport_BRP_front_page" data-toggle="tooltip" data-placement="right" 
+                                        type="button" title='Download BRP back'>Download</button>
+                                </button>
+                            </div>
+                        </div>
+
                     
                     </div>
 
