@@ -425,18 +425,389 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="inputPassword" class="col-sm-5 col-form-label">4.	Home address (including zip-code)</label>
+                                <label for="inputPassword" class="col-sm-5 col-form-label">4.	Applicant home address (including zip-code)</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" id="f2_home_addr" placeholder="home address (including zip-code)" autocomplete="nope" readonly>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="inputPassword" class="col-sm-5 col-form-label">5.	When did you move to this this address?</label>
+                                <label for="inputPassword" class="col-sm-5 col-form-label">5.	When did applicant move to this address?</label>
                                 <div class="col-sm-5">
-                                    <input data-provide="datepicker" class="form-control" id="f2_addr_move_indate"  placeholder="dd/mm/yyyy" readonly autocomplete="nope"> 
+                                    <input type="text" class="form-control" id="f2_addr_move_indate"  placeholder="dd/mm/yyyy" readonly autocomplete="nope"> 
                                 </div>
                             </div>
-<!-- start from ownership of house -->
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">6.	Ownership of home (own it/ renting/ owned by family)?</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="f2_house_ownrship"  placeholder="house ownership" readonly autocomplete="nope"> 
+                                
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">7.	Address where applicant will be based for the duration of the visa process, 
+                                                                                                    if you will not be at your home address:
+                                </label>
+                                <div class="col-sm-5">
+                                    <textarea class="form-control" id="f2_addr_while_visa" rows="3" placeholder="details here..." readonly></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">8.	The address applicant will be staying in the UK</label>
+                                <div class="col-sm-5">
+                                    <textarea class="form-control" id="f2_uk_addr_text_area" rows="3" autocomplete="nope" placeholder="details here..." readonly></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">9.	All nationalities applicant currently hold:</label>
+                                <div class="col-sm-5">
+                                    <textarea class="form-control" id="f2_nationalities" rows="3" placeholder="details here..." readonly></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">10.	Any National ID number applicant have (optional)</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="f2_national_id" placeholder="National Id number" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">11.	Have applicant ever been known by any other names (e.g. maiden name etc)?</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="f2_other_names" placeholder="Any other names" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">12.	Your relationship status ?</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="f2_relationship_status" placeholder="relationship status" readonly>
+                                </div>
+                            </div>
+
+                                <div class="form-group row" id="" >
+                                    <label for="inputPassword" class="col-sm-5 col-form-label">13.	Have applicant had any convictions (including traffic offences and fines) – anywhere in the world</label>
+                                    <div class="col-sm-5">
+                                        <textarea class="form-control" id="f2_conviction_text_area" rows="3" autocomplete="nope" placeholder="applicant details here" readonly></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-5 col-form-label">14.	Have you had any visa refusals or exclusions or deportations – anywhere in the world</label>
+                                    <div class="col-sm-5">
+                                        <textarea class="form-control" id="f2_visa_refusals_textarea" rows="3" autocomplete="nope" placeholder="any visa refusals" readonly></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-5 col-form-label">15.	Have you had any medical treatment you have received in the UK</label>
+                                    <div class="col-sm-5">
+                                        <textarea class="form-control" id="f2_medical_textarea" rows="3" autocomplete="nope" placeholder="any visa refusals" readonly></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-5 col-form-label">16.	Have you had any UK National Insurance number you have received</label>
+                                    <div class="col-sm-5">
+                                        <textarea class="form-control" id="f2_uk_nino_textarea" rows="3" autocomplete="nope" placeholder="any visa refusals" readonly></textarea>
+                                    </div>
+                                </div>
+
+                                <div  class="form-group row" >
+                                    <label for="inputPassword" class="col-sm-5 col-form-label">17.	Have you ever worked for an armed forces, a government, any media organisations, or any security organisations?</label>
+                                    <div class="col-sm-5">
+                                        <textarea class="form-control" id="f2_armedforces_textarea" rows="3" readonly></textarea>
+                                    </div>
+                                </div>
+
+                                <div  class="form-group row" >
+                                    <label for="inputPassword" class="col-sm-5 col-form-label">18.	Do you have any immediate family in the UK? Please give details:</label>
+                                    <div class="col-sm-5">
+                                        <textarea class="form-control" id="f2_immediate_family_textarea" rows="3" readonly></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-5 col-form-label">19.	What is the date you propose to travel to the UK?</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="f2_Proposaldate_UK_entry"  placeholder="dd/mm/yyyy"  autocomplete="nope" readonly> 
+                                    </div>
+                                </div>
+                                <div  class="form-group row" >
+                                    <label for="inputPassword" class="col-sm-5 col-form-label">20.	Will any family member will travel to the UK with you, on the same date?</label>
+                                    <div class="col-sm-5">
+                                        <textarea class="form-control" id="f2_family_member_travelalong_textarea" rows="3" readonly></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-5 col-form-label">21.	Please list any overseas travels you have planned which will require you to have your passport before the date you intend to travel to the UK</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="f2_any_overseas_travel" placeholder="Country" autocomplete="nope" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-5 col-form-label"> 	-- Departure Date</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="f2_Departuredate_UK"  placeholder="dd/mm/yyyy" readonly autocomplete="nope"> 
+                                    </div> 
+                                </div>
+                                <div class="form-group row">
+                                    <label for="f2_Returndate_UK" class="col-sm-5 col-form-label"> 	-- Return Date</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="f2_Returndate_UK"  placeholder="dd/mm/yyyy" readonly autocomplete="nope"> 
+                                    </div> 
+                                </div>
+                                
+                                <p style="font-weight: bold; font-size: 18px;">Applicant family</p>
+                            <hr class="hr_style">
+
+                    <!--Father details-->
+                                <div class="form-group row">
+                                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">1.	Applicant father:</label>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Full name</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_fa_frst" autocomplete="nope" placeholder="enter here..." readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Country of birth</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_father_country_of_birth" autocomplete="nope" placeholder="country of birth" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_father_nationality" placeholder="nationality" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_father_Secondnationality" placeholder="any second nationality" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
+                                            <div class="col-sm-5 "style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_father_DOB" placeholder="dd/mm/yyyy" autocomplete="nope" readonly> 
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                    <!--Mother details-->                
+                                <div class="form-group row">
+                                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">2.	Your Mother</label>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Full name</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_mothers_f_na" autocomplete="nope" placeholder="enter here..." readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Country of birth</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_mothersCountryofBirth" autocomplete="nope" placeholder="country of birth" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_mother_nationality" placeholder="nationality" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_mother_Secondnationality" autocomplete="nope" placeholder="any second nationality" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
+                                            <div class="col-sm-5 "style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_mother_DOB"  placeholder="dd/mm/yyyy" autocomplete="nope" readonly> 
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                <!--Life partner-->                
+                                <div class="form-group row">
+                                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">3.	Your partner (if any):</label>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Full name</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_partner_fna" autocomplete="nope" placeholder="Enter here..." readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Country of birth</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_partner_countryofbirth" autocomplete="nope" placeholder="country of birth" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_partner_nationlity" autocomplete="nope" placeholder="nationality" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_partner_Snationality" autocomplete="nope" placeholder="any second nationality" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
+                                            <div class="col-sm-5 "style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_partner_DOB"  placeholder="dd/mm/yyyy"  autocomplete="nope" readonly> 
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                <!--Children-->               
+                                <div id="childern_details1" >
+                                    <div class="form-group row">
+                                        <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">4.	Your first child</label>
+                                    </div>
+                                <ul id="first_child">
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Full name</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_child1_f_na" placeholder="Enter here..." readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Country of birth</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_child1_countryofbirth" autocomplete="nope" placeholder="country of birth" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_child1_nationality" autocomplete="nope" placeholder="nationality" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_child1_Snationality" autocomplete="nope" placeholder="any second nationality" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
+                                            <div class=" col-sm-5 "style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_child1_DOB"  placeholder="dd/mm/yyyy"  autocomplete="nope" readonly> 
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>   
+                        <br>
+            <!--second child-->
+                            <div id="children_details2" >
+                                <div class="form-group row">
+                                    <label for="inputPassword" style="font-weight: bold;" class="col-sm-5 col-form-label">5.	Your second child:</label>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Full name</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text" class="form-control" id="f2_child2_f_na" autocomplete="nope" placeholder="enter here ..." readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Country of birth</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_child2_countryofbirth" autocomplete="nope" placeholder="country of birth" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Nationality</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_child2_nationality" autocomplete="nope" placeholder="nationality" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Any second nationality</label>
+                                            <div class="col-sm-5" style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_child2_Snationality" autocomplete="nope" placeholder="any second nationality" readonly>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group row" >
+                                            <label for="inputPassword" class="col-sm-5 col-form-label">Date of birth</label>
+                                            <div class="col-sm-5 "style="padding-left: 0;">
+                                                <input type="text"  class="form-control" id="f2_child2_DOB"  placeholder="dd/mm/yyyy"  autocomplete="nope" readonly> 
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>    
+                        <br> 
+
+
+<!--Your last 5 visits to the UK in the last 10 years    -->
+
+
+
+
+
+<!--Your last trips abroad to: Australia; NZ; Canada; USA; Europe, in the last 10 years-->
+
+
+
+<!--Your last trips abroad to any other country not listed above, in the last 10 years-->
 
                         </div>
                     </div>
