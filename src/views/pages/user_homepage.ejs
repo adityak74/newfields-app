@@ -9,6 +9,9 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="<%= appLocation %>/js/user_operations.js"></script>
+        
+        
     </head>
     <body>
         
@@ -43,7 +46,29 @@ and open the template in the editor.
                 </div>
                 
             </div>
-         </div>   
+         </div>  
+         
+         <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Applications</h6>
+              </div>
+              <div class="card-body">
+                  <div class="table-responsive">
+                      <table id="client_application_table" class="table table-bordered table-hover table-striped">
+                          <thead>
+                              <th>Start Date</th>
+                              <th>Reference id</th>
+                              <th>Name</th>
+                              <th>Country</th>
+                              <th>Email Address</th>
+                              <th>Contact Details</th>
+                              <th>Application Status</th>
+                          </thead>
+                      </table>
+                  </div> 
+              </div>
+          </div>
         
     </body>
 </html>
