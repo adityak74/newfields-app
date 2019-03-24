@@ -682,7 +682,7 @@ function form_submit()
     var UK_arrival_date3                        = document.getElementById('UK_arrival_date3').value;
     var UK_departure_date3                      = document.getElementById('UK_departure_date3').value;
     var RV33                                    = document.getElementById("reason_ofvisit3");
-    var RV333                                  = RV33.options[RV33.selectedIndex];
+    var RV333                                   = RV33.options[RV33.selectedIndex];
     var reason_ofvisit3                         = $(RV333).val();
     
     var UK_arrival_date4                        = document.getElementById('UK_arrival_date4').value;

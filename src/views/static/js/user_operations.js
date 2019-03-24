@@ -2,7 +2,7 @@ $(document).ready(function(){
     form1_request_table();
 });
 
-  function form1_request_table()
+function form1_request_table()
 { 
     var CAT = $('#client_application_table').DataTable();
     $.ajax({
@@ -26,9 +26,20 @@ $(document).ready(function(){
                    i,// jsonObj[i]["STREET_NAME"],
                    i,
                    i,//  jsonObj[i]["ACTIVATION_CODE"],
-                    "View Application"
+                   "<label onclick=\"(function(){application_form(\'"+i+"\')})()\" \n\
+                    style='cursor:pointer;color: #4d79ff;'><u>View Application</u></label>",
+                    // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
+                    // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
+                    //     Property Profile\n\
+                    // </label>"
+
+
                 ]).draw(false);
             }
         }
     });
+}
+
+function application_form(reference_id){
+    alert(reference_id);
 }
