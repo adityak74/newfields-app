@@ -53,7 +53,6 @@ app.use(session({
     host: appConfig.get('redisHost'),
     port: appConfig.get('redisPort'),
     client: redisClient,
-    ttl: 260,
   }),
 }));
 

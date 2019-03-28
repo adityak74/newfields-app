@@ -1,12 +1,16 @@
 import express from 'express';
 import form1Validator from '../validation/validator/form1';
 import isLoggedIn from '../util/getIfAuthenticated';
+import userFormModel from '../model/userForms';
+import formType from '../constants/formType';
+import formNumberIdentifier from '../constants/formNumber';
 
 export default ({ appUrl, sqlConn }) => {
   const router = express.Router();
 
   const buildInputObject = input => {
-    const { 
+    const {
+      formAction,
       UniqueID,
       Title,
       full_name,
@@ -46,6 +50,7 @@ export default ({ appUrl, sqlConn }) => {
       child2_placeofbirth,
     } = input;
     return {
+      formAction,
       uniqueId: UniqueID,
       title: Title,
       fullName: full_name,
@@ -101,11 +106,14 @@ export default ({ appUrl, sqlConn }) => {
   router.post('/save', isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
-  
-    form1Validator(inputObj, {}, (validationErr, sanitizedInput) => {
-      if (validationErr) res.status(400).send(validationErr);
-      else res.send(sanitizedInput);
-    });
+
+    const retVal = userFormModel(req, inputObj, sqlConn, formType.NEW, formNumberIdentifier.ONE);
+
+    if (retVal) {
+      res.status(200).send('OK');
+    } else {
+      res.status(400).send('error');
+    }
   });
   
   router.get('/show', isLoggedIn, (req, res) => res.render('pages/form1', { appLocation: appUrl }));

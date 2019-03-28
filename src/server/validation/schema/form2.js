@@ -8,6 +8,7 @@ const JoiNationalitiesSchema = Joi.array().items(JoiNationalities);
 const JoiGenericTripsSchema = Joi.array().items(JoiGenericTripSchema);
 
 const schema = Joi.object().keys({
+  formAction: Joi.string().valid('new', 'update', 'submit'),
   uniqueId: Joi.string().length(32),
   title: Joi.string(),
   fullName: Joi.string(),
@@ -40,8 +41,8 @@ const schema = Joi.object().keys({
   familyMemberTravelAlong: JoiYesNo,
   familyMemberTravelAlongInfo: Joi.string().allow(''),
   anyOverseasTravel: Joi.string(),
-  nextUKPlannedDeparture: Joi.date().min('now').format('DD/MM/YYYY'),
-  nextUKDateArrival: Joi.date().min('now').format('DD/MM/YYYY'),
+  nextPlannedDeparture: Joi.date().min('now').format('DD/MM/YYYY'),
+  nextDateArrival: Joi.date().min('now').format('DD/MM/YYYY'),
   fatherFullName: Joi.string(),
   fatherCountryOfBirth: Joi.string(),
   fatherNationality: JoiNationalitiesSchema,

@@ -168,6 +168,45 @@ function validateEmail(email) {
   return re.test(email);
 }
 
+function doFormAction(form_data) {
+    const url = new URL(window.location.href);
+    const formAction = url.searchParams.get('action');
+    if (formAction === 'new') {
+        form_data.formAction = 'new';
+        $.post({
+            url : appLocation + '/form1/save',
+            data : form_data,
+            success : function() {
+                $("#errors").css("display", "none");
+                swal({
+                    html: 'Success!\n\
+                         <br>',
+                    type: 'success',
+                    confirmButtonText: 'Dismiss',
+                    cancelButtonText: "CANCEL"
+                }); 
+            },
+            error: function(xhr) {
+                if(xhr.status === 400) {
+                    const errors = xhr.responseJSON.details;
+                    $("#errors_list").empty();
+                    $("#errors").css("display", "block");
+                    errors.forEach(error => {
+                        $("#errors_list").append('<li>' + error.message + '</li>');
+                    });
+                    $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+                }
+                console.log(xhr);
+            },
+        });
+    } else if (formAction === 'update') {
+        form_data.formAction = 'update';
+        const formId = url.searchParams.get('formId');
+
+    } else {
+        // reditect back to homepage
+    }
+}
        
 function form_submit()
 {
@@ -288,31 +327,6 @@ function form_submit()
         child2_dob              : child2_dob,
         child2_placeofbirth     : child2_placeofbirth
     };
-    
-    $.post({
-        url : appLocation + '/form1/save',
-        data : form_data,
-        success : function() {
-            $("#errors").css("display", "none");
-            swal({
-                html: 'Success!\n\
-                     <br>',
-                type: 'success',
-                confirmButtonText: 'Dismiss',
-                cancelButtonText: "CANCEL"
-            }); 
-        },
-        error: function(xhr) {
-            if(xhr.status === 400) {
-                const errors = xhr.responseJSON.details;
-                $("#errors_list").empty();
-                $("#errors").css("display", "block");
-                errors.forEach(error => {
-                    $("#errors_list").append('<li>' + error.message + '</li>');
-                });
-                $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
-            }
-            console.log(xhr);
-        },
-    });    
+
+    doFormAction(form_data);    
 }

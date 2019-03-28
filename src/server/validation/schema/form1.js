@@ -6,6 +6,7 @@ import JoiYesNo from './yesNo';
 const JoiNationalitiesSchema = Joi.array().items(JoiNationalities);
 
 const schema = Joi.object().keys({
+  formAction: Joi.string().valid('new', 'update', 'submit'),
   uniqueId: Joi.string().length(32),
   title: Joi.string(),
   fulleName: Joi.string(),

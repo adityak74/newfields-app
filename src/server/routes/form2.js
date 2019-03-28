@@ -1,12 +1,16 @@
 import express from 'express';
 import form2Validator from '../validation/validator/form2';
 import isLoggedIn from '../util/getIfAuthenticated';
+import userFormModel from '../model/userForms';
+import formType from '../constants/formType';
+import formNumberIdentifier from '../constants/formNumber';
 
 export default ({ appUrl, sqlConn }) => {
   const router = express.Router();
 
   const buildInputObject = input => {
     const { 
+      formAction,
       UniqueID,
       Title,
       full_name,
@@ -75,6 +79,7 @@ export default ({ appUrl, sqlConn }) => {
       otherTripInfo,
     } = input;
     return {
+      formAction,
       uniqueId: UniqueID,
       title: Title,
       fullName: full_name,
@@ -87,7 +92,7 @@ export default ({ appUrl, sqlConn }) => {
       addressWhileOnVisa: addr_while_visa,
       ifUKaddress: uk_addr,
       UKAddress: uk_addr_text_area,
-      nationalities: nationalities,
+      nationalities,
       nationalIdentityNumber: national_id,
       otherNames: _other_names,
       relationshipStatus: relationship_status,
@@ -107,8 +112,9 @@ export default ({ appUrl, sqlConn }) => {
       familyMemberTravelAlong: familymembertravelalong,
       familyMemberTravelAlongInfo: family_member_travelalong_textarea,
       anyOverseasTravel: any_overseas_travel,
-      nextUKPlannedDeparture: Departuredate_UK,
-      nextUKDateArrival: Returndate_UK,
+      nextPlannedDeparture: Departuredate_UK,
+      nextDateArrival: Returndate_UK,
+      // build objects after here
       fatherFullName: fa_frst,
       fatherCountryOfBirth: father_country_of_birth,
       fatherNationality: father_nationality,
@@ -160,13 +166,13 @@ export default ({ appUrl, sqlConn }) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
   
-    form2Validator(inputObj, {}, (validationErr, sanitizedInput) => {
-      if (validationErr) res.status(400).send(validationErr);
-      else res.send(sanitizedInput);
-  
-      // Save progress to Database
-  
-    });
+    const retVal = userFormModel(req, inputObj, sqlConn, formType.NEW, formNumberIdentifier.TWO);
+
+    if (retVal) {
+      res.status(200).send('OK');
+    } else {
+      res.status(400).send('error');
+    }
   });
 
   router.get('/show', (req, res) => res.render('pages/form2', { appLocation: appUrl }));
