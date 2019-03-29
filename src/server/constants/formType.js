@@ -1,5 +1,7 @@
-export default {
-  NEW: 0,
-  UPDATE: 1,
-  SUBMIT: 2,
+var id = {
+  'NEW': 1,
+  'UPDATE': 2,
+  'SUBMIT': 3
 };
+
+module.exports = id;

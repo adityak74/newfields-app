@@ -5,6 +5,7 @@
   "main": "src/server/index.js",
   "scripts": {
     "build": "webpack --mode production",
+    "build:constants": "NODE_ENV=development babel-node src/server/scripts/generateAppConstants",
     "clean:i": "npm run clean:mac && npm i",
     "clean:mac": "rm -rf node_modules *-lock.json",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
@@ -45,6 +46,7 @@
     "recompose": "0.30.0",
     "redis": "^2.8.0",
     "redux": "4.0.1",
+    "sql-constants": "github:adityak74/sql-constants#master",
     "winston": "^3.2.1",
     "xss": "^1.0.3"
   },

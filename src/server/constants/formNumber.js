@@ -1,4 +1,6 @@
-export default {
-  ONE: 1,
-  TWO: 2,
+var id = {
+  'ONE': 1,
+  'TWO': 2
 };
+
+module.exports = id;

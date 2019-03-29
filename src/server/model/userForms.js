@@ -1,7 +1,9 @@
-import relation from '../constants/relationTypes';
-import trip from '../constants/tripTypes';
-import formType from '../constants/formType';
-import formNumberConstants from '../constants/formNumber';
+import {
+  formNumber as formNumberConstants,
+  formType,
+  relationTypes as relation,
+  tripTypes as trip,
+} from '../constants';
 import getFormUID from '../util/getFormUID';
 import sqlQueries from '../sqlQueries';
 
