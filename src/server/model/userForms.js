@@ -122,6 +122,8 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
       });
       break;
     case SUBMIT:
+      // if form found then set status to SUBMIT
+      // else INSERT AS NEW FORM AND SET STATUS TO SUBMIT
       break;
     case UPDATE:
       const updateFormResponse = {
@@ -146,13 +148,16 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
               connection.query(FORM_UPDATE.UPDATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, [formDataExtraInfoInput, formUID], (err5, rows5) => {
                 if (err5) cb(err5, null);
                 // commit the transaction here
-                connection.commit(function(commitErr) {
-                  if (commitErr) {
-                    return connection.rollback(function() {
-                      throw commitErr;
-                    });
-                  }
-                  cb(null, updateFormResponse);
+                connection.query(FORM_UPDATE.UPDATE_NEW_FORM_ENTRY, [{ status: formType.UPDATE, updateDate: new Date().toISOString().slice(0, 19).replace('T', ' ') }, formUID], (err6, rows6) => {
+                  if (err6) cb(err6, null);
+                  connection.commit(function(commitErr) {
+                    if (commitErr) {
+                      return connection.rollback(function() {
+                        throw commitErr;
+                      });
+                    }
+                    cb(null, updateFormResponse);
+                  });
                 });
               });
             });

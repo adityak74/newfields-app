@@ -10,7 +10,7 @@ const FORM_READ = {
 }
 
 const FORM_UPDATE = {
-  UPDATE_NEW_FORM_ENTRY: 'UPDATE INTO userForms SET ?',
+  UPDATE_NEW_FORM_ENTRY: 'UPDATE userForms SET ? where formUID = ?',
   UPDATE_NEW_FORM_DATA_ENTRY: 'UPDATE formData SET ? where uniqueId = ?',
   UPDATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY: 'UPDATE formDataExtraInfo SET ? where formUniqueId = ?',
 };
