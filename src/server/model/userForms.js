@@ -72,10 +72,10 @@ const getFormDataExtraInfoDataObject = (formUID, sanitizedInput, formNumber) => 
   overseasTravel: getValueIfNotNull(sanitizedInput.anyOverseasTravel),
 });
 
-export default (req, sanitizedInput, sqlConn, action = formType.NEW, formNumber) => {
+export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNumber) => cb => {
 
   const currentUser = req.user;
-  const { FORM_CREATE, FORM_READ } = sqlQueries;
+  const { FORM_CREATE, FORM_READ, FORM_UPDATE } = sqlQueries;
   const { NEW, SUBMIT, UPDATE } = formType;
 
   switch(action) {
@@ -87,22 +87,79 @@ export default (req, sanitizedInput, sqlConn, action = formType.NEW, formNumber)
         formNumber,
         status: NEW,
       };
-      console.log('get input obj', getFormDataObject('djkfghdf', sanitizedInput));
-      console.log('get input sfkdkjhf', getFormDataExtraInfoDataObject('djkfghdf', sanitizedInput, formNumber));
-      // sqlConn.query(FORM_CREATE.CREATE_NEW_FORM_ENTRY, createNewFormEntryInput, (err, result) => {
-      //   if (err) return err;
-      //   if (result) {
-      //     sqlConn.query(FORM_READ.USERFORMS_SELECT_BY_ROWID, { id: result.insertId } , (err2, rows) => {
-      //       const formUID = rows[0].formUID;
-      //       // insert rest of the data here
-            
-      //     });
-      //   }
-      // });
+      sqlConnPool.getConnection((err, connection) => {
+        if (err) cb(err, null);
+        connection.beginTransaction((err1) => {
+          if (err1) cb(err1, null);
+          connection.query(FORM_CREATE.CREATE_NEW_FORM_ENTRY, createNewFormEntryInput, (err2, result) => {
+            if (err2) cb(err2, null);
+            if (result) {
+              connection.query(FORM_READ.USERFORMS_SELECT_BY_ROWID, { id: result.insertId } , (err3, rows) => {
+                if (err3) cb(err3, null);
+                const formUID = rows[0].formUID;
+                const formDataInput = getFormDataObject(formUID, sanitizedInput);
+                const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
+                // insert rest of the data here
+                connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
+                  if (err4) cb(err4, null);
+                  connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
+                    if (err5) cb(err5, null);
+                    // commit the transaction here
+                    connection.commit(function(commitErr) {
+                      if (commitErr) {
+                        return connection.rollback(function() {
+                          throw commitErr;
+                        });
+                      }
+                      cb(null, createNewFormEntryInput);
+                    });
+                  });
+                });
+              });
+            }
+          });  
+        });
+      });
+      break;
     case SUBMIT:
-      
+      break;
     case UPDATE:
-
+      const updateFormResponse = {
+        userId: currentUser.id,
+        formUID: sanitizedInput.uniqueId,
+        formNumber,
+        status: UPDATE,
+      };
+      sqlConnPool.getConnection((err, connection) => {
+        if (err) cb(err, null);
+        connection.beginTransaction((err1) => {
+          if (err1) cb(err1, null);
+          connection.query(FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID, [sanitizedInput.uniqueId, currentUser.id], (err3, rows) => {
+            if (err3) cb(err3, null); 
+            if (!rows.length) cb(new Error("Form not found"), null);
+            const formUID = rows[0].formUID;
+            const formDataInput = getFormDataObject(formUID, sanitizedInput);
+            const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
+            // update rest of the data here
+            connection.query(FORM_UPDATE.UPDATE_NEW_FORM_DATA_ENTRY, [formDataInput, formUID], (err4, rows4) => {
+              if (err4) cb(err4, null);
+              connection.query(FORM_UPDATE.UPDATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, [formDataExtraInfoInput, formUID], (err5, rows5) => {
+                if (err5) cb(err5, null);
+                // commit the transaction here
+                connection.commit(function(commitErr) {
+                  if (commitErr) {
+                    return connection.rollback(function() {
+                      throw commitErr;
+                    });
+                  }
+                  cb(null, updateFormResponse);
+                });
+              });
+            });
+          });
+        });
+      });
+      break;
     default: 
       return -1;
   }

@@ -7,7 +7,7 @@ const JoiNationalitiesSchema = Joi.array().items(JoiNationalities);
 
 const schema = Joi.object().keys({
   formAction: Joi.string().valid('new', 'update', 'submit'),
-  uniqueId: Joi.string().length(32),
+  uniqueId: Joi.string().length(32).when('formAction', { is: 'update', otherwise: Joi.string().valid('') }),
   title: Joi.string(),
   fulleName: Joi.string(),
   mobileNumber: JoiPhoneNumber,

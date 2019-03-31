@@ -1,12 +1,22 @@
 const FORM_CREATE = {
   CREATE_NEW_FORM_ENTRY: 'INSERT INTO userForms SET ?',
+  CREATE_NEW_FORM_DATA_ENTRY: 'INSERT INTO formData SET ?',
+  CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY: 'INSERT INTO formDataExtraInfo SET ?',
 };
 
 const FORM_READ = {
   USERFORMS_SELECT_BY_ROWID: 'SELECT * from userForms where ?',
+  USERFORMS_SELECT_BY_FORMID_USERID: 'SELECT * from userForms where formUID = ? and userId = ?',
 }
+
+const FORM_UPDATE = {
+  UPDATE_NEW_FORM_ENTRY: 'UPDATE INTO userForms SET ?',
+  UPDATE_NEW_FORM_DATA_ENTRY: 'UPDATE formData SET ? where uniqueId = ?',
+  UPDATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY: 'UPDATE formDataExtraInfo SET ? where formUniqueId = ?',
+};
 
 export default {
   FORM_CREATE,
   FORM_READ,
+  FORM_UPDATE,
 };

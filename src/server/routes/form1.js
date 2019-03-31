@@ -107,13 +107,13 @@ export default ({ appUrl, sqlConn }) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
 
-    const retVal = userFormModel(req, inputObj, sqlConn, formType.NEW, formNumberIdentifier.ONE);
-
-    if (retVal) {
-      res.status(200).send('OK');
-    } else {
-      res.status(400).send('error');
-    }
+    const userModelSave = userFormModel(req, inputObj, sqlConn, formType.UPDATE, formNumberIdentifier.ONE);
+    userModelSave((err, data) => {
+      if (err) return res.status(400).send(err);
+      console.log('form retval', data);
+      const retData = { data };
+      res.status(200).send(retData);
+    });
   });
   
   router.get('/show', isLoggedIn, (req, res) => res.render('pages/form1', { appLocation: appUrl }));
