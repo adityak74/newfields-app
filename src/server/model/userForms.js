@@ -105,9 +105,9 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                   connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
                     if (err5) cb(err5, null);
                     // commit the transaction here
-                    connection.commit(function(commitErr) {
+                    connection.commit((commitErr) => {
                       if (commitErr) {
-                        return connection.rollback(function() {
+                        return connection.rollback(() => {
                           throw commitErr;
                         });
                       }
@@ -148,16 +148,21 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
               connection.query(FORM_UPDATE.UPDATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, [formDataExtraInfoInput, formUID], (err5, rows5) => {
                 if (err5) cb(err5, null);
                 // commit the transaction here
-                connection.query(FORM_UPDATE.UPDATE_NEW_FORM_ENTRY, [{ status: formType.UPDATE, updateDate: new Date().toISOString().slice(0, 19).replace('T', ' ') }, formUID], (err6, rows6) => {
-                  if (err6) cb(err6, null);
-                  connection.commit(function(commitErr) {
-                    if (commitErr) {
-                      return connection.rollback(function() {
-                        throw commitErr;
-                      });
-                    }
-                    cb(null, updateFormResponse);
-                  });
+                connection.query(FORM_UPDATE.UPDATE_NEW_FORM_ENTRY, 
+                  [{ 
+                    status: formType.UPDATE, 
+                    updateDate: new Date().toISOString().slice(0, 19).replace('T', ' ') 
+                  }, 
+                  formUID], (err6, rows6) => {
+                    if (err6) cb(err6, null);
+                    connection.commit((commitErr) => {
+                      if (commitErr) {
+                        return connection.rollback(() => {
+                          throw commitErr;
+                        });
+                      }
+                      cb(null, updateFormResponse);
+                    });
                 });
               });
             });

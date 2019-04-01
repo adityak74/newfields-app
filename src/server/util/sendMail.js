@@ -5,9 +5,10 @@ export default appConfig => ({
   emailHtmlData,
   emailTextData,
   emailSubject,
-  fromAddress = "akarnam37@gmail.com",
+  fromAddress,
 }) => {
   const { accessId, secret } = appConfig.get('aws');
+  const supportEmail = appConfig.get('supportEmail');
 
   AWS.config.update({
     accessKeyId: accessId,
@@ -37,7 +38,7 @@ export default appConfig => ({
         Data: emailSubject,
       }
     },
-    Source: fromAddress,
+    Source: fromAddress.length ? fromAddress : supportEmail,
   };
 
   ses.sendEmail(params)

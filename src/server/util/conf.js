@@ -59,6 +59,10 @@ export default (env = 'development') => {
       default: 6379,
       env: 'REDIS_PORT',
     },
+    supportEmail: {
+      default: 'admin@admin.com',
+      env: 'SUPPORT_EMAIL',
+    },
   });
 
   return conf;
