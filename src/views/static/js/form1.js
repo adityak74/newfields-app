@@ -29,6 +29,32 @@ $(document).ready(function() {
     $("#partner_dob").datepicker({format: 'dd/mm/yyyy'});
     $("#child1_dob").datepicker({format: 'dd/mm/yyyy'});
     $("#child2_dob").datepicker({format: 'dd/mm/yyyy'});
+
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('action') && url.searchParams.get('formId')) {
+        const formId = url.searchParams.get('formId');
+        $.post({
+            url : appLocation + '/form1/getFormData',
+            data : { formId: formId },
+            success : function(response) {
+                $("#errors").css("display", "none");
+                console.log(response);
+            },
+            error: function(xhr) {
+                if(xhr.status === 400) {
+                    const errors = xhr.responseJSON.details;
+                    $("#errors_list").empty();
+                    $("#errors").css("display", "block");
+                    errors.forEach(error => {
+                        $("#errors_list").append('<li>' + error.message + '</li>');
+                    });
+                    $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+                }
+                console.log(xhr);
+            },
+        });
+    }
+
 });
 
 function show_date(option)

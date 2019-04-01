@@ -1,9 +1,11 @@
 import express from 'express';
 import form1Validator from '../validation/validator/form1';
+import formUIDValidator from '../validation/validator/formUID';
 import isLoggedIn from '../util/getIfAuthenticated';
 import userFormModel from '../model/userForms';
 import formType from '../constants/formType';
 import formNumberIdentifier from '../constants/formNumber';
+import userFormReadModel from '../model/userFormsRead';
 
 export default ({ appUrl, sqlConn }) => {
   const router = express.Router();
@@ -117,6 +119,23 @@ export default ({ appUrl, sqlConn }) => {
   });
   
   router.get('/show', isLoggedIn, (req, res) => res.render('pages/form1', { appLocation: appUrl }));
+
+  router.post('/getFormData', isLoggedIn, (req, res) => {
+    const { formId } = req.body;
+    if (formId) {
+      const input = { formUID: formId };
+      formUIDValidator(input, {}, (err, sanitizedInput) => {
+        if (err) return res.status(400).send('Unknown data');
+        const userModelRead = userFormReadModel(req, sanitizedInput, sqlConn);
+        userModelRead((err, data) => {
+          if (err) return res.status(400).send(err);
+          res.status(200).send(data);
+        });
+      });
+    } else {
+      res.status(400).send('Unknown form identifier');
+    }
+  });
 
   router.get('/getFormUID', isLoggedIn, (req, res) => {
     res.send(getFormUIDHandler(1, req.user));
