@@ -31,7 +31,7 @@ $(document).ready(function() {
     $("#child2_dob").datepicker({format: 'dd/mm/yyyy'});
 
     const url = new URL(window.location.href);
-    if (url.searchParams.get('action') && url.searchParams.get('formId')) {
+    if (url.searchParams.get('formId')) {
         const formId = url.searchParams.get('formId');
         $.post({
             url : appLocation + '/form1/getFormData',
@@ -202,15 +202,11 @@ function doFormAction(form_data) {
         $.post({
             url : appLocation + '/form1/save',
             data : form_data,
-            success : function() {
+            success : function(responseJSON) {
+                const formUID = responseJSON.data.formUID;
+                const location = window.location;
+                window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
                 $("#errors").css("display", "none");
-                swal({
-                    html: 'Success!\n\
-                         <br>',
-                    type: 'success',
-                    confirmButtonText: 'Dismiss',
-                    cancelButtonText: "CANCEL"
-                }); 
             },
             error: function(xhr) {
                 if(xhr.status === 400) {
@@ -338,7 +334,7 @@ function form_submit()
 
         partner_mobile_number   : partner_mobile_number,
         partner_uk_home_address : partner_uk_home_address,
-        partner_nationalities   : partner_nationalities,
+        partner_nationalities   : [partner_nationalities],
 
         partner_dob             : partner_dob,
         partner_placeofbirth    : partner_placeofbirth,

@@ -7,6 +7,8 @@ import formType from '../constants/formType';
 import formNumberIdentifier from '../constants/formNumber';
 import userFormReadModel from '../model/userFormsRead';
 
+const actionStringToId = action => formType[action.toUpperCase()];
+
 export default ({ appUrl, sqlConn }) => {
   const router = express.Router();
 
@@ -108,8 +110,9 @@ export default ({ appUrl, sqlConn }) => {
   router.post('/save', isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
+    const formActionIdentifier = actionStringToId(inputObj.formAction);
 
-    const userModelSave = userFormModel(req, inputObj, sqlConn, formType.UPDATE, formNumberIdentifier.ONE);
+    const userModelSave = userFormModel(req, inputObj, sqlConn, formActionIdentifier, formNumberIdentifier.ONE);
     userModelSave((err, data) => {
       if (err) return res.status(400).send(err);
       console.log('form retval', data);
