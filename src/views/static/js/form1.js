@@ -39,6 +39,58 @@ $(document).ready(function() {
             success : function(response) {
                 $("#errors").css("display", "none");
                 console.log(response);
+                // yahan pe sab data aa raha hai. 
+                // yahan se uthake form pe push karna hai. any douts?
+          
+                $('#Unique_id').val();
+                $('#Title').text(title);
+    
+                $('#full_name').val(response.fullName); 
+                $('#mobile_number').val(response.mobile);
+                $('#address_line1').val(response.addressLine1);
+                $('#address_line2').val(response.addressLine2);
+                $('#town').val(response.town);
+                $('#county').val(response.county);
+                $('#postcode').val(response.postcode);
+                $('#email_address').val(response.email);
+
+                $('#relationship_status').text(response.relationship); 
+
+                $('#nationalities').val(response.nationalities);
+                $('#date_UK_entry').val(response.ukEntryDate);
+                $('#conviction_text_area').val(response.conviction);
+    
+                $('#visa_refusals_textarea').val(response.visaRefusal);
+    
+                $('#details_public_funds').text(response.publicFunds); 
+    
+    
+                $('#UK_NINo').val(response.nationalInsuranceNumber);
+                $('#next_planned_departure').val(response.ukNextDepartureDate);
+                $('#UK_date_arrival_back').val(response.ukNextArrivalDate);
+
+                $('#partner_Title').val(response.partnerTitle);  
+                
+                $('#partner_full_name').val(response.partnerFullName); 
+                $('#partner_mobile_number').val(response.partnerMobile);
+                $('#partner_uk_home_address').val(response.partnerUKHomeAddress);
+                $('#partner_nationalities').val(response.partnerNationalities);
+                $('#partner_dob').val(response.partnerDateOfBirth);
+                $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
+            
+                $('#child1_full_name').val(response.); 
+                $('#child1_nationalities').val(response.);
+                $('#child1_dob').val(response.);
+                $('#child1_placeofbirth').val(response.);
+                
+                $('#child2_full_name').val(response.); 
+                $('#child2_nationalities').val(response.);
+                $('#child2_dob').val(response.);
+                $('#child2_placeofbirth').val(response.);
+
+
+
+
             },
             error: function(xhr) {
                 if(xhr.status === 400) {
@@ -87,9 +139,7 @@ function show_date(option)
 
 function relationship_status()
 {
-    var rs1 = document.getElementById("relationship_status");
-    var rs2 = rs1.options[rs1.selectedIndex];
-    var selected_status = $(rs2).val();
+    var selected_status =$('#relationship_status :selected').text();
     
     if(selected_status==="Single")
     {
@@ -230,13 +280,10 @@ function doFormAction(form_data) {
     }
 }
        
-function form_submit()
+function form_save()
 {
     var UniqueID                = $('#Unique_id').val();
-    
-    var TT_1                    = document.getElementById("Title");
-    var TT_2                    = TT_1.options[TT_1.selectedIndex];
-    var Title                   = $(TT_2).val();  
+    var Title                   = $('#Title :selected').text();
     
     var full_name               = $('#full_name').val(); 
     var mobile_number           = $('#mobile_number').val();
@@ -247,9 +294,7 @@ function form_submit()
     var postcode                = $('#postcode').val();
     var email_address           = $('#email_address').val();
     
-    var RS_1                    = document.getElementById("relationship_status");
-    var RS_2                    = RS_1.options[RS_1.selectedIndex];
-    var relationship_status     = $(RS_2).val();  
+    var relationship_status     = $('#relationship_status :selected').text(); 
 
     var nationalities           = $('#nationalities').val();
     
@@ -263,9 +308,7 @@ function form_submit()
     var visa_refusals           = $("input[name=visa_refusals]:checked").val();
     var visa_refusals_textarea  = $('#visa_refusals_textarea').val();
     
-    var pf_1                    = document.getElementById("details_public_funds");
-    var pf_2                    = pf_1.options[pf_1.selectedIndex];
-    var details_public_funds    = $(pf_2).val();
+    var details_public_funds    = $('#details_public_funds :selected').text(); 
     
     
     var UK_NINo                 = $('#UK_NINo').val();
@@ -279,9 +322,7 @@ function form_submit()
 
     var any_children            = $("input[name=any_children]:checked").val();
   
-    var PT_1                    = document.getElementById("partner_Title");
-    var PT_2                    = PT_1.options[PT_1.selectedIndex];
-    var partner_Title           = $(PT_2).val();  
+    var partner_Title           = $('#partner_Title :selected').text();  
     
     var partner_full_name       = $('#partner_full_name').val(); 
     var partner_mobile_number   = $('#partner_mobile_number').val();

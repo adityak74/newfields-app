@@ -48,8 +48,8 @@ and open the template in the editor.
         </div>
         
         <div class="container">
-            <button class="btn btn-warning" id="" data-toggle="tooltip" data-placement="top" 
-                title="Save form and continue later" type="">Save form
+            <button class="btn btn-warning" id="" data-toggle="tooltip" data-placement="top" onclick="form_save();" 
+                title="Save form and continue later" type="button">Save form
             </button>
             <div id="errors" style="color: grey; border: 1px solid red; padding: 15px; margin: 20px; display: none;">
                 <ul id="errors_list">
@@ -439,7 +439,7 @@ and open the template in the editor.
                 
                 <br><br>
                 <button class="btn btn-primary" id="save_form" data-toggle="tooltip" data-placement="top" 
-                        type="button" title='Save'>Save
+                        type="button" onclick="form_save();" title='Save form and continue later'>Save
                 </button>
                 <button class="btn btn-primary" id="submit_details" data-toggle="tooltip" data-placement="top" 
                         type="submit" title='Submit'>Submit form
