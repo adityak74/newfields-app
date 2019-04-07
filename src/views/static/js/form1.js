@@ -39,11 +39,9 @@ $(document).ready(function() {
             success : function(response) {
                 $("#errors").css("display", "none");
                 console.log(response);
-                // yahan pe sab data aa raha hai. 
-                // yahan se uthake form pe push karna hai. any douts?
           
                 $('#Unique_id').val();
-                $('#Title').text(title);
+                $('#Title').val(response.title);
     
                 $('#full_name').val(response.fullName); 
                 $('#mobile_number').val(response.mobile);
@@ -54,7 +52,7 @@ $(document).ready(function() {
                 $('#postcode').val(response.postcode);
                 $('#email_address').val(response.email);
 
-                $('#relationship_status').text(response.relationship); 
+                $('#relationship_status').val(response.relationship); 
 
                 $('#nationalities').val(response.nationalities);
                 $('#date_UK_entry').val(response.ukEntryDate);
@@ -62,7 +60,7 @@ $(document).ready(function() {
     
                 $('#visa_refusals_textarea').val(response.visaRefusal);
     
-                $('#details_public_funds').text(response.publicFunds); 
+                $('#details_public_funds').val(response.publicFunds); 
     
     
                 $('#UK_NINo').val(response.nationalInsuranceNumber);
@@ -271,7 +269,29 @@ function doFormAction(form_data) {
     } else if (formAction === 'update') {
         form_data.formAction = 'update';
         const formId = url.searchParams.get('formId');
-
+        form_data.UniqueID = formId;
+        $.post({
+            url : appLocation + '/form1/save',
+            data : form_data,
+            success : function(responseJSON) {
+                const formUID = responseJSON.data.formUID;
+                const location = window.location;
+                window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
+                $("#errors").css("display", "none");
+            },
+            error: function(xhr) {
+                if(xhr.status === 400) {
+                    const errors = xhr.responseJSON.details;
+                    $("#errors_list").empty();
+                    $("#errors").css("display", "block");
+                    errors.forEach(error => {
+                        $("#errors_list").append('<li>' + error.message + '</li>');
+                    });
+                    $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+                }
+                console.log(xhr);
+            },
+        });
     } else {
         // reditect back to homepage
     }
