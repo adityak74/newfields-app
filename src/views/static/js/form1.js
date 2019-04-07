@@ -78,19 +78,16 @@ $(document).ready(function() {
                 $('#partner_dob').val(response.partnerDateOfBirth);
                 $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
             
-                $('#child1_full_name').val(response.); 
-                $('#child1_nationalities').val(response.);
-                $('#child1_dob').val(response.);
-                $('#child1_placeofbirth').val(response.);
+                // commenting until I get data in
+                // $('#child1_full_name').val(response.); 
+                // $('#child1_nationalities').val(response.);
+                // $('#child1_dob').val(response.);
+                // $('#child1_placeofbirth').val(response.);
                 
-                $('#child2_full_name').val(response.); 
-                $('#child2_nationalities').val(response.);
-                $('#child2_dob').val(response.);
-                $('#child2_placeofbirth').val(response.);
-
-
-
-
+                // $('#child2_full_name').val(response.); 
+                // $('#child2_nationalities').val(response.);
+                // $('#child2_dob').val(response.);
+                // $('#child2_placeofbirth').val(response.);
             },
             error: function(xhr) {
                 if(xhr.status === 400) {
