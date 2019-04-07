@@ -239,7 +239,7 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-function doFormAction(form_data) {
+function doFormAction(form_data, isSubmitted) {
     const url = new URL(window.location.href);
     const formAction = url.searchParams.get('action');
     if (formAction === 'new') {
@@ -292,13 +292,10 @@ function doFormAction(form_data) {
                 console.log(xhr);
             },
         });
-    } else {
-        // reditect back to homepage
     }
 }
-       
-function form_save()
-{
+
+function getFormInput() {
     var UniqueID                = $('#Unique_id').val();
     var Title                   = $('#Title :selected').text();
     
@@ -408,5 +405,16 @@ function form_save()
         child2_placeofbirth     : child2_placeofbirth
     };
 
-    doFormAction(form_data);    
+    return form_data;
+}
+
+function form_submit() {
+    const form_data = getFormInput();
+    doFormAction(form_data, true);
+}
+       
+function form_save()
+{
+    const form_data = getFormInput();
+    doFormAction(form_data, false);    
 }
