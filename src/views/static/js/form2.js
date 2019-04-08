@@ -949,7 +949,178 @@ function form_submit()
     var passport_front_page         = $('#passport_front_page').prop('files')[0];  
     var secondpassport_front_page   = $('#secondpassport_front_page').prop('files')[0];  
     var previous_uk_visa            = $('#previous_uk_visa').prop('files')[0];   
-     
+
+    
+    form_data.append('UniqueID', UniqueID);
+    form_data.append('Title', Title);
+    form_data.append('full_name', full_name);
+    form_data.append('mobile_number', mobile_number);
+    form_data.append('landline_no', landline_no);
+    form_data.append('email_addr', email_addr);
+    form_data.append('home_addr', home_addr);
+    form_data.append('addr_move_indate', addr_move_indate);
+    form_data.append('house_ownrship', house_ownrship);
+    form_data.append('addr_while_visa', addr_while_visa);
+    form_data.append('uk_addr', uk_addr);
+    form_data.append('uk_addr_text_area', uk_addr_text_area);    
+    form_data.append('nationalities', [nationalities]);
+    form_data.append('national_id', national_id); 
+    form_data.append('_other_names', _other_names);
+    form_data.append('relationship_status', relationship_status);
+    form_data.append('any_convictions', any_convictions);
+    form_data.append('conviction_text_area', conviction_text_area);
+    form_data.append('visa_refusals', visa_refusals);
+    form_data.append('visa_refusals_textarea', visa_refusals_textarea);
+    form_data.append('medical', medical);
+    form_data.append('medical_textarea', medical_textarea);
+    form_data.append('uk_NINo', uk_NINo);
+    form_data.append('uk_nino_textarea', uk_nino_textarea);
+    form_data.append('anyarmedforces', anyarmedforces);
+    form_data.append('armedforces_textarea', armedforces_textarea);    
+    form_data.append('immediate_family', immediate_family);
+    form_data.append('immediate_family_textarea', immediate_family_textarea); 
+    form_data.append('Proposaldate_UK_entry', Proposaldate_UK_entry);
+    form_data.append('familymembertravelalong', familymembertravelalong);
+    form_data.append('family_member_travelalong_textarea', family_member_travelalong_textarea);
+    form_data.append('any_overseas_travel', any_overseas_travel);    
+    form_data.append('Departuredate_UK', Departuredate_UK);
+    form_data.append('Returndate_UK', Returndate_UK); 
+
+    form_data.append('fa_frst', fa_frst);
+    form_data.append('father_country_of_birth', father_country_of_birth);
+    form_data.append('father_nationality', [father_nationality]);
+    form_data.append('father_Secondnationality', [father_Secondnationality]);
+    form_data.append('father_DOB', father_DOB);
+
+    form_data.append('mothers_f_na', mothers_f_na);
+    form_data.append('mothersCountryofBirth', mothersCountryofBirth);
+    form_data.append('mother_nationality', [mother_nationality]);
+    form_data.append('mother_Secondnationality', [mother_Secondnationality]);
+    form_data.append('mother_DOB', mother_DOB);
+
+    form_data.append('partner_fna', partner_fna);
+    form_data.append('partner_countryofbirth', partner_countryofbirth);
+    form_data.append('partner_nationlity', [partner_nationlity]);
+    form_data.append('partner_Snationality', [partner_Snationality]);
+    form_data.append('partner_DOB', partner_DOB);
+    
+    form_data.append('firstchild1', firstchild1);
+    form_data.append('child1_f_na', child1_f_na);
+    form_data.append('child1_countryofbirth', child1_countryofbirth);
+    form_data.append('child1_nationality', [child1_nationality]);
+    form_data.append('child1_Snationality', [child1_Snationality]);
+    form_data.append('child1_DOB', child1_DOB);
+
+    form_data.append('child2_f_na', child2_f_na);
+    form_data.append('child2_countryofbirth', child2_countryofbirth);
+    form_data.append('child2_nationality', [child2_nationality]);
+    form_data.append('child2_Snationality', [child2_Snationality]);
+    form_data.append('child2_DOB', child2_DOB);
+
+    form_data.append('visit', visit);
+    form_data.append('visitInfo', [
+                                    {
+                                        country: 'UK',
+                                        arrivalDate: UK_arrival_date1,
+                                        departureDate: UK_departure_date1,
+                                        reasonInfo: reason_ofvisit1,
+                                    },
+                                    {
+                                        country: 'UK',
+                                        arrivalDate: UK_arrival_date2,
+                                        departureDate: UK_departure_date2,
+                                        reasonInfo: reason_ofvisit2,
+                                    },
+                                    {
+                                        country: 'UK',
+                                        arrivalDate: UK_arrival_date3,
+                                        departureDate: UK_departure_date3,
+                                        reasonInfo: reason_ofvisit3,
+                                    },
+                                    {
+                                        country: 'UK',
+                                        arrivalDate: UK_arrival_date4,
+                                        departureDate: UK_departure_date4,
+                                        reasonInfo: reason_ofvisit4,
+                                    },
+                                    {
+                                        country: 'UK',
+                                        arrivalDate: UK_arrival_date5,
+                                        departureDate: UK_departure_date5,
+                                        reasonInfo: reason_ofvisit5,
+                                    },
+                                ] );
+
+    form_data.append('trip', trip);
+    form_data.append('tripInfo', [
+                                    {
+                                        country: country1,
+                                        arrivalDate: date_arrival_country1,
+                                        departureDate: date_departure_country1,
+                                        reasonInfo: tripreason_ofvisit1,
+                                    },
+                                    {
+                                        country: country2,
+                                        arrivalDate: date_arrival_country2,
+                                        departureDate: date_departure_country2,
+                                        reasonInfo: tripreason_ofvisit2,
+                                    },
+                                    {
+                                        country: country3,
+                                        arrivalDate: date_arrival_country3,
+                                        departureDate: date_departure_country3,
+                                        reasonInfo: tripreason_ofvisit3,
+                                    },
+                                    {
+                                        country: country4,
+                                        arrivalDate: date_arrival_country4,
+                                        departureDate: date_departure_country4,
+                                        reasonInfo: tripreason_ofvisit4,
+                                    },
+                                    {
+                                        country: country5,
+                                        arrivalDate: date_arrival_country5,
+                                        departureDate: date_departure_country5,
+                                        reasonInfo: tripreason_ofvisit5,
+                                    },
+                                ]);
+
+    form_data.append('other_trip', other_trip);
+    form_data.append('otherTripInfo', [  
+                                    {
+                                        country: othertrip_country1,
+                                        arrivalDate: othertrip_arrivaldate1,
+                                        departureDate: othertrip_departuredate1,
+                                        reasonInfo: othertripreason_ofvisit1,
+                                    },
+                                    {
+                                        country: othertrip_country2,
+                                        arrivalDate: othertrip_arrivaldate2,
+                                        departureDate: othertrip_departuredate2,
+                                        reasonInfo: othertripreason_ofvisit2,
+                                    },
+                                    {
+                                        country: othertrip_country3,
+                                        arrivalDate: othertrip_arrivaldate3,
+                                        departureDate: othertrip_departuredate3,
+                                        reasonInfo: othertripreason_ofvisit3,
+                                    },
+                                    {
+                                        country: othertrip_country4,
+                                        arrivalDate: othertrip_arrivaldate4,
+                                        departureDate: othertrip_departuredate4,
+                                        reasonInfo: othertripreason_ofvisit4,
+                                    },
+                                    {
+                                        country: othertrip_country5,
+                                        arrivalDate: othertrip_arrivaldate5,
+                                        departureDate: othertrip_departuredate5,
+                                        reasonInfo: othertripreason_ofvisit5,
+                                    },
+                                ]);
+                                  
+
+
     form_data.append('file', uk_visa_photo);
     form_data.append('file', passport_front_page);
     form_data.append('file', secondpassport_front_page);
