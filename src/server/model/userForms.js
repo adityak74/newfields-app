@@ -122,6 +122,7 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
       });
       break;
     case SUBMIT:
+      // apply limits to user, form, times (8) max forms here later
       if (sanitizedInput.uniqueId) {
         sqlConnPool.query(
           FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE, 
