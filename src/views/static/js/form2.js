@@ -943,6 +943,24 @@ function form_submit()
                                                 },
                                             ],
     };
+
+    /*
+    var uk_visa_photo               = $('#uk_visa_photo').prop('files')[0]; 
+    var passport_front_page         = $('#passport_front_page').prop('files')[0];  
+    var secondpassport_front_page   = $('#secondpassport_front_page').prop('files')[0];  
+    var previous_uk_visa            = $('#previous_uk_visa').prop('files')[0];   
+     
+    form_data.append('file', uk_visa_photo);
+    form_data.append('file', passport_front_page);
+    form_data.append('file', secondpassport_front_page);
+    form_data.append('file', previous_uk_visa);
+
+    alert(form_data); 
+
+*/
+
+
+
     
     console.log('FORM-DATA', form_data);
     $.post({

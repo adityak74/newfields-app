@@ -454,6 +454,20 @@ function getFormInput() {
         child2_placeofbirth     : child2_placeofbirth
     };
 
+/*
+    var uk_visa_photo       = $('#uk_visa_photo').prop('files')[0]; 
+    var passport_front_page = $('#passport_front_page').prop('files')[0];  
+    var BRP_front_page      = $('#BRP_front_page').prop('files')[0];  
+    var BRP_back_page       = $('#BRP_back_page').prop('files')[0];   
+     
+    form_data.append('file', uk_visa_photo);
+    form_data.append('file', passport_front_page);
+    form_data.append('file', BRP_front_page);
+    form_data.append('file', BRP_back_page);
+
+    alert(form_data); 
+
+*/
     return form_data;
 }
 
@@ -467,3 +481,4 @@ function form_save()
     const form_data = getFormInput();
     doFormAction(form_data, false);    
 }
+
