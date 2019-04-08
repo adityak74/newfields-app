@@ -454,6 +454,63 @@ function getFormInput() {
         child2_placeofbirth     : child2_placeofbirth
     };
 
+/*
+    var uk_visa_photo       = $('#uk_visa_photo').prop('files')[0]; 
+    var passport_front_page = $('#passport_front_page').prop('files')[0];  
+    var BRP_front_page      = $('#BRP_front_page').prop('files')[0];  
+    var BRP_back_page       = $('#BRP_back_page').prop('files')[0];   
+    
+    form_data.append('UniqueID', UniqueID);
+    form_data.append('Title', Title);
+    form_data.append('full_name', full_name);
+    form_data.append('mobile_number', mobile_number);
+    form_data.append('address_line1', address_line1);
+    form_data.append('address_line2', address_line2);
+    form_data.append('town', town);
+    form_data.append('county', county);
+
+    form_data.append('postcode', postcode);
+    form_data.append('email_address', email_address);
+    form_data.append('relationship_status', relationship_status);
+    form_data.append('nationalities', [nationalities]);
+    form_data.append('date_UK_entry', date_UK_entry);
+    form_data.append('any_convictions', any_convictions);
+    form_data.append('conviction_text_area', conviction_text_area);
+    form_data.append('visa_refusals', visa_refusals);
+
+    form_data.append('visa_refusals_textarea', visa_refusals_textarea);
+    form_data.append('details_public_funds', details_public_funds);
+    form_data.append('UK_NINo', UK_NINo);
+    form_data.append('next_planned_departure', next_planned_departure);
+    form_data.append('UK_date_arrival_back', UK_date_arrival_back);
+    form_data.append('any_children', any_children);
+    form_data.append('partner_Title', partner_Title);
+    form_data.append('partner_full_name', partner_full_name);
+
+    form_data.append('partner_mobile_number', partner_mobile_number);
+    form_data.append('partner_uk_home_address', partner_uk_home_address);
+    form_data.append('partner_nationalities', partner_nationalities);
+    form_data.append('partner_dob', partner_dob);
+    form_data.append('partner_placeofbirth', partner_placeofbirth);
+    
+    form_data.append('child1_full_name', child1_full_name);
+    form_data.append('child1_nationalities', child1_nationalities);
+    form_data.append('child1_dob', child1_dob);
+    form_data.append('child1_placeofbirth', child1_placeofbirth);
+    
+    form_data.append('child2_full_name', child2_full_name);
+    form_data.append('child2_nationalities', child2_nationalities);
+    form_data.append('child2_dob', child2_dob);
+    form_data.append('child2_placeofbirth', child2_placeofbirth);
+       
+    form_data.append('file', uk_visa_photo);
+    form_data.append('file', passport_front_page);
+    form_data.append('file', BRP_front_page);
+    form_data.append('file', BRP_back_page);
+
+    alert(form_data); 
+
+*/
     return form_data;
 }
 
@@ -467,3 +524,4 @@ function form_save()
     const form_data = getFormInput();
     doFormAction(form_data, false);    
 }
+
