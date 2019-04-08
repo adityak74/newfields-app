@@ -7,7 +7,7 @@ const JoiNationalitiesSchema = Joi.array().items(JoiNationalities);
 
 const schema = Joi.object().keys({
   formAction: Joi.string().valid('new', 'update', 'submit'),
-  uniqueId: Joi.string().length(32).when('formAction', { is: 'update', otherwise: Joi.string().valid('') }),
+  uniqueId: Joi.string().length(32).when('formAction', { is: 'update', otherwise: Joi.string().allow('', null) }),
   title: Joi.string(),
   fulleName: Joi.string(),
   mobileNumber: JoiPhoneNumber,
@@ -33,7 +33,7 @@ const schema = Joi.object().keys({
   partnerFullName: Joi.string().allow(''),
   partnerMobileNumber: JoiPhoneNumber.allow(''),
   partnerHomeAddress: Joi.string().allow(''),
-  partnerNationalities: JoiNationalitiesSchema.allow(''),
+  partnerNationalities: Joi.alternatives().try(JoiNationalitiesSchema, Joi.string().allow('', null)),
   partnerDateOfBirth: Joi.date().max('now').format('DD/MM/YYYY').allow(''),
   partnerPlaceOfBirth: Joi.string().allow(''),
   child1FullName: Joi.string().allow(''),

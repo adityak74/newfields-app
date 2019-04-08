@@ -80,13 +80,15 @@ export default (req, sanitizedInput, sqlConnPool) => cb => {
     if (err) cb(err, null);
     connection.beginTransaction((err1) => {
       if (err1) cb(err1, null);
-      connection.query(FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE, [currentUser.id, sanitizedInput.formUID], (err2, result) => {
+      connection.query(FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE, [sanitizedInput.formUID, currentUser.id], (err2, result) => {
         if (err2) cb(err2, null);
         if (result[0]) {
           connection.query(FORM_READ.USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID, [result[0].formUID, result[0].formUID] , (err3, rows) => {
             if (err3) cb(err3, null);
             cb(null, rows[0]);
           });
+        } else {
+          cb(new Error("Form not found or already submitted. Redirecting to dashboard."), null);
         }
       });  
     });

@@ -89,15 +89,16 @@ $(document).ready(function() {
             },
             error: function(xhr) {
                 if(xhr.status === 400) {
-                    const errors = xhr.responseJSON.details;
-                    $("#errors_list").empty();
-                    $("#errors").css("display", "block");
-                    errors.forEach(error => {
-                        $("#errors_list").append('<li>' + error.message + '</li>');
+                    swal({
+                        title: "Server Error",
+                        text: xhr.responseText,
+                        icon: "warning",
+                        buttons: false,
+                        dangerMode: true,
+                        timer: 2500,
+                        onClose: () => window.location.href = appLocation + '/user/dashboard',
                     });
-                    $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
                 }
-                console.log(xhr);
             },
         });
     }
@@ -239,18 +240,93 @@ function validateEmail(email) {
   return re.test(email);
 }
 
+function show_success_toast(message) {
+    const Toast = swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+    
+    Toast.fire({
+        type: 'success',
+        title: message,
+    });
+}
+
 function doFormAction(form_data, isSubmitted) {
     const url = new URL(window.location.href);
     const formAction = url.searchParams.get('action');
-    if (formAction === 'new') {
-        form_data.formAction = 'new';
+    if (!isSubmitted) {
+        if (formAction === 'new') {
+            form_data.formAction = 'new';
+            $.post({
+                url : appLocation + '/form1/save',
+                data : form_data,
+                success : function(responseJSON) {
+                    const formUID = responseJSON.data.formUID;
+                    const location = window.location;
+                    window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
+                    $("#errors").css("display", "none");
+                },
+                error: function(xhr) {
+                    if(xhr.status === 400) {
+                        const errors = xhr.responseJSON.details;
+                        $("#errors_list").empty();
+                        $("#errors").css("display", "block");
+                        errors.forEach(error => {
+                            $("#errors_list").append('<li>' + error.message + '</li>');
+                        });
+                        $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+                    }
+                },
+            });
+        } else if (formAction === 'update') {
+            form_data.formAction = 'update';
+            const formId = url.searchParams.get('formId');
+            form_data.UniqueID = formId;
+            $.post({
+                url : appLocation + '/form1/save',
+                data : form_data,
+                success : function(responseJSON) {
+                    const formUID = responseJSON.data.formUID;
+                    if (formUID) {
+                        show_success_toast('Form saved successfully');
+                    } else {
+                        swal({
+                            title: "Server Error",
+                            text: "Some error occurred while saving form. Please try again later.",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        });
+                    }
+                    $("#errors").css("display", "none");
+                },
+                error: function(xhr) {
+                    if(xhr.status === 400) {
+                        const errors = xhr.responseJSON.details;
+                        $("#errors_list").empty();
+                        $("#errors").css("display", "block");
+                        errors.forEach(error => {
+                            $("#errors_list").append('<li>' + error.message + '</li>');
+                        });
+                        $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+                    }
+                },
+            });
+        }
+    } else {
+        if (formAction === 'update') {
+            const formId = url.searchParams.get('formId');
+            form_data.UniqueID = formId;
+        }
+        form_data.formAction = 'submit';
         $.post({
-            url : appLocation + '/form1/save',
+            url : appLocation + '/form1/submit',
             data : form_data,
             success : function(responseJSON) {
-                const formUID = responseJSON.data.formUID;
-                const location = window.location;
-                window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
+                window.location.href = appLocation + '/user/dashboard';
                 $("#errors").css("display", "none");
             },
             error: function(xhr) {
@@ -263,33 +339,6 @@ function doFormAction(form_data, isSubmitted) {
                     });
                     $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
                 }
-                console.log(xhr);
-            },
-        });
-    } else if (formAction === 'update') {
-        form_data.formAction = 'update';
-        const formId = url.searchParams.get('formId');
-        form_data.UniqueID = formId;
-        $.post({
-            url : appLocation + '/form1/save',
-            data : form_data,
-            success : function(responseJSON) {
-                const formUID = responseJSON.data.formUID;
-                const location = window.location;
-                window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
-                $("#errors").css("display", "none");
-            },
-            error: function(xhr) {
-                if(xhr.status === 400) {
-                    const errors = xhr.responseJSON.details;
-                    $("#errors_list").empty();
-                    $("#errors").css("display", "block");
-                    errors.forEach(error => {
-                        $("#errors_list").append('<li>' + error.message + '</li>');
-                    });
-                    $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
-                }
-                console.log(xhr);
             },
         });
     }
@@ -389,7 +438,7 @@ function getFormInput() {
 
         partner_mobile_number   : partner_mobile_number,
         partner_uk_home_address : partner_uk_home_address,
-        partner_nationalities   : [partner_nationalities],
+        partner_nationalities   : partner_nationalities === '' ? '' : [partnerNationalities],
 
         partner_dob             : partner_dob,
         partner_placeofbirth    : partner_placeofbirth,

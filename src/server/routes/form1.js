@@ -98,12 +98,18 @@ export default ({ appUrl, sqlConn }) => {
   router.post('/submit', isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
-  
+    const formActionIdentifier = actionStringToId(inputObj.formAction);
     form1Validator(inputObj, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
-      else res.send(sanitizedInput);
-      // Submit final to Database
-  
+      else {
+        const userModelSave = userFormModel(req, sanitizedInput, sqlConn, formActionIdentifier, formNumberIdentifier.ONE);
+        userModelSave((err, data) => {
+          if (err) return res.status(400).send(err);
+          console.log('form retval', data);
+          const retData = { data };
+          res.status(200).send(retData);
+        });
+      }
     });
   });
   
@@ -131,7 +137,7 @@ export default ({ appUrl, sqlConn }) => {
         if (err) return res.status(400).send('Unknown data');
         const userModelRead = userFormReadModel(req, sanitizedInput, sqlConn);
         userModelRead((err, data) => {
-          if (err) return res.status(400).send(err);
+          if (err) return res.status(400).send(err.message || err);
           res.status(200).send(data);
         });
       });
@@ -139,11 +145,6 @@ export default ({ appUrl, sqlConn }) => {
       res.status(400).send('Unknown form identifier');
     }
   });
-
-  router.get('/getFormUID', isLoggedIn, (req, res) => {
-    res.send(getFormUIDHandler(1, req.user));
-  });
-  
   return router;  
 };
 
