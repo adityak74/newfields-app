@@ -162,11 +162,11 @@ function visa(option)
 {
     if(option==="yes")
     {
-        $("#any_visa_refusals").css("display","block");
+        $("#visa_refusals_textarea").css("display","block");
     }
     else if(option==="no")
     {
-        $("#any_visa_refusals").css("display","none");
+        $("#visa_refusals_textarea").css("display","none");
     }
 }
 
