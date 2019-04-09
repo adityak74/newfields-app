@@ -90,6 +90,9 @@ $(document).ready(function() {
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
                 }
+
+                convictions(response.conviction.toLowerCase());
+                visa(response.visaRefusal.toLowerCase());
             
                 // commenting until I get data in
                 // $('#child1_full_name').val(response.); 
