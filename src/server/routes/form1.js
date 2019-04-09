@@ -118,6 +118,8 @@ export default ({ appUrl, sqlConn }) => {
     const inputObj = buildInputObject(input);
     const formActionIdentifier = actionStringToId(inputObj.formAction);
 
+    console.log('input', inputObj);
+
     const userModelSave = userFormModel(req, inputObj, sqlConn, formActionIdentifier, formNumberIdentifier.ONE);
     userModelSave((err, data) => {
       if (err) return res.status(400).send(err);

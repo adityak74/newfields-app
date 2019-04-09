@@ -56,9 +56,9 @@ $(document).ready(function() {
 
                 $('#nationalities').val(response.nationalities);
                 $('#date_UK_entry').val(response.ukEntryDate);
-                $('#conviction_text_area').val(response.conviction);
+                $('#conviction_text_area').val(response.convictionText);
     
-                $('#visa_refusals_textarea').val(response.visaRefusal);
+                $('#visa_refusals_textarea').val(response.visaRefusalText);
     
                 $('#details_public_funds').val(response.publicFunds); 
     
@@ -75,6 +75,24 @@ $(document).ready(function() {
                 $('#partner_nationalities').val(response.partnerNationalities);
                 $('#partner_dob').val(response.partnerDateOfBirth);
                 $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
+
+                var $radios = $('input:radio[name=any_convictions]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.conviction +']').prop('checked', true);
+                }
+
+                var $radios = $('input:radio[name=visa_refusals]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.visaRefusal +']').prop('checked', true);
+                }
+
+                var $radios = $('input:radio[name=any_children]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
+                }
+
+                convictions(response.conviction.toLowerCase());
+                visa(response.visaRefusal.toLowerCase());
             
                 // commenting until I get data in
                 // $('#child1_full_name').val(response.); 

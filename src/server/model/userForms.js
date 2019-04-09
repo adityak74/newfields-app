@@ -30,8 +30,10 @@ const getFormDataObject = (formUID, sanitizedInput) => ({
 const getFormDataExtraInfoDataObject = (formUID, sanitizedInput, formNumber) => ({
   formUniqueId: formUID,
   ukEntryDate: sanitizedInput.dateUKEntry,
-  conviction: sanitizedInput.convictionText,
-  visaRefusal: sanitizedInput.visaRefusalText,
+  conviction: sanitizedInput.anyConvictions,
+  convictionText: sanitizedInput.convictionText,
+  visaRefusal: sanitizedInput.visaRefusals,
+  visaRefusalText: sanitizedInput.visaRefusalText,
   publicFunds: getValueIfNotNull(sanitizedInput.detailsPublicFund),
   nationalInsuranceNumber: getValueIfNotNull(sanitizedInput.UKNINumberInfo)
     ? sanitizedInput.UKNINumberInfo
@@ -70,6 +72,7 @@ const getFormDataExtraInfoDataObject = (formUID, sanitizedInput, formNumber) => 
   immediateFamily: getValueIfNotNull(sanitizedInput.immediateFamilyInfo),
   familyMemberTravelAlong: getValueIfNotNull(sanitizedInput.familyMemberTravelAlongInfo),
   overseasTravel: getValueIfNotNull(sanitizedInput.anyOverseasTravel),
+  anyChildren: sanitizedInput.ifHasChildren,
 });
 
 export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNumber) => cb => {
@@ -122,6 +125,7 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
       });
       break;
     case SUBMIT:
+      // apply limits to user, form, times (8) max forms here later
       if (sanitizedInput.uniqueId) {
         sqlConnPool.query(
           FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE, 
