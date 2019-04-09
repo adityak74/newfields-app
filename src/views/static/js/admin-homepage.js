@@ -106,7 +106,7 @@ function Openclient_form1(id)
             $('#child2_dob').val(child2_dob);
             $('#child2_placeofbirth').val(child2_placeofbirth);  
 
-
+ //download documents pending
 
 
         $('#form1_request_modal').modal('show');   
@@ -161,69 +161,144 @@ function Openclient_form2(id)
         data:{
             },
         success : function(responseText) {
-            $('#Unique_id').val(UniqueID);
-            $('#f2_title').val(Title);
+            $('#Unique_id').val(responseText.UniqueID);
+            $('#f2_title').val(responseText.Title);
             
             
-            $('#f2_full_name').val(full_name); 
-            $('#f2_mobile_number').val(mobile_number);
-            $('#f2_landline_no').val(landline_no);
-            $('#f2_email_addr').val(email_addr);
-            $('#f2_home_addr').val(home_addr);
-            $('#f2_addr_move_indate').val(addr_move_indate);
-            $('#f2_house_ownrship').val(house_ownrship);
+            $('#f2_full_name').val(responseText.full_name); 
+            $('#f2_mobile_number').val(responseText.mobile_number);
+            $('#f2_landline_no').val(responseText.landline_no);
+            $('#f2_email_addr').val(responseText.email_addr);
+            $('#f2_home_addr').val(responseText.home_addr);
+            $('#f2_addr_move_indate').val(responseText.addr_move_indate);
+            $('#f2_house_ownrship').val(responseText.house_ownrship);
            
-            $('#f2_addr_while_visa').val(addr_while_visa);
-            $('#f2_uk_addr_text_area').val(uk_addr_text_area);
-            $('#f2_nationalities').val(nationalities);
-            $('#f2_national_id').val(national_id);
-            $('#f2__other_names').val(_other_names);
-            $('#f2_relationship_status').val(relationship_status);
+            $('#f2_addr_while_visa').val(responseText.addr_while_visa);
+            $('#f2_uk_addr_text_area').val(responseText.uk_addr_text_area);
+            $('#f2_nationalities').val(responseText.nationalities);
+            $('#f2_national_id').val(responseText.national_id);
+            $('#f2__other_names').val(responseText._other_names);
+            $('#f2_relationship_status').val(responseText.relationship_status);
             
-            $('#f2_conviction_text_area').val(conviction_text_area);
-            $('#f2_visa_refusals_textarea').val(visa_refusals_textarea);
-            $('#f2_medical_textarea').val(medical_textarea);
-            $('#f2_uk_nino_textarea').val(uk_nino_textarea);
-            $('#f2_armedforces_textarea').val(armedforces_textarea);
-            $('#f2_immediate_family_textarea').val(immediate_family_textarea);
-            $('#f2_Proposaldate_UK_entry').val(f2_Proposaldate_UK_entry);
-            $('#f2_family_member_travelalong_textarea').val(family_member_travelalong_textarea);
-            $('#f2_any_overseas_travel').val(any_overseas_travel);
-            $('#f2_Departuredate_UK').val(Departuredate_UK);
-            $('#f2_Returndate_UK').val(Returndate_UK);
+            $('#f2_conviction_text_area').val(responseText.conviction_text_area);
+            $('#f2_visa_refusals_textarea').val(responseText.visa_refusals_textarea);
+            $('#f2_medical_textarea').val(responseText.medical_textarea);
+            $('#f2_uk_nino_textarea').val(responseText.uk_nino_textarea);
+            $('#f2_armedforces_textarea').val(responseText.armedforces_textarea);
+            $('#f2_immediate_family_textarea').val(responseText.immediate_family_textarea);
+            $('#f2_Proposaldate_UK_entry').val(responseText.f2_Proposaldate_UK_entry);
+            $('#f2_family_member_travelalong_textarea').val(responseText.family_member_travelalong_textarea);
+            $('#f2_any_overseas_travel').val(responseText.any_overseas_travel);
+            $('#f2_Departuredate_UK').val(responseText.Departuredate_UK);
+            $('#f2_Returndate_UK').val(responseText.Returndate_UK);
 
         //family details    
-            $('#f2_fa_frst').val(fa_frst);
-            $('#f2_father_country_of_birth').val(father_country_of_birth);
-            $('#f2_father_nationality').val(father_nationality);
-            $('#f2_father_Secondnationality').val(father_Secondnationality);
-            $('#f2_father_DOB').val(father_DOB);
+            $('#f2_fa_frst').val(responseText.fa_frst);
+            $('#f2_father_country_of_birth').val(responseText.father_country_of_birth);
+            $('#f2_father_nationality').val(responseText.father_nationality);
+            $('#f2_father_Secondnationality').val(responseText.father_Secondnationality);
+            $('#f2_father_DOB').val(responseText.father_DOB);
             
-            $('#f2_mothers_f_na').val(mothers_f_na);
-            $('#f2_mothersCountryofBirth').val(mothersCountryofBirth);
-            $('#f2_mother_nationality').val(mother_nationality);
-            $('#f2_mother_Secondnationality').val(mother_Secondnationality);
-            $('#f2_mother_DOB').val(mother_DOB);
+            $('#f2_mothers_f_na').val(responseText.mothers_f_na);
+            $('#f2_mothersCountryofBirth').val(responseText.mothersCountryofBirth);
+            $('#f2_mother_nationality').val(responseText.mother_nationality);
+            $('#f2_mother_Secondnationality').val(responseText.mother_Secondnationality);
+            $('#f2_mother_DOB').val(responseText.mother_DOB);
             
-            $('#f2_partner_fna').val(partner_fna);
-            $('#f2_partner_countryofbirth').val(partner_countryofbirth);
-            $('#f2_partner_nationlity').val(partner_nationlity);
-            $('#f2_partner_Snationality').val(partner_Snationality);
-            $('#f2_partner_DOB').val(partner_DOB);
+            $('#f2_partner_fna').val(responseText.partner_fna);
+            $('#f2_partner_countryofbirth').val(responseText.partner_countryofbirth);
+            $('#f2_partner_nationlity').val(responseText.partner_nationlity);
+            $('#f2_partner_Snationality').val(responseText.partner_Snationality);
+            $('#f2_partner_DOB').val(responseText.partner_DOB);
             
-            $('#f2_child1_f_na').val(child1_f_na);
-            $('#f2_child1_countryofbirth').val(child1_countryofbirth);
-            $('#f2_child1_nationality').val(child1_nationality);
-            $('#f2_child1_Snationality').val(child1_Snationality);
-            $('#f2_child1_DOB').val(child1_DOB);
+            $('#f2_child1_f_na').val(responseText.child1_f_na);
+            $('#f2_child1_countryofbirth').val(responseText.child1_countryofbirth);
+            $('#f2_child1_nationality').val(responseText.child1_nationality);
+            $('#f2_child1_Snationality').val(responseText.child1_Snationality);
+            $('#f2_child1_DOB').val(responseText.child1_DOB);
            
-            $('#f2_child2_f_na').val(child2_f_na);
-            $('#f2_child2_countryofbirth').val(child2_countryofbirth);
-            $('#f2_child2_nationality').val(child2_nationality);
-            $('#f2_child2_Snationality').val(child2_Snationality);
-            $('#f2_child2_DOB').val(child2_DOB);
+            $('#f2_child2_f_na').val(responseText.child2_f_na);
+            $('#f2_child2_countryofbirth').val(responseText.child2_countryofbirth);
+            $('#f2_child2_nationality').val(responseText.child2_nationality);
+            $('#f2_child2_Snationality').val(responseText.child2_Snationality);
+            $('#f2_child2_DOB').val(responseText.child2_DOB);
 
         //visits
+
+            $('#f2_UK_arrival_date1').val(responseText.);
+            $('#f2_UK_departure_date1').val(responseText.);
+            $('#f2_reason_ofvisit1').val(responseText.);
+
+            $('#f2_UK_arrival_date2').val(responseText.);
+            $('#f2_UK_departure_date2').val(responseText.);
+            $('#f2_reason_ofvisit2').val(responseText.);
+
+            $('#f2_UK_arrival_date3').val(responseText.);
+            $('#f2_UK_departure_date3').val(responseText.);
+            $('#f2_reason_ofvisit3').val(responseText.);
+
+            $('#f2_UK_arrival_date4').val(responseText.);
+            $('#f2_UK_departure_date4').val(responseText.);
+            $('#f2_reason_ofvisit4').val(responseText.);
+
+            $('#f2_UK_arrival_date5').val(responseText.);
+            $('#f2_UK_departure_date5').val(responseText.);
+            $('#f2_reason_ofvisit5').val(responseText.);
+
+        //trips abroad to: Australia; NZ; Canada; USA; Europe,
+            $('#f2_country1').val(responseText.);
+            $('#f2_date_arrival_country1').val(responseText.);
+            $('#f2_date_departure_country1').val(responseText.);
+            $('#f2_tripreason_ofvisit1').val(responseText.);
+
+            $('#f2_country2').val(responseText.);
+            $('#f2_date_arrival_country2').val(responseText.);
+            $('#f2_date_departure_country2').val(responseText.);
+            $('#f2_tripreason_ofvisit2').val(responseText.);
+
+            $('#f2_country3').val(responseText.);
+            $('#f2_date_arrival_country3').val(responseText.);
+            $('#f2_date_departure_country3').val(responseText.);
+            $('#f2_tripreason_ofvisit3').val(responseText.);
+
+            $('#f2_country4').val(responseText.);
+            $('#f2_date_arrival_country4').val(responseText.);
+            $('#f2_date_departure_country4').val(responseText.);
+            $('#f2_tripreason_ofvisit4').val(responseText.);
+
+            $('#f2_country5').val(responseText.);
+            $('#f2_date_arrival_country5').val(responseText.);
+            $('#f2_date_departure_country5').val(responseText.);
+            $('#f2_tripreason_ofvisit5').val(responseText.);
+
+        //trips abroad to any other country not listed
+
+            $('#f2_othertrip_country1').val(responseText.);
+            $('#f2_othertrip_arrivaldate1').val(responseText.);
+            $('#f2_othertrip_departuredate1').val(responseText.);
+            $('#f2_othertripreason_ofvisit1').val(responseText.);
+        
+            $('#f2_othertrip_country2').val(responseText.);
+            $('#f2_othertrip_arrivaldate2').val(responseText.);
+            $('#f2_othertrip_departuredate2').val(responseText.);
+            $('#f2_othertripreason_ofvisit2').val(responseText.);
+
+            $('#f2_othertrip_country3').val(responseText.);
+            $('#f2_othertrip_arrivaldate3').val(responseText.);
+            $('#f2_othertrip_departuredate3').val(responseText.);
+            $('#f2_othertripreason_ofvisit3').val(responseText.);
+
+            $('#f2_othertrip_country4').val(responseText.);
+            $('#f2_othertrip_arrivaldate4').val(responseText.);
+            $('#f2_othertrip_departuredate4').val(responseText.);
+            $('#f2_othertripreason_ofvisit4').val(responseText.);
+
+            $('#f2_othertrip_country5').val(responseText.);
+            $('#f2_othertrip_arrivaldate5').val(responseText.);
+            $('#f2_othertrip_departuredate5').val(responseText.);
+            $('#f2_othertripreason_ofvisit5').val(responseText.);
+
+            //download documents pending
 
             
         $('#form2_request_modal').modal('show');   
