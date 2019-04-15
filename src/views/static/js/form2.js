@@ -58,6 +58,99 @@ $(document).ready(function(){
     $("#othertrip_departuredate4").datepicker({format: 'dd/mm/yyyy'});
     $("#othertrip_arrivaldate5").datepicker({format: 'dd/mm/yyyy'});
     $("#othertrip_departuredate5").datepicker({format: 'dd/mm/yyyy'});
+
+
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('formId')) {
+        const formId = url.searchParams.get('formId');
+        $.post({
+            url : appLocation + '/form2/getFormData',
+            data : { formId: formId },
+            success : function(response) {
+                $("#errors").css("display", "none");
+                console.log(response);
+          
+                // $('#Unique_id').val();
+                // $('#Title').val(response.title);
+    
+                // $('#full_name').val(response.fullName); 
+                // $('#mobile_number').val(response.mobile);
+                // $('#address_line1').val(response.addressLine1);
+                // $('#address_line2').val(response.addressLine2);
+                // $('#town').val(response.town);
+                // $('#county').val(response.county);
+                // $('#postcode').val(response.postcode);
+                // $('#email_address').val(response.email);
+
+                // $('#relationship_status').val(response.relationship); 
+
+                // $('#nationalities').val(response.nationalities);
+                // $('#date_UK_entry').val(response.ukEntryDate);
+                // $('#conviction_text_area').val(response.convictionText);
+    
+                // $('#visa_refusals_textarea').val(response.visaRefusalText);
+    
+                // $('#details_public_funds').val(response.publicFunds); 
+    
+    
+                // $('#UK_NINo').val(response.nationalInsuranceNumber);
+                // $('#next_planned_departure').val(response.ukNextDepartureDate);
+                // $('#UK_date_arrival_back').val(response.ukNextArrivalDate);
+
+                // $('#partner_Title').val(response.partnerTitle);  
+                
+                // $('#partner_full_name').val(response.partnerFullName); 
+                // $('#partner_mobile_number').val(response.partnerMobile);
+                // $('#partner_uk_home_address').val(response.partnerUKHomeAddress);
+                // $('#partner_nationalities').val(response.partnerNationalities);
+                // $('#partner_dob').val(response.partnerDateOfBirth);
+                // $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
+
+                // var $radios = $('input:radio[name=any_convictions]');
+                // if($radios.is(':checked') === false) {
+                //     $radios.filter('[value='+ response.conviction +']').prop('checked', true);
+                // }
+
+                // var $radios = $('input:radio[name=visa_refusals]');
+                // if($radios.is(':checked') === false) {
+                //     $radios.filter('[value='+ response.visaRefusal +']').prop('checked', true);
+                // }
+
+                // var $radios = $('input:radio[name=any_children]');
+                // if($radios.is(':checked') === false) {
+                //     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
+                // }
+
+                // convictions(response.conviction.toLowerCase());
+                // visa(response.visaRefusal.toLowerCase());
+            
+                // commenting until I get data in
+                // $('#child1_full_name').val(response.); 
+                // $('#child1_nationalities').val(response.);
+                // $('#child1_dob').val(response.);
+                // $('#child1_placeofbirth').val(response.);
+                
+                // $('#child2_full_name').val(response.); 
+                // $('#child2_nationalities').val(response.);
+                // $('#child2_dob').val(response.);
+                // $('#child2_placeofbirth').val(response.);
+            },
+            error: function(xhr) {
+                if(xhr.status === 400) {
+                    swal({
+                        title: "Server Error",
+                        text: xhr.responseText,
+                        icon: "warning",
+                        buttons: false,
+                        dangerMode: true,
+                        timer: 2500,
+                        onClose: () => window.location.href = appLocation + '/user/dashboard',
+                    });
+                }
+            },
+        });
+    }
+
 });
 
 function show_date(option){
@@ -575,8 +668,111 @@ function other_trips(option)
     }
 }
 
-function form_submit()
-{
+function show_success_toast(message) {
+    const Toast = swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+    
+    Toast.fire({
+        type: 'success',
+        title: message,
+    });
+}
+
+function doFormAction(form_data, isSubmitted) {
+    const url = new URL(window.location.href);
+    const formAction = url.searchParams.get('action');
+    if (!isSubmitted) {
+        if (formAction === 'new') {
+            form_data.formAction = 'new';
+            $.post({
+                url : appLocation + '/form2/save',
+                data : form_data,
+                success : function(responseJSON) {
+                    const formUID = responseJSON.data.formUID;
+                    const location = window.location;
+                    window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
+                    $("#errors").css("display", "none");
+                },
+                error: function(xhr) {
+                    if(xhr.status === 400) {
+                        const errors = xhr.responseJSON.details;
+                        $("#errors_list").empty();
+                        $("#errors").css("display", "block");
+                        errors.forEach(error => {
+                            $("#errors_list").append('<li>' + error.message + '</li>');
+                        });
+                        $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+                    }
+                },
+            });
+        } else if (formAction === 'update') {
+            form_data.formAction = 'update';
+            const formId = url.searchParams.get('formId');
+            form_data.UniqueID = formId;
+            $.post({
+                url : appLocation + '/form2/save',
+                data : form_data,
+                success : function(responseJSON) {
+                    const formUID = responseJSON.data.formUID;
+                    if (formUID) {
+                        show_success_toast('Form saved successfully');
+                    } else {
+                        swal({
+                            title: "Server Error",
+                            text: "Some error occurred while saving form. Please try again later.",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        });
+                    }
+                    $("#errors").css("display", "none");
+                },
+                error: function(xhr) {
+                    if(xhr.status === 400) {
+                        const errors = xhr.responseJSON.details;
+                        $("#errors_list").empty();
+                        $("#errors").css("display", "block");
+                        errors.forEach(error => {
+                            $("#errors_list").append('<li>' + error.message + '</li>');
+                        });
+                        $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+                    }
+                },
+            });
+        }
+    } else {
+        if (formAction === 'update') {
+            const formId = url.searchParams.get('formId');
+            form_data.UniqueID = formId;
+        }
+        form_data.formAction = 'submit';
+        $.post({
+            url : appLocation + '/form2/submit',
+            data : form_data,
+            success : function(responseJSON) {
+                window.location.href = appLocation + '/user/dashboard';
+                $("#errors").css("display", "none");
+            },
+            error: function(xhr) {
+                if(xhr.status === 400) {
+                    const errors = xhr.responseJSON.details;
+                    $("#errors_list").empty();
+                    $("#errors").css("display", "block");
+                    errors.forEach(error => {
+                        $("#errors_list").append('<li>' + error.message + '</li>');
+                    });
+                    $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+                }
+            },
+        });
+    }
+}
+
+function getFormInput() {
     var UniqueID                                = $('#Unique_id').val();
     
     var TT_1                                    = document.getElementById("Title");
@@ -1129,11 +1325,15 @@ function form_submit()
     alert(form_data); 
 
 */
+    return form_data;
+}
 
-
-
-    
+function form_submit()
+{
+    const form_data = getFormInput();
     console.log('FORM-DATA', form_data);
+    doFormAction(form_data, true);
+
     $.post({
         url : appLocation + '/form2/save',
         data : form_data,
@@ -1166,5 +1366,6 @@ function form_submit()
 
 function form_save()
 {
-   
+    const form_data = getFormInput();
+    doFormAction(form_data, false);    
 }

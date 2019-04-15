@@ -1,66 +1,70 @@
 import {
-  formNumber as formNumberConstants,
   formType,
-  relationTypes as relation,
-  tripTypes as trip,
+  relationTypes as relation
 } from '../constants';
 import getFormUID from '../util/getFormUID';
 import sqlQueries from '../sqlQueries';
-import getFormDataObject from './helpers/getFormData';
-import getFormDataExtraInfoDataObject from './helpers/getFormDataExtraInfoData';
+import getRelationData from './helpers/getRelationData';
 
-export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNumber) => cb => {
+const getValueIfNotNull = input => input ? input : null;
 
-  const currentUser = req.user;
+const getRelationsDataObject = (sanitizedInput, formDataExtraInfoInput) => {
+  const realtionsData = [];
+  if (formDataExtraInfoInput.anyChildren.toLowerCase() == 'yes') {
+    for (var index = 0; index < 2; index++) {
+      realtionsData.push(getRelationData({
+        firstName: sanitizedInput[`child${index}FullName`],
+        nationality: sanitizedInput[`child${index}Nationalitites`],
+        dateOfBirth: sanitizedInput[`child${index}DateOfBirth`],
+        countryOfBirth: sanitizedInput[`child${index}PlaceOfBirth`],
+      }, relation.CHILD));
+    }
+  }
+  if (sanitizedInput.fatherFullName !== '') {
+    
+  }
+  if (sanitizedInput.motherFullName !== '') {
+
+  }
+  return realtionsData;
+};
+
+export default (formUID, sanitizedInput, sqlConnection, action = formType.NEW, formDataInput, formDataExtraInfoInput) => cb => {
+
   const { FORM_CREATE, FORM_READ, FORM_UPDATE } = sqlQueries;
   const { NEW, SUBMIT, UPDATE } = formType;
 
   switch(action) {
     case NEW:
-      const newFormUID = getFormUID(formNumber, currentUser);
-      const createNewFormEntryInput = {
-        userId: currentUser.id,
-        formUID: newFormUID,
-        formNumber,
-        status: NEW,
-      };
-      sqlConnPool.getConnection((err, connection) => {
-        if (err) cb(err, null);
-        connection.beginTransaction((err1) => {
-          if (err1) cb(err1, null);
-          connection.query(FORM_CREATE.CREATE_NEW_FORM_ENTRY, createNewFormEntryInput, (err2, result) => {
-            if (err2) cb(err2, null);
-            if (result) {
-              connection.query(FORM_READ.USERFORMS_SELECT_BY_ROWID, { id: result.insertId } , (err3, rows) => {
-                if (err3) cb(err3, null);
-                const { formUID } = rows[0];
-                const formDataInput = getFormDataObject(formUID, sanitizedInput);
-                const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
-                console.log('formDataInput=>', formDataInput);
-                console.log('formDataExtraInfoInput=>', formDataExtraInfoInput);
-
-                // saveRelationsInfo(formUID, sanitizedInput, connection, formType.NEW, formDataInput, formDataExtraInfoInput)
-
-                // // insert rest of the data here
-                // connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
-                //   if (err4) cb(err4, null);
-                //   connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
-                //     if (err5) cb(err5, null);
-                //     // commit the transaction here
-                //     connection.commit((commitErr) => {
-                //       if (commitErr) {
-                //         return connection.rollback(() => {
-                //           throw commitErr;
-                //         });
-                //       }
-                //       cb(null, createNewFormEntryInput);
-                //     });
-                //   });
-                // });
+      connection.beginTransaction((err1) => {
+        if (err1) cb(err1, null);
+        connection.query(FORM_CREATE.CREATE_NEW_FORM_ENTRY, createNewFormEntryInput, (err2, result) => {
+          if (err2) cb(err2, null);
+          if (result) {
+            connection.query(FORM_READ.USERFORMS_SELECT_BY_ROWID, { id: result.insertId } , (err3, rows) => {
+              if (err3) cb(err3, null);
+              const formUID = rows[0].formUID;
+              const formDataInput = getFormDataObject(formUID, sanitizedInput);
+              const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
+              // insert rest of the data here
+              connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
+                if (err4) cb(err4, null);
+                connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
+                  if (err5) cb(err5, null);
+                  // commit the transaction here
+                  connection.commit((commitErr) => {
+                    if (commitErr) {
+                      return connection.rollback(() => {
+                        throw commitErr;
+                      });
+                    }
+                    cb(null, createNewFormEntryInput);
+                  });
+                });
               });
-            }
-          });  
-        });
+            });
+          }
+        });  
       });
       break;
     case SUBMIT:

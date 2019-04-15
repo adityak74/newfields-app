@@ -153,9 +153,9 @@ function show_date(option)
 
 function relationship_status()
 {
-    var selected_status =$('#relationship_status :selected').text();
+    var selected_status = $('#relationship_status').val();
     
-    if(selected_status==="Single")
+    if(selected_status==="single")
     {
         $("#partner_details").css("display","none");
     }
@@ -375,7 +375,7 @@ function getFormInput() {
     var postcode                = $('#postcode').val();
     var email_address           = $('#email_address').val();
     
-    var relationship_status     = $('#relationship_status :selected').text(); 
+    var relationship_status     = $('#relationship_status').val();
 
     var nationalities           = $('#nationalities').val();
     
@@ -456,7 +456,7 @@ function getFormInput() {
 
         partner_mobile_number   : partner_mobile_number,
         partner_uk_home_address : partner_uk_home_address,
-        partner_nationalities   : partner_nationalities === '' ? '' : [partnerNationalities],
+        partner_nationalities   : partner_nationalities === '' ? '' : [partner_nationalities],
 
         partner_dob             : partner_dob,
         partner_placeofbirth    : partner_placeofbirth,
