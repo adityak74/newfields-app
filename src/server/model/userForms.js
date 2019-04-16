@@ -40,23 +40,22 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                 console.log('formDataExtraInfoInput=>', formDataExtraInfoInput);
 
                 // saveRelationsInfo(formUID, sanitizedInput, connection, formType.NEW, formDataInput, formDataExtraInfoInput)
-
-                // // insert rest of the data here
-                // connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
-                //   if (err4) cb(err4, null);
-                //   connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
-                //     if (err5) cb(err5, null);
-                //     // commit the transaction here
-                //     connection.commit((commitErr) => {
-                //       if (commitErr) {
-                //         return connection.rollback(() => {
-                //           throw commitErr;
-                //         });
-                //       }
-                //       cb(null, createNewFormEntryInput);
-                //     });
-                //   });
-                // });
+                
+                connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
+                  if (err4) cb(err4, null);
+                  connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
+                    if (err5) cb(err5, null);
+                    // commit the transaction here
+                    connection.commit((commitErr) => {
+                      if (commitErr) {
+                        return connection.rollback(() => {
+                          throw commitErr;
+                        });
+                      }
+                      cb(null, createNewFormEntryInput);
+                    });
+                  });
+                });
               });
             }
           });  

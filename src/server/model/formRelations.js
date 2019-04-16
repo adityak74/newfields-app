@@ -6,13 +6,11 @@ import getFormUID from '../util/getFormUID';
 import sqlQueries from '../sqlQueries';
 import getRelationData from './helpers/getRelationData';
 
-const getValueIfNotNull = input => input ? input : null;
-
 const getRelationsDataObject = (sanitizedInput, formDataExtraInfoInput) => {
-  const realtionsData = [];
+  const relationsData = [];
   if (formDataExtraInfoInput.anyChildren.toLowerCase() == 'yes') {
     for (var index = 0; index < 2; index++) {
-      realtionsData.push(getRelationData({
+      relationsData.push(getRelationData({
         firstName: sanitizedInput[`child${index}FullName`],
         nationality: sanitizedInput[`child${index}Nationalitites`],
         dateOfBirth: sanitizedInput[`child${index}DateOfBirth`],
@@ -21,12 +19,24 @@ const getRelationsDataObject = (sanitizedInput, formDataExtraInfoInput) => {
     }
   }
   if (sanitizedInput.fatherFullName !== '') {
-    
+    relationsData.push(getRelationData({
+      firstName: sanitizedInput.fatherFullName,
+      countryOfBirth: sanitizedInput.fatherCountryOfBirth,
+      nationality: sanitizedInput.fatherNationality,
+      alternateNationality: sanitizedInput.fatherAlternateNationality,
+      dateOfBirth: sanitizedInput.fatherDateOfBirth,
+    }));
   }
   if (sanitizedInput.motherFullName !== '') {
-
+    relationsData.push(getRelationData({
+      firstName: sanitizedInput.motherFullName,
+      countryOfBirth: sanitizedInput.motherCountryOfBirth,
+      nationality: sanitizedInput.motherNationality,
+      alternateNationality: sanitizedInput.motherAlternateNationality,
+      dateOfBirth: sanitizedInput.motherDateOfBirth,
+    }));
   }
-  return realtionsData;
+  return relationsData;
 };
 
 export default (formUID, sanitizedInput, sqlConnection, action = formType.NEW, formDataInput, formDataExtraInfoInput) => cb => {
