@@ -6,74 +6,9 @@ import {
 } from '../constants';
 import getFormUID from '../util/getFormUID';
 import sqlQueries from '../sqlQueries';
-
-const getValueIfNotNull = input => input ? input : null;
-
-// build input object for both form1 and form2 data with optional fields
-const getFormDataObject = (formUID, sanitizedInput) => ({
-  uniqueId: formUID,
-  title: sanitizedInput.title,
-  fullName: sanitizedInput.fullName,
-  mobile: getValueIfNotNull(sanitizedInput.mobileNumber),
-  landline: getValueIfNotNull(sanitizedInput.landlineNumber),
-  email: sanitizedInput.emailAddress,
-  addressLine1: getValueIfNotNull(sanitizedInput.addressLine1),
-  addressLine2: getValueIfNotNull(sanitizedInput.addressLine2),
-  town: getValueIfNotNull(sanitizedInput.town),
-  county: getValueIfNotNull(sanitizedInput.county),
-  postcode: getValueIfNotNull(sanitizedInput.postcode),
-  nationalities: sanitizedInput.nationalities.join(','),
-  relationship: sanitizedInput.relationshipStatus,
-  otherNames: getValueIfNotNull(sanitizedInput.otherNames),
-});
-
-const getFormDataExtraInfoDataObject = (formUID, sanitizedInput, formNumber) => ({
-  formUniqueId: formUID,
-  ukEntryDate: sanitizedInput.dateUKEntry,
-  conviction: sanitizedInput.anyConvictions,
-  convictionText: sanitizedInput.convictionText,
-  visaRefusal: sanitizedInput.visaRefusals,
-  visaRefusalText: sanitizedInput.visaRefusalText,
-  publicFunds: getValueIfNotNull(sanitizedInput.detailsPublicFund),
-  nationalInsuranceNumber: getValueIfNotNull(sanitizedInput.UKNINumberInfo)
-    ? sanitizedInput.UKNINumberInfo
-    : getValueIfNotNull(sanitizedInput.UKNINumber),
-  ukNextDepartureDate: sanitizedInput.nextPlannedDeparture,
-  ukNextArrivalDate: sanitizedInput.nextDateArrival,
-  // only applicable for form1, form2 is serialzed in relationships table  
-  partnerTitle: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerTitle) 
-    : null,
-  partnerFullName: formNumber === formNumberConstants.ONE ? sanitizedInput.partnerFullName : null,
-  partnerMobile: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerMobileNumber)
-    : null,
-  partnerUKHomeAddress: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerHomeAddress)
-    : null,
-  partnerNationalities: formNumber === formNumberConstants.ONE 
-    ? (getValueIfNotNull(sanitizedInput.partnerNationalities) ? sanitizedInput.partnerNationalities.join(',') : null)
-    : null,
-  partnerDateOfBirth: formNumber === formNumberConstants.ONE 
-    ? sanitizedInput.partnerDateOfBirth
-    : null,
-  partnerPlaceOfBirth: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerPlaceOfBirth)
-    : null,
-  // only applicable for form1, form2 is serialzed in relationships table
-  homeAddress: getValueIfNotNull(sanitizedInput.homeAddress),
-  moveInDate: getValueIfNotNull(sanitizedInput.homeMoveInDate),
-  homeOwnership: getValueIfNotNull(sanitizedInput.homeOwnership),
-  addressOnVisa: getValueIfNotNull(sanitizedInput.addressWhileOnVisa),
-  ukAddressInfo: getValueIfNotNull(sanitizedInput.UKAddress),
-  medical: getValueIfNotNull(sanitizedInput.medicalInfo),
-  nationalIdentityNumber: getValueIfNotNull(sanitizedInput.nationalIdentityNumber),
-  armedForces: getValueIfNotNull(sanitizedInput.armedForcesInfo),
-  immediateFamily: getValueIfNotNull(sanitizedInput.immediateFamilyInfo),
-  familyMemberTravelAlong: getValueIfNotNull(sanitizedInput.familyMemberTravelAlongInfo),
-  overseasTravel: getValueIfNotNull(sanitizedInput.anyOverseasTravel),
-  anyChildren: sanitizedInput.ifHasChildren,
-});
+import getFormDataObject from './helpers/getFormData';
+import getFormDataExtraInfoDataObject from './helpers/getFormDataExtraInfoData';
+import formRelationsModel from './formRelations';
 
 export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNumber) => cb => {
 
@@ -99,22 +34,26 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
             if (result) {
               connection.query(FORM_READ.USERFORMS_SELECT_BY_ROWID, { id: result.insertId } , (err3, rows) => {
                 if (err3) cb(err3, null);
-                const formUID = rows[0].formUID;
+                const { formUID } = rows[0];
                 const formDataInput = getFormDataObject(formUID, sanitizedInput);
                 const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
-                // insert rest of the data here
+
                 connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
                   if (err4) cb(err4, null);
                   connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
                     if (err5) cb(err5, null);
-                    // commit the transaction here
-                    connection.commit((commitErr) => {
-                      if (commitErr) {
-                        return connection.rollback(() => {
-                          throw commitErr;
-                        });
-                      }
-                      cb(null, createNewFormEntryInput);
+                    const relationsModel = formRelationsModel(formUID, sanitizedInput, connection, formType.NEW, formDataExtraInfoInput);
+                    relationsModel((relationsErr, relationsData) => {
+                      if (relationsErr) cb(relationsErr, null);
+                      // commit the transaction here
+                      connection.commit((commitErr) => {
+                        if (commitErr) {
+                          return connection.rollback(() => {
+                            throw commitErr;
+                          });
+                        }
+                        cb(null, createNewFormEntryInput);
+                      });
                     });
                   });
                 });

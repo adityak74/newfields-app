@@ -18,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "3.9.2",
+    "async": "^2.6.2",
     "aws-sdk": "^2.422.0",
     "babel-polyfill": "6.26.0",
     "bcrypt-nodejs": "0.0.3",
@@ -37,6 +38,7 @@
     "joi-date-extensions": "^1.2.0",
     "joi-phone-number": "^2.1.1",
     "joi-postalcode": "^1.0.0",
+    "lodash": "^4.17.11",
     "md5": "^2.2.1",
     "mysql": "^2.16.0",
     "passport": "^0.4.0",

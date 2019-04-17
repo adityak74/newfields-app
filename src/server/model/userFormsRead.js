@@ -1,3 +1,4 @@
+import asyncMapSeries from 'async/mapSeries';
 import {
   formNumber as formNumberConstants,
   formType,
@@ -6,76 +7,55 @@ import {
 } from '../constants';
 import sqlQueries from '../sqlQueries';
 
-const getValueIfNotNull = input => input ? input : null;
+const { FORM_READ, FORM_RELATIONS, RELATIONSHIP_INFO } = sqlQueries;
 
-// build input object for both form1 and form2 data with optional fields
-const getFormDataObject = (formUID, sanitizedInput) => ({
-  uniqueId: formUID,
-  title: sanitizedInput.title,
-  fullName: sanitizedInput.fullName,
-  mobile: getValueIfNotNull(sanitizedInput.mobileNumber),
-  landline: getValueIfNotNull(sanitizedInput.landlineNumber),
-  email: sanitizedInput.emailAddress,
-  addressLine1: getValueIfNotNull(sanitizedInput.addressLine1),
-  addressLine2: getValueIfNotNull(sanitizedInput.addressLine2),
-  town: getValueIfNotNull(sanitizedInput.town),
-  county: getValueIfNotNull(sanitizedInput.county),
-  postcode: getValueIfNotNull(sanitizedInput.postcode),
-  nationalities: sanitizedInput.nationalities.join(','),
-  relationship: sanitizedInput.relationshipStatus,
-  otherNames: getValueIfNotNull(sanitizedInput.otherNames),
-});
+const getRelationData = (connection, relationId, onCb) => {
+  connection.query(RELATIONSHIP_INFO.RELATIONSHIP_INFO_SELECT_BY_ID, [relationId], (err, relation) => {
+    if (err) onCb(err, null);
+    if (relation.length) {
+      onCb(null, relation[0]);
+    } else onCb(null, []);
+  });
+};
 
-const getFormDataExtraInfoDataObject = (formUID, sanitizedInput, formNumber) => ({
-  formUniqueId: formUID,
-  ukEntryDate: sanitizedInput.dateUKEntry,
-  conviction: sanitizedInput.convictionText,
-  visaRefusal: sanitizedInput.visaRefusalText,
-  publicFunds: getValueIfNotNull(sanitizedInput.detailsPublicFund),
-  nationalInsuranceNumber: getValueIfNotNull(sanitizedInput.UKNINumberInfo)
-    ? sanitizedInput.UKNINumberInfo
-    : getValueIfNotNull(sanitizedInput.UKNINumber),
-  ukNextDepartureDate: sanitizedInput.nextPlannedDeparture,
-  ukNextArrivalDate: sanitizedInput.nextDateArrival,
-  // only applicable for form1, form2 is serialzed in relationships table  
-  partnerTitle: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerTitle) 
-    : null,
-  partnerFullName: formNumber === formNumberConstants.ONE ? sanitizedInput.partnerFullName : null,
-  partnerMobile: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerMobileNumber)
-    : null,
-  partnerUKHomeAddress: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerHomeAddress)
-    : null,
-  partnerNationalities: formNumber === formNumberConstants.ONE 
-    ? (getValueIfNotNull(sanitizedInput.partnerNationalities) ? sanitizedInput.partnerNationalities.join(',') : null)
-    : null,
-  partnerDateOfBirth: formNumber === formNumberConstants.ONE 
-    ? sanitizedInput.partnerDateOfBirth
-    : null,
-  partnerPlaceOfBirth: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerPlaceOfBirth)
-    : null,
-  // only applicable for form1, form2 is serialzed in relationships table
-  homeAddress: getValueIfNotNull(sanitizedInput.homeAddress),
-  moveInDate: getValueIfNotNull(sanitizedInput.homeMoveInDate),
-  homeOwnership: getValueIfNotNull(sanitizedInput.homeOwnership),
-  addressOnVisa: getValueIfNotNull(sanitizedInput.addressWhileOnVisa),
-  ukAddressInfo: getValueIfNotNull(sanitizedInput.UKAddress),
-  medical: getValueIfNotNull(sanitizedInput.medicalInfo),
-  nationalIdentityNumber: getValueIfNotNull(sanitizedInput.nationalIdentityNumber),
-  armedForces: getValueIfNotNull(sanitizedInput.armedForcesInfo),
-  immediateFamily: getValueIfNotNull(sanitizedInput.immediateFamilyInfo),
-  familyMemberTravelAlong: getValueIfNotNull(sanitizedInput.familyMemberTravelAlongInfo),
-  overseasTravel: getValueIfNotNull(sanitizedInput.anyOverseasTravel),
-});
+let childIndex = 1;
+
+const relationDataTranform = relationshipData => {
+  const { CHILD, MOTHER, FATHER } = relation;
+  switch (relationshipData.relationType) {
+    case CHILD:
+      const childData = {
+        [`child${childIndex}FullName`]: relationshipData.firstName,
+        [`child${childIndex}Nationalitites`]: relationshipData.nationality,
+        [`child${childIndex}AlternateNationality`]: relationshipData.alternateNationality,
+        [`child${childIndex}DateOfBirth`]: relationshipData.dateOfBirth,
+        [`child${childIndex}CountryOfBirth`]: relationshipData.countryOfBirth,
+      };
+      childIndex += 1;
+      if (childIndex === 3) childIndex = 1;
+      return childData;
+    case FATHER:
+      return ({
+        fatherFullName: relationshipData.firstName,
+        fatherCountryOfBirth: relationshipData.countryOfBirth,
+        fatherNationality: relationshipData.nationality,
+        fatherAlternateNationality: relationshipData.alternateNationality,
+        fatherDateOfBirth: relationshipData.dateOfBirth,
+      });
+    case MOTHER:
+      return ({
+        motherFullName: relationshipData.firstName,
+        motherCountryOfBirth: relationshipData.countryOfBirth,
+        motherNationality: relationshipData.nationality,
+        motherAlternateNationality: relationshipData.alternateNationality,
+        motherDateOfBirth: relationshipData.dateOfBirth,
+      });
+  }
+};
 
 export default (req, sanitizedInput, sqlConnPool) => cb => {
-
   const currentUser = req.user;
-  const { FORM_READ } = sqlQueries;
-
+  
   sqlConnPool.getConnection((err, connection) => {
     if (err) cb(err, null);
     connection.beginTransaction((err1) => {
@@ -85,7 +65,23 @@ export default (req, sanitizedInput, sqlConnPool) => cb => {
         if (result[0]) {
           connection.query(FORM_READ.USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID, [result[0].formUID, result[0].formUID] , (err3, rows) => {
             if (err3) cb(err3, null);
-            cb(null, rows[0]);
+            const userFormDataWithInfo = rows[0];
+            connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err4, result1) => {
+              if (err4) cb(err4, null);
+              if (result1.length) {
+                const relationIds = result1.map(res => res.relationshipId);
+                asyncMapSeries(relationIds, (relationId, next) => getRelationData(connection, relationId, next), (err, relationsArray) => {
+                  const relationDataShimmed = relationsArray.map(relationDataTranform);
+                  let resultObj = { ...userFormDataWithInfo };
+                  relationDataShimmed.forEach(relation => 
+                    resultObj = { ...resultObj, ...relation });
+                  cb(null, resultObj);
+                });
+              } else {
+                // return will empty relations data
+                cb(null, userFormDataWithInfo);
+              }
+            })
           });
         } else {
           cb(new Error("Form not found or already submitted. Redirecting to dashboard."), null);

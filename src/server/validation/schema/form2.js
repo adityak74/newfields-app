@@ -58,7 +58,7 @@ const schema = Joi.object().keys({
   partnerNationality: JoiNationalitiesSchema.allow(''),
   partnerAlternateNationality: JoiNationalitiesSchema.allow(''),
   partnerDateOfBirth: Joi.date().max('now').format('DD/MM/YYYY').allow(''),
-  ifChildren: JoiYesNo,
+  ifHasChildren: JoiYesNo,
   child1FullName: Joi.string().allow(''),
   child1CountryOfBirth: Joi.string().allow(''),
   child1Nationality: JoiNationalitiesSchema.allow(''),
