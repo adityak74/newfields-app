@@ -18,8 +18,20 @@ const FORM_UPDATE = {
   UPDATE_FORM_SUBMIT_BY_FORMID_USERID: 'UPDATE userForms SET ? where formUID = ? and userId = ?',
 };
 
+const FORM_RELATIONS = {
+  CREATE_NEW_FORM_RELATIONS_ENTRY: 'INSERT INTO formRelationships SET ?',
+  FORM_RELATIONS_SELECT_BY_FORM_ID: 'SELECT * from formRelationships where formId = ?',
+};
+
+const RELATIONSHIP_INFO = {
+  CREATE_NEW_RELATION_ENTRY: 'INSERT INTO relationshipInfo SET ?',
+  RELATIONSHIP_INFO_SELECT_BY_ID: 'SELECT * from relationshipInfo where id = ?',
+};
+
 export default {
   FORM_CREATE,
   FORM_READ,
   FORM_UPDATE,
+  RELATIONSHIP_INFO,
+  FORM_RELATIONS,
 };

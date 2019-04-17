@@ -8,6 +8,7 @@ import getFormUID from '../util/getFormUID';
 import sqlQueries from '../sqlQueries';
 import getFormDataObject from './helpers/getFormData';
 import getFormDataExtraInfoDataObject from './helpers/getFormDataExtraInfoData';
+import formRelationsModel from './formRelations';
 
 export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNumber) => cb => {
 
@@ -36,23 +37,23 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                 const { formUID } = rows[0];
                 const formDataInput = getFormDataObject(formUID, sanitizedInput);
                 const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
-                console.log('formDataInput=>', formDataInput);
-                console.log('formDataExtraInfoInput=>', formDataExtraInfoInput);
 
-                // saveRelationsInfo(formUID, sanitizedInput, connection, formType.NEW, formDataInput, formDataExtraInfoInput)
-                
                 connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
                   if (err4) cb(err4, null);
                   connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
                     if (err5) cb(err5, null);
-                    // commit the transaction here
-                    connection.commit((commitErr) => {
-                      if (commitErr) {
-                        return connection.rollback(() => {
-                          throw commitErr;
-                        });
-                      }
-                      cb(null, createNewFormEntryInput);
+                    const relationsModel = formRelationsModel(formUID, sanitizedInput, connection, formType.NEW, formDataExtraInfoInput);
+                    relationsModel((relationsErr, relationsData) => {
+                      if (relationsErr) cb(relationsErr, null);
+                      // commit the transaction here
+                      connection.commit((commitErr) => {
+                        if (commitErr) {
+                          return connection.rollback(() => {
+                            throw commitErr;
+                          });
+                        }
+                        cb(null, createNewFormEntryInput);
+                      });
                     });
                   });
                 });

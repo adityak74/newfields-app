@@ -1,6 +1,6 @@
 export default ({
   firstName,
-  countryOfBirth,
+  countryOfBirth = null,
   nationality,
   alternateNationality = null,
   dateOfBirth,

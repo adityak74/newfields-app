@@ -1,186 +1,88 @@
+import asyncMapSeries from 'async/mapSeries';
 import {
   formType,
   relationTypes as relation
 } from '../constants';
-import getFormUID from '../util/getFormUID';
 import sqlQueries from '../sqlQueries';
 import getRelationData from './helpers/getRelationData';
+
+const { RELATIONSHIP_INFO, FORM_RELATIONS } = sqlQueries;
+const { NEW, SUBMIT, UPDATE } = formType;
 
 const getRelationsDataObject = (sanitizedInput, formDataExtraInfoInput) => {
   const relationsData = [];
   if (formDataExtraInfoInput.anyChildren.toLowerCase() == 'yes') {
-    for (var index = 0; index < 2; index++) {
-      relationsData.push(getRelationData({
-        firstName: sanitizedInput[`child${index}FullName`],
-        nationality: sanitizedInput[`child${index}Nationalitites`],
-        dateOfBirth: sanitizedInput[`child${index}DateOfBirth`],
-        countryOfBirth: sanitizedInput[`child${index}PlaceOfBirth`],
-      }, relation.CHILD));
+    for (var index = 1; index < 3; index++) {
+      if(sanitizedInput[`child${index}FullName`] && sanitizedInput[`child${index}FullName`] != '') {
+        relationsData.push(getRelationData({
+          firstName: sanitizedInput[`child${index}FullName`],
+          nationality: sanitizedInput[`child${index}Nationalitites`] || sanitizedInput[`child${index}Nationality`],
+          alternateNationality: sanitizedInput[`child${index}AlternateNationality`],
+          dateOfBirth: sanitizedInput[`child${index}DateOfBirth`],
+          countryOfBirth: sanitizedInput[`child${index}PlaceOfBirth`] || sanitizedInput[`child${index}CountryOfBirth`],
+        }, relation.CHILD));
+      }
     }
   }
-  if (sanitizedInput.fatherFullName !== '') {
+  if (sanitizedInput.fatherFullName && sanitizedInput.fatherFullName != '') {
     relationsData.push(getRelationData({
       firstName: sanitizedInput.fatherFullName,
       countryOfBirth: sanitizedInput.fatherCountryOfBirth,
       nationality: sanitizedInput.fatherNationality,
       alternateNationality: sanitizedInput.fatherAlternateNationality,
       dateOfBirth: sanitizedInput.fatherDateOfBirth,
-    }));
+    }, relation.FATHER));
   }
-  if (sanitizedInput.motherFullName !== '') {
+  if (sanitizedInput.motherFullName && sanitizedInput.motherFullName != '') {
     relationsData.push(getRelationData({
       firstName: sanitizedInput.motherFullName,
       countryOfBirth: sanitizedInput.motherCountryOfBirth,
       nationality: sanitizedInput.motherNationality,
       alternateNationality: sanitizedInput.motherAlternateNationality,
       dateOfBirth: sanitizedInput.motherDateOfBirth,
-    }));
+    }, relation.MOTHER));
   }
   return relationsData;
 };
 
-export default (formUID, sanitizedInput, sqlConnection, action = formType.NEW, formDataInput, formDataExtraInfoInput) => cb => {
+const insertRelationData = (connection, relationObject, onCb) => {
+  connection.query(RELATIONSHIP_INFO.CREATE_NEW_RELATION_ENTRY, relationObject, (err, result) => {
+    if (err) onCb(err, null);
+    onCb(null, result.insertId);
+  });
+};
 
-  const { FORM_CREATE, FORM_READ, FORM_UPDATE } = sqlQueries;
-  const { NEW, SUBMIT, UPDATE } = formType;
+const insertFormRelations = (connection, formUID, relationId, onCb) => {
+  connection.query(FORM_RELATIONS.CREATE_NEW_FORM_RELATIONS_ENTRY, { formId: formUID, relationshipId: relationId }, (err, result) => {
+    if (err) onCb(err, null);
+    onCb(null, result.insertId);
+  });
+};
 
-  switch(action) {
+export default (formUID, sanitizedInput, connection, action = formType.NEW, formDataExtraInfoInput) => cb => {
+  switch (action) {
     case NEW:
       connection.beginTransaction((err1) => {
         if (err1) cb(err1, null);
-        connection.query(FORM_CREATE.CREATE_NEW_FORM_ENTRY, createNewFormEntryInput, (err2, result) => {
-          if (err2) cb(err2, null);
-          if (result) {
-            connection.query(FORM_READ.USERFORMS_SELECT_BY_ROWID, { id: result.insertId } , (err3, rows) => {
-              if (err3) cb(err3, null);
-              const formUID = rows[0].formUID;
-              const formDataInput = getFormDataObject(formUID, sanitizedInput);
-              const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
-              // insert rest of the data here
-              connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
-                if (err4) cb(err4, null);
-                connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
-                  if (err5) cb(err5, null);
-                  // commit the transaction here
-                  connection.commit((commitErr) => {
-                    if (commitErr) {
-                      return connection.rollback(() => {
-                        throw commitErr;
-                      });
-                    }
-                    cb(null, createNewFormEntryInput);
-                  });
-                });
+        const allRelationsData = getRelationsDataObject(sanitizedInput, formDataExtraInfoInput);
+        asyncMapSeries(
+          allRelationsData,
+          (relationData, next) => insertRelationData(connection, relationData, next), 
+          (err, results) => {
+            if (err) cb(err, null);
+            asyncMapSeries(
+              results, 
+              (relationId, next) => insertFormRelations(connection, formUID, relationId, next),
+              (err1, results1) => {
+                if (err1) cb(err1, null);
+                cb(null, results1);
               });
-            });
-          }
-        });  
+          },
+        );
       });
       break;
     case SUBMIT:
-      // apply limits to user, form, times (8) max forms here later
-      if (sanitizedInput.uniqueId) {
-        sqlConnPool.query(
-          FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE, 
-          [sanitizedInput.uniqueId, currentUser.id], 
-          (errRead, rowsRead) => {
-            if (errRead) cb(errRead, null);
-            if (rowsRead.length) {
-              // save and submit
-              const updateFormResponse = {
-                userId: currentUser.id,
-                formUID: sanitizedInput.uniqueId,
-                formNumber,
-                status: UPDATE,
-              };
-              sqlConnPool.getConnection((err, connection) => {
-                if (err) cb(err, null);
-                connection.beginTransaction((err1) => {
-                  if (err1) cb(err1, null);
-                  connection.query(FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID, [sanitizedInput.uniqueId, currentUser.id], (err3, rows) => {
-                    if (err3) cb(err3, null); 
-                    if (!rows.length) cb(new Error("Form not found"), null);
-                    const formUID = rows[0].formUID;
-                    const formDataInput = getFormDataObject(formUID, sanitizedInput);
-                    const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
-                    // update rest of the data here
-                    connection.query(FORM_UPDATE.UPDATE_NEW_FORM_DATA_ENTRY, [formDataInput, formUID], (err4, rows4) => {
-                      if (err4) cb(err4, null);
-                      connection.query(FORM_UPDATE.UPDATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, [formDataExtraInfoInput, formUID], (err5, rows5) => {
-                        if (err5) cb(err5, null);
-                        // commit the transaction here
-                        connection.query(FORM_UPDATE.UPDATE_NEW_FORM_ENTRY, 
-                          [{ 
-                            status: SUBMIT,
-                            updateDate: new Date().toISOString().slice(0, 19).replace('T', ' ')
-                          }, 
-                          formUID], (err6, rows6) => {
-                            if (err6) cb(err6, null);
-                            connection.commit((commitErr) => {
-                              if (commitErr) {
-                                return connection.rollback(() => {
-                                  throw commitErr;
-                                });
-                              }
-                              cb(null, updateFormResponse);
-                            });
-                        });
-                      });
-                    });
-                  });
-                });
-              });
-            } else {
-              cb(new Error("Form not found or already submitted"), null);
-            }
-        });
-      }  else {
-        // submit as new form
-        const newFormUID = getFormUID(formNumber, currentUser);
-        const createNewFormEntryInput = {
-          userId: currentUser.id,
-          formUID: newFormUID,
-          formNumber,
-          status: NEW,
-        };
-        sqlConnPool.getConnection((err, connection) => {
-          if (err) cb(err, null);
-          connection.beginTransaction((err1) => {
-            if (err1) cb(err1, null);
-            connection.query(FORM_CREATE.CREATE_NEW_FORM_ENTRY, createNewFormEntryInput, (err2, result) => {
-              if (err2) cb(err2, null);
-              if (result) {
-                connection.query(FORM_READ.USERFORMS_SELECT_BY_ROWID, { id: result.insertId } , (err3, rows) => {
-                  if (err3) cb(err3, null);
-                  const formUID = rows[0].formUID;
-                  const formDataInput = getFormDataObject(formUID, sanitizedInput);
-                  const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
-                  // insert rest of the data here
-                  connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
-                    if (err4) cb(err4, null);
-                    connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
-                      if (err5) cb(err5, null);
-                      connection.query(FORM_UPDATE.UPDATE_FORM_SUBMIT_BY_FORMID_USERID, [{ status: SUBMIT }, formUID, currentUser.id], (err6, rows6) => {
-                        if (err6) cb(err6, null);
-                        // commit the transaction here
-                        connection.commit((commitErr) => {
-                          if (commitErr) {
-                            return connection.rollback(() => {
-                              throw commitErr;
-                            });
-                          }
-                          cb(null, createNewFormEntryInput);
-                        });
-                      });
-                    });
-                  });
-                });
-              }
-            });  
-          });
-        });
-      }
-      break;
+      // form itself will be submitted and locked
     case UPDATE:
       const updateFormResponse = {
         userId: currentUser.id,
