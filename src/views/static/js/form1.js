@@ -16,7 +16,8 @@ $(document).ready(function() {
     
     $("#relationship_status").on('input', relationship_status);
     $("#add_children").on('click', add_children);
-    $("#remove_children").on('click', remove_children);
+    $("#remove_children2").on('click', remove_children(1));
+    $("#remove_children2").on('click', remove_children(2));
     
 //    $( ".datepicker" ).datepicker({
 //        format: 'yyyy-mm-dd'
@@ -90,20 +91,36 @@ $(document).ready(function() {
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
                 }
+                
 
                 convictions(response.conviction.toLowerCase());
                 visa(response.visaRefusal.toLowerCase());
             
+                if (response.anyChildren === 'Yes') {
+                    // show children
+                } else {
+                    // will be no
+                    // hide children
+                }
+
+                
+              //  $('#child1_full_name').val(response.child1FullName);    
+
                 // commenting until I get data in
                 // $('#child1_full_name').val(response.); 
                 // $('#child1_nationalities').val(response.);
                 // $('#child1_dob').val(response.);
                 // $('#child1_placeofbirth').val(response.);
                 
-                // $('#child2_full_name').val(response.); 
-                // $('#child2_nationalities').val(response.);
-                // $('#child2_dob').val(response.);
-                // $('#child2_placeofbirth').val(response.);
+                if (response.child2FullName) {
+                    // $('#child2_full_name').val(response.); 
+                    // $('#child2_nationalities').val(response.);
+                    // $('#child2_dob').val(response.);
+                    // $('#child2_placeofbirth').val(response.);
+                } else {
+                    // hide second children
+                }
+                
             },
             error: function(xhr) {
                 if(xhr.status === 400) {
@@ -208,11 +225,27 @@ function add_children()
     $("#childern_details2").css("display","block"); 
 }
 
-function remove_children()
+function remove_children(identifier)
 {
-    $("#childern_details2").css("display","none");
-    //$("#remove_children").css("display","none"); 
-    //value of input boxes should be null now
+    if(identifier===1)
+    {   
+        $("#childern_details").css("display","none");
+        $("#child1_full_name").val("");
+        $("#child1_nationalities").val("");
+        $("#child1_dob").val("");
+        $("#child1_placeofbirth").val("");
+
+        remove_children(2);
+    }
+    else if(identifier===2)
+    {
+        $("#childern_details2").css("display","none");
+        $("#child2_full_name").val("");
+        $("#child2_nationalities").val("");
+        $("#child2_dob").val("");
+        $("#child2_placeofbirth").val("");
+    }
+    
 }
 
 
