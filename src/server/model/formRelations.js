@@ -1,7 +1,8 @@
 import asyncMapSeries from 'async/mapSeries';
 import {
   formType,
-  relationTypes as relation
+  formNumber as formNumberContant,
+  relationTypes as relation,
 } from '../constants';
 import sqlQueries from '../sqlQueries';
 import getRelationData from './helpers/getRelationData';
@@ -9,31 +10,25 @@ import getRelationData from './helpers/getRelationData';
 const { RELATIONSHIP_INFO, FORM_RELATIONS } = sqlQueries;
 const { NEW, SUBMIT, UPDATE } = formType;
 
-const getRelationsDataObject = (sanitizedInput, formDataExtraInfoInput) => {
+const getRelationsDataObject = (sanitizedInput, formNumber) => {
   const relationsData = [];
-  if (formDataExtraInfoInput.anyChildren.toLowerCase() == 'yes') {
-    for (var index = 1; index < 3; index++) {
-      if(sanitizedInput[`child${index}FullName`] && sanitizedInput[`child${index}FullName`] != '') {
-        relationsData.push(getRelationData({
-          firstName: sanitizedInput[`child${index}FullName`],
-          nationality: sanitizedInput[`child${index}Nationalitites`] || sanitizedInput[`child${index}Nationality`],
-          alternateNationality: sanitizedInput[`child${index}AlternateNationality`],
-          dateOfBirth: sanitizedInput[`child${index}DateOfBirth`],
-          countryOfBirth: sanitizedInput[`child${index}PlaceOfBirth`] || sanitizedInput[`child${index}CountryOfBirth`],
-        }, relation.CHILD));
-      }
-    }
-  }
-  if (sanitizedInput.fatherFullName && sanitizedInput.fatherFullName != '') {
+  for (var index = 1; index < 3; index++) {
     relationsData.push(getRelationData({
-      firstName: sanitizedInput.fatherFullName,
-      countryOfBirth: sanitizedInput.fatherCountryOfBirth,
-      nationality: sanitizedInput.fatherNationality,
-      alternateNationality: sanitizedInput.fatherAlternateNationality,
-      dateOfBirth: sanitizedInput.fatherDateOfBirth,
-    }, relation.FATHER));
+      firstName: sanitizedInput[`child${index}FullName`] || null,
+      nationality: sanitizedInput[`child${index}Nationalitites`] || sanitizedInput[`child${index}Nationality`] || null,
+      alternateNationality: sanitizedInput[`child${index}AlternateNationality`] || null,
+      dateOfBirth: sanitizedInput[`child${index}DateOfBirth`] || null,
+      countryOfBirth: sanitizedInput[`child${index}PlaceOfBirth`] || sanitizedInput[`child${index}CountryOfBirth`] || null,
+    }, relation.CHILD));
   }
-  if (sanitizedInput.motherFullName && sanitizedInput.motherFullName != '') {
+  if (formNumber === formNumberContant.TWO) {
+    relationsData.push(getRelationData({
+      firstName: sanitizedInput.fatherFullName || null,
+      countryOfBirth: sanitizedInput.fatherCountryOfBirth || null,
+      nationality: sanitizedInput.fatherNationality || null,
+      alternateNationality: sanitizedInput.fatherAlternateNationality || null,
+      dateOfBirth: sanitizedInput.fatherDateOfBirth || null,
+    }, relation.FATHER));
     relationsData.push(getRelationData({
       firstName: sanitizedInput.motherFullName,
       countryOfBirth: sanitizedInput.motherCountryOfBirth,
@@ -42,6 +37,7 @@ const getRelationsDataObject = (sanitizedInput, formDataExtraInfoInput) => {
       dateOfBirth: sanitizedInput.motherDateOfBirth,
     }, relation.MOTHER));
   }
+
   return relationsData;
 };
 
@@ -59,12 +55,12 @@ const insertFormRelations = (connection, formUID, relationId, onCb) => {
   });
 };
 
-export default (formUID, sanitizedInput, connection, action = formType.NEW, formDataExtraInfoInput) => cb => {
+export default (formUID, formNumber, sanitizedInput, connection, action = formType.NEW, formDataExtraInfoInput) => cb => {
   switch (action) {
     case NEW:
       connection.beginTransaction((err1) => {
         if (err1) cb(err1, null);
-        const allRelationsData = getRelationsDataObject(sanitizedInput, formDataExtraInfoInput);
+        const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
         asyncMapSeries(
           allRelationsData,
           (relationData, next) => insertRelationData(connection, relationData, next), 
@@ -84,14 +80,14 @@ export default (formUID, sanitizedInput, connection, action = formType.NEW, form
     case SUBMIT:
       // form itself will be submitted and locked
     case UPDATE:
-      const allRelationsData = getRelationsDataObject(sanitizedInput, formDataExtraInfoInput);
+      const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
       console.log('to update data', allRelationsData);
       connection.beginTransaction((err1) => {
         if (err1) cb(err1, null);
         connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [formUID], (err2, results) => {
 
         });
-        const allRelationsData = getRelationsDataObject(sanitizedInput, formDataExtraInfoInput);
+        const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
         // asyncMapSeries(
         //   allRelationsData,
         //   (relationData, next) => insertRelationData(connection, relationData, next), 
