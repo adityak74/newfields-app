@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <link type ="text/css" rel="stylesheet" href="<%= appLocation %>/css/contact_us.css"> -->
+    </head>
+    <body>
+        
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
+            <h5 class="h5 mb-0 text-gray-800" style="color:#77b300;">Manage Accounts</h5>
+        </div>
+        
+       
+        <div class="row" >
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-5 col-form-label">First name</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="Na_firstname" placeholder="enter first name" autocomplete="nope" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-5 col-form-label">Last name</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="Na_lastname" placeholder="enter last name" autocomplete="nope" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-5 col-form-label">Designation/Role</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="Na_deignation/role" placeholder="enter designation/role" autocomplete="nope" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-5 col-form-label">Permissions</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="Na_permissions" placeholder="select permissions" autocomplete="nope" required>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" id="create_na" data-toggle="tooltip" data-placement="top" style="float:right;"
+                    type="submit" title='Create New Account User'> Create new account
+            </button>
+
+        </div>
+        
+        
+    </body>
+</html>
