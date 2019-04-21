@@ -16,8 +16,8 @@ $(document).ready(function() {
     
     $("#relationship_status").on('input', relationship_status);
     $("#add_children").on('click', add_children);
-    $("#remove_children2").on('click', remove_children(1));
-    $("#remove_children2").on('click', remove_children(2));
+    // $("#remove_children1").on('click', remove_children(1));
+    // $("#remove_children2").on('click', remove_children(2));
     
 //    $( ".datepicker" ).datepicker({
 //        format: 'yyyy-mm-dd'
@@ -68,57 +68,84 @@ $(document).ready(function() {
                 $('#next_planned_departure').val(response.ukNextDepartureDate);
                 $('#UK_date_arrival_back').val(response.ukNextArrivalDate);
 
-                $('#partner_Title').val(response.partnerTitle);  
+                if(response.relationship==="Single")
+                {
+                    $("#partner_details").css("display","none"); 
+                    $('#partner_Title').val(response.partnerTitle);  
+                    $('#partner_full_name').val(response.partnerFullName); 
+                    $('#partner_mobile_number').val(response.partnerMobile);
+                    $('#partner_uk_home_address').val(response.partnerUKHomeAddress);
+                    $('#partner_nationalities').val(response.partnerNationalities);
+                    $('#partner_dob').val(response.partnerDateOfBirth);
+                    $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
+                }
+                else{
+                    $("#partner_details").css("display","block"); 
+                    $('#partner_Title').val(response.partnerTitle);  
+                    $('#partner_full_name').val(response.partnerFullName); 
+                    $('#partner_mobile_number').val(response.partnerMobile);
+                    $('#partner_uk_home_address').val(response.partnerUKHomeAddress);
+                    $('#partner_nationalities').val(response.partnerNationalities);
+                    $('#partner_dob').val(response.partnerDateOfBirth);
+                    $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
+                }
                 
-                $('#partner_full_name').val(response.partnerFullName); 
-                $('#partner_mobile_number').val(response.partnerMobile);
-                $('#partner_uk_home_address').val(response.partnerUKHomeAddress);
-                $('#partner_nationalities').val(response.partnerNationalities);
-                $('#partner_dob').val(response.partnerDateOfBirth);
-                $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
+                convictions(response.conviction.toLowerCase());
+                visa(response.visaRefusal.toLowerCase());
 
                 var $radios = $('input:radio[name=any_convictions]');
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.conviction +']').prop('checked', true);
+                }
+                if(response.conviction==='Yes')
+                {
+                    $("#conviction_text_area").css("display","block");
+                    $("#conviction_text_area").val(response.conviction.toLowerCase());
+                }
+                else{
+                    $("#conviction_text_area").css("display","none");
+                  //  $("#conviction_text_area").val(response.conviction.toLowerCase());
                 }
 
                 var $radios = $('input:radio[name=visa_refusals]');
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.visaRefusal +']').prop('checked', true);
                 }
+                if (response.visaRefusal === 'Yes')
+                {
+                    $("#visa_refusals_textarea").css("display","block");
+                    $("#visa_refusals_textarea").val(rresponse.visaRefusal.toLowerCase());
+                }
+                else{
+                    $("#visa_refusals_textarea").css("display","none");
+                  //  $("#visa_refusals_textarea").val(response.conviction.toLowerCase());
+                }
+
 
                 var $radios = $('input:radio[name=any_children]');
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
                 }
-                
-
-                convictions(response.conviction.toLowerCase());
-                visa(response.visaRefusal.toLowerCase());
-            
                 if (response.anyChildren === 'Yes') {
-                    // show children
+                    $('#child1_full_name').val(response.child1FullName); 
+                    $('#child1_nationalities').val(response.child1Nationalitites);
+                    $('#child1_dob').val(response.child1DateOfBirth);
+                    $('#child1_placeofbirth').val(response.child1CountryOfBirth);
+                    
+                    $("#childern_details").css("display","block");
                 } else {
-                    // will be no
-                    // hide children
+                    $("#childern_details").css("display","none");
                 }
 
-                
-              //  $('#child1_full_name').val(response.child1FullName);    
-
-                // commenting until I get data in
-                // $('#child1_full_name').val(response.); 
-                // $('#child1_nationalities').val(response.);
-                // $('#child1_dob').val(response.);
-                // $('#child1_placeofbirth').val(response.);
-                
                 if (response.child2FullName) {
-                    // $('#child2_full_name').val(response.); 
-                    // $('#child2_nationalities').val(response.);
-                    // $('#child2_dob').val(response.);
-                    // $('#child2_placeofbirth').val(response.);
+                    $('#child2_full_name').val(response.child2FullName); 
+                    $('#child2_nationalities').val(response.child2Nationalitites);
+                    $('#child2_dob').val(response.child2DateOfBirth);
+                    $('#child2_placeofbirth').val(response.child2CountryOfBirth);
+
+                    $("#childern_details2").css("display","block");
                 } else {
-                    // hide second children
+                    $("#childern_details2").css("display","none");
                 }
                 
             },
@@ -175,21 +202,53 @@ function relationship_status()
     if(selected_status==="single")
     {
         $("#partner_details").css("display","none");
+
+        $("#partner_Title").removeAttr("required", "required");
+        $("#partner_full_name").removeAttr("required", "required");
+        $("#partner_mobile_number").removeAttr("required", "required");
+        $("#partner_uk_home_address").removeAttr("required", "required");
+        $("#partner_nationalities").removeAttr("required", "required");
+        $("#partner_dob").removeAttr("required", "required");
+        $("#partner_placeofbirth").removeAttr("required", "required");
+        
+        //$("#partner_Title").val("");
+        $("#partner_Title")[0].selectedIndex = 0;
+        $("#partner_full_name").val("");
+        $("#partner_mobile_number").val("");
+        $("#partner_uk_home_address").val("");
+        $("#partner_nationalities").val("");
+        $("#partner_dob").val("");
+        $("#partner_placeofbirth").val("");
+        
     }
     else{
         $("#partner_details").css("display","block");
+        $("#partner_Title").attr("required", "required");
+        $("#partner_full_name").attr("required", "required");
+        $("#partner_mobile_number").attr("required", "required");
+        $("#partner_uk_home_address").attr("required", "required");
+        $("#partner_nationalities").attr("required", "required");
+        $("#partner_dob").attr("required", "required");
+        $("#partner_placeofbirth").attr("required", "required");
     }
 }
+
+
+
 
 function convictions(option)
 {
     if(option==="yes")
     {
         $("#conviction_text_area").css("display","block");
+        $("#conviction_text_area").attr("required", "required");
     }
     else if(option==="no")
     {
         $("#conviction_text_area").css("display","none");
+        $("#conviction_text_area").removeAttr("required", "required");
+        $("#conviction_text_area").val("");
+        
     }
 }
 
@@ -198,10 +257,13 @@ function visa(option)
     if(option==="yes")
     {
         $("#visa_refusals_textarea").css("display","block");
+        $("#visa_refusals_textarea").attr("required", "required");
     }
     else if(option==="no")
     {
         $("#visa_refusals_textarea").css("display","none");
+        $("#visa_refusals_textarea").val("");
+        $("#visa_refusals_textarea").removeAttr("required", "required");
     }
 }
 
@@ -210,32 +272,48 @@ function radio_option(option)
     if(option==="yes")
     {
         $("#childern_details").css("display","block");
+        $("#child1_full_name").attr("required", "required");
+        $("#child1_nationalities").attr("required", "required");
+        $("#child1_dob").attr("required", "required");
+        $("#child1_placeofbirth").attr("required", "required");
     }
     else if(option==="no")
     {
-        $("#childern_details").css("display","none");
-        $("#childern_details2").css("display","none");
+        // $("#childern_details").css("display","none");
+        // $("#childern_details2").css("display","none");
+        remove_children(1);
     }
     
 }
-
-function add_children()
+function add_children2()
 {
    // $("#remove_children").css("display","block"); 
     $("#childern_details2").css("display","block"); 
+    $("#child2_full_name").attr("required", "required");
+    $("#child2_nationalities").attr("required", "required");
+    $("#child2_dob").attr("required", "required");
+    $("#child2_placeofbirth").attr("required", "required");
 }
 
 function remove_children(identifier)
 {
     if(identifier===1)
     {   
+        $("input[name='any_children'][value='No']").prop('checked', true);
         $("#childern_details").css("display","none");
         $("#child1_full_name").val("");
         $("#child1_nationalities").val("");
         $("#child1_dob").val("");
         $("#child1_placeofbirth").val("");
 
+        $("#child1_full_name").removeAttr("required", "required");
+        $("#child1_nationalities").removeAttr("required", "required");
+        $("#child1_dob").removeAttr("required", "required");
+        $("#child1_placeofbirth").removeAttr("required", "required");
+
+
         remove_children(2);
+        
     }
     else if(identifier===2)
     {
@@ -244,6 +322,11 @@ function remove_children(identifier)
         $("#child2_nationalities").val("");
         $("#child2_dob").val("");
         $("#child2_placeofbirth").val("");
+        
+        $("#child2_full_name").removeAttr("required", "required");
+        $("#child2_nationalities").removeAttr("required", "required");
+        $("#child2_dob").removeAttr("required", "required");
+        $("#child2_placeofbirth").removeAttr("required", "required");
     }
     
 }
