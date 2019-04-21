@@ -18,7 +18,11 @@ function change_content(identifier)
     if(identifier==='admin-home')
     {   
         $("#change_content").load(appLocation + '/admin/homepage');
-    } 
+    }
+    if(identifier==='manage-accounts')
+    {   
+        $("#change_content").load(appLocation + '/admin/manage-accounts');
+    }
     else if(identifier==='contact')
     {   
         $("#change_content").load(appLocation + '/user/contact');
