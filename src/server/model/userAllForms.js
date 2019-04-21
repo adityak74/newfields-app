@@ -5,6 +5,7 @@ import {
   relationTypes as relation,
   tripTypes as trip,
 } from '../constants';
+import userFormRead from './userFormsRead';
 import sqlQueries from '../sqlQueries';
 
 const { FORM_READ, FORM_RELATIONS, RELATIONSHIP_INFO } = sqlQueries;
@@ -53,39 +54,18 @@ const relationDataTranform = relationshipData => {
   }
 };
 
-export default (req, sanitizedInput, sqlConnPool) => cb => {
+export default (req, sqlConnPool) => cb => {
   const currentUser = req.user;
-  console.log('getching form', sanitizedInput.formUID);
+  
   sqlConnPool.getConnection((err, connection) => {
     if (err) cb(err, null);
     connection.beginTransaction((err1) => {
       if (err1) cb(err1, null);
-      connection.query(FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE, [sanitizedInput.formUID, currentUser.id], (err2, result) => {
+      connection.query(FORM_READ.USERFORMS_SELECT_BY_USERID_INCOMPLETE, [currentUser.id], (err2, results) => {
         if (err2) cb(err2, null);
-        if (result[0]) {
-          connection.query(FORM_READ.USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID, [result[0].formUID, result[0].formUID] , (err3, rows) => {
-            if (err3) cb(err3, null);
-            const userFormDataWithInfo = rows[0];
-            connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err4, result1) => {
-              if (err4) cb(err4, null);
-              if (result1.length) {
-                const relationIds = result1.map(res => res.relationshipId);
-                asyncMapSeries(relationIds, (relationId, next) => getRelationData(connection, relationId, next), (err, relationsArray) => {
-                  const relationDataShimmed = relationsArray.map(relationDataTranform);
-                  let resultObj = { ...userFormDataWithInfo };
-                  relationDataShimmed.forEach(relation => 
-                    resultObj = { ...resultObj, ...relation });
-                  cb(null, resultObj);
-                });
-              } else {
-                // return will empty relations data
-                cb(null, userFormDataWithInfo);
-              }
-            })
-          });
-        } else {
-          cb(new Error("Form not found or already submitted. Redirecting to dashboard."), null);
-        }
+        if (results.length) {
+          cb(null, results);
+        } else cb(null, []);
       });  
     });
   });

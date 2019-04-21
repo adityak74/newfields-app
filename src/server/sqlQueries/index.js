@@ -6,6 +6,7 @@ const FORM_CREATE = {
 
 const FORM_READ = {
   USERFORMS_SELECT_BY_ROWID: 'SELECT * from userForms where ?',
+  USERFORMS_SELECT_BY_USERID_INCOMPLETE: 'SELECT * from userForms where userId = ? and status != 3',
   USERFORMS_SELECT_BY_FORMID_USERID: 'SELECT * from userForms where formUID = ? and userId = ?',
   USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE: 'SELECT * FROM `userForms` WHERE formUID = ? and userId = ? and status != 3',
   USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID: 'SELECT fd.*, fdEI.* from formData fd, formDataExtraInfo fdEI where fd.uniqueId = ? and fdEI.formUniqueId = ?',
