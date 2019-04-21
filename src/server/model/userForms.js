@@ -42,7 +42,7 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                   if (err4) cb(err4, null);
                   connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
                     if (err5) cb(err5, null);
-                    const relationsModel = formRelationsModel(formUID, sanitizedInput, connection, formType.NEW, formDataExtraInfoInput);
+                    const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.NEW, formDataExtraInfoInput);
                     relationsModel((relationsErr, relationsData) => {
                       if (relationsErr) cb(relationsErr, null);
                       // commit the transaction here
@@ -197,14 +197,19 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                   }, 
                   formUID], (err6, rows6) => {
                     if (err6) cb(err6, null);
-                    connection.commit((commitErr) => {
-                      if (commitErr) {
-                        return connection.rollback(() => {
-                          throw commitErr;
-                        });
-                      }
-                      cb(null, updateFormResponse);
-                    });
+                    const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
+                    relationsModel((relationsErr, relationsData) => {
+                      if (relationsErr) cb(relationsErr, null);
+                      // commit the transaction here
+                      connection.commit((commitErr) => {
+                        if (commitErr) {
+                          return connection.rollback(() => {
+                            throw commitErr;
+                          });
+                        }
+                        cb(null, updateFormResponse);
+                      });
+                    }); 
                 });
               });
             });

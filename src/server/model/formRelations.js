@@ -1,7 +1,8 @@
 import asyncMapSeries from 'async/mapSeries';
 import {
   formType,
-  relationTypes as relation
+  formNumber as formNumberContant,
+  relationTypes as relation,
 } from '../constants';
 import sqlQueries from '../sqlQueries';
 import getRelationData from './helpers/getRelationData';
@@ -9,31 +10,25 @@ import getRelationData from './helpers/getRelationData';
 const { RELATIONSHIP_INFO, FORM_RELATIONS } = sqlQueries;
 const { NEW, SUBMIT, UPDATE } = formType;
 
-const getRelationsDataObject = (sanitizedInput, formDataExtraInfoInput) => {
+const getRelationsDataObject = (sanitizedInput, formNumber) => {
   const relationsData = [];
-  if (formDataExtraInfoInput.anyChildren.toLowerCase() == 'yes') {
-    for (var index = 1; index < 3; index++) {
-      if(sanitizedInput[`child${index}FullName`] && sanitizedInput[`child${index}FullName`] != '') {
-        relationsData.push(getRelationData({
-          firstName: sanitizedInput[`child${index}FullName`],
-          nationality: sanitizedInput[`child${index}Nationalitites`] || sanitizedInput[`child${index}Nationality`],
-          alternateNationality: sanitizedInput[`child${index}AlternateNationality`],
-          dateOfBirth: sanitizedInput[`child${index}DateOfBirth`],
-          countryOfBirth: sanitizedInput[`child${index}PlaceOfBirth`] || sanitizedInput[`child${index}CountryOfBirth`],
-        }, relation.CHILD));
-      }
-    }
-  }
-  if (sanitizedInput.fatherFullName && sanitizedInput.fatherFullName != '') {
+  for (var index = 1; index < 3; index++) {
     relationsData.push(getRelationData({
-      firstName: sanitizedInput.fatherFullName,
-      countryOfBirth: sanitizedInput.fatherCountryOfBirth,
-      nationality: sanitizedInput.fatherNationality,
-      alternateNationality: sanitizedInput.fatherAlternateNationality,
-      dateOfBirth: sanitizedInput.fatherDateOfBirth,
-    }, relation.FATHER));
+      firstName: sanitizedInput[`child${index}FullName`] || null,
+      nationality: sanitizedInput[`child${index}Nationalitites`] || sanitizedInput[`child${index}Nationality`] || null,
+      alternateNationality: sanitizedInput[`child${index}AlternateNationality`] || null,
+      dateOfBirth: sanitizedInput[`child${index}DateOfBirth`] || null,
+      countryOfBirth: sanitizedInput[`child${index}PlaceOfBirth`] || sanitizedInput[`child${index}CountryOfBirth`] || null,
+    }, relation.CHILD));
   }
-  if (sanitizedInput.motherFullName && sanitizedInput.motherFullName != '') {
+  if (formNumber === formNumberContant.TWO) {
+    relationsData.push(getRelationData({
+      firstName: sanitizedInput.fatherFullName || null,
+      countryOfBirth: sanitizedInput.fatherCountryOfBirth || null,
+      nationality: sanitizedInput.fatherNationality || null,
+      alternateNationality: sanitizedInput.fatherAlternateNationality || null,
+      dateOfBirth: sanitizedInput.fatherDateOfBirth || null,
+    }, relation.FATHER));
     relationsData.push(getRelationData({
       firstName: sanitizedInput.motherFullName,
       countryOfBirth: sanitizedInput.motherCountryOfBirth,
@@ -42,6 +37,7 @@ const getRelationsDataObject = (sanitizedInput, formDataExtraInfoInput) => {
       dateOfBirth: sanitizedInput.motherDateOfBirth,
     }, relation.MOTHER));
   }
+
   return relationsData;
 };
 
@@ -59,12 +55,12 @@ const insertFormRelations = (connection, formUID, relationId, onCb) => {
   });
 };
 
-export default (formUID, sanitizedInput, connection, action = formType.NEW, formDataExtraInfoInput) => cb => {
+export default (formUID, formNumber, sanitizedInput, connection, action = formType.NEW, formDataExtraInfoInput) => cb => {
   switch (action) {
     case NEW:
       connection.beginTransaction((err1) => {
         if (err1) cb(err1, null);
-        const allRelationsData = getRelationsDataObject(sanitizedInput, formDataExtraInfoInput);
+        const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
         asyncMapSeries(
           allRelationsData,
           (relationData, next) => insertRelationData(connection, relationData, next), 
@@ -84,48 +80,28 @@ export default (formUID, sanitizedInput, connection, action = formType.NEW, form
     case SUBMIT:
       // form itself will be submitted and locked
     case UPDATE:
-      const updateFormResponse = {
-        userId: currentUser.id,
-        formUID: sanitizedInput.uniqueId,
-        formNumber,
-        status: UPDATE,
-      };
-      sqlConnPool.getConnection((err, connection) => {
-        if (err) cb(err, null);
-        connection.beginTransaction((err1) => {
-          if (err1) cb(err1, null);
-          connection.query(FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID, [sanitizedInput.uniqueId, currentUser.id], (err3, rows) => {
-            if (err3) cb(err3, null); 
-            if (!rows.length) cb(new Error("Form not found"), null);
-            const formUID = rows[0].formUID;
-            const formDataInput = getFormDataObject(formUID, sanitizedInput);
-            const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
-            // update rest of the data here
-            connection.query(FORM_UPDATE.UPDATE_NEW_FORM_DATA_ENTRY, [formDataInput, formUID], (err4, rows4) => {
-              if (err4) cb(err4, null);
-              connection.query(FORM_UPDATE.UPDATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, [formDataExtraInfoInput, formUID], (err5, rows5) => {
-                if (err5) cb(err5, null);
-                // commit the transaction here
-                connection.query(FORM_UPDATE.UPDATE_NEW_FORM_ENTRY, 
-                  [{ 
-                    status: formType.UPDATE, 
-                    updateDate: new Date().toISOString().slice(0, 19).replace('T', ' ') 
-                  }, 
-                  formUID], (err6, rows6) => {
-                    if (err6) cb(err6, null);
-                    connection.commit((commitErr) => {
-                      if (commitErr) {
-                        return connection.rollback(() => {
-                          throw commitErr;
-                        });
-                      }
-                      cb(null, updateFormResponse);
-                    });
-                });
-              });
-            });
-          });
+      const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
+      console.log('to update data', allRelationsData);
+      connection.beginTransaction((err1) => {
+        if (err1) cb(err1, null);
+        connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [formUID], (err2, results) => {
+
         });
+        const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
+        // asyncMapSeries(
+        //   allRelationsData,
+        //   (relationData, next) => insertRelationData(connection, relationData, next), 
+        //   (err, results) => {
+        //     if (err) cb(err, null);
+        //     asyncMapSeries(
+        //       results, 
+        //       (relationId, next) => insertFormRelations(connection, formUID, relationId, next),
+        //       (err1, results1) => {
+        //         if (err1) cb(err1, null);
+        //         cb(null, results1);
+        //       });
+        //   },
+        // );
       });
       break;
     default: 
