@@ -1,6 +1,8 @@
 import express from 'express';
 import isAdmin from '../util/isAdmin';
+import validateFormProgress from '../validation/validator/formProgress';
 import userFormsReadAll from '../model/userAllForms';
+import formProgress from '../model/formProgress';
 import { SUBMIT } from '../constants/formType';
 
 export default ({ appUrl, sqlConn }) => {
@@ -16,10 +18,23 @@ export default ({ appUrl, sqlConn }) => {
     res.render('pages/admin_page', { appLocation: appUrl });
   });
 
+  router.post('/updateProgress', isAdmin, (req, res) => {
+    const input = req.body;
+
+    validateFormProgress(input, {}, (err, sanitizedInput) => {
+      if (err) return res.status(400).send(err);
+      const formProgressUpdate = formProgress(sqlConn, sanitizedInput);
+      formProgressUpdate((err, response) => {
+        if (err) return res.status(400).send(err);
+        res.status(200).send(response);
+      });
+    });
+  });
+
   router.get('/getForms', isAdmin, (req, res) => {
     const getAllForms = userFormsReadAll(req, sqlConn, SUBMIT, false);
     getAllForms((err, result) => {
-      if (err) res.status(400).send(err);
+      if (err) return res.status(400).send(err);
       else res.send(result);
     });
   });

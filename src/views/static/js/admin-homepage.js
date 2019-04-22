@@ -20,9 +20,6 @@ function application_form(formNumber, formUID) {
 }
 
 $(document).ready(function () {
-    
-    form1_request_table();
-    form2_request_table();
     $('#overlay1').show();
     $('#img').show();
     $.get({
@@ -32,27 +29,10 @@ $(document).ready(function () {
             $('#img').hide();
             $('#overlay1').hide();
             console.log('all user forms', responseData);
-            // update the dashboard table here to pick all the data.
-            // if no forms the responseData = [] empty array
-            // var CAT = $('#client_application_table').DataTable();
-            // if (responseData.length) {
-            //     responseData.forEach(formResponse => {
-            //         CAT.row.add([
-            //             formResponse.createDate,
-            //             formResponse.formUID,
-            //             formResponse.formNumber,
-            //             getStatusFromCode(formResponse.status),
-            //             "<label onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\')})()\" \n\
-            //             style='cursor:pointer;color: #4d79ff;'><u>View Application</u></label>",
-            //             // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
-            //             // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
-            //             //     Property Profile\n\
-            //             // </label>"
-        
-        
-            //         ]).draw(false);
-            //     });
-            // }
+            form1_request_table(responseData.filter(form => form.formNumber === 1));
+            form2_request_table(responseData.filter(form => form.formNumber === 2));
+            incomplete_forms_request_table(responseData.filter(form => [1,2].includes(form.processingStatus)));
+            processed_forms_request_table(responseData.filter(form => [3].includes(form.processingStatus)));
         },
         error: function(xhr) {
             $('#img').hide();
@@ -72,55 +52,22 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
-function form1_request_table()
+function form1_request_table(formsDataArray)
 { 
     var LCT = $('#form1_client_table').DataTable();
-
-    for (var i=0;i<10;i++)
-        {  
-            //   var id = jsonObj[i]["CLIENT_ID"];
-            
-            LCT.row.add([
-                "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form1(\'"+i+"\')})()\">",
-//                    activation_date,
-                i,// jsonObj[i]["CLIENT_ID"],
-                i,// jsonObj[i]["NAME"],
-                i,// jsonObj[i]["PBUILDINGNAME"],
-                i,// jsonObj[i]["STREET_NAME"],
-                i,
-                i,//  jsonObj[i]["ACTIVATION_CODE"],
-                "Pending"
-                //   parseInt(jsonObj[i]["PERMISSIONS"]) === 1 ? 'All Access' : 'Read Only',
-            ]).draw(false);
-        }//onclick=\"(function(){UsersandPermission_edit_button(\'"+user_id+"\')})()\"
-    
-    $.ajax({
-        url : '',
-        data:{
-                
-            },
-        success : function(responseText) {
-        
-         //   var jsonObj = JSON.parse(responseText);
-         //   var arrayLength = jsonObj.length;
-            for (var i=0;i<10;i++)
-            {  
-             //   var id = jsonObj[i]["CLIENT_ID"];
-               
-                LCT.row.add([
-                    "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form1(\'"+i+"\')})()\">",
-//                    activation_date,
-                   i,// jsonObj[i]["CLIENT_ID"],
-                   i,// jsonObj[i]["NAME"],
-                   i,// jsonObj[i]["PBUILDINGNAME"],
-                   i,// jsonObj[i]["STREET_NAME"],
-                   i,
-                   i,//  jsonObj[i]["ACTIVATION_CODE"],
-                    "Pending"
-                 //   parseInt(jsonObj[i]["PERMISSIONS"]) === 1 ? 'All Access' : 'Read Only',
-                ]).draw(false);
-            }//onclick=\"(function(){UsersandPermission_edit_button(\'"+user_id+"\')})()\"
-        }
+    formsDataArray.forEach(formResponse => {
+        LCT.row.add([
+            "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
+            formResponse.createDate,
+            formResponse.formUID,
+            formResponse.name,
+            formResponse.email,
+            getStatusFromCode(formResponse.status),
+            // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
+            // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
+            //     Property Profile\n\
+            // </label>"
+        ]).draw(false);
     });
 }
 
@@ -187,37 +134,60 @@ function Openclient_form1(id)
  }
 
 
-function form2_request_table()
+function form2_request_table(formsDataArray)
 { 
     var LCT = $('#form2_client_table').DataTable();
-    
-    $.ajax({
-        url : '',
-        data:{
-                
-            },
-        success : function(responseText) {
-        
-         //   var jsonObj = JSON.parse(responseText);
-         //   var arrayLength = jsonObj.length;
-            for (var i=0;i<10;i++)
-            {  
-             //   var id = jsonObj[i]["CLIENT_ID"];
-               
-                LCT.row.add([
-                    "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+i+"\')})()\">",
-//                    activation_date,
-                   i,// jsonObj[i]["CLIENT_ID"],
-                   i,// jsonObj[i]["NAME"],
-                   i,// jsonObj[i]["PBUILDINGNAME"],
-                   i,// jsonObj[i]["STREET_NAME"],
-                   i,
-                   i,//  jsonObj[i]["ACTIVATION_CODE"],
-                    "Pending"
-                 //   parseInt(jsonObj[i]["PERMISSIONS"]) === 1 ? 'All Access' : 'Read Only',
-                ]).draw(false);
-            }//onclick=\"(function(){UsersandPermission_edit_button(\'"+user_id+"\')})()\"
-        }
+    formsDataArray.forEach(formResponse => {
+        LCT.row.add([
+            "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
+            formResponse.createDate,
+            formResponse.formUID,
+            formResponse.name,
+            formResponse.email,
+            getStatusFromCode(formResponse.status),
+            // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
+            // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
+            //     Property Profile\n\
+            // </label>"
+        ]).draw(false);
+    });
+}
+
+function incomplete_forms_request_table(formsDataArray)
+{ 
+    var LCT = $('#incomplete_forms_client_table').DataTable();
+    formsDataArray.forEach(formResponse => {
+        LCT.row.add([
+            "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
+            formResponse.createDate,
+            formResponse.formUID,
+            formResponse.name,
+            formResponse.email,
+            getStatusFromCode(formResponse.status),
+            // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
+            // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
+            //     Property Profile\n\
+            // </label>"
+        ]).draw(false);
+    });
+}
+
+function processed_forms_request_table(formsDataArray)
+{ 
+    var LCT = $('#processed_forms_client_table').DataTable();
+    formsDataArray.forEach(formResponse => {
+        LCT.row.add([
+            "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
+            formResponse.createDate,
+            formResponse.formUID,
+            formResponse.name,
+            formResponse.email,
+            getStatusFromCode(formResponse.status),
+            // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
+            // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
+            //     Property Profile\n\
+            // </label>"
+        ]).draw(false);
     });
 }
 

@@ -44,9 +44,7 @@ and open the template in the editor.
                                     <th>Submission Date</th>
                                     <th>Reference id</th>
                                     <th>Customer Name</th>
-                                    <th>Country</th>
                                     <th>Email Address</th>
-                                    <th>Contact Details</th>
                                     <th>Application Status</th>
                                 </thead>
                             </table>
@@ -69,9 +67,7 @@ and open the template in the editor.
                                     <th>Submission Date</th>
                                     <th>Reference id</th>
                                     <th>Customer Name</th>
-                                    <th>Country</th>
                                     <th>Email Address</th>
-                                    <th>Contact Details</th>
                                     <th>Application Status</th>
                                 </thead>
                             </table>
@@ -89,15 +85,13 @@ and open the template in the editor.
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="form2_client_table" class="table table-bordered table-hover table-striped">
+                            <table id="incomplete_forms_client_table" class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <th style="width:10px;">Select</th>
                                     <th>Submission Date</th>
                                     <th>Reference id</th>
                                     <th>Customer Name</th>
-                                    <th>Country</th>
                                     <th>Email Address</th>
-                                    <th>Contact Details</th>
                                     <th>Application Status</th>
                                 </thead>
                             </table>
@@ -115,15 +109,13 @@ and open the template in the editor.
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="form2_client_table" class="table table-bordered table-hover table-striped">
+                            <table id="processed_forms_client_table" class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <th style="width:10px;">Select</th>
                                     <th>Submission Date</th>
                                     <th>Reference id</th>
                                     <th>Customer Name</th>
-                                    <th>Country</th>
                                     <th>Email Address</th>
-                                    <th>Contact Details</th>
                                     <th>Application Status</th>
                                 </thead>
                             </table>
@@ -409,9 +401,9 @@ and open the template in the editor.
                                 <label for="staticEmail"  class="col-sm-5 col-form-label">Update application status</label>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="status_update">
-                                        <option value="">Application status</option>
-                                        <option>Application Process pending</option>
-                                        <option>Application Process completed</option>
+                                        <option value="1">Submitted</option>
+                                        <option value="2">Application In Progress</option>
+                                        <option value="3">Application Processed</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-2">
@@ -1442,14 +1434,14 @@ and open the template in the editor.
                             <hr class="hr_style">
 
                             <div class="form-group row">
-                                <label for="staticEmail"  class="col-sm-5 col-form-label">Update application status</label>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="status_update">
-                                        <option value="">Application status</option>
-                                        <option>Application Process pending</option>
-                                        <option>Application Process completed</option>
+                                        <option value="1">Submitted</option>
+                                        <option value="2">Application In Progress</option>
+                                        <option value="3">Application Processed</option>
                                     </select>
                                 </div>
+                                <label for="staticEmail"  class="col-sm-5 col-form-label"></label>
                                 <div class="col-sm-2">
                                     <button class="btn btn-primary" id="save_form" data-toggle="tooltip" data-placement="top" 
                                         type="button" title='Update'>Update Application Status
