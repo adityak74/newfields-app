@@ -4,13 +4,68 @@
  * and open the template in the editor.
  */
 
+function getStatusFromCode(formStatusCode) {
+    let statusText = '';
+    switch (formStatusCode) {
+        case 1: statusText = 'NEW'; break;
+        case 2: statusText = 'UPDATE'; break;
+        case 3: statusText = 'SUBMIT'; break;
+        default: statusText = 'NEW'; break;
+    }
+    return statusText;
+}
 
+function application_form(formNumber, formUID) {
+    window.open(location.origin + '/form' + formNumber+'/show?action=update&formId=' + formUID, '_blank');
+}
 
 $(document).ready(function () {
     
     form1_request_table();
     form2_request_table();
-    
+    $('#overlay1').show();
+    $('#img').show();
+    $.get({
+        url : appLocation + '/admin/getForms',
+        data : {},
+        success : function(responseData) {
+            $('#img').hide();
+            $('#overlay1').hide();
+            console.log('all user forms', responseData);
+            // update the dashboard table here to pick all the data.
+            // if no forms the responseData = [] empty array
+            // var CAT = $('#client_application_table').DataTable();
+            // if (responseData.length) {
+            //     responseData.forEach(formResponse => {
+            //         CAT.row.add([
+            //             formResponse.createDate,
+            //             formResponse.formUID,
+            //             formResponse.formNumber,
+            //             getStatusFromCode(formResponse.status),
+            //             "<label onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\')})()\" \n\
+            //             style='cursor:pointer;color: #4d79ff;'><u>View Application</u></label>",
+            //             // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
+            //             // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
+            //             //     Property Profile\n\
+            //             // </label>"
+        
+        
+            //         ]).draw(false);
+            //     });
+            // }
+        },
+        error: function(xhr) {
+            $('#img').hide();
+            $('#overlay1').hide();
+            swal({
+                title: "Server Error",
+                text: "It seems like the server is down or under maintainance, please check back later.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            });
+        },
+    });
 });
 
 $(function () {
@@ -20,6 +75,24 @@ $(function () {
 function form1_request_table()
 { 
     var LCT = $('#form1_client_table').DataTable();
+
+    for (var i=0;i<10;i++)
+        {  
+            //   var id = jsonObj[i]["CLIENT_ID"];
+            
+            LCT.row.add([
+                "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form1(\'"+i+"\')})()\">",
+//                    activation_date,
+                i,// jsonObj[i]["CLIENT_ID"],
+                i,// jsonObj[i]["NAME"],
+                i,// jsonObj[i]["PBUILDINGNAME"],
+                i,// jsonObj[i]["STREET_NAME"],
+                i,
+                i,//  jsonObj[i]["ACTIVATION_CODE"],
+                "Pending"
+                //   parseInt(jsonObj[i]["PERMISSIONS"]) === 1 ? 'All Access' : 'Read Only',
+            ]).draw(false);
+        }//onclick=\"(function(){UsersandPermission_edit_button(\'"+user_id+"\')})()\"
     
     $.ajax({
         url : '',
@@ -61,8 +134,7 @@ function Openclient_form1(id)
     //ajax call
     $.ajax({
         url : '',
-        data:{
-            },
+        data:{},
         success : function(responseText) {
 
 
@@ -225,78 +297,78 @@ function Openclient_form2(id)
 
         //visits
 
-            $('#f2_UK_arrival_date1').val(responseText.);
-            $('#f2_UK_departure_date1').val(responseText.);
-            $('#f2_reason_ofvisit1').val(responseText.);
+        //     $('#f2_UK_arrival_date1').val(responseText.);
+        //     $('#f2_UK_departure_date1').val(responseText.);
+        //     $('#f2_reason_ofvisit1').val(responseText.);
 
-            $('#f2_UK_arrival_date2').val(responseText.);
-            $('#f2_UK_departure_date2').val(responseText.);
-            $('#f2_reason_ofvisit2').val(responseText.);
+        //     $('#f2_UK_arrival_date2').val(responseText.);
+        //     $('#f2_UK_departure_date2').val(responseText.);
+        //     $('#f2_reason_ofvisit2').val(responseText.);
 
-            $('#f2_UK_arrival_date3').val(responseText.);
-            $('#f2_UK_departure_date3').val(responseText.);
-            $('#f2_reason_ofvisit3').val(responseText.);
+        //     $('#f2_UK_arrival_date3').val(responseText.);
+        //     $('#f2_UK_departure_date3').val(responseText.);
+        //     $('#f2_reason_ofvisit3').val(responseText.);
 
-            $('#f2_UK_arrival_date4').val(responseText.);
-            $('#f2_UK_departure_date4').val(responseText.);
-            $('#f2_reason_ofvisit4').val(responseText.);
+        //     $('#f2_UK_arrival_date4').val(responseText.);
+        //     $('#f2_UK_departure_date4').val(responseText.);
+        //     $('#f2_reason_ofvisit4').val(responseText.);
 
-            $('#f2_UK_arrival_date5').val(responseText.);
-            $('#f2_UK_departure_date5').val(responseText.);
-            $('#f2_reason_ofvisit5').val(responseText.);
+        //     $('#f2_UK_arrival_date5').val(responseText.);
+        //     $('#f2_UK_departure_date5').val(responseText.);
+        //     $('#f2_reason_ofvisit5').val(responseText.);
 
-        //trips abroad to: Australia; NZ; Canada; USA; Europe,
-            $('#f2_country1').val(responseText.);
-            $('#f2_date_arrival_country1').val(responseText.);
-            $('#f2_date_departure_country1').val(responseText.);
-            $('#f2_tripreason_ofvisit1').val(responseText.);
+        // //trips abroad to: Australia; NZ; Canada; USA; Europe,
+        //     $('#f2_country1').val(responseText.);
+        //     $('#f2_date_arrival_country1').val(responseText.);
+        //     $('#f2_date_departure_country1').val(responseText.);
+        //     $('#f2_tripreason_ofvisit1').val(responseText.);
 
-            $('#f2_country2').val(responseText.);
-            $('#f2_date_arrival_country2').val(responseText.);
-            $('#f2_date_departure_country2').val(responseText.);
-            $('#f2_tripreason_ofvisit2').val(responseText.);
+        //     $('#f2_country2').val(responseText.);
+        //     $('#f2_date_arrival_country2').val(responseText.);
+        //     $('#f2_date_departure_country2').val(responseText.);
+        //     $('#f2_tripreason_ofvisit2').val(responseText.);
 
-            $('#f2_country3').val(responseText.);
-            $('#f2_date_arrival_country3').val(responseText.);
-            $('#f2_date_departure_country3').val(responseText.);
-            $('#f2_tripreason_ofvisit3').val(responseText.);
+        //     $('#f2_country3').val(responseText.);
+        //     $('#f2_date_arrival_country3').val(responseText.);
+        //     $('#f2_date_departure_country3').val(responseText.);
+        //     $('#f2_tripreason_ofvisit3').val(responseText.);
 
-            $('#f2_country4').val(responseText.);
-            $('#f2_date_arrival_country4').val(responseText.);
-            $('#f2_date_departure_country4').val(responseText.);
-            $('#f2_tripreason_ofvisit4').val(responseText.);
+        //     $('#f2_country4').val(responseText.);
+        //     $('#f2_date_arrival_country4').val(responseText.);
+        //     $('#f2_date_departure_country4').val(responseText.);
+        //     $('#f2_tripreason_ofvisit4').val(responseText.);
 
-            $('#f2_country5').val(responseText.);
-            $('#f2_date_arrival_country5').val(responseText.);
-            $('#f2_date_departure_country5').val(responseText.);
-            $('#f2_tripreason_ofvisit5').val(responseText.);
+        //     $('#f2_country5').val(responseText.);
+        //     $('#f2_date_arrival_country5').val(responseText.);
+        //     $('#f2_date_departure_country5').val(responseText.);
+        //     $('#f2_tripreason_ofvisit5').val(responseText.);
 
-        //trips abroad to any other country not listed
+        // //trips abroad to any other country not listed
 
-            $('#f2_othertrip_country1').val(responseText.);
-            $('#f2_othertrip_arrivaldate1').val(responseText.);
-            $('#f2_othertrip_departuredate1').val(responseText.);
-            $('#f2_othertripreason_ofvisit1').val(responseText.);
+        //     $('#f2_othertrip_country1').val(responseText.);
+        //     $('#f2_othertrip_arrivaldate1').val(responseText.);
+        //     $('#f2_othertrip_departuredate1').val(responseText.);
+        //     $('#f2_othertripreason_ofvisit1').val(responseText.);
         
-            $('#f2_othertrip_country2').val(responseText.);
-            $('#f2_othertrip_arrivaldate2').val(responseText.);
-            $('#f2_othertrip_departuredate2').val(responseText.);
-            $('#f2_othertripreason_ofvisit2').val(responseText.);
+        //     $('#f2_othertrip_country2').val(responseText.);
+        //     $('#f2_othertrip_arrivaldate2').val(responseText.);
+        //     $('#f2_othertrip_departuredate2').val(responseText.);
+        //     $('#f2_othertripreason_ofvisit2').val(responseText.);
 
-            $('#f2_othertrip_country3').val(responseText.);
-            $('#f2_othertrip_arrivaldate3').val(responseText.);
-            $('#f2_othertrip_departuredate3').val(responseText.);
-            $('#f2_othertripreason_ofvisit3').val(responseText.);
+        //     $('#f2_othertrip_country3').val(responseText.);
+        //     $('#f2_othertrip_arrivaldate3').val(responseText.);
+        //     $('#f2_othertrip_departuredate3').val(responseText.);
+        //     $('#f2_othertripreason_ofvisit3').val(responseText.);
 
-            $('#f2_othertrip_country4').val(responseText.);
-            $('#f2_othertrip_arrivaldate4').val(responseText.);
-            $('#f2_othertrip_departuredate4').val(responseText.);
-            $('#f2_othertripreason_ofvisit4').val(responseText.);
+        //     $('#f2_othertrip_country4').val(responseText.);
+        //     $('#f2_othertrip_arrivaldate4').val(responseText.);
+        //     $('#f2_othertrip_departuredate4').val(responseText.);
+        //     $('#f2_othertripreason_ofvisit4').val(responseText.);
 
-            $('#f2_othertrip_country5').val(responseText.);
-            $('#f2_othertrip_arrivaldate5').val(responseText.);
-            $('#f2_othertrip_departuredate5').val(responseText.);
-            $('#f2_othertripreason_ofvisit5').val(responseText.);
+        //     $('#f2_othertrip_country5').val(responseText.);
+        //     $('#f2_othertrip_arrivaldate5').val(responseText.);
+        //     $('#f2_othertrip_departuredate5').val(responseText.);
+        //     $('#f2_othertripreason_ofvisit5').val(responseText.);
 
             //download documents pending
 

@@ -11,6 +11,7 @@ import validateResetPassword from '../validation/validator/resetPassword';
 import isLoggedIn from '../util/getIfAuthenticated';
 import capitalizeFirst from '../util/capitalizeFirst';
 import userFormsReadAll from '../model/userAllForms';
+import { SUBMIT } from '../constants/formType';
 
 const resetPasswordHTMLFile = path.join(
   __dirname,
@@ -20,8 +21,6 @@ const resetPasswordHTMLFile = path.join(
   'pages',
   'resetEmail.ejs',
 );
-
-import getFormUIDHandler from '../util/getFormUID';
 
 export default ({ appUrl, emailService, passport, sqlConn }) => {
   const router = express.Router();
@@ -108,8 +107,8 @@ export default ({ appUrl, emailService, passport, sqlConn }) => {
   });
 
   router.get('/getForms', isLoggedIn, (req, res) => {
-    const getAllIncompleteUserForms = userFormsReadAll(req, sqlConn);
-    getAllIncompleteUserForms((err, result) => {
+    const getAllForms = userFormsReadAll(req, sqlConn, SUBMIT, true);
+    getAllForms((err, result) => {
       if (err) res.status(400).send(err);
       else res.send(result);
     });

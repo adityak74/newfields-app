@@ -1,3 +1,5 @@
+import { SUBMIT } from '../constants/formType';
+
 const FORM_CREATE = {
   CREATE_NEW_FORM_ENTRY: 'INSERT INTO userForms SET ?',
   CREATE_NEW_FORM_DATA_ENTRY: 'INSERT INTO formData SET ?',
@@ -5,10 +7,13 @@ const FORM_CREATE = {
 };
 
 const FORM_READ = {
+  USERFORMS_SELECT_ALL: 'SELECT uF.*, u.name, u.email FROM userForms uF, users u where uF.userId = u.id',
+  USERFORMS_SELECT_ALL_INCOMPLETE: `SELECT uF.*, u.name, u.email FROM userForms uF, users u where uF.userId = u.id and status != ${SUBMIT}`,
   USERFORMS_SELECT_BY_ROWID: 'SELECT * from userForms where ?',
-  USERFORMS_SELECT_BY_USERID_INCOMPLETE: 'SELECT * from userForms where userId = ? and status != 3',
+  USERFORMS_SELECT_BY_USERID_ALL: 'SELECT * from userForms where userId = ?',
+  USERFORMS_SELECT_BY_USERID_INCOMPLETE: `SELECT * from userForms where userId = ? and status != ${SUBMIT}`,
   USERFORMS_SELECT_BY_FORMID_USERID: 'SELECT * from userForms where formUID = ? and userId = ?',
-  USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE: 'SELECT * FROM `userForms` WHERE formUID = ? and userId = ? and status != 3',
+  USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE: `SELECT * FROM userForms WHERE formUID = ? and userId = ? and status != ${SUBMIT}`,
   USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID: 'SELECT fd.*, fdEI.* from formData fd, formDataExtraInfo fdEI where fd.uniqueId = ? and fdEI.formUniqueId = ?',
 }
 
