@@ -1,8 +1,6 @@
 import {
-  formNumber as formNumberConstants,
   formType,
-  relationTypes as relation,
-  tripTypes as trip,
+  formProcessingStatus,
 } from '../constants';
 import getFormUID from '../util/getFormUID';
 import sqlQueries from '../sqlQueries';
@@ -24,6 +22,7 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
         formUID: newFormUID,
         formNumber,
         status: NEW,
+        processingStatus: formProcessingStatus.SUBMITTED,
       };
       sqlConnPool.getConnection((err, connection) => {
         if (err) cb(err, null);
@@ -128,6 +127,7 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
           formUID: newFormUID,
           formNumber,
           status: NEW,
+          processingStatus: formProcessingStatus.SUBMITTED,
         };
         sqlConnPool.getConnection((err, connection) => {
           if (err) cb(err, null);

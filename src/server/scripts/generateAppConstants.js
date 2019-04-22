@@ -45,6 +45,12 @@ sqlConstants.createConstantFiles(
       keyColumn: 'number',
       valueColumns: ['id'],
     }),
+    sqlConstants.tableDefinition({
+      file: 'formProcessingStatus',
+      table: 'formProcessingStatus',
+      keyColumn: 'status',
+      valueColumns: ['id'],
+    }),
   ],
   function(err) {
     if (err) {

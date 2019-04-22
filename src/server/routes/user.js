@@ -1,4 +1,8 @@
 import express from 'express';
+import bcrypt from 'bcrypt-nodejs';
+import passwordGenerator from 'generate-password';
+import { renderFile as ejsRenderFile } from 'ejs';
+import path from 'path';
 import validateSignIn from '../validation/validator/signIn';
 import validateSignUp from '../validation/validator/signUp';
 import validateVerifyEmail from '../validation/validator/verifyEmail';
@@ -6,10 +10,8 @@ import validateChangePassword from '../validation/validator/changePassword';
 import validateResetPassword from '../validation/validator/resetPassword';
 import isLoggedIn from '../util/getIfAuthenticated';
 import capitalizeFirst from '../util/capitalizeFirst';
-import bcrypt from 'bcrypt-nodejs';
-import passwordGenerator from 'generate-password';
-import { renderFile as ejsRenderFile } from 'ejs';
-import path from 'path';
+import userFormsReadAll from '../model/userAllForms';
+import { SUBMIT } from '../constants/formType';
 
 const resetPasswordHTMLFile = path.join(
   __dirname,
@@ -19,8 +21,6 @@ const resetPasswordHTMLFile = path.join(
   'pages',
   'resetEmail.ejs',
 );
-
-import getFormUIDHandler from '../util/getFormUID';
 
 export default ({ appUrl, emailService, passport, sqlConn }) => {
   const router = express.Router();
@@ -106,8 +106,12 @@ export default ({ appUrl, emailService, passport, sqlConn }) => {
     res.redirect('/user/sign-in');
   });
 
-  router.get('/getFormUID', isLoggedIn, (req, res) => {
-    res.send(getFormUIDHandler(1, req.user));
+  router.get('/getForms', isLoggedIn, (req, res) => {
+    const getAllForms = userFormsReadAll(req, sqlConn, SUBMIT, true);
+    getAllForms((err, result) => {
+      if (err) res.status(400).send(err);
+      else res.send(result);
+    });
   });
 
   router.post('/change-password', isLoggedIn, (req, res) => {

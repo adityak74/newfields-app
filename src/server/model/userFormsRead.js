@@ -55,7 +55,7 @@ const relationDataTranform = relationshipData => {
 
 export default (req, sanitizedInput, sqlConnPool) => cb => {
   const currentUser = req.user;
-  
+  console.log('getching form', sanitizedInput.formUID);
   sqlConnPool.getConnection((err, connection) => {
     if (err) cb(err, null);
     connection.beginTransaction((err1) => {
