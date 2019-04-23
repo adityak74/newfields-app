@@ -69,71 +69,70 @@ $(document).ready(function(){
             success : function(response) {
                 $("#errors").css("display", "none");
                 console.log(response);
-          
-                // $('#Unique_id').val();
-                // $('#Title').val(response.title);
-    
-                // $('#full_name').val(response.fullName); 
-                // $('#mobile_number').val(response.mobile);
-                // $('#address_line1').val(response.addressLine1);
-                // $('#address_line2').val(response.addressLine2);
-                // $('#town').val(response.town);
-                // $('#county').val(response.county);
-                // $('#postcode').val(response.postcode);
-                // $('#email_address').val(response.email);
 
-                // $('#relationship_status').val(response.relationship); 
+                $('#Unique_id').val();
+                $('#Title').val(response.title);
+    
+                $('#full_name').val(response.fullName); 
+                $('#mobile_number').val(response.mobile);
+                $('#address_line1').val(response.addressLine1);
+                $('#address_line2').val(response.addressLine2);
+                $('#town').val(response.town);
+                $('#county').val(response.county);
+                $('#postcode').val(response.postcode);
+                $('#email_address').val(response.email);
 
-                // $('#nationalities').val(response.nationalities);
-                // $('#date_UK_entry').val(response.ukEntryDate);
-                // $('#conviction_text_area').val(response.convictionText);
-    
-                // $('#visa_refusals_textarea').val(response.visaRefusalText);
-    
-                // $('#details_public_funds').val(response.publicFunds); 
-    
-    
-                // $('#UK_NINo').val(response.nationalInsuranceNumber);
-                // $('#next_planned_departure').val(response.ukNextDepartureDate);
-                // $('#UK_date_arrival_back').val(response.ukNextArrivalDate);
+                $('#relationship_status').val(response.relationship); 
 
-                // $('#partner_Title').val(response.partnerTitle);  
+                $('#nationalities').val(response.nationalities);
+                $('#date_UK_entry').val(response.ukEntryDate);
+                $('#conviction_text_area').val(response.convictionText);
+    
+                $('#visa_refusals_textarea').val(response.visaRefusalText);
+    
+                $('#details_public_funds').val(response.publicFunds); 
+    
+    
+                $('#UK_NINo').val(response.nationalInsuranceNumber);
+                $('#next_planned_departure').val(response.ukNextDepartureDate);
+                $('#UK_date_arrival_back').val(response.ukNextArrivalDate);
+
+                $('#partner_Title').val(response.partnerTitle);  
                 
-                // $('#partner_full_name').val(response.partnerFullName); 
-                // $('#partner_mobile_number').val(response.partnerMobile);
-                // $('#partner_uk_home_address').val(response.partnerUKHomeAddress);
-                // $('#partner_nationalities').val(response.partnerNationalities);
-                // $('#partner_dob').val(response.partnerDateOfBirth);
-                // $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
+                $('#partner_full_name').val(response.partnerFullName); 
+                $('#partner_mobile_number').val(response.partnerMobile);
+                $('#partner_uk_home_address').val(response.partnerUKHomeAddress);
+                $('#partner_nationalities').val(response.partnerNationalities);
+                $('#partner_dob').val(response.partnerDateOfBirth);
+                $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
 
-                // var $radios = $('input:radio[name=any_convictions]');
-                // if($radios.is(':checked') === false) {
-                //     $radios.filter('[value='+ response.conviction +']').prop('checked', true);
-                // }
+                var $radios = $('input:radio[name=any_convictions]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.conviction +']').prop('checked', true);
+                }
 
-                // var $radios = $('input:radio[name=visa_refusals]');
-                // if($radios.is(':checked') === false) {
-                //     $radios.filter('[value='+ response.visaRefusal +']').prop('checked', true);
-                // }
+                var $radios = $('input:radio[name=visa_refusals]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.visaRefusal +']').prop('checked', true);
+                }
 
-                // var $radios = $('input:radio[name=any_children]');
-                // if($radios.is(':checked') === false) {
-                //     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
-                // }
+                var $radios = $('input:radio[name=any_children]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
+                }
 
-                // convictions(response.conviction.toLowerCase());
-                // visa(response.visaRefusal.toLowerCase());
+                convictions(response.conviction.toLowerCase());
+                visa(response.visaRefusal.toLowerCase());
             
-                // commenting until I get data in
-                // $('#child1_full_name').val(response.); 
-                // $('#child1_nationalities').val(response.);
-                // $('#child1_dob').val(response.);
-                // $('#child1_placeofbirth').val(response.);
+                $('#child1_full_name').val(response.child1FullName); 
+                $('#child1_nationalities').val(response.child1Nationalitites);
+                $('#child1_dob').val(response.child1DateOfBirth);
+                $('#child1_placeofbirth').val(response.child1CountryOfBirth);
                 
-                // $('#child2_full_name').val(response.); 
-                // $('#child2_nationalities').val(response.);
-                // $('#child2_dob').val(response.);
-                // $('#child2_placeofbirth').val(response.);
+                $('#child2_full_name').val(response.child2FullName); 
+                $('#child2_nationalities').val(response.child2Nationalitites);
+                $('#child2_dob').val(response.child2DateOfBirth);
+                $('#child2_placeofbirth').val(response.child2CountryOfBirth);
             },
             error: function(xhr) {
                 if(xhr.status === 400) {

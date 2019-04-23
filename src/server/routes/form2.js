@@ -1,5 +1,6 @@
 import express from 'express';
 import form2Validator from '../validation/validator/form2';
+import formUIDValidator from '../validation/validator/formUID';
 import isLoggedIn from '../util/getIfAuthenticated';
 import userFormModel from '../model/userForms';
 import formType from '../constants/formType';
