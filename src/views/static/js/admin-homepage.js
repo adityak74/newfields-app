@@ -99,8 +99,8 @@ function Openclient_form1(id)
     $.post({
         url : appLocation + '/form1/getFormData',
         data: { formId: reference_id },
-        success : function(responseJSON) {
-            console.log('formdata', responseJSON);
+        success : function(responseText) {
+            console.log('formdata', responseText);
 
         //    $('#Unique_id').val(UniqueID);
             $('#Title').val(responseText.Title); 
@@ -224,14 +224,11 @@ function Openclient_form2(id)
     
     //ajax call
     $.ajax({
-        url : '',
-        data:{
-            },
+        url : appLocation + '/form1/getFormData',
+        data:{ formId: reference_id },
         success : function(responseText) {
             $('#Unique_id').val(responseText.UniqueID);
             $('#f2_title').val(responseText.Title);
-            
-            
             $('#f2_full_name').val(responseText.full_name); 
             $('#f2_mobile_number').val(responseText.mobile_number);
             $('#f2_landline_no').val(responseText.landline_no);
