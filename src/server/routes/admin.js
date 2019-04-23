@@ -1,6 +1,7 @@
 import express from 'express';
 import isAdmin from '../util/isAdmin';
 import validateFormProgress from '../validation/validator/formProgress';
+import validateSignUp from '../validation/validator/signUp';
 import userFormsReadAll from '../model/userAllForms';
 import formProgress from '../model/formProgress';
 import { SUBMIT } from '../constants/formType';
@@ -36,6 +37,30 @@ export default ({ appUrl, sqlConn }) => {
     getAllForms((err, result) => {
       if (err) return res.status(400).send(err);
       else res.send(result);
+    });
+  });
+
+  router.post('/add-admin', (req, res) => {
+    const input = req.body;
+  
+    validateSignUp(input, {}, (validationErr, sanitizedInput) => {
+      if (validationErr) res.status(400).send(validationErr);
+      else {
+        req.body = sanitizedInput;
+        passport.authenticate('local-signup',
+          function(err, user) {
+            if (user) {
+              const newUser = {
+                userId: user.id,
+                name: user.name,
+                email: user.email,
+              };
+              res.status(200).send(newUser);
+            } else {
+              res.status(400).send(err.message);
+            }
+        })(req, res);
+      }
     });
   });
 

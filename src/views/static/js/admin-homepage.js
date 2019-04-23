@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+*/
 
 function getStatusFromCode(formStatusCode) {
     let statusText = '';
@@ -57,7 +57,7 @@ function form1_request_table(formsDataArray)
     var LCT = $('#form1_client_table').DataTable();
     formsDataArray.forEach(formResponse => {
         LCT.row.add([
-            "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
+            "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form1(\'"+formResponse.formUID+"\')})()\">",
             formResponse.createDate,
             formResponse.formUID,
             formResponse.name,
@@ -77,13 +77,13 @@ function Openclient_form1(id)
     
     var reference_id = id;
     $("#ref_no").val(reference_id);
-    
+    console.log('formdata', appLocation, id);
     //ajax call
-    $.ajax({
-        url : '',
-        data:{},
-        success : function(responseText) {
-
+    $.post({
+        url : appLocation + '/form1/getFormData',
+        data: { formId: reference_id },
+        success : function(responseJSON) {
+            console.log('formdata', responseJSON);
 
         //    $('#Unique_id').val(UniqueID);
             $('#Title').val(Title); 
