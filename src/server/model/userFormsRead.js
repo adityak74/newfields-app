@@ -55,12 +55,19 @@ const relationDataTranform = relationshipData => {
 
 export default (req, sanitizedInput, sqlConnPool) => cb => {
   const currentUser = req.user;
-  console.log('getching form', sanitizedInput.formUID);
+  const incompleteForms = {};
+  if (currentUser.admin) {
+    incompleteForms.query = FORM_READ.USERFORMS_SELECT_BY_FORMID_INCOMPLETE;
+    incompleteForms.params = [sanitizedInput.formUID];
+  } else {
+    incompleteForms.query = FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE;
+    incompleteForms.params = [sanitizedInput.formUID, currentUser.id];
+  }
   sqlConnPool.getConnection((err, connection) => {
     if (err) cb(err, null);
     connection.beginTransaction((err1) => {
       if (err1) cb(err1, null);
-      connection.query(FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE, [sanitizedInput.formUID, currentUser.id], (err2, result) => {
+      connection.query(incompleteForms.query, incompleteForms.params, (err2, result) => {
         if (err2) cb(err2, null);
         if (result[0]) {
           connection.query(FORM_READ.USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID, [result[0].formUID, result[0].formUID] , (err3, rows) => {

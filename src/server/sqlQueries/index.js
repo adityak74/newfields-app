@@ -14,6 +14,8 @@ const FORM_READ = {
   USERFORMS_SELECT_BY_USERID_INCOMPLETE: `SELECT * from userForms where userId = ? and status != ${SUBMIT}`,
   USERFORMS_SELECT_BY_FORMID_USERID: 'SELECT * from userForms where formUID = ? and userId = ?',
   USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE: `SELECT * FROM userForms WHERE formUID = ? and userId = ? and status != ${SUBMIT}`,
+  USERFORMS_SELECT_BY_FORMID_INCOMPLETE: `SELECT * FROM userForms WHERE formUID = ? and status != ${SUBMIT}`,
+  USERFORMS_SELECT_BY_FORMID_ALL: `SELECT * FROM userForms WHERE formUID = ?`,
   USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID: 'SELECT fd.*, fdEI.* from formData fd, formDataExtraInfo fdEI where fd.uniqueId = ? and fdEI.formUniqueId = ?',
 }
 
