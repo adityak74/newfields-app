@@ -56,9 +56,12 @@ function form1_request_table(formsDataArray)
 { 
     var LCT = $('#form1_client_table').DataTable();
     formsDataArray.forEach(formResponse => {
+        var date = new Date(formResponse.createDate).toString();
+        var response_date = date.substr(0,28);
         LCT.row.add([
-            "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
-            formResponse.createDate,
+           // "<input type='radio' name='optradio' onclick=\"(function(){form_classification(\'"+formResponse.formNumber+","+formResponse.formUID+"\')})()\">",
+           "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            response_date,
             formResponse.formUID,
             formResponse.name,
             formResponse.email,
@@ -69,6 +72,20 @@ function form1_request_table(formsDataArray)
             // </label>"
         ]).draw(false);
     });
+}
+
+function form_classification(formnumber, formUID)
+{
+    console.log("formnumber: "+ formnumber);
+    console.log("formUID: "+ formUID);
+    if(formnumber==="1")
+    {
+        Openclient_form1(formUID);
+    }
+    else if(formnumber==="2")
+    {
+        Openclient_form2(formUID);
+    }
 }
 
 
@@ -84,46 +101,45 @@ function Openclient_form1(id)
         data:{},
         success : function(responseText) {
 
-
         //    $('#Unique_id').val(UniqueID);
-            $('#Title').val(Title); 
+            $('#Title').val(responseText.Title); 
             
-            $('#full_name').val(full_name); 
-            $('#mobile_number').val(mobile_number);
-            $('#address_line1').val(address_line1);
-            $('#address_line2').val(address_line2);
-            $('#town').val(town);
-            $('#county').val(county);
-            $('#postcode').val(postcode);
-            $('#email_address').val(email_address);
-            $('#relationship_status').val(relationship_status);
-            $('#nationalities').val(nationalities);
-            $('#nationalities').val(nationalities);
-            $('#date_UK_entry').val(date_UK_entry);
-            $('#conviction_text_area').val(conviction_text_area);
-            $('#visa_refusals_textarea').val(visa_refusals_textarea);
-            $('#details_public_funds').val(details_public_funds);
-            $('#UK_NINo').val(UK_NINo);
-            $('#next_planned_departure').val(next_planned_departure);
-            $('#UK_date_arrival_back').val(UK_date_arrival_back);
+            $('#full_name').val(responseText.full_name); 
+            $('#mobile_number').val(responseText.mobile_number);
+            $('#address_line1').val(responseText.address_line1);
+            $('#address_line2').val(responseText.address_line2);
+            $('#town').val(responseText.town);
+            $('#county').val(responseText.county);
+            $('#postcode').val(responseText.postcode);
+            $('#email_address').val(responseText.email_address);
+            $('#relationship_status').val(responseText.relationship_status);
+            $('#nationalities').val(responseText.nationalities);
+          //  $('#nationalities').val(nationalities);
+            $('#date_UK_entry').val(responseText.date_UK_entry);
+            $('#conviction_text_area').val(responseText.conviction_text_area);
+            $('#visa_refusals_textarea').val(responseText.visa_refusals_textarea);
+            $('#details_public_funds').val(responseText.details_public_funds);
+            $('#UK_NINo').val(responseText.UK_NINo);
+            $('#next_planned_departure').val(responseText.next_planned_departure);
+            $('#UK_date_arrival_back').val(responseText.UK_date_arrival_back);
             
-            $('#partner_Title').val(partner_Title);
-            $('#partner_full_name').val(partner_full_name); 
-            $('#partner_mobile_number').val(partner_mobile_number);
-            $('#partner_uk_home_address').val(partner_uk_home_address);
-            $('#partner_nationalities').val(partner_nationalities);
-            $('#partner_dob').val(partner_dob);
-            $('#partner_placeofbirth').val(partner_placeofbirth);
+            $('#partner_Title').val(responseText.partner_Title);
+            $('#partner_full_name').val(responseText.partner_full_name); 
+            $('#partner_mobile_number').val(responseText.partner_mobile_number);
+            $('#partner_uk_home_address').val(responseText.partner_uk_home_address);
+            $('#partner_nationalities').val(responseText.partner_nationalities);
+            $('#partner_dob').val(responseText.partner_dob);
+            $('#partner_placeofbirth').val(responseText.partner_placeofbirth);
            
-            $('#child1_full_name').val(child1_full_name); 
-            $('#child1_nationalities').val(child1_nationalities);
-            $('#child1_dob').val(child1_dob);
-            $('#child1_placeofbirth').val(child1_placeofbirth);
+            $('#child1_full_name').val(responseText.child1_full_name); 
+            $('#child1_nationalities').val(responseText.child1_nationalities);
+            $('#child1_dob').val(responseText.child1_dob);
+            $('#child1_placeofbirth').val(responseText.child1_placeofbirth);
             
-            $('#child2_full_name').val(child2_full_name); 
-            $('#child2_nationalities').val(child2_nationalities);
-            $('#child2_dob').val(child2_dob);
-            $('#child2_placeofbirth').val(child2_placeofbirth);  
+            $('#child2_full_name').val(responseText.child2_full_name); 
+            $('#child2_nationalities').val(responseText.child2_nationalities);
+            $('#child2_dob').val(responseText.child2_dob);
+            $('#child2_placeofbirth').val(responseText.child2_placeofbirth);  
 
  //download documents pending
 
@@ -138,9 +154,12 @@ function form2_request_table(formsDataArray)
 { 
     var LCT = $('#form2_client_table').DataTable();
     formsDataArray.forEach(formResponse => {
+        var date = new Date(formResponse.createDate).toString();
+        var response_date = date.substr(0,28);
         LCT.row.add([
-            "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
-            formResponse.createDate,
+           // "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
+           "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            response_date,
             formResponse.formUID,
             formResponse.name,
             formResponse.email,
@@ -157,9 +176,12 @@ function incomplete_forms_request_table(formsDataArray)
 { 
     var LCT = $('#incomplete_forms_client_table').DataTable();
     formsDataArray.forEach(formResponse => {
+        var date = new Date(formResponse.createDate).toString();
+        var response_date = date.substr(0,28);
         LCT.row.add([
-            "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
-            formResponse.createDate,
+        //    "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            response_date,
             formResponse.formUID,
             formResponse.name,
             formResponse.email,
@@ -176,9 +198,12 @@ function processed_forms_request_table(formsDataArray)
 { 
     var LCT = $('#processed_forms_client_table').DataTable();
     formsDataArray.forEach(formResponse => {
+        var date = new Date(formResponse.createDate).toString();
+        var response_date = date.substr(0,28);
         LCT.row.add([
-            "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
-            formResponse.createDate,
+          //  "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            response_date,
             formResponse.formUID,
             formResponse.name,
             formResponse.email,
@@ -193,7 +218,6 @@ function processed_forms_request_table(formsDataArray)
 
 function Openclient_form2(id)
 {
-    
     var reference_id = id;
     $("#ref_no").val(reference_id);
     

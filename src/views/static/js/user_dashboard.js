@@ -36,8 +36,11 @@ $(document).ready(function(){
         var CAT = $('#client_application_table').DataTable();
         if (responseData.length) {
             responseData.forEach(formResponse => {
+
+                var date = new Date(formResponse.createDate).toString();
+                var response_date = date.substr(0,28);
                 CAT.row.add([
-                    formResponse.createDate,
+                    response_date,
                     formResponse.formUID,
                     formResponse.formNumber,
                     getStatusFromCode(formResponse.status),
