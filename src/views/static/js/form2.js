@@ -77,6 +77,7 @@ $(document).ready(function(){
                 $('#mobile_number').val(response.mobile);
                 $('#landline_no').val(response.landline);
                 $('#email_addr').val(response.email);
+<<<<<<< HEAD
                 $('#home_addr').val(response.homeAddress); 
                 
                 $('#addr_move_indate').val(response.moveInDate);
@@ -190,6 +191,23 @@ $(document).ready(function(){
                 $('#Proposaldate_UK_entry').val(response.ukProposedEntryDate); 
  //    
     
+=======
+                $('#home_addr').val(response.homeAddress);
+                $('#addr_move_indate').val(response.moveInDate);
+                $('#address_line1').val(response.addressLine1);
+                $('#address_line2').val(response.addressLine2);
+                $('#town').val(response.town);
+                $('#county').val(response.county);
+                $('#postcode').val(response.postcode);
+                $('#email_address').val(response.email);
+                $('#relationship_status').val(response.relationship); 
+                $('#nationalities').val(response.nationalities);
+                $('#date_UK_entry').val(response.ukEntryDate);
+                $('#conviction_text_area').val(response.convictionText);
+                $('#visa_refusals_textarea').val(response.visaRefusalText);
+                $('#details_public_funds').val(response.publicFunds); 
+                $('#UK_NINo').val(response.nationalInsuranceNumber);
+>>>>>>> 9e7a3d378a0b07bf27ed8b1fa35b72de17a341f0
                 $('#next_planned_departure').val(response.ukNextDepartureDate);
                 $('#UK_date_arrival_back').val(response.ukNextArrivalDate);
 
@@ -207,9 +225,15 @@ $(document).ready(function(){
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
                 }
+<<<<<<< HEAD
 // start here 
               //  convictions(response.conviction.toLowerCase());
              //   visa(response.visaRefusal.toLowerCase());
+=======
+
+                convictions(response.conviction ? response.conviction.toLowerCase() : '');
+                visa(response.visaRefusal.toLowerCase());
+>>>>>>> 9e7a3d378a0b07bf27ed8b1fa35b72de17a341f0
             
                 $('#child1_full_name').val(response.child1FullName); 
                 $('#child1_nationalities').val(response.child1Nationalitites);

@@ -31,7 +31,7 @@ const schema = Joi.object().keys({
   visaRefusalText: Joi.string().allow(''),
   medical: JoiYesNo,
   medicalInfo: Joi.string().allow(''),
-  UKNINumber: Joi.string(),
+  UKNINumber: JoiYesNo,
   UKNINumberInfo: Joi.string().allow(''),
   ifArmedForces: JoiYesNo,
   armedForcesInfo: Joi.string().allow(''),

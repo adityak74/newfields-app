@@ -1,4 +1,6 @@
 import asyncMapSeries from 'async/mapSeries';
+import parallel from 'async/parallel';
+import groupBy from 'lodash/fp/groupBy';
 import {
   formNumber as formNumberConstants,
   formType,
@@ -7,7 +9,7 @@ import {
 } from '../constants';
 import sqlQueries from '../sqlQueries';
 
-const { FORM_READ, FORM_RELATIONS, RELATIONSHIP_INFO } = sqlQueries;
+const { FORM_READ, FORM_RELATIONS, RELATIONSHIP_INFO, TRIPS, FORM_TRIPS } = sqlQueries;
 
 const getRelationData = (connection, relationId, onCb) => {
   connection.query(RELATIONSHIP_INFO.RELATIONSHIP_INFO_SELECT_BY_ID, [relationId], (err, relation) => {
@@ -53,6 +55,62 @@ const relationDataTranform = relationshipData => {
   }
 };
 
+const tripDataTransform = tripData => ({
+  country: tripData.country,
+  arrivalDate: tripData.arrivalDate,
+  departureDate: tripData.departureDate,
+  reasonInfo: tripData.reason,
+  type: tripData.type,
+});
+
+const groupByTripType = tripData => {
+  const { VISIT, NORMAL_TRIP, OTHER_TRIP } = trip;
+  switch (tripData.type) {
+    case VISIT:
+      return 'visitInfo';
+    case NORMAL_TRIP:
+      return 'tripInfo'
+    case OTHER_TRIP:
+      return 'otherTripInfo';
+  }
+};
+
+const getTripData = (connection, tripId, onCb) => {
+  connection.query(TRIPS.TRIPS_SELECT_BY_ID, [tripId], (err, relation) => {
+    if (err) onCb(err, null);
+    if (relation.length) {
+      onCb(null, relation[0]);
+    } else onCb(null, []);
+  });
+};
+
+const getFormRelationsData = (connection, sanitizedInput) => callback => {
+  connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err4, result1) => {
+    if (err4) return callback(err4, null);
+    if (result1.length) {
+      const relationIds = result1.map(res => res.relationshipId);
+      asyncMapSeries(relationIds, (relationId, next) => getRelationData(connection, relationId, next), (err, relationsArray) => {
+        const relationDataShimmed = relationsArray.map(relationDataTranform);
+        return callback(null, relationDataShimmed);
+      });
+    } else return callback(null, []);
+  });
+};
+
+const getFormTripData = (connection, sanitizedInput) => callback => {
+  connection.query(FORM_TRIPS.FORM_TRIPS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err4, result1) => {
+    if (err4) return callback(err4, null);
+    if (result1.length) {
+      const tripIds = result1.map(res => res.tripId);
+      asyncMapSeries(tripIds, (tripId, next) => getTripData(connection, tripId, next), (err, tripsArray) => {
+        const tripsDataShimmed = tripsArray.map(tripDataTransform);
+        const tripsDataGrouped = groupBy(groupByTripType, tripsDataShimmed);
+        return callback(null, tripsDataGrouped);
+      });
+    } else return callback(null, []);
+  });
+};
+
 export default (req, sanitizedInput, sqlConnPool) => cb => {
   const currentUser = req.user;
   const incompleteForms = {};
@@ -71,24 +129,22 @@ export default (req, sanitizedInput, sqlConnPool) => cb => {
         if (err2) cb(err2, null);
         if (result[0]) {
           connection.query(FORM_READ.USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID, [result[0].formUID, result[0].formUID] , (err3, rows) => {
-            if (err3) cb(err3, null);
+            if (err3) return cb(err3, null);
             const userFormDataWithInfo = rows[0];
-            connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err4, result1) => {
-              if (err4) cb(err4, null);
-              if (result1.length) {
-                const relationIds = result1.map(res => res.relationshipId);
-                asyncMapSeries(relationIds, (relationId, next) => getRelationData(connection, relationId, next), (err, relationsArray) => {
-                  const relationDataShimmed = relationsArray.map(relationDataTranform);
-                  let resultObj = { ...userFormDataWithInfo };
-                  relationDataShimmed.forEach(relation => 
-                    resultObj = { ...resultObj, ...relation });
-                  cb(null, resultObj);
-                });
-              } else {
-                // return will empty relations data
-                cb(null, userFormDataWithInfo);
+            const formTripsData = getFormTripData(connection, sanitizedInput);
+            const formRelationData = getFormRelationsData(connection, sanitizedInput);
+            let resultObj = { ...userFormDataWithInfo };
+            parallel([formRelationData, formTripsData], (asyncParallelErr, formDataResults) => {
+              if (asyncParallelErr) return cb(asyncParallelErr, null);
+              if (formDataResults.length) {
+                const relationDataShimmed = formDataResults[0];
+                relationDataShimmed.forEach(relation => 
+                  resultObj = { ...resultObj, ...relation }
+                );
+                resultObj = { ...resultObj, ...formDataResults[1] };
               }
-            })
+              return cb(null, resultObj);
+            });
           });
         } else {
           cb(new Error("Form not found or already submitted. Redirecting to dashboard."), null);
