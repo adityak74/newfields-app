@@ -9,6 +9,7 @@ export default (formUID, sanitizedInput, formNumber) => ({
   visaRefusal: sanitizedInput.visaRefusals,
   visaRefusalText: sanitizedInput.visaRefusalText,
   publicFunds: getValueIfNotNull(sanitizedInput.detailsPublicFund),
+  ukNino: getValueIfNotNull(sanitizedInput.UKNINumber),
   nationalInsuranceNumber: getValueIfNotNull(sanitizedInput.UKNINumberInfo)
     ? sanitizedInput.UKNINumberInfo
     : getValueIfNotNull(sanitizedInput.UKNINumber),
@@ -40,12 +41,16 @@ export default (formUID, sanitizedInput, formNumber) => ({
   moveInDate: getValueIfNotNull(sanitizedInput.homeMoveInDate),
   homeOwnership: getValueIfNotNull(sanitizedInput.homeOwnership),
   addressOnVisa: getValueIfNotNull(sanitizedInput.addressWhileOnVisa),
+  ifUKaddress: getValueIfNotNull(sanitizedInput.ifUKaddress),
   ukAddressInfo: getValueIfNotNull(sanitizedInput.UKAddress),
   medical: getValueIfNotNull(sanitizedInput.medicalInfo),
   nationalIdentityNumber: getValueIfNotNull(sanitizedInput.nationalIdentityNumber),
-  armedForces: getValueIfNotNull(sanitizedInput.armedForcesInfo),
-  immediateFamily: getValueIfNotNull(sanitizedInput.immediateFamilyInfo),
-  familyMemberTravelAlong: getValueIfNotNull(sanitizedInput.familyMemberTravelAlongInfo),
+  armedForces: getValueIfNotNull(sanitizedInput.ifArmedForces),
+  armedForcesText: getValueIfNotNull(sanitizedInput.armedForcesInfo),
+  immediateFamily: getValueIfNotNull(sanitizedInput.ifImmediateFamily),
+  immediateFamilyText: getValueIfNotNull(sanitizedInput.immediateFamilyInfo),
+  familyMemberTravelAlong: getValueIfNotNull(sanitizedInput.familyMemberTravelAlong),
+  familyMemberTravelAlongText: getValueIfNotNull(sanitizedInput.familyMemberTravelAlongInfo),
   overseasTravel: getValueIfNotNull(sanitizedInput.anyOverseasTravel),
   anyChildren: sanitizedInput.ifHasChildren,
 });

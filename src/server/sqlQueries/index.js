@@ -34,6 +34,7 @@ const FORM_RELATIONS = {
 const RELATIONSHIP_INFO = {
   CREATE_NEW_RELATION_ENTRY: 'INSERT INTO relationshipInfo SET ?',
   RELATIONSHIP_INFO_SELECT_BY_ID: 'SELECT * from relationshipInfo where id = ?',
+  UPDATE_RELATION_ENTRY_BY_ID: 'UPDATE relationshipInfo SET ? WHERE id = ?',
 };
 
 export default {

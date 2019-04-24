@@ -48,6 +48,13 @@ const insertRelationData = (connection, relationObject, onCb) => {
   });
 };
 
+const updateRelationData = (connection, relationObject, onCb) => {
+  connection.query(RELATIONSHIP_INFO.UPDATE_RELATION_ENTRY_BY_ID, [relationObject.data, relationObject.id], (err, result) => {
+    if (err) onCb(err, null);
+    onCb(null, result.changedRows || result.affectedRows);
+  });
+};
+
 const insertFormRelations = (connection, formUID, relationId, onCb) => {
   connection.query(FORM_RELATIONS.CREATE_NEW_FORM_RELATIONS_ENTRY, { formId: formUID, relationshipId: relationId }, (err, result) => {
     if (err) onCb(err, null);
@@ -81,27 +88,20 @@ export default (formUID, formNumber, sanitizedInput, connection, action = formTy
       // form itself will be submitted and locked
     case UPDATE:
       const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
-      console.log('to update data', allRelationsData);
       connection.beginTransaction((err1) => {
         if (err1) cb(err1, null);
         connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [formUID], (err2, results) => {
-
+          if (results.length) {
+            const relationIdsData = results.map((relation, index) => ({ id : relation.relationshipId, data: allRelationsData[index] }));
+            asyncMapSeries(
+              relationIdsData, 
+              (relation, next) => updateRelationData(connection, relation, next), 
+              (err3, results3) => {
+                if (err3) cb(err3, null);
+                cb(null, results3);
+              });
+          } else cb(null, null);
         });
-        const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
-        // asyncMapSeries(
-        //   allRelationsData,
-        //   (relationData, next) => insertRelationData(connection, relationData, next), 
-        //   (err, results) => {
-        //     if (err) cb(err, null);
-        //     asyncMapSeries(
-        //       results, 
-        //       (relationId, next) => insertFormRelations(connection, formUID, relationId, next),
-        //       (err1, results1) => {
-        //         if (err1) cb(err1, null);
-        //         cb(null, results1);
-        //       });
-        //   },
-        // );
       });
       break;
     default: 

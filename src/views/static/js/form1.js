@@ -114,7 +114,7 @@ $(document).ready(function() {
                 if (response.visaRefusal === 'Yes')
                 {
                     $("#visa_refusals_textarea").css("display","block");
-                    $("#visa_refusals_textarea").val(rresponse.visaRefusal.toLowerCase());
+                    $("#visa_refusals_textarea").val(response.visaRefusal.toLowerCase());
                 }
                 else{
                     $("#visa_refusals_textarea").css("display","none");
