@@ -52,23 +52,42 @@ $(document).ready(function() {
                 $('#county').val(response.county);
                 $('#postcode').val(response.postcode);
                 $('#email_address').val(response.email);
-
                 $('#relationship_status').val(response.relationship); 
-
                 $('#nationalities').val(response.nationalities);
                 $('#date_UK_entry').val(response.ukEntryDate);
+               
+// for convictions--- enter conviction text-area value by default, show text area on condition
                 $('#conviction_text_area').val(response.convictionText);
-    
+                var $radios = $('input:radio[name=any_convictions]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.conviction +']').prop('checked', true);
+                }
+                if(response.conviction==='Yes')
+                {   $("#conviction_text_area").css("display","block");
+                }else{
+                    $("#conviction_text_area").css("display","none");
+                }
+
+// for visal refusal--- enter visal refusal text-area value by default, show text area on condition
                 $('#visa_refusals_textarea').val(response.visaRefusalText);
-    
+                var $radios = $('input:radio[name=visa_refusals]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.visaRefusal +']').prop('checked', true);
+                }
+                if (response.visaRefusal === 'Yes')
+                {
+                    $("#visa_refusals_textarea").css("display","block");
+                }
+                else{
+                    $("#visa_refusals_textarea").css("display","none");
+                }
+
                 $('#details_public_funds').val(response.publicFunds); 
-    
-    
                 $('#UK_NINo').val(response.nationalInsuranceNumber);
                 $('#next_planned_departure').val(response.ukNextDepartureDate);
                 $('#UK_date_arrival_back').val(response.ukNextArrivalDate);
 
-                if(response.relationship==="Single")
+                if(response.relationship==="single")
                 {
                     $("#partner_details").css("display","none"); 
                     $('#partner_Title').val(response.partnerTitle);  
@@ -92,37 +111,6 @@ $(document).ready(function() {
                 
              //   convictions(response.conviction.toLowerCase());
             //    visa(response.visaRefusal.toLowerCase());
-
-                var $radios = $('input:radio[name=any_convictions]');
-                if($radios.is(':checked') === false) {
-                    $radios.filter('[value='+ response.conviction +']').prop('checked', true);
-                }
-                if(response.conviction==='Yes')
-                {
-                    $("#conviction_text_area").css("display","block");
-                    $("#conviction_text_area").val(response.conviction_text_area.toLowerCase());
-                }
-                else{
-                    $("#conviction_text_area").css("display","none");
-                }
-
-                var $radios = $('input:radio[name=visa_refusals]');
-                if($radios.is(':checked') === false) {
-                    $radios.filter('[value='+ response.visaRefusal +']').prop('checked', true);
-                }
-                if (response.visaRefusal === 'Yes')
-                {
-                    $("#visa_refusals_textarea").css("display","block");
-<<<<<<< HEAD
-                    $("#visa_refusals_textarea").val(response.visaRefusalText.toLowerCase());
-=======
-                    $("#visa_refusals_textarea").val(response.visaRefusal.toLowerCase());
->>>>>>> 9e7a3d378a0b07bf27ed8b1fa35b72de17a341f0
-                }
-                else{
-                    $("#visa_refusals_textarea").css("display","none");
-                }
-
 
                 var $radios = $('input:radio[name=any_children]');
                 if($radios.is(':checked') === false) {
@@ -234,8 +222,6 @@ function relationship_status()
         $("#partner_placeofbirth").attr("required", "required");
     }
 }
-
-
 
 
 function convictions(option)

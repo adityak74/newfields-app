@@ -77,121 +77,6 @@ $(document).ready(function(){
                 $('#mobile_number').val(response.mobile);
                 $('#landline_no').val(response.landline);
                 $('#email_addr').val(response.email);
-<<<<<<< HEAD
-                $('#home_addr').val(response.homeAddress); 
-                
-                $('#addr_move_indate').val(response.moveInDate);
-                $('#house_ownrship').val(response.homeOwnership);
-                $('#addr_while_visa').val(response.addressOnVisa);
- //       
-                var $radios = $('input:radio[name=uk_addr]');
-                if($radios.is(':checked') === false) {
-                    $radios.filter('[value='+ response.ifUKaddress +']').prop('checked', true);
-                }
-                if(response.ifUKaddress==='Yes')
-                {
-                    $("#uk_addr_text_area").css("display","block");
-                    $("#uk_addr_text_area").val(response.ukAddressInfo);
-                }else{
-                    $("#uk_addr_text_area").css("display","none");
-                }
-              
-                $('#nationalities').val(response.nationalities);
-                $('#national_id').val(response.nationalIdentityNumber);
-
-                $('#_other_names').val(response.otherNames); 
-                $('#relationship_status').val(response.relationship);
-
-// any convictions
-                var $radios = $('input:radio[name=any_convictions]');
-                if($radios.is(':checked') === false) {
-                    $radios.filter('[value='+ response.anyConvictions +']').prop('checked', true);
-                }
-                if(response.anyConvictions==='Yes')
-                {
-                    $("#conviction_text_area").css("display","block");
-                    $("#conviction_text_area").val(response.convictionText);
-                }else{
-                    $("#conviction_text_area").css("display","none");
-                }
-// any visa refusals
-                var $radios = $('input:radio[name=visa_refusals]');
-                if($radios.is(':checked') === false) {
-                    $radios.filter('[value='+ response.visaRefusals +']').prop('checked', true);
-                }
-                if (response.visaRefusals === 'Yes')
-                {
-                    $("#visa_refusals_textarea").css("display","block");
-                    $("#visa_refusals_textarea").val(response.visaRefusalText);
-                }else{
-                    $("#visa_refusals_textarea").css("display","none");
-                }
-// medical
-                var $radios = $('input:radio[name=medical]');
-                if($radios.is(':checked') === false) {
-                    $radios.filter('[value='+ response.medical +']').prop('checked', true);
-                }
-                if (response.medical === 'Yes')
-                {
-                    $("#medical_textarea").css("display","block");
-                    $("#medical_textarea").val(response.medicalInfo);
-                }else{
-                    $("#medical_textarea").css("display","none");
-                }
-// UK NINO 
-                var $radios = $('input:radio[name=uk_NINo]');
-                if($radios.is(':checked') === false) {
-                    $radios.filter('[value='+ response.UKNINumber +']').prop('checked', true);
-                }
-                if (response.UKNINumber === 'Yes')
-                { 
-                    $("#uk_nino_textarea").css("display","block");
-                    $("#uk_nino_textarea").val(response.UKNINumberInfo);
-                }else{
-                    $("#uk_nino_textarea").css("display","none");
-                }
-//armed forces
-                var $radios = $('input:radio[name=anyarmedforces]');
-                if($radios.is(':checked') === false) {
-                    $radios.filter('[value='+ response.ifArmedForces +']').prop('checked', true);
-                }
-                if (response.ifArmedForces === 'Yes')
-                { 
-                    $("#armedforces_textarea").css("display","block");
-                    $("#armedforces_textarea").val(response.armedForcesInfo);
-                }else{
-                    $("#armedforces_textarea").css("display","none");
-                }
-//immediate family
-                var $radios = $('input:radio[name=immediate_family]');
-                if($radios.is(':checked') === false) {
-                    $radios.filter('[value='+ response.ifImmediateFamily +']').prop('checked', true);
-                }
-                if (response.ifImmediateFamily === 'Yes')
-                { alert();
-                    $("#immediate_family_textarea").css("display","block");
-                    $("#immediate_family_textarea").val(response.immediateFamilyInfo);
-                }else{
-                    $("#immediate_family_textarea").css("display","none");
-                }
-
- //familymembertravelalong
-                var $radios = $('input:radio[name=familymembertravelalong]');
-                if($radios.is(':checked') === false) {
-                    $radios.filter('[value='+ response.familyMemberTravelAlong +']').prop('checked', true);
-                }
-                if (response.familyMemberTravelAlong === 'Yes')
-                { 
-                    $("#family_member_travelalong_textarea").css("display","block");
-                    $("#family_member_travelalong_textarea").val(response.familyMemberTravelAlongInfo);
-                }else{
-                    $("#family_member_travelalong_textarea").css("display","none");
-                }
- 
-                $('#Proposaldate_UK_entry').val(response.ukProposedEntryDate); 
- //    
-    
-=======
                 $('#home_addr').val(response.homeAddress);
                 $('#addr_move_indate').val(response.moveInDate);
                 $('#address_line1').val(response.addressLine1);
@@ -207,7 +92,6 @@ $(document).ready(function(){
                 $('#visa_refusals_textarea').val(response.visaRefusalText);
                 $('#details_public_funds').val(response.publicFunds); 
                 $('#UK_NINo').val(response.nationalInsuranceNumber);
->>>>>>> 9e7a3d378a0b07bf27ed8b1fa35b72de17a341f0
                 $('#next_planned_departure').val(response.ukNextDepartureDate);
                 $('#UK_date_arrival_back').val(response.ukNextArrivalDate);
 
@@ -225,15 +109,9 @@ $(document).ready(function(){
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
                 }
-<<<<<<< HEAD
-// start here 
-              //  convictions(response.conviction.toLowerCase());
-             //   visa(response.visaRefusal.toLowerCase());
-=======
 
                 convictions(response.conviction ? response.conviction.toLowerCase() : '');
                 visa(response.visaRefusal.toLowerCase());
->>>>>>> 9e7a3d378a0b07bf27ed8b1fa35b72de17a341f0
             
                 $('#child1_full_name').val(response.child1FullName); 
                 $('#child1_nationalities').val(response.child1Nationalitites);
