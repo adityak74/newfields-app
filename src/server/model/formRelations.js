@@ -85,7 +85,44 @@ export default (formUID, formNumber, sanitizedInput, connection, action = formTy
       });
       break;
     case SUBMIT:
-      // form itself will be submitted and locked
+      if (sanitizedInput.uniqueId) {
+        const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
+        connection.beginTransaction((err1) => {
+          if (err1) cb(err1, null);
+          connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [formUID], (err2, results) => {
+            if (results.length) {
+              const relationIdsData = results.map((relation, index) => ({ id : relation.relationshipId, data: allRelationsData[index] }));
+              asyncMapSeries(
+                relationIdsData, 
+                (relation, next) => updateRelationData(connection, relation, next), 
+                (err3, results3) => {
+                  if (err3) cb(err3, null);
+                  cb(null, results3);
+                });
+            } else cb(null, null);
+          });
+        });
+      } else {
+        connection.beginTransaction((err1) => {
+          if (err1) cb(err1, null);
+          const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
+          asyncMapSeries(
+            allRelationsData,
+            (relationData, next) => insertRelationData(connection, relationData, next), 
+            (err, results) => {
+              if (err) cb(err, null);
+              asyncMapSeries(
+                results, 
+                (relationId, next) => insertFormRelations(connection, formUID, relationId, next),
+                (err1, results1) => {
+                  if (err1) cb(err1, null);
+                  cb(null, results1);
+                });
+            },
+          );
+        });
+      }
+      break;
     case UPDATE:
       const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
       connection.beginTransaction((err1) => {
