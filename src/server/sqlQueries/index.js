@@ -31,11 +31,23 @@ const FORM_RELATIONS = {
   FORM_RELATIONS_SELECT_BY_FORM_ID: 'SELECT * from formRelationships where formId = ?',
 };
 
+const FORM_TRIPS = {
+  CREATE_NEW_FORM_TRIPS_ENTRY: 'INSERT INTO formTrips SET ?',
+  FORM_TRIPS_SELECT_BY_FORM_ID: 'SELECT * from formTrips where formId = ?',
+};
+
 const RELATIONSHIP_INFO = {
   CREATE_NEW_RELATION_ENTRY: 'INSERT INTO relationshipInfo SET ?',
   RELATIONSHIP_INFO_SELECT_BY_ID: 'SELECT * from relationshipInfo where id = ?',
   UPDATE_RELATION_ENTRY_BY_ID: 'UPDATE relationshipInfo SET ? WHERE id = ?',
 };
+
+const TRIPS = {
+  CREATE_NEW_TRIPS_ENTRY: 'INSERT INTO trips SET ?',
+  TRIPS_SELECT_BY_ID: 'SELECT * from trips where id = ?',
+  UPDATE_TRIPS_ENTRY_BY_ID: 'UPDATE trips SET ? WHERE id = ?',
+};
+
 
 export default {
   FORM_CREATE,
@@ -43,4 +55,6 @@ export default {
   FORM_UPDATE,
   RELATIONSHIP_INFO,
   FORM_RELATIONS,
+  FORM_TRIPS,
+  TRIPS,
 };

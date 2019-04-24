@@ -53,4 +53,7 @@ export default (formUID, sanitizedInput, formNumber) => ({
   familyMemberTravelAlongText: getValueIfNotNull(sanitizedInput.familyMemberTravelAlongInfo),
   overseasTravel: getValueIfNotNull(sanitizedInput.anyOverseasTravel),
   anyChildren: sanitizedInput.ifHasChildren,
+  anyVisits: getValueIfNotNull(sanitizedInput.ifVisit),
+  anyTrips: getValueIfNotNull(sanitizedInput.ifTrip),
+  anyOtherTrips: getValueIfNotNull(sanitizedInput.ifOtherTrips),
 });
