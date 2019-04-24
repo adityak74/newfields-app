@@ -90,8 +90,8 @@ $(document).ready(function() {
                     $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
                 }
                 
-                convictions(response.conviction.toLowerCase());
-                visa(response.visaRefusal.toLowerCase());
+             //   convictions(response.conviction.toLowerCase());
+            //    visa(response.visaRefusal.toLowerCase());
 
                 var $radios = $('input:radio[name=any_convictions]');
                 if($radios.is(':checked') === false) {
@@ -100,11 +100,10 @@ $(document).ready(function() {
                 if(response.conviction==='Yes')
                 {
                     $("#conviction_text_area").css("display","block");
-                    $("#conviction_text_area").val(response.conviction.toLowerCase());
+                    $("#conviction_text_area").val(response.conviction_text_area.toLowerCase());
                 }
                 else{
                     $("#conviction_text_area").css("display","none");
-                  //  $("#conviction_text_area").val(response.conviction.toLowerCase());
                 }
 
                 var $radios = $('input:radio[name=visa_refusals]');
@@ -114,11 +113,10 @@ $(document).ready(function() {
                 if (response.visaRefusal === 'Yes')
                 {
                     $("#visa_refusals_textarea").css("display","block");
-                    $("#visa_refusals_textarea").val(rresponse.visaRefusal.toLowerCase());
+                    $("#visa_refusals_textarea").val(response.visaRefusalText.toLowerCase());
                 }
                 else{
                     $("#visa_refusals_textarea").css("display","none");
-                  //  $("#visa_refusals_textarea").val(response.conviction.toLowerCase());
                 }
 
 
