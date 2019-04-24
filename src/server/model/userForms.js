@@ -1,3 +1,4 @@
+import parallel from 'async/parallel';
 import {
   formType,
   formProcessingStatus,
@@ -7,6 +8,7 @@ import sqlQueries from '../sqlQueries';
 import getFormDataObject from './helpers/getFormData';
 import getFormDataExtraInfoDataObject from './helpers/getFormDataExtraInfoData';
 import formRelationsModel from './formRelations';
+import formTripsModel from './formTrips';
 
 export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNumber) => cb => {
 
@@ -41,10 +43,10 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                   if (err4) cb(err4, null);
                   connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
                     if (err5) cb(err5, null);
+                    const tripsModel = formTripsModel(formUID, formNumber, sanitizedInput, connection, formType.NEW, formDataExtraInfoInput);
                     const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.NEW, formDataExtraInfoInput);
-                    relationsModel((relationsErr, relationsData) => {
-                      if (relationsErr) cb(relationsErr, null);
-                      // commit the transaction here
+                    parallel([relationsModel, tripsModel], (asyncParallelError, results) => {
+                      if (asyncParallelError) cb(asyncParallelError, null);
                       connection.commit((commitErr) => {
                         if (commitErr) {
                           return connection.rollback(() => {
@@ -101,10 +103,10 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                           }, 
                           formUID], (err6, rows6) => {
                             if (err6) cb(err6, null);
+                            const tripsModel = formTripsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
                             const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
-                            relationsModel((relationsErr, relationsData) => {
-                              if (relationsErr) cb(relationsErr, null);
-                              // commit the transaction here
+                            parallel([relationsModel, tripsModel], (asyncParallelError, results) => {
+                              if (asyncParallelError) cb(asyncParallelError, null);
                               connection.commit((commitErr) => {
                                 if (commitErr) {
                                   return connection.rollback(() => {
@@ -113,7 +115,7 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                                 }
                                 cb(null, updateFormResponse);
                               });
-                            }); 
+                            });
                         });
                       });
                     });
@@ -154,10 +156,10 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                       connection.query(FORM_UPDATE.UPDATE_FORM_SUBMIT_BY_FORMID_USERID, [{ status: SUBMIT }, formUID, currentUser.id], (err6, rows6) => {
                         if (err6) cb(err6, null);
                         // commit the transaction here
-                        const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
-                        relationsModel((relationsErr, relationsData) => {
-                          if (relationsErr) cb(relationsErr, null);
-                          // commit the transaction here
+                        const tripsModel = formTripsModel(formUID, formNumber, sanitizedInput, connection, formType.SUBMIT, formDataExtraInfoInput);
+                        const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.SUBMIT, formDataExtraInfoInput);
+                        parallel([relationsModel, tripsModel], (asyncParallelError, results) => {
+                          if (asyncParallelError) cb(asyncParallelError, null);
                           connection.commit((commitErr) => {
                             if (commitErr) {
                               return connection.rollback(() => {
@@ -166,7 +168,7 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                             }
                             cb(null, createNewFormEntryInput);
                           });
-                        }); 
+                        });
                       });
                     });
                   });
@@ -207,10 +209,10 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                   }, 
                   formUID], (err6, rows6) => {
                     if (err6) cb(err6, null);
+                    const tripsModel = formTripsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
                     const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
-                    relationsModel((relationsErr, relationsData) => {
-                      if (relationsErr) cb(relationsErr, null);
-                      // commit the transaction here
+                    parallel([relationsModel, tripsModel], (asyncParallelError, results) => {
+                      if (asyncParallelError) cb(asyncParallelError, null);
                       connection.commit((commitErr) => {
                         if (commitErr) {
                           return connection.rollback(() => {
@@ -219,7 +221,7 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                         }
                         cb(null, updateFormResponse);
                       });
-                    }); 
+                    });
                 });
               });
             });

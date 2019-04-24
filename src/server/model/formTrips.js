@@ -8,6 +8,7 @@ import sqlQueries from '../sqlQueries';
 
 const { TRIPS, FORM_TRIPS } = sqlQueries;
 const { VISIT, NORMAL_TRIP, OTHER_TRIP } = tripTypes;
+const { NEW, SUBMIT, UPDATE } = formType;
 
 const getTripsDataObject = (sanitizedInput, formNumber) => {
   const tripsData = [];
@@ -41,7 +42,7 @@ const getTripsDataObject = (sanitizedInput, formNumber) => {
           arrivalDate: otherTrip.arrivalDate,
           departureDate: otherTrip.departureDate,
           reason: otherTrip.reasonInfo,
-          trip: OTHER_TRIP,
+          type: OTHER_TRIP,
         });
       });
     }
@@ -64,7 +65,7 @@ const updateTripData = (connection, tripObject, onCb) => {
 };
 
 const insertFormTrips = (connection, formUID, tripId, onCb) => {
-  connection.query(FORM_TRIPS.CREATE_NEW_FORM_TRIPS_ENTRY, { formId: formUID, tripId }, (err, result) => {
+  connection.query(FORM_TRIPS.CREATE_NEW_FORM_TRIPS_ENTRY, { formId: formUID, tripId: tripId }, (err, result) => {
     if (err) onCb(err, null);
     onCb(null, result.insertId);
   });
@@ -74,18 +75,18 @@ export default (formUID, formNumber, sanitizedInput, connection, action = formTy
   switch (action) {
     case NEW:
       connection.beginTransaction((err1) => {
-        if (err1) cb(err1, null);
+        if (err1) return cb(err1, null);
         const allTripsData = getTripsDataObject(sanitizedInput, formNumber);
         asyncMapSeries(
           allTripsData,
           (tripData, next) => insertTripData(connection, tripData, next), 
           (err, results) => {
-            if (err) cb(err, null);
+            if (err) return cb(err, null);
             asyncMapSeries(
-              results, 
+              results,
               (tripId, next) => insertFormTrips(connection, formUID, tripId, next),
               (err1, results1) => {
-                if (err1) cb(err1, null);
+                if (err1) return cb(err1, null);
                 cb(null, results1);
               });
           },
