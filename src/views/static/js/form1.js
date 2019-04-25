@@ -112,27 +112,28 @@ $(document).ready(function() {
              //   convictions(response.conviction.toLowerCase());
             //    visa(response.visaRefusal.toLowerCase());
 
+//for children 
+                $('#child1_full_name').val(response.child1FullName); 
+                $('#child1_nationalities').val(response.child1Nationalitites);
+                $('#child1_dob').val(response.child1DateOfBirth);
+                $('#child1_placeofbirth').val(response.child1CountryOfBirth);
+
+                $('#child2_full_name').val(response.child2FullName); 
+                $('#child2_nationalities').val(response.child2Nationalitites);
+                $('#child2_dob').val(response.child2DateOfBirth);
+                $('#child2_placeofbirth').val(response.child2CountryOfBirth);
+
                 var $radios = $('input:radio[name=any_children]');
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
                 }
                 if (response.anyChildren === 'Yes') {
-                    $('#child1_full_name').val(response.child1FullName); 
-                    $('#child1_nationalities').val(response.child1Nationalitites);
-                    $('#child1_dob').val(response.child1DateOfBirth);
-                    $('#child1_placeofbirth').val(response.child1CountryOfBirth);
-                    
                     $("#childern_details").css("display","block");
                 } else {
                     $("#childern_details").css("display","none");
                 }
 
                 if (response.child2FullName) {
-                    $('#child2_full_name').val(response.child2FullName); 
-                    $('#child2_nationalities').val(response.child2Nationalitites);
-                    $('#child2_dob').val(response.child2DateOfBirth);
-                    $('#child2_placeofbirth').val(response.child2CountryOfBirth);
-
                     $("#childern_details2").css("display","block");
                 } else {
                     $("#childern_details2").css("display","none");

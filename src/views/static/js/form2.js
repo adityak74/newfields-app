@@ -129,17 +129,17 @@ $(document).ready(function(){
 
 // for Medical treatment--- enter visa refusal text-area value by default, show text area on condition
                 $('#medical_textarea').val(response.medicalText);
-                // var $radios = $('input:radio[name=medical]');
-                // if($radios.is(':checked') === false) {
-                //     $radios.filter('[value='+ response.medical +']').prop('checked', true);
-                // }
-                // if (response.medical === 'Yes')
-                // {
-                //     $("#medical_textarea").css("display","block");
-                // }
-                // else{
-                //     $("#medical_textarea").css("display","none");
-                // }
+                var $radios = $('input:radio[name=medical]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.medical +']').prop('checked', true);
+                }
+                if (response.medical === 'Yes')
+                {
+                    $("#medical_textarea").css("display","block");
+                }
+                else{
+                    $("#medical_textarea").css("display","none");
+                }
 
 // for UK nino--- enter UK nino text-area value by default, show text area on condition
                 $('#uk_nino_textarea').val(response.nationalInsuranceNumber);
@@ -203,43 +203,65 @@ $(document).ready(function(){
                 $('#Returndate_UK').val(response.ukNextArrivalDate);
 
               
-                $('#fa_frst').val(response.partnerTitle);  
-                $('#father_country_of_birth').val(response.partnerFullName); 
-                $('#father_nationality').val(response.partnerMobile);
-                $('#father_Secondnationality').val(response.partnerUKHomeAddress);
-                $('#father_DOB').val(response.partnerNationalities);
+                $('#fa_frst').val(response.fatherFullName);  
+                $('#father_country_of_birth').val(response.fatherCountryOfBirth); 
+                $('#father_nationality').val(response.fatherNationality);
+                $('#father_Secondnationality').val(response.fatherAlternateNationality);
+                $('#father_DOB').val(response.fatherDateOfBirth);
 
-                $('#mothers_f_na').val(response.partnerDateOfBirth);
-                $('#mothersCountryofBirth').val(response.partnerFullName); 
-                $('#mother_nationality').val(response.partnerMobile);
-                $('#mother_Secondnationality').val(response.partnerUKHomeAddress);
-                $('#mother_DOB').val(response.partnerNationalities);
+                $('#mothers_f_na').val(response.motherFullName);
+                $('#mothersCountryofBirth').val(response.motherCountryOfBirth); 
+                $('#mother_nationality').val(response.motherNationality);
+                $('#mother_Secondnationality').val(response.motherAlternateNationality);
+                $('#mother_DOB').val(response.motherDateOfBirth);
 
+                $('#partner_fna').val(response.partnerFullName);
+                $('#partner_countryofbirth').val(response.partnerPlaceOfBirth); 
+                $('#partner_nationlity').val(response.partnerNationalities);
+                $('#partner_Snationality').val(response.partnerAlternateNationality);
+                $('#partner_DOB').val(response.partnerDateOfBirth);
 
-                $('#partner_fna').val(response.partnerDateOfBirth);
-                $('#partner_countryofbirth').val(response.partnerFullName); 
-                $('#partner_nationlity').val(response.partnerMobile);
-                $('#partner_Snationality').val(response.partnerUKHomeAddress);
-                $('#partner_DOB').val(response.partnerNationalities);
+// for children
+                $('#child1_f_na').val(response.child1FullName); 
+                $('#child1_countryofbirth').val(response.child1CountryOfBirth);
+                $('#child1_nationality').val(response.child1Nationalitites);
+                $('#child1_Snationality').val(response.child1AlternateNationality);
+                $('#child1_DOB').val(response.child1DateOfBirth);
 
+                $('#child2_f_na').val(response.child2FullName); 
+                $('#child2_countryofbirth').val(response.child2CountryOfBirth);
+                $('#child2_nationality').val(response.child2Nationalitites);
+                $('#child2_Snationality').val(response.child2AlternateNationality);
+                $('#child2_DOB').val(response.child2DateOfBirth);
 
-                var $radios = $('input:radio[name=any_children]');
+                var $radios = $('input:radio[name=firstchild1]');
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
                 }
+                if (response.anyChildren === 'Yes') {
+                    $("#childern_details1").css("display","block");
+                } else {
+                    $("#childern_details1").css("display","none");
+                }
+
+                if (response.child2FullName) {
+                    $("#children_details2").css("display","block");
+                } else {
+                    $("#children_details2").css("display","none");
+                }
+
+// visits
+
+
+//trips
+
+
+//other trips
 
               //  convictions(response.conviction ? response.conviction.toLowerCase() : '');
               //  visa(response.visaRefusal.toLowerCase());
             
-                $('#child1_full_name').val(response.child1FullName); 
-                $('#child1_nationalities').val(response.child1Nationalitites);
-                $('#child1_dob').val(response.child1DateOfBirth);
-                $('#child1_placeofbirth').val(response.child1CountryOfBirth);
                 
-                $('#child2_full_name').val(response.child2FullName); 
-                $('#child2_nationalities').val(response.child2Nationalitites);
-                $('#child2_dob').val(response.child2DateOfBirth);
-                $('#child2_placeofbirth').val(response.child2CountryOfBirth);
             },
             error: function(xhr) {
                 if(xhr.status === 400) {
