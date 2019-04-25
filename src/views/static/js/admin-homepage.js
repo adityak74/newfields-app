@@ -103,44 +103,43 @@ function Openclient_form1(id)
             console.log('formdata', responseText);
 
         //    $('#Unique_id').val(UniqueID);
-            $('#Title').val(responseText.Title); 
-            
-            $('#full_name').val(responseText.full_name); 
-            $('#mobile_number').val(responseText.mobile_number);
-            $('#address_line1').val(responseText.address_line1);
-            $('#address_line2').val(responseText.address_line2);
+            $('#Title').val(responseText.title); 
+            $('#full_name').val(responseText.fullName); 
+            $('#mobile_number').val(responseText.mobile);
+            $('#address_line1').val(responseText.addressLine1);
+            $('#address_line2').val(responseText.addressLine2);
             $('#town').val(responseText.town);
             $('#county').val(responseText.county);
             $('#postcode').val(responseText.postcode);
-            $('#email_address').val(responseText.email_address);
-            $('#relationship_status').val(responseText.relationship_status);
+            $('#email_address').val(responseText.email);
+            $('#relationship_status').val(responseText.relationship);
             $('#nationalities').val(responseText.nationalities);
-          //  $('#nationalities').val(nationalities);
-            $('#date_UK_entry').val(responseText.date_UK_entry);
-            $('#conviction_text_area').val(responseText.conviction_text_area);
-            $('#visa_refusals_textarea').val(responseText.visa_refusals_textarea);
-            $('#details_public_funds').val(responseText.details_public_funds);
-            $('#UK_NINo').val(responseText.UK_NINo);
-            $('#next_planned_departure').val(responseText.next_planned_departure);
-            $('#UK_date_arrival_back').val(responseText.UK_date_arrival_back);
+            $('#date_UK_entry').val(responseText.ukEntryDate);
+            $('#conviction_text_area').val(responseText.convictionText);
+            $('#visa_refusals_textarea').val(responseText.visaRefusalText);
+
+            $('#details_public_funds').val(responseText.publicFunds);
+            $('#UK_NINo').val(responseText.nationalInsuranceNumber);
+            $('#next_planned_departure').val(responseText.ukNextDepartureDate);
+            $('#UK_date_arrival_back').val(responseText.ukNextArrivalDate);
             
-            $('#partner_Title').val(responseText.partner_Title);
-            $('#partner_full_name').val(responseText.partner_full_name); 
-            $('#partner_mobile_number').val(responseText.partner_mobile_number);
-            $('#partner_uk_home_address').val(responseText.partner_uk_home_address);
-            $('#partner_nationalities').val(responseText.partner_nationalities);
-            $('#partner_dob').val(responseText.partner_dob);
-            $('#partner_placeofbirth').val(responseText.partner_placeofbirth);
+            $('#partner_Title').val(responseText.partnerTitle);
+            $('#partner_full_name').val(responseText.partnerFullName); 
+            $('#partner_mobile_number').val(responseText.partnerMobile);
+            $('#partner_uk_home_address').val(responseText.partnerUKHomeAddress);
+            $('#partner_nationalities').val(responseText.partnerNationalities);
+            $('#partner_dob').val(responseText.partnerDateOfBirth);
+            $('#partner_placeofbirth').val(responseText.partnerPlaceOfBirth);
            
-            $('#child1_full_name').val(responseText.child1_full_name); 
-            $('#child1_nationalities').val(responseText.child1_nationalities);
-            $('#child1_dob').val(responseText.child1_dob);
-            $('#child1_placeofbirth').val(responseText.child1_placeofbirth);
+            $('#child1_full_name').val(responseText.child1FullName); 
+            $('#child1_nationalities').val(responseText.child1Nationalitites);
+            $('#child1_dob').val(responseText.child1DateOfBirth);
+            $('#child1_placeofbirth').val(responseText.child1CountryOfBirth);
             
-            $('#child2_full_name').val(responseText.child2_full_name); 
-            $('#child2_nationalities').val(responseText.child2_nationalities);
-            $('#child2_dob').val(responseText.child2_dob);
-            $('#child2_placeofbirth').val(responseText.child2_placeofbirth);  
+            $('#child2_full_name').val(responseText.child2FullName); 
+            $('#child2_nationalities').val(responseText.child2Nationalitites);
+            $('#child2_dob').val(responseText.child2DateOfBirth);
+            $('#child2_placeofbirth').val(responseText.child2CountryOfBirth);  
 
  //download documents pending
 
