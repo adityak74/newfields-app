@@ -239,8 +239,10 @@ $(document).ready(function(){
                     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
                 }
                 if (response.anyChildren === 'Yes') {
+                    $("#firstchild_condition").text("	Your Children"); 
                     $("#childern_details1").css("display","block");
                 } else {
+                    $("#firstchild_condition").text("4.	Your Children"); 
                     $("#childern_details1").css("display","none");
                 }
 
@@ -252,14 +254,174 @@ $(document).ready(function(){
 
 // visits
 
+                $("#UK_arrival_date1").val(response.visitInfo[0].arrivalDate); 
+                $("#UK_departure_date1").val(response.visitInfo[0].departureDate); 
+                $("#reason_ofvisit1").val(response.visitInfo[0].reasonInfo); 
+                if(response.visitInfo[0].arrivalDate || response.visitInfo[0].departureDate ){
+                    $("input[name='visit'][value='Yes']").prop('checked', true);
+                    $("#first_visit").css("display","block");
+                }else{
+                    $("input[name='visit'][value='No']").prop('checked', true);
+                    $("#first_visit").css("display","none");
+                }
+
+                $("#UK_arrival_date2").val(response.visitInfo[1].arrivalDate); 
+                $("#UK_departure_date2").val(response.visitInfo[1].departureDate); 
+                $("#reason_ofvisit2").val(response.visitInfo[1].reasonInfo); 
+                if(response.visitInfo[1].arrivalDate || response.visitInfo[1].departureDate ){
+                    $("#second_visit").css("display","block");
+                }else{
+                    $("#second_visit").css("display","none");
+                }
+
+                $("#UK_arrival_date3").val(response.visitInfo[2].arrivalDate); 
+                $("#UK_departure_date3").val(response.visitInfo[2].departureDate); 
+                $("#reason_ofvisit3").val(response.visitInfo[2].reasonInfo); 
+                if(response.visitInfo[2].arrivalDate || response.visitInfo[2].departureDate ){
+                    $("#third_visit").css("display","block");
+                }else{
+                    $("#third_visit").css("display","none");
+                }
+
+                $("#UK_arrival_date4").val(response.visitInfo[3].arrivalDate); 
+                $("#UK_departure_date4").val(response.visitInfo[3].departureDate); 
+                $("#reason_ofvisit4").val(response.visitInfo[3].reasonInfo); 
+                if(response.visitInfo[3].arrivalDate || response.visitInfo[3].departureDate ){
+                    $("#fourth_visit").css("display","block");
+                }else{
+                    $("#fourth_visit").css("display","none");
+                }
+
+                $("#UK_arrival_date5").val(response.visitInfo[4].arrivalDate); 
+                $("#UK_departure_date5").val(response.visitInfo[4].departureDate); 
+                $("#reason_ofvisit5").val(response.visitInfo[4].reasonInfo); 
+                if(response.visitInfo[4].arrivalDate || response.visitInfo[4].departureDate ){
+                    $("#fifth_visit").css("display","block");
+                }else{
+                    $("#fifth_visit").css("display","none");
+                }
 
 //trips
+
+                $("#country1").val(response.tripInfo[0].country);
+                $("#date_arrival_country1").val(response.tripInfo[0].arrivalDate);
+                $("#date_departure_country1").val(response.tripInfo[0].departureDate);
+                $("#tripreason_ofvisit1").val(response.tripInfo[0].reasonInfo);
+
+                if(response.tripInfo[0].arrivalDate || response.tripInfo[0].departureDate ){
+                    $("input[name='TRIP'][value='Yes']").prop('checked', true);
+                    $("#first_Trip").css("display","block");
+                }else{
+                    $("input[name='TRIP'][value='No']").prop('checked', true);
+                    $("#first_Trip").css("display","none");
+                }
+
+                $("#country2").val(response.tripInfo[1].country);
+                $("#date_arrival_country2").val(response.tripInfo[1].arrivalDate);
+                $("#date_departure_country2").val(response.tripInfo[1].departureDate);
+                $("#tripreason_ofvisit2").val(response.tripInfo[1].reasonInfo);
+                
+                if(response.tripInfo[1].arrivalDate || response.tripInfo[1].departureDate ){
+                    $("#second_Trip").css("display","block");
+                }else{
+                    $("#second_Trip").css("display","none");
+                }
+
+                $("#country3").val(response.tripInfo[2].country);
+                $("#date_arrival_country3").val(response.tripInfo[2].arrivalDate);
+                $("#date_departure_country3").val(response.tripInfo[2].departureDate);
+                $("#tripreason_ofvisit3").val(response.tripInfo[2].reasonInfo);
+                
+                if(response.tripInfo[2].arrivalDate || response.tripInfo[2].departureDate ){
+                    $("#third_Trip").css("display","block");
+                }else{
+                    $("#third_Trip").css("display","none");
+                }
+
+                $("#country4").val(response.tripInfo[3].country);
+                $("#date_arrival_country4").val(response.tripInfo[3].arrivalDate);
+                $("#date_departure_country4").val(response.tripInfo[3].departureDate);
+                $("#tripreason_ofvisit4").val(response.tripInfo[3].reasonInfo);
+                
+                if(response.tripInfo[3].arrivalDate || response.tripInfo[3].departureDate ){
+                    $("#fourth_Trip").css("display","block");
+                }else{
+                    $("#fourth_Trip").css("display","none");
+                }
+
+                $("#country5").val(response.tripInfo[4].country);
+                $("#date_arrival_country5").val(response.tripInfo[4].arrivalDate);
+                $("#date_departure_country5").val(response.tripInfo[4].departureDate);
+                $("#tripreason_ofvisit5").val(response.tripInfo[4].reasonInfo);
+                
+                if(response.tripInfo[4].arrivalDate || response.tripInfo[4].departureDate ){
+                    $("#fifth_Trip").css("display","block");
+                }else{
+                    $("#fifth_Trip").css("display","none");
+                }
 
 
 //other trips
 
-              //  convictions(response.conviction ? response.conviction.toLowerCase() : '');
-              //  visa(response.visaRefusal.toLowerCase());
+                $("#othertrip_country1").val(response.otherTripInfo[0].country);
+                $("#othertrip_arrivaldate1").val(response.otherTripInfo[0].arrivalDate);
+                $("#othertrip_departuredate1").val(response.otherTripInfo[0].departureDate);
+                $("#othertripreason_ofvisit1").val(response.otherTripInfo[0].reasonInfo);
+
+                if(response.otherTripInfo[0].arrivalDate || response.otherTripInfo[0].departureDate ){
+                    $("input[name='OTHER_TRIP'][value='Yes']").prop('checked', true);
+                    $("#other_first_Trip").css("display","block");
+                }else{
+                    $("input[name='OTHER_TRIP'][value='No']").prop('checked', true);
+                    $("#other_first_Trip").css("display","none");
+                }
+
+                $("#othertrip_country2").val(response.otherTripInfo[1].country);
+                $("#othertrip_arrivaldate2").val(response.otherTripInfo[1].arrivalDate);
+                $("#othertrip_departuredate2").val(response.otherTripInfo[1].departureDate);
+                $("#othertripreason_ofvisit2").val(response.otherTripInfo[1].reasonInfo);
+
+                if(response.otherTripInfo[1].arrivalDate || response.otherTripInfo[1].departureDate ){
+                    $("#other_second_Trip").css("display","block");
+                }else{
+                    $("#other_second_Trip").css("display","none");
+                }
+
+                $("#othertrip_country3").val(response.otherTripInfo[2].country);
+                $("#othertrip_arrivaldate3").val(response.otherTripInfo[2].arrivalDate);
+                $("#othertrip_departuredate3").val(response.otherTripInfo[2].departureDate);
+                $("#othertripreason_ofvisit3").val(response.otherTripInfo[2].reasonInfo);
+
+                if(response.otherTripInfo[2].arrivalDate || response.otherTripInfo[2].departureDate ){
+                    $("#other_third_Trip").css("display","block");
+                }else{
+                    $("#other_third_Trip").css("display","none");
+                }
+
+                $("#othertrip_country4").val(response.otherTripInfo[3].country);
+                $("#othertrip_arrivaldate4").val(response.otherTripInfo[3].arrivalDate);
+                $("#othertrip_departuredate4").val(response.otherTripInfo[3].departureDate);
+                $("#othertripreason_ofvisit4").val(response.otherTripInfo[3].reasonInfo);
+
+                if(response.otherTripInfo[3].arrivalDate || response.otherTripInfo[3].departureDate ){
+                    $("#other_fourth_Trip").css("display","block");
+                }else{
+                    $("#other_fourth_Trip").css("display","none");
+                }
+
+                $("#othertrip_country5").val(response.otherTripInfo[4].country);
+                $("#othertrip_arrivaldate5").val(response.otherTripInfo[4].arrivalDate);
+                $("#othertrip_departuredate5").val(response.otherTripInfo[4].departureDate);
+                $("#othertripreason_ofvisit5").val(response.otherTripInfo[4].reasonInfo);
+
+                if(response.otherTripInfo[4].arrivalDate || response.otherTripInfo[4].departureDate ){
+                    $("#other_fifth_Trip").css("display","block");
+                }else{
+                    $("#other_fifth_Trip").css("display","none");
+                }
+
+
+
             
                 
             },
