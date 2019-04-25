@@ -79,30 +79,148 @@ $(document).ready(function(){
                 $('#email_addr').val(response.email);
                 $('#home_addr').val(response.homeAddress);
                 $('#addr_move_indate').val(response.moveInDate);
-                $('#address_line1').val(response.addressLine1);
-                $('#address_line2').val(response.addressLine2);
-                $('#town').val(response.town);
-                $('#county').val(response.county);
-                $('#postcode').val(response.postcode);
-                $('#email_address').val(response.email);
-                $('#relationship_status').val(response.relationship); 
-                $('#nationalities').val(response.nationalities);
-                $('#date_UK_entry').val(response.ukEntryDate);
-                $('#conviction_text_area').val(response.convictionText);
-                $('#visa_refusals_textarea').val(response.visaRefusalText);
-                $('#details_public_funds').val(response.publicFunds); 
-                $('#UK_NINo').val(response.nationalInsuranceNumber);
-                $('#next_planned_departure').val(response.ukNextDepartureDate);
-                $('#UK_date_arrival_back').val(response.ukNextArrivalDate);
+                $('#house_ownrship').val(response.homeOwnership);
 
-                $('#partner_Title').val(response.partnerTitle);  
+                $('#addr_while_visa').val(response.addressOnVisa);
+
+// for ukAddressInfo--- enter ukAddressInfo text-area value by default, show text area on condition
+                $('#uk_addr_text_area').val(response.ukAddressInfo);
+                var $radios = $('input:radio[name=uk_addr]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.ifUKaddress +']').prop('checked', true);
+                }
+                if(response.ifUKaddress==='Yes')
+                {   $('#uk_addr_text_area').css("display","block");
+                }else{
+                    $('#uk_addr_text_area').css("display","none");
+                }
                 
-                $('#partner_full_name').val(response.partnerFullName); 
-                $('#partner_mobile_number').val(response.partnerMobile);
-                $('#partner_uk_home_address').val(response.partnerUKHomeAddress);
-                $('#partner_nationalities').val(response.partnerNationalities);
-                $('#partner_dob').val(response.partnerDateOfBirth);
-                $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
+                $('#nationalities').val(response.nationalities);
+                $('#national_id').val(response.nationalIdentityNumber); 
+                $('#_other_names').val(response.otherNames);
+                $('#relationship_status').val(response.relationship);
+                $('#Proposaldate_UK_entry').val(response.ukEntryDate);
+
+// for convictions--- enter conviction text-area value by default, show text area on condition
+                $('#conviction_text_area').val(response.convictionText);
+                var $radios = $('input:radio[name=any_convictions]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.conviction +']').prop('checked', true);
+                }
+                if(response.conviction==='Yes')
+                {   $("#conviction_text_area").css("display","block");
+                }else{
+                    $("#conviction_text_area").css("display","none");
+                }
+
+// for visa refusal--- enter visal refusal text-area value by default, show text area on condition
+                $('#visa_refusals_textarea').val(response.visaRefusalText);
+                var $radios = $('input:radio[name=visa_refusals]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.visaRefusal +']').prop('checked', true);
+                }
+                if (response.visaRefusal === 'Yes')
+                {
+                    $("#visa_refusals_textarea").css("display","block");
+                }
+                else{
+                    $("#visa_refusals_textarea").css("display","none");
+                }
+
+// for Medical treatment--- enter visa refusal text-area value by default, show text area on condition
+                $('#medical_textarea').val(response.medicalText);
+                // var $radios = $('input:radio[name=medical]');
+                // if($radios.is(':checked') === false) {
+                //     $radios.filter('[value='+ response.medical +']').prop('checked', true);
+                // }
+                // if (response.medical === 'Yes')
+                // {
+                //     $("#medical_textarea").css("display","block");
+                // }
+                // else{
+                //     $("#medical_textarea").css("display","none");
+                // }
+
+// for UK nino--- enter UK nino text-area value by default, show text area on condition
+                $('#uk_nino_textarea').val(response.nationalInsuranceNumber);
+                var $radios = $('input:radio[name=uk_NINo]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.ukNino +']').prop('checked', true);
+                }
+                if (response.ukNino === 'Yes')
+                {
+                    $("#uk_nino_textarea").css("display","block");
+                }
+                else{
+                    $("#uk_nino_textarea").css("display","none");
+                }
+
+// for Armed forces--- enter Armed forces text-area value by default, show text area on condition
+                $('#armedforces_textarea').val(response.armedForcesText);
+                var $radios = $('input:radio[name=anyarmedforces]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.armedForces +']').prop('checked', true);
+                }
+                if (response.armedForces === 'Yes')
+                {
+                    $("#armedforces_textarea").css("display","block");
+                }
+                else{
+                    $("#armedforces_textarea").css("display","none");
+                }
+
+// for immediate family--- enter immediate family text-area value by default, show text area on condition
+                $('#immediate_family_textarea').val(response.immediateFamilyText);
+                var $radios = $('input:radio[name=immediate_family]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.immediateFamily +']').prop('checked', true);
+                }
+                if (response.immediateFamily === 'Yes')
+                {
+                    $("#immediate_family_textarea").css("display","block");
+                }
+                else{
+                    $("#immediate_family_textarea").css("display","none");
+                }
+
+// for any travelalong family--- enter any travelalong family text-area value by default, show text area on condition
+                $('#family_member_travelalong_textarea').val(response.familyMemberTravelAlongText);
+                var $radios = $('input:radio[name=familymembertravelalong]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.familyMemberTravelAlong +']').prop('checked', true);
+                }
+                if (response.familyMemberTravelAlong === 'Yes')
+                {
+                    $("#family_member_travelalong_textarea").css("display","block");
+                }
+                else{
+                    $("#family_member_travelalong_textarea").css("display","none");
+                }                
+
+
+                $('#any_overseas_travel').val(response.overseasTravel);
+                $('#Departuredate_UK').val(response.ukNextDepartureDate);
+                $('#Returndate_UK').val(response.ukNextArrivalDate);
+
+              
+                $('#fa_frst').val(response.partnerTitle);  
+                $('#father_country_of_birth').val(response.partnerFullName); 
+                $('#father_nationality').val(response.partnerMobile);
+                $('#father_Secondnationality').val(response.partnerUKHomeAddress);
+                $('#father_DOB').val(response.partnerNationalities);
+
+                $('#mothers_f_na').val(response.partnerDateOfBirth);
+                $('#mothersCountryofBirth').val(response.partnerFullName); 
+                $('#mother_nationality').val(response.partnerMobile);
+                $('#mother_Secondnationality').val(response.partnerUKHomeAddress);
+                $('#mother_DOB').val(response.partnerNationalities);
+
+
+                $('#partner_fna').val(response.partnerDateOfBirth);
+                $('#partner_countryofbirth').val(response.partnerFullName); 
+                $('#partner_nationlity').val(response.partnerMobile);
+                $('#partner_Snationality').val(response.partnerUKHomeAddress);
+                $('#partner_DOB').val(response.partnerNationalities);
 
 
                 var $radios = $('input:radio[name=any_children]');
@@ -110,8 +228,8 @@ $(document).ready(function(){
                     $radios.filter('[value='+ response.anyChildren +']').prop('checked', true);
                 }
 
-                convictions(response.conviction ? response.conviction.toLowerCase() : '');
-                visa(response.visaRefusal.toLowerCase());
+              //  convictions(response.conviction ? response.conviction.toLowerCase() : '');
+              //  visa(response.visaRefusal.toLowerCase());
             
                 $('#child1_full_name').val(response.child1FullName); 
                 $('#child1_nationalities').val(response.child1Nationalitites);
@@ -308,10 +426,13 @@ function uk_addrs(option)
     if(option==="yes")
     {
         $("#uk_addr_text_area").css("display","block");
+        $("#uk_addr_text_area").attr("required", "required");
     }
     else if(option==="no")
     {
         $("#uk_addr_text_area").css("display","none");
+        $("#uk_addr_text_area").removeAttr("required", "required");
+        $("#uk_addr_text_area").val("");
     }
 }
 
@@ -321,10 +442,13 @@ function convictions(option)
     if(option==="yes")
     {
         $("#conviction_text_area").css("display","block");
+        $("#conviction_text_area").attr("required", "required");
     }
     else if(option==="no")
     {
         $("#conviction_text_area").css("display","none");
+        $("#conviction_text_area").removeAttr("required", "required");
+        $("#conviction_text_area").val("");
     }
 }
 
@@ -334,10 +458,13 @@ function visa(option)
     if(option==="yes")
     {
         $("#visa_refusals_textarea").css("display","block");
+        $("#visa_refusals_textarea").attr("required", "required");
     }
     else if(option==="no")
     {
         $("#visa_refusals_textarea").css("display","none");
+        $("#visa_refusals_textarea").removeAttr("required", "required");
+        $("#visa_refusals_textarea").val("");
     }
 }
 
@@ -347,10 +474,13 @@ function medical_treatment(option)
     if(option==="yes")
     {
         $("#medical_textarea").css("display","block");
+        $("#medical_textarea").attr("required", "required");
     }
     else if(option==="no")
     {
         $("#medical_textarea").css("display","none");
+        $("#medical_textarea").removeAttr("required", "required");
+        $("#medical_textarea").val("");
     }
 }
 
@@ -360,10 +490,13 @@ function NINo(option)
     if(option==="yes")
     {
         $("#uk_nino_textarea").css("display","block");
+        $("#uk_nino_textarea").attr("required", "required");
     }
     else if(option==="no")
     {
         $("#uk_nino_textarea").css("display","none");
+        $("#uk_nino_textarea").removeAttr("required", "required");
+        $("#uk_nino_textarea").val("");
     }
 }
 
@@ -373,10 +506,13 @@ function armed_forces(option)
     if(option==="yes")
     {
         $("#armedforces_textarea").css("display","block");
+        $("#armedforces_textarea").attr("required", "required");
     }
     else if(option==="no")
     {
         $("#armedforces_textarea").css("display","none");
+        $("#armedforces_textarea").removeAttr("required", "required");
+        $("#armedforces_textarea").val("");
     }
 }
 
@@ -386,10 +522,13 @@ function UK_immediate_family(option)
     if(option==="yes")
     {
         $("#immediate_family_textarea").css("display","block");
+        $("#immediate_family_textarea").attr("required", "required");
     }
     else if(option==="no")
     {
         $("#immediate_family_textarea").css("display","none");
+        $("#immediate_family_textarea").removeAttr("required", "required");
+        $("#immediate_family_textarea").val("");
     }
 }
 
@@ -400,49 +539,69 @@ function family_member_travelalong(option)
     if(option==="yes")
     {
         $("#family_member_travelalong_textarea").css("display","block");
+        $("#family_member_travelalong_textarea").attr("required", "required");
     }
     else if(option==="no")
     {
         $("#family_member_travelalong_textarea").css("display","none");
-    }
-}
-
-
-
-function firstchild(option)
-{
-    if(option==="yes")
-    
-    {   $("#firstchild_condition").text("	Your Children");  
-        $("#childern_details1").css("display","block");
-    }
-    else if(option==="no")
-    {   $("#firstchild_condition").text("4.	Your Children");  
-        $("#childern_details1").css("display","none");
-      //  $("#children_details2").css("display","none");
-        
-        $("#child1_f_na").val(""); 
-        $("#child1_countryofbirth").val(""); 
-        $("#child1_nationality").val("");
-        $("#child1_Snationality").val(""); 
-        $("#child1_DOB").val(""); 
-        Child_options('2');
+        $("#family_member_travelalong_textarea").removeAttr("required", "required");
+        $("#family_member_travelalong_textarea").val("");
     }
 }
 
 function Child_options(option)
 {
     if(option==='1')
-    {   
-        $("#children_details2").css("display","block");
+    {
+        $("#firstchild_condition").text("	Your Children");  
+        $("#childern_details1").css("display","block");
+        $("#child1_f_na").attr("required", "required"); 
+        $("#child1_countryofbirth").attr("required", "required"); 
+        $("#child1_nationality").attr("required", "required");
+        $("#child1_Snationality").attr("required", "required"); 
+        $("#child1_DOB").attr("required", "required");
+    }
+    else if(option==='01')
+    {
+        $("input[name='firstchild1'][value='No']").prop('checked', true);
+        $("#firstchild_condition").text("4.	Your Children");  
+        $("#childern_details1").css("display","none");
+        $("#child1_f_na").val(""); 
+        $("#child1_countryofbirth").val(""); 
+        $("#child1_nationality").val("");
+        $("#child1_Snationality").val(""); 
+        $("#child1_DOB").val(""); 
+
+        $("#child1_f_na").removeAttr("required", "required"); 
+        $("#child1_countryofbirth").removeAttr("required", "required"); 
+        $("#child1_nationality").removeAttr("required", "required");
+        $("#child1_Snationality").removeAttr("required", "required"); 
+        $("#child1_DOB").removeAttr("required", "required");
+
+        Child_options('02');
     }
     else if(option==='2')
+    {   
+        $("#children_details2").css("display","block");
+        $("#child2_f_na").attr("required", "required");
+        $("#child2_countryofbirth").attr("required", "required"); 
+        $("#child2_nationality").attr("required", "required");
+        $("#child2_Snationality").attr("required", "required"); 
+        $("#child2_DOB").attr("required", "required"); 
+    }
+    else if(option==='02')
     {   $("#children_details2").css("display","none");
         $("#child2_f_na").val(""); 
         $("#child2_countryofbirth").val(""); 
         $("#child2_nationality").val("");
         $("#child2_Snationality").val(""); 
         $("#child2_DOB").val(""); 
+
+        $("#child2_f_na").removeAttr("required", "required"); 
+        $("#child2_countryofbirth").removeAttr("required", "required"); 
+        $("#child2_nationality").removeAttr("required", "required");
+        $("#child2_Snationality").removeAttr("required", "required"); 
+        $("#child2_DOB").removeAttr("required", "required");
     }
 }
 
@@ -451,31 +610,51 @@ function visits(option)
     if(option==='1')
     {   
         $("#first_visit").css("display","block");
+        $("#UK_arrival_date1").attr("required", "required"); 
+        $("#UK_departure_date1").attr("required", "required"); 
+        $("#reason_ofvisit1").attr("required", "required"); 
     }
     else if(option==='01')
     {    
+        $("input[name='visit'][value='No']").prop('checked', true);
+
         $("#first_visit").css("display","none");
         $("#UK_arrival_date1").val('');
         $("#UK_departure_date1").val('');
         $("#reason_ofvisit1").val('');
+
+        $("#UK_arrival_date1").removeAttr("required", "required");
+        $("#UK_departure_date1").removeAttr("required", "required");
+        $("#reason_ofvisit1").removeAttr("required", "required");
+
         visits('02');
     }
     else if(option==='2')
     {
-        $("#second_visit").css("display","block") ;
+        $("#second_visit").css("display","block");
+        $("#UK_arrival_date2").attr("required", "required");
+        $("#UK_departure_date2").attr("required", "required");
+        $("#reason_ofvisit2").attr("required", "required");
     }
     else if(option==='02')
     {
-        $("#second_visit").css("display","none") ;
+        $("#second_visit").css("display","none");
         $("#UK_arrival_date2").val('');
         $("#UK_departure_date2").val('');
         $("#reason_ofvisit2").val('');
+
+        $("#UK_arrival_date2").removeAttr("required", "required");
+        $("#UK_departure_date2").removeAttr("required", "required");
+        $("#reason_ofvisit2").removeAttr("required", "required");
         visits('03');
     }
     
     else if(option==='3')
     {
         $("#third_visit").css("display","block") ;
+        $("#UK_arrival_date3").attr("required", "required");
+        $("#UK_departure_date3").attr("required", "required");
+        $("#reason_ofvisit3").attr("required", "required");
     }
     else if(option==='03')
     {
@@ -483,11 +662,18 @@ function visits(option)
         $("#UK_arrival_date3").val('');
         $("#UK_departure_date3").val('');
         $("#reason_ofvisit3").val('');
+
+        $("#UK_arrival_date3").removeAttr("required", "required");
+        $("#UK_departure_date3").removeAttr("required", "required");
+        $("#reason_ofvisit3").removeAttr("required", "required");
         visits('04');
     }
     else if(option==='4')
     {
-        $("#fourth_visit").css("display","block") ;
+        $("#fourth_visit").css("display","block");
+        $("#UK_arrival_date4").attr("required", "required");
+        $("#UK_departure_date4").attr("required", "required");
+        $("#reason_ofvisit4").attr("required", "required");
     }
     else if(option==='04')
     {
@@ -495,11 +681,18 @@ function visits(option)
         $("#UK_arrival_date4").val('');
         $("#UK_departure_date4").val('');
         $("#reason_ofvisit4").val('');
+
+        $("#UK_arrival_date4").removeAttr("required", "required");
+        $("#UK_departure_date4").removeAttr("required", "required");
+        $("#reason_ofvisit4").removeAttr("required", "required");
         visits('05');
     }
     else if(option==='5')
     {
         $("#fifth_visit").css("display","block") ;
+        $("#UK_arrival_date5").attr("required", "required");
+        $("#UK_departure_date5").attr("required", "required");
+        $("#reason_ofvisit5").attr("required", "required");
     }
     else if(option==='05')
     {
@@ -507,6 +700,10 @@ function visits(option)
         $("#UK_arrival_date5").val('');
         $("#UK_departure_date5").val('');
         $("#reason_ofvisit5").val('');
+
+        $("#UK_arrival_date5").removeAttr("required", "required");
+        $("#UK_departure_date5").removeAttr("required", "required");
+        $("#reason_ofvisit5").removeAttr("required", "required");
     }
 }
 
@@ -516,23 +713,37 @@ function trips(option)
     if(option==='1')
     {   
         $("#first_Trip").css("display","block");
+        $("#country1").attr("required", "required");
+        $("#date_arrival_country1").attr("required", "required");
+        $("#date_departure_country1").attr("required", "required");
+        $("#tripreason_ofvisit1").attr("required", "required");
+
     }
     else if(option==='01')
     {    
+        $("input[name='TRIP'][value='No']").prop('checked', true);
+
         $("#first_Trip").css("display","none");
         $("#country1").val("");
         $("#date_arrival_country1").val("");
         $("#date_departure_country1").val("");
         $("#tripreason_ofvisit1").val("");
+
+        $("#country1").removeAttr("required", "required");
+        $("#date_arrival_country1").removeAttr("required", "required");
+        $("#date_departure_country1").removeAttr("required", "required");
+        $("#tripreason_ofvisit1").removeAttr("required", "required");
+
         trips('02');
-//        $("#second_Trip").css("display","none") ;
-//        $("#third_Trip").css("display","none") ;
-//        $("#fourth_Trip").css("display","none") ;
-//        $("#fifth_Trip").css("display","none") ;
+
     }
     else if(option==='2')
     {
-        $("#second_Trip").css("display","block") ;
+        $("#second_Trip").css("display","block");
+        $("#country2").attr("required", "required");;
+        $("#date_arrival_country2").attr("required", "required");
+        $("#date_departure_country2").attr("required", "required");
+        $("#tripreason_ofvisit2").attr("required", "required");
     }
     else if(option==='02')
     {
@@ -541,12 +752,21 @@ function trips(option)
         $("#date_arrival_country2").val("");
         $("#date_departure_country2").val("");
         $("#tripreason_ofvisit2").val("");
+
+        $("#country2").removeAttr("required", "required");
+        $("#date_arrival_country2").removeAttr("required", "required");
+        $("#date_departure_country2").removeAttr("required", "required");
+        $("#tripreason_ofvisit2").removeAttr("required", "required");
         trips('03');
     }
     
     else if(option==='3')
     {
-        $("#third_Trip").css("display","block") ;
+        $("#third_Trip").css("display","block");
+        $("#country3").attr("required", "required");
+        $("#date_arrival_country3").attr("required", "required");
+        $("#date_departure_country3").attr("required", "required");
+        $("#tripreason_ofvisit3").attr("required", "required");
     }
     else if(option==='03')
     {
@@ -555,11 +775,20 @@ function trips(option)
         $("#date_arrival_country3").val("");
         $("#date_departure_country3").val("");
         $("#tripreason_ofvisit3").val("");
+
+        $("#country3").removeAttr("required", "required");
+        $("#date_arrival_country3").removeAttr("required", "required");
+        $("#date_departure_country3").removeAttr("required", "required");
+        $("#tripreason_ofvisit3").removeAttr("required", "required");
         trips('04');
     }
     else if(option==='4')
     {
-        $("#fourth_Trip").css("display","block") ;
+        $("#fourth_Trip").css("display","block");
+        $("#country4").attr("required", "required");
+        $("#date_arrival_country4").attr("required", "required");
+        $("#date_departure_country4").attr("required", "required");
+        $("#tripreason_ofvisit4").attr("required", "required");
     }
     else if(option==='04')
     {
@@ -568,11 +797,21 @@ function trips(option)
         $("#date_arrival_country4").val("");
         $("#date_departure_country4").val("");
         $("#tripreason_ofvisit4").val("");
+
+        $("#country4").removeAttr("required", "required");
+        $("#date_arrival_country4").removeAttr("required", "required");
+        $("#date_departure_country4").removeAttr("required", "required");
+        $("#tripreason_ofvisit4").removeAttr("required", "required");
+
         trips('05');
     }
     else if(option==='5')
     {
-        $("#fifth_Trip").css("display","block") ;
+        $("#fifth_Trip").css("display","block");
+        $("#country5").attr("required", "required");
+        $("#date_arrival_country5").attr("required", "required");
+        $("#date_departure_country5").attr("required", "required");
+        $("#tripreason_ofvisit5").attr("required", "required");
     }
      else if(option==='05')
     {
@@ -581,6 +820,11 @@ function trips(option)
         $("#date_arrival_country5").val("");
         $("#date_departure_country5").val("");
         $("#tripreason_ofvisit5").val("");
+
+        $("#country5").removeAttr("required", "required");
+        $("#date_arrival_country5").removeAttr("required", "required");
+        $("#date_departure_country5").removeAttr("required", "required");
+        $("#tripreason_ofvisit5").removeAttr("required", "required");
     }
 }
 
@@ -590,20 +834,35 @@ function other_trips(option)
     if(option==='1')
     {   
         $("#other_first_Trip").css("display","block");
+        $("#othertrip_country1").attr("required", "required");
+        $("#othertrip_arrivaldate1").attr("required", "required");
+        $("#othertrip_departuredate1").attr("required", "required");
+        $("#othertripreason_ofvisit1").attr("required", "required");
     }
     else if(option==='01')
     {    
+        $("input[name='OTHER_TRIP'][value='No']").prop('checked', true);
+
         $("#other_first_Trip").css("display","none");
         $("#othertrip_country1").val("");
         $("#othertrip_arrivaldate1").val("");
         $("#othertrip_departuredate1").val("");
         $("#othertripreason_ofvisit1").val("");
+
+        $("#othertrip_country1").removeAttr("required", "required");
+        $("#othertrip_arrivaldate1").removeAttr("required", "required");
+        $("#othertrip_departuredate1").removeAttr("required", "required");
+        $("#othertripreason_ofvisit1").removeAttr("required", "required");
         other_trips('02');
     }
     
     else if(option==='2')
     {
         $("#other_second_Trip").css("display","block");
+        $("#othertrip_country2").attr("required", "required");
+        $("#othertrip_arrivaldate2").attr("required", "required");
+        $("#othertrip_departuredate2").attr("required", "required");
+        $("#othertripreason_ofvisit2").attr("required", "required");
     }
     else if(option==='02')
     {
@@ -612,12 +871,21 @@ function other_trips(option)
         $("#othertrip_arrivaldate2").val("");
         $("#othertrip_departuredate2").val("");
         $("#othertripreason_ofvisit2").val("");
+
+        $("#othertrip_country2").removeAttr("required", "required");
+        $("#othertrip_arrivaldate2").removeAttr("required", "required");
+        $("#othertrip_departuredate2").removeAttr("required", "required");
+        $("#othertripreason_ofvisit2").removeAttr("required", "required");
         other_trips('03');
     }
     
     else if(option==='3')
     {
-        $("#other_third_Trip").css("display","block") ;
+        $("#other_third_Trip").css("display","block");
+        $("#othertrip_country3").attr("required", "required");
+        $("#othertrip_arrivaldate3").attr("required", "required");
+        $("#othertrip_departuredate3").attr("required", "required");
+        $("#othertripreason_ofvisit3").attr("required", "required");
     }
     else if(option==='03')
     {
@@ -626,11 +894,20 @@ function other_trips(option)
         $("#othertrip_arrivaldate3").val("");
         $("#othertrip_departuredate3").val("");
         $("#othertripreason_ofvisit3").val("");
+
+        $("#othertrip_country3").removeAttr("required", "required");
+        $("#othertrip_arrivaldate3").removeAttr("required", "required");;
+        $("#othertrip_departuredate3").removeAttr("required", "required");
+        $("#othertripreason_ofvisit3").removeAttr("required", "required");
         other_trips('04');
     }
     else if(option==='4')
     {
-        $("#other_fourth_Trip").css("display","block") ;
+        $("#other_fourth_Trip").css("display","block");
+        $("#othertrip_country4").attr("required", "required");
+        $("#othertrip_arrivaldate4").attr("required", "required");
+        $("#othertrip_departuredate4").attr("required", "required");
+        $("#othertripreason_ofvisit4").attr("required", "required");
     }
     else if(option==='04')
     {
@@ -639,19 +916,33 @@ function other_trips(option)
         $("#othertrip_arrivaldate4").val("");
         $("#othertrip_departuredate4").val("");
         $("#othertripreason_ofvisit4").val("");
+
+        $("#othertrip_country4").removeAttr("required", "required");
+        $("#othertrip_arrivaldate4").removeAttr("required", "required");
+        $("#othertrip_departuredate4").removeAttr("required", "required");
+        $("#othertripreason_ofvisit4").removeAttr("required", "required");
         other_trips('05');
     }
     else if(option==='5')
     {
-        $("#other_fifth_Trip").css("display","block") ;
+        $("#other_fifth_Trip").css("display","block");
+        $("#othertrip_country5").attr("required", "required");
+        $("#othertrip_arrivaldate5").attr("required", "required");
+        $("#othertrip_departuredate5").attr("required", "required");
+        $("#othertripreason_ofvisit5").attr("required", "required");
     }
      else if(option==='05')
     {
-        $("#other_fifth_Trip").css("display","none") ;
+        $("#other_fifth_Trip").css("display","none");
         $("#othertrip_country5").val("");
         $("#othertrip_arrivaldate5").val("");
         $("#othertrip_departuredate5").val("");
         $("#othertripreason_ofvisit5").val("");
+
+        $("#othertrip_country5").removeAttr("required", "required");
+        $("#othertrip_arrivaldate5").removeAttr("required", "required");
+        $("#othertrip_departuredate5").removeAttr("required", "required");
+        $("#othertripreason_ofvisit5").removeAttr("required", "required");
         
     }
 }

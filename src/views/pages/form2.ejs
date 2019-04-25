@@ -245,7 +245,7 @@ and open the template in the editor.
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-5 offset-md-5 offset-lg-5">
-                        <textarea class="form-control" style="display:none;" id="medical_textarea" rows="3" autocomplete="nope" placeholder="any visa refusals, please provide details here" ></textarea>
+                        <textarea class="form-control" style="display:none;" id="medical_textarea" rows="3" autocomplete="nope" placeholder="any medical treatments, please provide details here" ></textarea>
                     </div>
                 </div>
                 
@@ -266,7 +266,7 @@ and open the template in the editor.
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-5 offset-md-5 offset-lg-5">
-                        <textarea class="form-control" style="display:none;" id="uk_nino_textarea" rows="3" autocomplete="nope" placeholder="any visa refusals, please provide details here" ></textarea>
+                        <textarea class="form-control" style="display:none;" id="uk_nino_textarea" rows="3" autocomplete="nope" placeholder="any UK National Insurance number, please provide details here" ></textarea>
                     </div>
                 </div>
                 
@@ -288,7 +288,7 @@ and open the template in the editor.
                 <div  class="form-group row" >
                     <label for="inputPassword" class="col-sm-5 col-form-label"></label>
                     <div class="col-sm-5">
-                        <textarea style="display:none;" class="form-control" id="armedforces_textarea" rows="3"></textarea>
+                        <textarea style="display:none;" class="form-control" id="armedforces_textarea" rows="3" autocomplete="nope" placeholder="any armed forces records, please provide details here" ></textarea>
                     </div>
                 </div>
                 
@@ -310,7 +310,7 @@ and open the template in the editor.
                 <div  class="form-group row" >
                     <label for="inputPassword" class="col-sm-5 col-form-label"></label>
                     <div class="col-sm-5">
-                        <textarea style="display:none;" class="form-control" id="immediate_family_textarea" rows="3"></textarea>
+                        <textarea style="display:none;" class="form-control" id="immediate_family_textarea" rows="3" autocomplete="nope" placeholder="any immediate family in UK, please provide details here" ></textarea>
                     </div>
                 </div>
                 
@@ -344,7 +344,7 @@ and open the template in the editor.
                 <div  class="form-group row" >
                     <label for="inputPassword" class="col-sm-5 col-form-label"></label>
                     <div class="col-sm-5">
-                        <textarea style="display:none;" class="form-control" id="family_member_travelalong_textarea" rows="3"></textarea>
+                        <textarea style="display:none;" class="form-control" id="family_member_travelalong_textarea" rows="3" autocomplete="nope" placeholder="any family member travelling along, please provide details here" ></textarea>
                     </div>
                 </div>
                 
@@ -545,13 +545,13 @@ and open the template in the editor.
                     <label for="inputPassword" id="firstchild_condition" style="font-weight: bold;" class="col-sm-5 col-form-label">4.	Your Children</label>
                     <div class="col-sm form-check form-check-inline" >
                         <label class="form-check-label col-form-label" style="margin-left: 6%;">
-                            <input  type="radio" value="Yes" class="form-check-input" name="firstchild1" onclick="firstchild('yes');" required>
+                            <input  type="radio" value="Yes" class="form-check-input" name="firstchild1" onclick="Child_options('1');" required>
                             Yes
                         </label>
                     </div>
                     <div class="col-sm form-check form-check-inline">
                         <label class="form-check-label col-form-label" style="margin-left: 6%;">
-                            <input type="radio" value="No" class="form-check-input" name="firstchild1" onclick="firstchild('no');" >
+                            <input type="radio" value="No" class="form-check-input" name="firstchild1" onclick="Child_options('01');" >
                             No
                         </label>
                     </div>
@@ -611,7 +611,10 @@ and open the template in the editor.
                     </li>
                 </ul>
                 <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
-                    type="button" onclick="Child_options('1')" >Add more
+                    type="button" onclick="Child_options('2')" >Add more
+                </button>
+                <button class="btn btn-warning"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="Child_options('01')" title="Remove child details">Remove
                 </button>
             </div>   
             <br>
@@ -670,8 +673,8 @@ and open the template in the editor.
                         </div>
                     </li>
                 </ul>
-                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
-                        type="button" onclick="Child_options('2')">Remove
+                <button class="btn btn-warning"  data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="Child_options('02')" title="Remove child details">Remove
                 </button>
             </div>    
             <br>   
@@ -749,6 +752,9 @@ and open the template in the editor.
                 <button class="btn btn-primary" id="add_second_visit" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="visits('2');">Add more
                 </button>
+                <button class="btn btn-warning" id="remove_second_visit" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="visits('01');">Remove
+                </button>
                 <br><br>
             </div>
            
@@ -801,7 +807,7 @@ and open the template in the editor.
                 <button class="btn btn-primary" id="add_third_visit" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="visits('3');">Add more
                 </button>
-                <button class="btn btn-danger" id="remove_second_visit" data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning" id="remove_second_visit" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="visits('02');">Remove
                 </button>
                 <br><br>
@@ -855,7 +861,7 @@ and open the template in the editor.
                 <button class="btn btn-primary" id="add_fourth_visit" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="visits('4');">Add more
                 </button>
-                <button class="btn btn-danger" id="remove_third_visit" data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning" id="remove_third_visit" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="visits('03');">Remove
                 </button>
                 <br><br>
@@ -909,7 +915,7 @@ and open the template in the editor.
                 <button class="btn btn-primary" id="add_fourth_visit" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="visits('5');">Add more
                 </button>
-                <button class="btn btn-danger" id="remove_third_visit" data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning" id="remove_third_visit" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="visits('04');">Remove
                 </button>
                 <br><br>
@@ -962,7 +968,7 @@ and open the template in the editor.
                     </li>
                 </ul>
                
-                <button class="btn btn-danger" id="remove_third_visit" data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning" id="remove_third_visit" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="visits('05');">Remove
                 </button>
             <br>
@@ -1043,6 +1049,9 @@ and open the template in the editor.
                 <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="trips('2');">Add more
                 </button>
+                <button class="btn btn-warning" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="trips('01');">Remove
+                </button>
                 <br><br>
             </div>    
 <!--Trip 2 -->
@@ -1102,7 +1111,7 @@ and open the template in the editor.
                 <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="trips('3');">Add more
                 </button>
-                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="trips('02');">Remove
                 </button>
                 <br><br>
@@ -1164,7 +1173,7 @@ and open the template in the editor.
                 <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="trips('4');">Add more
                 </button>
-                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="trips('03');">Remove
                 </button>
                 <br><br>
@@ -1226,7 +1235,7 @@ and open the template in the editor.
                 <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="trips('5');">Add more
                 </button>
-                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="trips('04');">Remove
                 </button>
                 <br><br>
@@ -1285,7 +1294,7 @@ and open the template in the editor.
                         </div>
                     </li>
                 </ul>
-                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="trips('05');">Remove
                 </button>
                 <br><br>    
@@ -1365,6 +1374,9 @@ and open the template in the editor.
                 <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="other_trips('2');">Add more
                 </button>
+                <button class="btn btn-warning" data-toggle="tooltip" data-placement="top" 
+                        type="button" onclick="other_trips('01');">Add more
+                </button>
                 <br><br>
             </div>  
 <!--other trip 2-->
@@ -1424,7 +1436,7 @@ and open the template in the editor.
                 <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="other_trips('3');">Add more
                 </button>
-                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="other_trips('02');">Remove
                 </button>
                 <br><br>
@@ -1486,7 +1498,7 @@ and open the template in the editor.
                 <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="other_trips('4');">Add more
                 </button>
-                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="other_trips('03');">Remove
                 </button>
                 <br><br>
@@ -1548,7 +1560,7 @@ and open the template in the editor.
                 <button class="btn btn-primary"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="other_trips('5');">Add more
                 </button>
-                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="other_trips('04');">Remove
                 </button>
                 <br><br>
@@ -1609,7 +1621,7 @@ and open the template in the editor.
                     </li>
                 </ul>
                 
-                <button class="btn btn-danger"  data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning"  data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="other_trips('05');">Remove
                 </button>
                 <br><br>

@@ -267,8 +267,6 @@ function radio_option(option)
     }
     else if(option==="no")
     {
-        // $("#childern_details").css("display","none");
-        // $("#childern_details2").css("display","none");
         remove_children(1);
     }
     
@@ -299,9 +297,7 @@ function remove_children(identifier)
         $("#child1_dob").removeAttr("required", "required");
         $("#child1_placeofbirth").removeAttr("required", "required");
 
-
         remove_children(2);
-        
     }
     else if(identifier===2)
     {
