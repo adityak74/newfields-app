@@ -29,8 +29,12 @@ $(document).ready(function () {
             $('#img').hide();
             $('#overlay1').hide();
             console.log('all user forms', responseData);
-            form1_request_table(responseData.filter(form => form.formNumber === 1));
-            form2_request_table(responseData.filter(form => form.formNumber === 2));
+
+            //only submitted form from client should be in form1 and form2 
+            //if incomplete then in incomplete table
+
+            form1_request_table(responseData.filter(form => form.formNumber === 1 ));
+            form2_request_table(responseData.filter(form => form.formNumber === 2 ));
             incomplete_forms_request_table(responseData.filter(form => [1,2].includes(form.processingStatus)));
             processed_forms_request_table(responseData.filter(form => [3].includes(form.processingStatus)));
         },
@@ -157,7 +161,7 @@ function form2_request_table(formsDataArray)
         var date = new Date(formResponse.createDate).toString();
         var response_date = date.substr(0,28);
         LCT.row.add([
-           // "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
+           
            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
             response_date,
             formResponse.formUID,
@@ -227,34 +231,36 @@ function Openclient_form2(id)
         data:{ formId: reference_id },
         success : function(responseText) {
             $('#Unique_id').val(responseText.UniqueID);
-            $('#f2_title').val(responseText.Title);
-            $('#f2_full_name').val(responseText.full_name); 
-            $('#f2_mobile_number').val(responseText.mobile_number);
-            $('#f2_landline_no').val(responseText.landline_no);
-            $('#f2_email_addr').val(responseText.email_addr);
-            $('#f2_home_addr').val(responseText.home_addr);
-            $('#f2_addr_move_indate').val(responseText.addr_move_indate);
-            $('#f2_house_ownrship').val(responseText.house_ownrship);
+            $('#f2_title').val(responseText.title);
+            $('#f2_full_name').val(responseText.fullName); 
+            $('#f2_mobile_number').val(responseText.mobile);
+            $('#f2_landline_no').val(responseText.landline);
+            $('#f2_email_addr').val(responseText.email);
+            $('#f2_home_addr').val(responseText.homeAddress);
+            $('#f2_addr_move_indate').val(responseText.moveInDate);
+            $('#f2_house_ownrship').val(responseText.homeOwnership);
            
-            $('#f2_addr_while_visa').val(responseText.addr_while_visa);
-            $('#f2_uk_addr_text_area').val(responseText.uk_addr_text_area);
+            $('#f2_addr_while_visa').val(responseText.addressOnVisa);
+            $('#f2_uk_addr_text_area').val(responseText.ukAddressInfo);
             $('#f2_nationalities').val(responseText.nationalities);
-            $('#f2_national_id').val(responseText.national_id);
-            $('#f2__other_names').val(responseText._other_names);
-            $('#f2_relationship_status').val(responseText.relationship_status);
+            $('#f2_national_id').val(responseText.nationalIdentityNumber);
+            $('#f2__other_names').val(responseText.otherNames);
+            $('#f2_relationship_status').val(responseText.relationship);
             
-            $('#f2_conviction_text_area').val(responseText.conviction_text_area);
-            $('#f2_visa_refusals_textarea').val(responseText.visa_refusals_textarea);
-            $('#f2_medical_textarea').val(responseText.medical_textarea);
-            $('#f2_uk_nino_textarea').val(responseText.uk_nino_textarea);
-            $('#f2_armedforces_textarea').val(responseText.armedforces_textarea);
-            $('#f2_immediate_family_textarea').val(responseText.immediate_family_textarea);
-            $('#f2_Proposaldate_UK_entry').val(responseText.f2_Proposaldate_UK_entry);
-            $('#f2_family_member_travelalong_textarea').val(responseText.family_member_travelalong_textarea);
-            $('#f2_any_overseas_travel').val(responseText.any_overseas_travel);
-            $('#f2_Departuredate_UK').val(responseText.Departuredate_UK);
-            $('#f2_Returndate_UK').val(responseText.Returndate_UK);
+            $('#f2_conviction_text_area').val(responseText.convictionText);
+            $('#f2_visa_refusals_textarea').val(responseText.visaRefusalText);
+            $('#f2_medical_textarea').val(responseText.medicalText);
+            $('#f2_uk_nino_textarea').val(responseText.nationalInsuranceNumber);
+            $('#f2_armedforces_textarea').val(responseText.armedForcesText);
+            $('#f2_immediate_family_textarea').val(responseText.immediateFamilyText);
 
+            $('#f2_Proposaldate_UK_entry').val(responseText.ukEntryDate);
+
+            $('#f2_family_member_travelalong_textarea').val(responseText.familyMemberTravelAlongText);
+            $('#f2_any_overseas_travel').val(responseText.overseasTravel);
+            $('#f2_Departuredate_UK').val(responseText.ukNextDepartureDate);
+            $('#f2_Returndate_UK').val(responseText.ukNextArrivalDate);
+//done
         //family details    
             $('#f2_fa_frst').val(responseText.fa_frst);
             $('#f2_father_country_of_birth').val(responseText.father_country_of_birth);
