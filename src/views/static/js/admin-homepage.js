@@ -315,57 +315,57 @@ function Openclient_form2(id)
             $('#f2_reason_ofvisit5').val(responseText.visitInfo[4].reasonInfo);
 
   //trips abroad to: Australia; NZ; Canada; USA; Europe,
-        //     $('#f2_country1').val(responseText.);
-        //     $('#f2_date_arrival_country1').val(responseText.);
-        //     $('#f2_date_departure_country1').val(responseText.);
-        //     $('#f2_tripreason_ofvisit1').val(responseText.);
+            $('#f2_country1').val(responseText.tripInfo[0].country);
+            $('#f2_date_arrival_country1').val(responseText.tripInfo[0].arrivalDate);
+            $('#f2_date_departure_country1').val(responseText.tripInfo[0].departureDate);
+            $('#f2_tripreason_ofvisit1').val(responseText.tripInfo[0].reasonInfo);
 
-        //     $('#f2_country2').val(responseText.);
-        //     $('#f2_date_arrival_country2').val(responseText.);
-        //     $('#f2_date_departure_country2').val(responseText.);
-        //     $('#f2_tripreason_ofvisit2').val(responseText.);
+            $('#f2_country2').val(responseText.tripInfo[1].country);
+            $('#f2_date_arrival_country2').val(responseText.tripInfo[1].arrivalDate);
+            $('#f2_date_departure_country2').val(responseText.tripInfo[1].departureDate);
+            $('#f2_tripreason_ofvisit2').val(responseText.tripInfo[1].reasonInfo);
 
-        //     $('#f2_country3').val(responseText.);
-        //     $('#f2_date_arrival_country3').val(responseText.);
-        //     $('#f2_date_departure_country3').val(responseText.);
-        //     $('#f2_tripreason_ofvisit3').val(responseText.);
+            $('#f2_country3').val(responseText.tripInfo[2].country);
+            $('#f2_date_arrival_country3').val(responseText.tripInfo[2].arrivalDate);
+            $('#f2_date_departure_country3').val(responseText.tripInfo[2].departureDate);
+            $('#f2_tripreason_ofvisit3').val(responseText.tripInfo[2].reasonInfo);
 
-        //     $('#f2_country4').val(responseText.);
-        //     $('#f2_date_arrival_country4').val(responseText.);
-        //     $('#f2_date_departure_country4').val(responseText.);
-        //     $('#f2_tripreason_ofvisit4').val(responseText.);
+            $('#f2_country4').val(responseText.tripInfo[3].country);
+            $('#f2_date_arrival_country4').val(responseText.tripInfo[3].arrivalDate);
+            $('#f2_date_departure_country4').val(responseText.tripInfo[3].departureDate);
+            $('#f2_tripreason_ofvisit4').val(responseText.tripInfo[3].reasonInfo);
 
-        //     $('#f2_country5').val(responseText.);
-        //     $('#f2_date_arrival_country5').val(responseText.);
-        //     $('#f2_date_departure_country5').val(responseText.);
-        //     $('#f2_tripreason_ofvisit5').val(responseText.);
+            $('#f2_country5').val(responseText.tripInfo[4].country);
+            $('#f2_date_arrival_country5').val(responseText.tripInfo[4].arrivalDate);
+            $('#f2_date_departure_country5').val(responseText.tripInfo[4].departureDate);
+            $('#f2_tripreason_ofvisit5').val(responseText.tripInfo[4].reasonInfo);
 
-        // //trips abroad to any other country not listed
+//trips abroad to any other country not listed
 
-        //     $('#f2_othertrip_country1').val(responseText.);
-        //     $('#f2_othertrip_arrivaldate1').val(responseText.);
-        //     $('#f2_othertrip_departuredate1').val(responseText.);
-        //     $('#f2_othertripreason_ofvisit1').val(responseText.);
+            $('#f2_othertrip_country1').val(responseText.otherTripInfo[0].country);
+            $('#f2_othertrip_arrivaldate1').val(responseText.otherTripInfo[0].arrivalDate);
+            $('#f2_othertrip_departuredate1').val(responseText.otherTripInfo[0].departureDate);
+            $('#f2_othertripreason_ofvisit1').val(responseText.otherTripInfo[0].reasonInfo);
         
-        //     $('#f2_othertrip_country2').val(responseText.);
-        //     $('#f2_othertrip_arrivaldate2').val(responseText.);
-        //     $('#f2_othertrip_departuredate2').val(responseText.);
-        //     $('#f2_othertripreason_ofvisit2').val(responseText.);
+            $('#f2_othertrip_country2').val(responseText.otherTripInfo[1].country);
+            $('#f2_othertrip_arrivaldate2').val(responseText.otherTripInfo[1].arrivalDate);
+            $('#f2_othertrip_departuredate2').val(responseText.otherTripInfo[1].departureDate);
+            $('#f2_othertripreason_ofvisit2').val(responseText.otherTripInfo[1].reasonInfo);
 
-        //     $('#f2_othertrip_country3').val(responseText.);
-        //     $('#f2_othertrip_arrivaldate3').val(responseText.);
-        //     $('#f2_othertrip_departuredate3').val(responseText.);
-        //     $('#f2_othertripreason_ofvisit3').val(responseText.);
+            $('#f2_othertrip_country3').val(responseText.otherTripInfo[2].country);
+            $('#f2_othertrip_arrivaldate3').val(responseText.otherTripInfo[2].arrivalDate);
+            $('#f2_othertrip_departuredate3').val(responseText.otherTripInfo[2].departureDate);
+            $('#f2_othertripreason_ofvisit3').val(responseText.otherTripInfo[2].reasonInfo);
 
-        //     $('#f2_othertrip_country4').val(responseText.);
-        //     $('#f2_othertrip_arrivaldate4').val(responseText.);
-        //     $('#f2_othertrip_departuredate4').val(responseText.);
-        //     $('#f2_othertripreason_ofvisit4').val(responseText.);
+            $('#f2_othertrip_country4').val(responseText.otherTripInfo[3].country);
+            $('#f2_othertrip_arrivaldate4').val(responseText.otherTripInfo[3].arrivalDate);
+            $('#f2_othertrip_departuredate4').val(responseText.otherTripInfo[3].departureDate);
+            $('#f2_othertripreason_ofvisit4').val(responseText.otherTripInfo[3].reasonInfo);
 
-        //     $('#f2_othertrip_country5').val(responseText.);
-        //     $('#f2_othertrip_arrivaldate5').val(responseText.);
-        //     $('#f2_othertrip_departuredate5').val(responseText.);
-        //     $('#f2_othertripreason_ofvisit5').val(responseText.);
+            $('#f2_othertrip_country5').val(responseText.otherTripInfo[4].country);
+            $('#f2_othertrip_arrivaldate5').val(responseText.otherTripInfo[4].arrivalDate);
+            $('#f2_othertrip_departuredate5').val(responseText.otherTripInfo[4].departureDate);
+            $('#f2_othertripreason_ofvisit5').val(responseText.otherTripInfo[4].reasonInfo);
 
             //download documents pending
 
