@@ -115,7 +115,7 @@ export default (req, sanitizedInput, sqlConnPool) => cb => {
   const currentUser = req.user;
   const incompleteForms = {};
   if (currentUser.admin) {
-    incompleteForms.query = FORM_READ.USERFORMS_SELECT_BY_FORMID_INCOMPLETE;
+    incompleteForms.query = FORM_READ.USERFORMS_SELECT_BY_FORMID_ALL;
     incompleteForms.params = [sanitizedInput.formUID];
   } else {
     incompleteForms.query = FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE;

@@ -33,9 +33,9 @@ $(document).ready(function () {
             //only submitted form from client should be in form1 and form2 
             //if incomplete then in incomplete table
 
-            form1_request_table(responseData.filter(form => form.formNumber === 1 ));
-            form2_request_table(responseData.filter(form => form.formNumber === 2 ));
-            incomplete_forms_request_table(responseData.filter(form => [1,2].includes(form.processingStatus)));
+            form1_request_table(responseData.filter(form => form.formNumber === 1 && form.status === 3 ));
+            form2_request_table(responseData.filter(form => form.formNumber === 2 && form.status === 3 ));
+            incomplete_forms_request_table(responseData.filter(form => [1,2].includes(form.status)));
             processed_forms_request_table(responseData.filter(form => [3].includes(form.processingStatus)));
         },
         error: function(xhr) {
@@ -308,7 +308,7 @@ function Openclient_form2(id)
 
             $('#f2_UK_arrival_date4').val(responseText.visitInfo[3].arrivalDate);
             $('#f2_UK_departure_date4').val(responseText.visitInfo[3].departureDate);
-            $('#f2_reason_ofvisit4').val(responseText.);
+            $('#f2_reason_ofvisit4').val(responseText.visitInfo[3].reasonInfo);
 
             $('#f2_UK_arrival_date5').val(responseText.visitInfo[4].arrivalDate);
             $('#f2_UK_departure_date5').val(responseText.visitInfo[4].departureDate);
