@@ -48,8 +48,17 @@ const TRIPS = {
   UPDATE_TRIPS_ENTRY_BY_ID: 'UPDATE trips SET ? WHERE id = ?',
 };
 
+const DOCUMENTS = {
+  CREATE_NEW_DOCUMENTS_ENTRY: 'INSERT INTO documents SET ?',
+  DOCUMENTS_SELECT_BY_ID: 'SELECT * from documents where id = ?',
+  DOCUMENTS_SELECT_BY_FORMUID: 'SELECT * from documents where formUID = ?',
+  UPDATE_DOCUMENTS_ENTRY_BY_ID: 'UPDATE documents SET ? WHERE id = ?',
+  UPDATE_DOCUMENTS_ENTRY_BY_FORMUID: 'UPDATE documents SET ? WHERE formUID = ?',
+  UPDATE_DOCUMENTS_ENTRY_BY_FORMUID_TYPE: 'UPDATE documents SET ? WHERE formUID = ? and type = ?',
+};
 
 export default {
+  DOCUMENTS,
   FORM_CREATE,
   FORM_READ,
   FORM_UPDATE,

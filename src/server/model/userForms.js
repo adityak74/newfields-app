@@ -46,7 +46,9 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                     if (err5) cb(err5, null);
                     const tripsModel = formTripsModel(formUID, formNumber, sanitizedInput, connection, formType.NEW, formDataExtraInfoInput);
                     const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.NEW, formDataExtraInfoInput);
-                    parallel([relationsModel, tripsModel], (asyncParallelError, results) => {
+                    const documentsModel = formDocumentsModel(formUID, formNumber, sanitizedInput, inputFiles, connection, s3FileUploadService, formType.NEW);
+                    
+                    parallel([relationsModel, tripsModel, documentsModel], (asyncParallelError, results) => {
                       if (asyncParallelError) cb(asyncParallelError, null);
                       connection.commit((commitErr) => {
                         if (commitErr) {
@@ -106,7 +108,8 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                             if (err6) cb(err6, null);
                             const tripsModel = formTripsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
                             const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
-                            parallel([relationsModel, tripsModel], (asyncParallelError, results) => {
+                            const documentsModel = formDocumentsModel(formUID, formNumber, sanitizedInput, inputFiles, connection, s3FileUploadService, formType.UPDATE);
+                            parallel([relationsModel, tripsModel, documentsModel], (asyncParallelError, results) => {
                               if (asyncParallelError) cb(asyncParallelError, null);
                               connection.commit((commitErr) => {
                                 if (commitErr) {
@@ -159,7 +162,8 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                         // commit the transaction here
                         const tripsModel = formTripsModel(formUID, formNumber, sanitizedInput, connection, formType.SUBMIT, formDataExtraInfoInput);
                         const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.SUBMIT, formDataExtraInfoInput);
-                        parallel([relationsModel, tripsModel], (asyncParallelError, results) => {
+                        const documentsModel = formDocumentsModel(formUID, formNumber, sanitizedInput, inputFiles, connection, s3FileUploadService, formType.SUBMIT);
+                        parallel([relationsModel, tripsModel, documentsModel], (asyncParallelError, results) => {
                           if (asyncParallelError) cb(asyncParallelError, null);
                           connection.commit((commitErr) => {
                             if (commitErr) {
@@ -193,7 +197,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
           if (err1) cb(err1, null);
           connection.query(FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID, [sanitizedInput.uniqueId, currentUser.id], (err3, rows) => {
             if (err3) cb(err3, null); 
-            if (!rows.length) cb(new Error("Form not found"), null);
+            if (!rows.length) return cb(new Error("Form not found"), null);
             const formUID = rows[0].formUID;
             const formDataInput = getFormDataObject(formUID, sanitizedInput);
             const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
@@ -212,13 +216,9 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                     if (err6) cb(err6, null);
                     const tripsModel = formTripsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
                     const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
-                    const documentsModel = formDocumentsModel(formUID, formNumber, inputFiles, connection, s3FileUploadService, formType.UPDATE);
+                    const documentsModel = formDocumentsModel(formUID, formNumber, sanitizedInput, inputFiles, connection, s3FileUploadService, formType.UPDATE);
 
-                    documentsModel((err, resany) => {
-                      
-                    });
-
-                    parallel([relationsModel, tripsModel], (asyncParallelError, results) => {
+                    parallel([relationsModel, tripsModel, documentsModel], (asyncParallelError, results) => {
                       if (asyncParallelError) cb(asyncParallelError, null);
                       connection.commit((commitErr) => {
                         if (commitErr) {

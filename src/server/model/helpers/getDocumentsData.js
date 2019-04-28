@@ -1,5 +1,5 @@
-export default (formUID, fileKey = null, documentType) => ({
+export default (formUID, fileKey = null, type) => ({
   formUID,
   fileKey,
-  documentType,
+  type,
 });

@@ -9,7 +9,7 @@ import sqlQueries from '../sqlQueries';
 import getDocumentsData from './helpers/getDocumentsData';
 
 const { ONE, TWO } = formNumber;
-const {  } = sqlQueries;
+const { DOCUMENTS } = sqlQueries;
 const {
   BIOMETRIC_RESIDENCE_PERMIT_FRONT,
   BIOMETRIC_RESIDENCE_PERMIT_BACK,
@@ -18,6 +18,7 @@ const {
   PASSPORT_FRONT,
   PASSPORT_FRONT_TWO,
 } = documentType;
+const { NEW, SUBMIT, UPDATE } = formType;
 
 const getRawFilesArray = (filesInput, formNumber, formUID) => {
   const filesData = [];
@@ -71,126 +72,117 @@ const getRawFilesArray = (filesInput, formNumber, formUID) => {
   return filesData;
 };
 
-const insertRelationData = (connection, relationObject, onCb) => {
-  connection.query(RELATIONSHIP_INFO.CREATE_NEW_RELATION_ENTRY, relationObject, (err, result) => {
+const insertDocumentsData = (connection, documentsObject, onCb) => {
+  connection.query(DOCUMENTS.CREATE_NEW_DOCUMENTS_ENTRY, documentsObject, (err, result) => {
     if (err) onCb(err, null);
     onCb(null, result.insertId);
   });
 };
 
-const updateRelationData = (connection, relationObject, onCb) => {
-  connection.query(RELATIONSHIP_INFO.UPDATE_RELATION_ENTRY_BY_ID, [relationObject.data, relationObject.id], (err, result) => {
+const updateDocumentsDataByFormAndType = (connection, documentsObject, onCb) => {
+  connection.query(DOCUMENTS.UPDATE_DOCUMENTS_ENTRY_BY_FORMUID_TYPE, [documentsObject, documentsObject.formUID, documentsObject.type], (err, result) => {
     if (err) onCb(err, null);
     onCb(null, result.changedRows || result.affectedRows);
   });
 };
 
-const insertFormRelations = (connection, formUID, relationId, onCb) => {
-  connection.query(FORM_RELATIONS.CREATE_NEW_FORM_RELATIONS_ENTRY, { formId: formUID, relationshipId: relationId }, (err, result) => {
-    if (err) onCb(err, null);
-    onCb(null, result.insertId);
-  });
-};
-
-const uploadFiles = (fileData, s3FileUploadService, onCb) => {
+const uploadFiles = (fileData, s3FileUploadService, action, onCb) => {
   if (fileData.file) {
     s3FileUploadService(fileData, (err, responseFileData) => {
       if (err) return onCb(err, null);
       onCb(null, getDocumentsData(fileData.formUID, responseFileData.Key, fileData.documentType ));
     });
-  } else onCb(null, getDocumentsData(fileData.formUID, null, fileData.documentType ));
+  } else onCb(null, 
+    action === formType.NEW 
+    ? getDocumentsData(fileData.formUID, null, fileData.documentType )
+    : null);
 };
 
-export default (formUID, formNumber, filesInput, connection, s3FileUploadService, action = formType.NEW) => cb => {
-  const allFilesData = getRawFilesArray(filesInput, formNumber, formUID);
-  console.log('allFilesData', allFilesData);
-  asyncMapSeries(
-    allFilesData,
-    (fileData, next) => uploadFiles(fileData, s3FileUploadService, next),
-    (err, results) => {
-      console.log('rerjdhbfdf->>>>>', results);
-      cb();
-    }
-  );
-  // switch (action) {
-  //   case NEW:
-  //     connection.beginTransaction((err1) => {
-  //       if (err1) cb(err1, null);
-  //       const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
-  //       asyncMapSeries(
-  //         allRelationsData,
-  //         (relationData, next) => insertRelationData(connection, relationData, next), 
-  //         (err, results) => {
-  //           if (err) cb(err, null);
-  //           asyncMapSeries(
-  //             results, 
-  //             (relationId, next) => insertFormRelations(connection, formUID, relationId, next),
-  //             (err1, results1) => {
-  //               if (err1) cb(err1, null);
-  //               cb(null, results1);
-  //             });
-  //         },
-  //       );
-  //     });
-  //     break;
-  //   case SUBMIT:
-  //     if (sanitizedInput.uniqueId) {
-  //       const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
-  //       connection.beginTransaction((err1) => {
-  //         if (err1) cb(err1, null);
-  //         connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [formUID], (err2, results) => {
-  //           if (results.length) {
-  //             const relationIdsData = results.map((relation, index) => ({ id : relation.relationshipId, data: allRelationsData[index] }));
-  //             asyncMapSeries(
-  //               relationIdsData, 
-  //               (relation, next) => updateRelationData(connection, relation, next), 
-  //               (err3, results3) => {
-  //                 if (err3) cb(err3, null);
-  //                 cb(null, results3);
-  //               });
-  //           } else cb(null, null);
-  //         });
-  //       });
-  //     } else {
-  //       connection.beginTransaction((err1) => {
-  //         if (err1) cb(err1, null);
-  //         const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
-  //         asyncMapSeries(
-  //           allRelationsData,
-  //           (relationData, next) => insertRelationData(connection, relationData, next), 
-  //           (err, results) => {
-  //             if (err) cb(err, null);
-  //             asyncMapSeries(
-  //               results, 
-  //               (relationId, next) => insertFormRelations(connection, formUID, relationId, next),
-  //               (err1, results1) => {
-  //                 if (err1) cb(err1, null);
-  //                 cb(null, results1);
-  //               });
-  //           },
-  //         );
-  //       });
-  //     }
-  //     break;
-  //   case UPDATE:
-  //     const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
-  //     connection.beginTransaction((err1) => {
-  //       if (err1) cb(err1, null);
-  //       connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [formUID], (err2, results) => {
-  //         if (results.length) {
-  //           const relationIdsData = results.map((relation, index) => ({ id : relation.relationshipId, data: allRelationsData[index] }));
-  //           asyncMapSeries(
-  //             relationIdsData, 
-  //             (relation, next) => updateRelationData(connection, relation, next), 
-  //             (err3, results3) => {
-  //               if (err3) cb(err3, null);
-  //               cb(null, results3);
-  //             });
-  //         } else cb(null, null);
-  //       });
-  //     });
-  //     break;
-  //   default: 
-  //     return -1;
-  // }
+export default (formUID, formNumber, sanitizedInput, filesInput, connection, s3FileUploadService, action = formType.NEW) => cb => {
+  switch (action) {
+    case NEW:
+      connection.beginTransaction((err1) => {
+        if (err1) cb(err1, null);
+        const allFilesData = getRawFilesArray(filesInput, formNumber, formUID);
+        asyncMapSeries(
+          allFilesData,
+          (fileData, next) => uploadFiles(fileData, s3FileUploadService, action, next),
+          (err, results) => {
+            if (err) return cb(err, null);
+            asyncMapSeries(
+              results, 
+              (document, next) => insertDocumentsData(connection, document, next),
+              (err1, results1) => {
+                if (err1) cb(err1, null);
+                cb(null, results1);
+              });
+          }
+        );
+      });
+      break;
+    case SUBMIT:
+      if (sanitizedInput.uniqueId) {
+        connection.beginTransaction((err1) => {
+          if (err1) cb(err1, null);
+          const allFilesData = getRawFilesArray(filesInput, formNumber, formUID);
+          asyncMapSeries(
+            allFilesData,
+            (fileData, next) => uploadFiles(fileData, s3FileUploadService, action, next),
+            (err, results) => {
+              if (err) return cb(err, null);
+              const filesDataToUpdate = results.filter(result => result !== null);
+              asyncMapSeries(
+                filesDataToUpdate,
+                (document, next) => updateDocumentsDataByFormAndType(connection, document, next),
+                (err1, results1) => {
+                  if (err1) cb(err1, null);
+                  cb(null, results1);
+                });
+            }
+          );
+        });
+      } else {
+        connection.beginTransaction((err1) => {
+          if (err1) cb(err1, null);
+          const allFilesData = getRawFilesArray(filesInput, formNumber, formUID);
+          asyncMapSeries(
+            allFilesData,
+            (fileData, next) => uploadFiles(fileData, s3FileUploadService, action, next),
+            (err, results) => {
+              if (err) return cb(err, null);
+              asyncMapSeries(
+                results, 
+                (document, next) => insertDocumentsData(connection, document, next),
+                (err1, results1) => {
+                  if (err1) cb(err1, null);
+                  cb(null, results1);
+                });
+            }
+          );
+        });
+      }
+      break;
+    case UPDATE:
+      connection.beginTransaction((err1) => {
+        if (err1) cb(err1, null);
+        const allFilesData = getRawFilesArray(filesInput, formNumber, formUID);
+        asyncMapSeries(
+          allFilesData,
+          (fileData, next) => uploadFiles(fileData, s3FileUploadService, action, next),
+          (err, results) => {
+            if (err) return cb(err, null);
+            const filesDataToUpdate = results.filter(result => result !== null);
+            asyncMapSeries(
+              filesDataToUpdate,
+              (document, next) => updateDocumentsDataByFormAndType(connection, document, next),
+              (err1, results1) => {
+                if (err1) cb(err1, null);
+                cb(null, results1);
+              });
+          }
+        );
+      });
+    default: 
+      return -1;
+  }
 };
