@@ -106,14 +106,21 @@ export default ({ appUrl, sqlConn, s3FileUploadService }) => {
     biometric_residence_permit_back: getValueIfNotNull(BRP_back_page) ? BRP_back_page[0] : null,
   });
 
-  router.post('/submit', isLoggedIn, (req, res) => {
+  router.post('/submit', multer().fields([
+    { name: 'uk_visa_photo', maxCount: 1 },
+    { name: 'passport_front_page', maxCount: 1 },
+    { name: 'BRP_front_page', maxCount: 1 },
+    { name: 'BRP_back_page', maxCount: 1 },
+    ]), isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
     const formActionIdentifier = actionStringToId(inputObj.formAction);
+    const inputFiles = buildFilesObject(req.files);
+
     form1Validator(inputObj, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
       else {
-        const userModelSave = userFormModel(req, sanitizedInput, sqlConn, formActionIdentifier, formNumberIdentifier.ONE);
+        const userModelSave = userFormModel(req, sanitizedInput, inputFiles, sqlConn, s3FileUploadService, formActionIdentifier, formNumberIdentifier.ONE);
         userModelSave((err, data) => {
           if (err) return res.status(400).send(err);
           console.log('form retval', data);
@@ -138,7 +145,6 @@ export default ({ appUrl, sqlConn, s3FileUploadService }) => {
       const userModelSave = userFormModel(req, inputObj, inputFiles, sqlConn, s3FileUploadService, formActionIdentifier, formNumberIdentifier.ONE);
       userModelSave((err, data) => {
         if (err) return res.status(400).send(err);
-        console.log('form retval', data);
         const retData = { data };
         res.status(200).send(retData);
       });
