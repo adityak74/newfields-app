@@ -378,10 +378,12 @@ function doFormAction(form_data, isSubmitted) {
     const formAction = url.searchParams.get('action');
     if (!isSubmitted) {
         if (formAction === 'new') {
-            form_data.formAction = 'new';
+            form_data.append('formAction', 'new');
             $.post({
                 url : appLocation + '/form1/save',
                 data : form_data,
+                contentType: false,
+                processData: false,
                 success : function(responseJSON) {
                     const formUID = responseJSON.data.formUID;
                     const location = window.location;
@@ -401,12 +403,15 @@ function doFormAction(form_data, isSubmitted) {
                 },
             });
         } else if (formAction === 'update') {
-            form_data.formAction = 'update';
+            form_data.append('formAction', 'update');
             const formId = url.searchParams.get('formId');
-            form_data.UniqueID = formId;
+            form_data.set('UniqueID', formId);
+
             $.post({
                 url : appLocation + '/form1/save',
                 data : form_data,
+                contentType: false,
+                processData: false,
                 success : function(responseJSON) {
                     const formUID = responseJSON.data.formUID;
                     if (formUID) {
@@ -438,12 +443,14 @@ function doFormAction(form_data, isSubmitted) {
     } else {
         if (formAction === 'update') {
             const formId = url.searchParams.get('formId');
-            form_data.UniqueID = formId;
+            form_data.set('UniqueID', formId);
         }
-        form_data.formAction = 'submit';
+        form_data.set('formAction', 'submit');
         $.post({
             url : appLocation + '/form1/submit',
             data : form_data,
+            contentType: false,
+            processData: false,
             success : function(responseJSON) {
                 window.location.href = appLocation + '/user/dashboard';
                 $("#errors").css("display", "none");
@@ -522,64 +529,16 @@ function getFormInput() {
     var child2_nationalities    = $('#child2_nationalities').val();
     var child2_dob              = $('#child2_dob').val();
     var child2_placeofbirth     = $('#child2_placeofbirth').val();
-    
-    // attachments data 
-    // i didnt know how to save the file (png, pdf, other format on the server)
-    
-    var form_data = {
-        UniqueID                : UniqueID,
-        Title                   : Title,
-        full_name               : full_name,
-        mobile_number           : mobile_number,
-        address_line1           : address_line1,
-        address_line2           : address_line2,
-        town                    : town,
-        county                  : county,
-        postcode                : postcode,
-        email_address           : email_address,
-        relationship_status     : relationship_status,
-        nationalities           : [nationalities],
-        date_UK_entry           : date_UK_entry,
-        any_convictions         : any_convictions,
-        conviction_text_area    : conviction_text_area,
 
-        visa_refusals           : visa_refusals,
-        visa_refusals_textarea  : visa_refusals_textarea,
-        details_public_funds    : details_public_funds,
-
-        UK_NINo                 : UK_NINo,
-        next_planned_departure  : next_planned_departure,
-        UK_date_arrival_back    : UK_date_arrival_back,
-
-        any_children            : any_children,
-        partner_Title           : partner_Title,
-        partner_full_name       : partner_full_name,
-
-        partner_mobile_number   : partner_mobile_number,
-        partner_uk_home_address : partner_uk_home_address,
-        partner_nationalities   : partner_nationalities === '' ? '' : [partner_nationalities],
-
-        partner_dob             : partner_dob,
-        partner_placeofbirth    : partner_placeofbirth,
-        child1_full_name        : child1_full_name,
-
-        child1_nationalities    : child1_nationalities,
-        child1_dob              : child1_dob,
-        child1_placeofbirth     : child1_placeofbirth,
-
-        child2_full_name        : child2_full_name,
-        child2_nationalities    : child2_nationalities,
-        child2_dob              : child2_dob,
-        child2_placeofbirth     : child2_placeofbirth
-    };
-
-/*
     var uk_visa_photo       = $('#uk_visa_photo').prop('files')[0]; 
-    var passport_front_page = $('#passport_front_page').prop('files')[0];  
-    var BRP_front_page      = $('#BRP_front_page').prop('files')[0];  
-    var BRP_back_page       = $('#BRP_back_page').prop('files')[0];   
+    var passport_front_page = $('#passport_front_page').prop('files')[0];
+    var BRP_front_page      = $('#BRP_front_page').prop('files')[0];
+    var BRP_back_page       = $('#BRP_back_page').prop('files')[0];
     
-    form_data.append('UniqueID', UniqueID);
+    var form_data = new FormData();
+
+    // do not append unique id only set one id
+    form_data.set('UniqueID', UniqueID);
     form_data.append('Title', Title);
     form_data.append('full_name', full_name);
     form_data.append('mobile_number', mobile_number);
@@ -608,7 +567,7 @@ function getFormInput() {
 
     form_data.append('partner_mobile_number', partner_mobile_number);
     form_data.append('partner_uk_home_address', partner_uk_home_address);
-    form_data.append('partner_nationalities', partner_nationalities);
+    form_data.append('partner_nationalities', partner_nationalities === '' ? '' : [partner_nationalities]);
     form_data.append('partner_dob', partner_dob);
     form_data.append('partner_placeofbirth', partner_placeofbirth);
     
@@ -622,14 +581,11 @@ function getFormInput() {
     form_data.append('child2_dob', child2_dob);
     form_data.append('child2_placeofbirth', child2_placeofbirth);
        
-    form_data.append('file', uk_visa_photo);
-    form_data.append('file', passport_front_page);
-    form_data.append('file', BRP_front_page);
-    form_data.append('file', BRP_back_page);
+    form_data.append('uk_visa_photo', uk_visa_photo);
+    form_data.append('passport_front_page', passport_front_page);
+    form_data.append('BRP_front_page', BRP_front_page);
+    form_data.append('BRP_back_page', BRP_back_page);
 
-    alert(form_data); 
-
-*/
     return form_data;
 }
 

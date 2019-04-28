@@ -3,5 +3,6 @@ module.exports = {
   'tripTypes': require('./tripTypes'),
   'formType': require('./formType'),
   'formNumber': require('./formNumber'),
-  'formProcessingStatus': require('./formProcessingStatus')
+  'formProcessingStatus': require('./formProcessingStatus'),
+  'documentType': require('./documentType')
 };

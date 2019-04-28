@@ -9,8 +9,9 @@ import getFormDataObject from './helpers/getFormData';
 import getFormDataExtraInfoDataObject from './helpers/getFormDataExtraInfoData';
 import formRelationsModel from './formRelations';
 import formTripsModel from './formTrips';
+import formDocumentsModel from './documents';
 
-export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNumber) => cb => {
+export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadService, action = formType.NEW, formNumber) => cb => {
 
   const currentUser = req.user;
   const { FORM_CREATE, FORM_READ, FORM_UPDATE } = sqlQueries;
@@ -211,6 +212,12 @@ export default (req, sanitizedInput, sqlConnPool, action = formType.NEW, formNum
                     if (err6) cb(err6, null);
                     const tripsModel = formTripsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
                     const relationsModel = formRelationsModel(formUID, formNumber, sanitizedInput, connection, formType.UPDATE, formDataExtraInfoInput);
+                    const documentsModel = formDocumentsModel(formUID, formNumber, inputFiles, connection, s3FileUploadService, formType.UPDATE);
+
+                    documentsModel((err, resany) => {
+                      
+                    });
+
                     parallel([relationsModel, tripsModel], (asyncParallelError, results) => {
                       if (asyncParallelError) cb(asyncParallelError, null);
                       connection.commit((commitErr) => {

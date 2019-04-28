@@ -41,6 +41,7 @@
     "joi-postalcode": "^1.0.0",
     "lodash": "^4.17.11",
     "md5": "^2.2.1",
+    "multer": "^1.4.1",
     "mysql": "^2.16.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",

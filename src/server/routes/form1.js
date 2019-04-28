@@ -1,4 +1,5 @@
 import express from 'express';
+import multer from 'multer';
 import form1Validator from '../validation/validator/form1';
 import formUIDValidator from '../validation/validator/formUID';
 import isLoggedIn from '../util/getIfAuthenticated';
@@ -6,10 +7,11 @@ import userFormModel from '../model/userForms';
 import formType from '../constants/formType';
 import formNumberIdentifier from '../constants/formNumber';
 import userFormReadModel from '../model/userFormsRead';
+import getValueIfNotNull from '../model/helpers/getValueIfNotNull';
 
 const actionStringToId = action => formType[action.toUpperCase()];
 
-export default ({ appUrl, sqlConn }) => {
+export default ({ appUrl, sqlConn, s3FileUploadService }) => {
   const router = express.Router();
 
   const buildInputObject = ({
@@ -90,8 +92,20 @@ export default ({ appUrl, sqlConn }) => {
     child2Nationalitites: child2_nationalities,
     child2DateOfBirth: child2_dob,
     child2PlaceOfBirth: child2_placeofbirth,
-});
+  });
   
+  const buildFilesObject = ({
+    uk_visa_photo,
+    passport_front_page,
+    BRP_front_page,
+    BRP_back_page,
+  }) => ({
+    previous_uk_visa: getValueIfNotNull(uk_visa_photo) ? uk_visa_photo[0] : null,
+    passport_front: getValueIfNotNull(passport_front_page) ? passport_front_page[0]: null,
+    biometric_residence_permit_front: getValueIfNotNull(BRP_front_page) ? BRP_front_page[0]: null,
+    biometric_residence_permit_back: getValueIfNotNull(BRP_back_page) ? BRP_back_page[0] : null,
+  });
+
   router.post('/submit', isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
@@ -110,20 +124,24 @@ export default ({ appUrl, sqlConn }) => {
     });
   });
   
-  router.post('/save', isLoggedIn, (req, res) => {
-    const input = req.body;
-    const inputObj = buildInputObject(input);
-    const formActionIdentifier = actionStringToId(inputObj.formAction);
-
-    console.log('input', inputObj);
-
-    const userModelSave = userFormModel(req, inputObj, sqlConn, formActionIdentifier, formNumberIdentifier.ONE);
-    userModelSave((err, data) => {
-      if (err) return res.status(400).send(err);
-      console.log('form retval', data);
-      const retData = { data };
-      res.status(200).send(retData);
-    });
+  router.post('/save', multer().fields([
+    { name: 'uk_visa_photo', maxCount: 1 },
+    { name: 'passport_front_page', maxCount: 1 },
+    { name: 'BRP_front_page', maxCount: 1 },
+    { name: 'BRP_back_page', maxCount: 1 },
+    ]), isLoggedIn, (req, res) => {
+      const input = req.body;
+      const inputObj = buildInputObject(input);
+      const formActionIdentifier = actionStringToId(inputObj.formAction);
+      const inputFiles = buildFilesObject(req.files);
+      
+      const userModelSave = userFormModel(req, inputObj, inputFiles, sqlConn, s3FileUploadService, formActionIdentifier, formNumberIdentifier.ONE);
+      userModelSave((err, data) => {
+        if (err) return res.status(400).send(err);
+        console.log('form retval', data);
+        const retData = { data };
+        res.status(200).send(retData);
+      });
   });
   
   router.get('/show', isLoggedIn, (req, res) => res.render('pages/form1', { appLocation: appUrl }));

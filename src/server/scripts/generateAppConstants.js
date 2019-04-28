@@ -51,6 +51,12 @@ sqlConstants.createConstantFiles(
       keyColumn: 'status',
       valueColumns: ['id'],
     }),
+    sqlConstants.tableDefinition({
+      file: 'documentType',
+      table: 'documentType',
+      keyColumn: 'type',
+      valueColumns: ['id'],
+    }),
   ],
   function(err) {
     if (err) {
