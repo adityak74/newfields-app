@@ -32,105 +32,104 @@ and open the template in the editor.
         <div class="container">
             <div id="first_container" style="text-align:right;">
                 <img style="float:right;" src="<%= appLocation %>/images/icon.png"><br>
-                <h2 id="header_1" style="color: white;" align="right" class="display-5">NEWFIELDS</h2>
+                <h2 id="header_1" style="color: #595959;" align="right" class="display-5">NEWFIELDS</h2>
                 <hr align="right" style="width:100px; border: 1px groove #ffff1a;">
-                <label style="font-size: 15px; color: white;">35 Park Place</label><br>
-                <label style="font-size: 15px; color: white;">Cardiff</label><br>
-                <label style="font-size: 15px; color: white;">CF10 3RL</label>
+                <a href="https://www.newfieldslaw.com/" target="_blank" style="font-size: 15px;">www.newfieldslaw.com</a>
             </div>
-            <br>
+            <br><br>
             <div class="d-flex justify-content-center">
-		<div class="card" >
-                    <div class="card-header">
-                        <h3 id="label_header">Sign In</h3>
-                        <div class="d-flex justify-content-end social_icon">
-                            <span><i class="fab fa-facebook-square"></i></span>
-                            <!--<span><i class="fab fa-google-plus-square"></i></span>-->
-                            <span><i class="fab fa-twitter-square"></i></span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <form id="user-credentials-form">
-                            
-                            <div id="signIN" style="display:none;">
-                                <div class="input-group form-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" id="email" placeholder="email">
+                <div class="card" >
+                            <div class="card-header">
+                                <h3 id="label_header">Sign In</h3>
+                                <div class="d-flex justify-content-end social_icon">
+                                    <a href="https://www.newfieldslaw.com/" target="_blank">
+                                        <span><i class="fab fa-facebook-square"></i></span>
+                                    </a><!--<span><i class="fab fa-google-plus-square"></i></span>-->
+                                    <!-- <span><i class="fab fa-twitter-square"></i></span> -->
                                 </div>
-                                <div class="input-group form-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <div class="card-body">
+                                <form id="user-credentials-form">
+                                    
+                                    <div id="signIN" style="display:none;">
+                                        <div class="input-group form-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" id="email" placeholder="email">
+                                        </div>
+                                        <div class="input-group form-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                            </div>
+                                            <input type="password" class="form-control" id="password" placeholder="password">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <input type="submit" value="Login" class="btn float-right login_btn">
+                                        </div>
                                     </div>
-                                    <input type="password" class="form-control" id="password" placeholder="password">
+                                    <div id="register" style="display:none;">
+                                        <div class="input-group form-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" id="register_name" placeholder="name">
+                                        </div>
+                                        <div class="input-group form-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" id="register_email" placeholder="email address">
+                                        </div>
+                                        <div class="input-group form-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                            </div>
+                                            <input type="password" class="form-control" id="register_password" placeholder="password">
+                                        </div>
+                                        <div class="input-group form-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                            </div>
+                                            <input type="password" class="form-control" id="register_confirmpassword" placeholder="confirm password">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Register" id="register_button" class="btn float-right login_btn">
+                                        </div>
+                                    </div>
+                                    <div id="forget_password" style="display:none;">
+                                        <div class="input-group form-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            </div>
+                                            <input type="text" id="forgot_password_email" class="form-control" placeholder="email address">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Request" id="forget_button" class="btn float-right login_btn">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center links" >
+                                    <div id="signup_option" style="display:none;">
+                                        Don't have an account?<a style="color: #1a75ff;  cursor: pointer;" onclick="register(0);">Sign Up</a>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center links" >
+                                    <div id="signin_option" style="display:none;">
+                                        Want to ?<a style="color: #1a75ff; cursor: pointer;" onclick="register(1);">Sign In</a>
+                                    </div>
                                 </div>
                                 
-                                <div class="form-group">
-                                    <input type="submit" value="Login" class="btn float-right login_btn">
-                                </div>
-                            </div>
-                            <div id="register" style="display:none;">
-                                <div class="input-group form-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                                <div class="d-flex justify-content-center">
+                                    <div id="forgetpassword_option" style="display:none;">
+                                    <a style="color: #1a75ff; cursor: pointer;" onclick="register(2);">Forgot your password?</a>
                                     </div>
-                                    <input type="text" class="form-control" id="register_name" placeholder="name">
-                                </div>
-                                <div class="input-group form-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" id="register_email" placeholder="email address">
-                                </div>
-                                <div class="input-group form-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                    </div>
-                                    <input type="password" class="form-control" id="register_password" placeholder="password">
-                                </div>
-                                <div class="input-group form-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                    </div>
-                                    <input type="password" class="form-control" id="register_confirmpassword" placeholder="confirm password">
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" value="Register" id="register_button" class="btn float-right login_btn">
                                 </div>
                             </div>
-                            <div id="forget_password" style="display:none;">
-                                <div class="input-group form-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    </div>
-                                    <input type="text" id="forgot_password_email" class="form-control" placeholder="email address">
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" value="Request" id="forget_button" class="btn float-right login_btn">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-center links" >
-                            <div id="signup_option" style="display:none;">
-                                Don't have an account?<a style="color: #1a75ff;  cursor: pointer;" onclick="register(0);">Sign Up</a>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-center links" >
-                            <div id="signin_option" style="display:none;">
-                                Want to ?<a style="color: #1a75ff; cursor: pointer;" onclick="register(1);">Sign In</a>
-                            </div>
-                        </div>
-                        
-                        <div class="d-flex justify-content-center">
-                            <div id="forgetpassword_option" style="display:none;">
-                            <a style="color: #1a75ff; cursor: pointer;" onclick="register(2);">Forgot your password?</a>
-                            </div>
-                        </div>
-                    </div>
-		</div>
+                </div>
             </div>
 
             <div id="overlay1" style="display:none" class="overlay">

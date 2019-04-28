@@ -19,27 +19,27 @@ and open the template in the editor.
         <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
             <h5 class="h5 mb-0 text-gray-800" style="color:#77b300;">Home page</h5>
         </div>
-
-        <div class="row">
-            <div class="col-6" >
-                <div class="form-group row">
-                    <div class="col-md-2 col-sm-12">
-                    <a href="<%= appLocation %>/form1/show?action=new" target="_blank">
-                        <button class="btn btn-primary">Start an extension visa application (form 1)</button>
-                    </a>
-                    </div>
+        
+            <div class="row" >
+                <div class="col">
+                    <!-- <div class="form-group row"> -->
+                        <!-- <div class="col-md-2 col-sm-12"> -->
+                        <a href="<%= appLocation %>/form1/show?action=new" target="_blank">
+                            <button class="btn btn-primary">Start a visa extension application (form 1)</button>
+                        </a>
+                        <!-- </div> -->
+                    <!-- </div> -->
+                </div>
+                <div class="col">
+                    <!-- <div class="form-group row" > -->
+                        <!-- <div class="col-md-2 col-sm-12" > -->
+                        <a href="<%= appLocation %>/form2/show?action=new" target="_blank" style="float:right;">
+                            <button class="btn btn-primary" >Start an entry visa application (form 2)</button>
+                        </a>
+                        <!-- </div> -->
+                    <!-- </div> -->
                 </div>
             </div>
-            <div class="col-6">
-                <div class="form-group row" >
-                    <div class="col-md-2 col-sm-12" >
-                    <a href="<%= appLocation %>/form2/show?action=new" target="_blank">
-                        <button class="btn btn-primary" style='right:0;'>Start an entry visa application (form 2)</button>
-                    </a>
-                    </div>
-                </div>
-            </div>
-         </div>  
          <br>
          <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
@@ -52,9 +52,9 @@ and open the template in the editor.
                           <thead>
                               <th>Start Date</th>
                               <th>Reference id</th>
-                              <th>Form Number</th>
-                              <th>Form Status</th>
-                              <th>Form Action</th>
+                              <th>Application type</th>
+                              <th>Status</th>
+                              <th>View</th>
                           </thead>
                       </table>
                   </div> 

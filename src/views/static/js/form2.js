@@ -1432,7 +1432,7 @@ function getFormInput() {
     
     //attachments data 
     // i didnt know how to save the file (png, pdf, other format on the server)
-    
+    /*
     var form_data = {
         UniqueID                            : UniqueID,
         Title                               : Title,
@@ -1603,14 +1603,16 @@ function getFormInput() {
                                             ],
     };
 
-    /*
+    
     var uk_visa_photo               = $('#uk_visa_photo').prop('files')[0]; 
     var passport_front_page         = $('#passport_front_page').prop('files')[0];  
     var secondpassport_front_page   = $('#secondpassport_front_page').prop('files')[0];  
     var previous_uk_visa            = $('#previous_uk_visa').prop('files')[0];   
+*/
 
+    var form_data = new FormData();
     
-    form_data.append('UniqueID', UniqueID);
+    form_data.set('UniqueID', UniqueID);
     form_data.append('Title', Title);
     form_data.append('full_name', full_name);
     form_data.append('mobile_number', mobile_number);
@@ -1780,14 +1782,14 @@ function getFormInput() {
                                   
 
 
-    form_data.append('file', uk_visa_photo);
-    form_data.append('file', passport_front_page);
-    form_data.append('file', secondpassport_front_page);
-    form_data.append('file', previous_uk_visa);
+    form_data.append('uk_visa_photo', uk_visa_photo);
+    form_data.append('passport_front_page', passport_front_page);
+    form_data.append('secondpassport_front_page', secondpassport_front_page);
+    form_data.append('previous_uk_visa', previous_uk_visa);
 
-    alert(form_data); 
+//    alert(form_data); 
 
-*/
+
     return form_data;
 }
 

@@ -7,10 +7,10 @@
 function getStatusFromCode(formStatusCode) {
     let statusText = '';
     switch (formStatusCode) {
-        case 1: statusText = 'NEW'; break;
-        case 2: statusText = 'UPDATE'; break;
-        case 3: statusText = 'SUBMIT'; break;
-        default: statusText = 'NEW'; break;
+        case 1: statusText = 'Incomplete'; break;//newly created 
+        case 2: statusText = 'Incomplete'; break; //edited/save 
+        case 3: statusText = 'Submitted'; break; //submitted
+        default: statusText = 'Incomplete'; break;
     }
     return statusText;
 }
@@ -63,13 +63,12 @@ function form1_request_table(formsDataArray)
         var date = new Date(formResponse.createDate).toString();
         var response_date = date.substr(0,28);
         LCT.row.add([
-           // "<input type='radio' name='optradio' onclick=\"(function(){form_classification(\'"+formResponse.formNumber+","+formResponse.formUID+"\')})()\">",
-           "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
             response_date,
             formResponse.formUID,
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
             // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
             // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
             //     Property Profile\n\
@@ -161,13 +160,13 @@ function form2_request_table(formsDataArray)
         var date = new Date(formResponse.createDate).toString();
         var response_date = date.substr(0,28);
         LCT.row.add([
-           
-           "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
             response_date,
             formResponse.formUID,
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            
             // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
             // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
             //     Property Profile\n\
@@ -183,13 +182,13 @@ function incomplete_forms_request_table(formsDataArray)
         var date = new Date(formResponse.createDate).toString();
         var response_date = date.substr(0,28);
         LCT.row.add([
-        //    "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
             response_date,
             formResponse.formUID,
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            
             // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
             // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
             //     Property Profile\n\
@@ -205,13 +204,13 @@ function processed_forms_request_table(formsDataArray)
         var date = new Date(formResponse.createDate).toString();
         var response_date = date.substr(0,28);
         LCT.row.add([
-          //  "<input type='radio' name='optradio' onclick=\"(function(){Openclient_form2(\'"+formResponse.formUID+"\')})()\">",
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
             response_date,
             formResponse.formUID,
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            
             // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
             // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
             //     Property Profile\n\
