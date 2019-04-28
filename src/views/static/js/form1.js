@@ -452,7 +452,8 @@ function doFormAction(form_data, isSubmitted) {
             contentType: false,
             processData: false,
             success : function(responseJSON) {
-                window.location.href = appLocation + '/user/dashboard';
+               // window.location.href = appLocation + '/user/dashboard';
+                window.close();
                 $("#errors").css("display", "none");
             },
             error: function(xhr) {

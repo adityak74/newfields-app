@@ -16,10 +16,10 @@ and open the template in the editor.
         <br>
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" id='requests'>
-                <a class="nav-link active" href="#profile" role="tab" data-toggle="tab">Form 1</a>
+                <a class="nav-link active" href="#profile" role="tab" data-toggle="tab">Visa extension clients</a>
             </li>
             <li class="nav-item" id='active1'>
-                <a class="nav-link" href="#buzz" role="tab" data-toggle="tab">Form 2</a>
+                <a class="nav-link" href="#buzz" role="tab" data-toggle="tab">Entry visa application</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#references" role="tab" data-toggle="tab">Incomplete Applications</a>
@@ -36,18 +36,18 @@ and open the template in the editor.
                 <div class="card shadow mb-4">
                   <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Form 1 clients</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Visa extension clients</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="form1_client_table" class="table table-bordered table-hover table-striped">
                                 <thead>
-                                    <th style="width:10px;">Select</th>
                                     <th>Submission Date</th>
                                     <th>Reference id</th>
                                     <th>Customer Name</th>
                                     <th>Email Address</th>
                                     <th>Application Status</th>
+                                    <th style="width:10px;">View</th>
                                 </thead>
                             </table>
                         </div> 
@@ -59,18 +59,18 @@ and open the template in the editor.
                 <div class="card shadow mb-4">
                   <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Active client profiles Table</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Entry visa application</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="form2_client_table" class="table table-bordered table-hover table-striped">
                                 <thead>
-                                    <th style="width:10px;">Select</th>
                                     <th>Submission Date</th>
                                     <th>Reference id</th>
                                     <th>Customer Name</th>
                                     <th>Email Address</th>
                                     <th>Application Status</th>
+                                    <th style="width:10px;">View</th>
                                 </thead>
                             </table>
                         </div>
@@ -79,22 +79,21 @@ and open the template in the editor.
             </div>
 <!--Clients incomplete applications tab content-->            
             <div role="tabpanel" class="tab-pane fade" id="references">
-                Table under development
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Clients incomplete applications</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">All incomplete applications</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="incomplete_forms_client_table" class="table table-bordered table-hover table-striped">
                                 <thead>
-                                    <th style="width:10px;">Select</th>
                                     <th>Submission Date</th>
                                     <th>Reference id</th>
                                     <th>Customer Name</th>
                                     <th>Email Address</th>
                                     <th>Application Status</th>
+                                    <th style="width:10px;">View</th>
                                 </thead>
                             </table>
                         </div>
@@ -103,7 +102,6 @@ and open the template in the editor.
             </div>
 <!--Processed Application tab content-->            
             <div role="tabpanel" class="tab-pane fade" id="processed_application">
-                Table under development
                 <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -113,12 +111,12 @@ and open the template in the editor.
                         <div class="table-responsive">
                             <table id="processed_forms_client_table" class="table table-bordered table-hover table-striped">
                                 <thead>
-                                    <th style="width:10px;">Select</th>
-                                    <th>Submission Date</th>
+                                   <th>Submission Date</th>
                                     <th>Reference id</th>
                                     <th>Customer Name</th>
                                     <th>Email Address</th>
                                     <th>Application Status</th>
+                                    <th style="width:10px;">View</th>
                                 </thead>
                             </table>
                         </div>
@@ -1458,6 +1456,23 @@ and open the template in the editor.
         </div>       
  <!-- admin page tab 2 modal end  -->
 
+<style>
+#page_footer{
+background-color: grey;
+opacity: 0.6;
+text-align:right;
+}
+
+#page_footer label{
+display: inline-block;
+margin: 2px;
+margin-right: 10px;
+}
+</style>
+
+ <footer class="fixed-bottom" id="page_footer">
+    <label>Version 1.0</label>    
+</footer>
 
 
 

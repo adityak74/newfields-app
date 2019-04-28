@@ -8,10 +8,10 @@ const appLocation = window.location.origin;
 function getStatusFromCode(formStatusCode) {
     let statusText = '';
     switch (formStatusCode) {
-        case 1: statusText = 'NEW'; break;
-        case 2: statusText = 'UPDATE'; break;
-        case 3: statusText = 'SUBMIT'; break;
-        default: statusText = 'NEW'; break;
+        case 1: statusText = 'Incomplete'; break;
+        case 2: statusText = 'Incomplete'; break;
+        case 3: statusText = 'Submitted'; break;
+        default: statusText = 'Incomplete'; break;
     }
     return statusText;
 }
@@ -39,10 +39,21 @@ $(document).ready(function(){
 
                 var date = new Date(formResponse.createDate).toString();
                 var response_date = date.substr(0,28);
+
+                var application_type 
+                if(formResponse.formNumber === 1)
+                {
+                    application_type = "Visa extension"; 
+                }
+                else if(formResponse.formNumber === 2){
+                    application_type = "Entry visa application";
+                }
+
+
                 CAT.row.add([
                     response_date,
                     formResponse.formUID,
-                    formResponse.formNumber,
+                    application_type,
                     getStatusFromCode(formResponse.status),
                     "<label onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\')})()\" \n\
                     style='cursor:pointer;color: #4d79ff;'><u>View Application</u></label>",
