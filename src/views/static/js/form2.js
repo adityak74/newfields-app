@@ -1150,7 +1150,8 @@ function doFormAction(form_data, isSubmitted) {
     const formAction = url.searchParams.get('action');
     if (!isSubmitted) {
         if (formAction === 'new') {
-            form_data.formAction = 'new';
+        //    form_data.formAction = 'new';
+            form_data.append('formAction', 'new');
             $.post({
                 url : appLocation + '/form2/save',
                 data : form_data,
