@@ -66,7 +66,26 @@ const getRawFilesArray = (filesInput, formNumber, formUID) => {
       });
       break;
     case TWO:
-      
+      filesData.push(filesInput.passport_front_two ? {
+        ...filesInput.passport_front_two,
+        formUID,
+        file: true,
+        documentType: PASSPORT_FRONT_TWO,
+      } : {
+        file: null,
+        formUID,
+        documentType: PASSPORT_FRONT_TWO,
+      });
+      filesData.push(filesInput.current_visa ? {
+        ...filesInput.current_visa,
+        formUID,
+        file: true,
+        documentType: CURRENT_COUNTRY_RESIDENCE_PERMIT,
+      } : {
+        file: null,
+        formUID,
+        documentType: CURRENT_COUNTRY_RESIDENCE_PERMIT,
+      });
       break;
   }
   return filesData;

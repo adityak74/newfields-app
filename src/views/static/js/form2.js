@@ -1185,11 +1185,12 @@ function doFormAction(form_data, isSubmitted) {
     const formAction = url.searchParams.get('action');
     if (!isSubmitted) {
         if (formAction === 'new') {
-        //    form_data.formAction = 'new';
-            form_data.append('formAction', 'new');
+            form_data.set('formAction', 'new');
             $.post({
                 url : appLocation + '/form2/save',
                 data : form_data,
+                contentType: false,
+                processData: false,
                 success : function(responseJSON) {
                     const formUID = responseJSON.data.formUID;
                     const location = window.location;
@@ -1209,12 +1210,14 @@ function doFormAction(form_data, isSubmitted) {
                 },
             });
         } else if (formAction === 'update') {
-            form_data.formAction = 'update';
+            form_data.set('formAction', 'update');
             const formId = url.searchParams.get('formId');
-            form_data.UniqueID = formId;
+            form_data.set('UniqueID', formId);
             $.post({
                 url : appLocation + '/form2/save',
                 data : form_data,
+                contentType: false,
+                processData: false,
                 success : function(responseJSON) {
                     const formUID = responseJSON.data.formUID;
                     if (formUID) {
@@ -1246,12 +1249,14 @@ function doFormAction(form_data, isSubmitted) {
     } else {
         if (formAction === 'update') {
             const formId = url.searchParams.get('formId');
-            form_data.UniqueID = formId;
+            form_data.set('UniqueID', formId);   
         }
-        form_data.formAction = 'submit';
+        form_data.set('formAction', 'submit');
         $.post({
             url : appLocation + '/form2/submit',
             data : form_data,
+            contentType: false,
+            processData: false,
             success : function(responseJSON) {
                 window.location.href = appLocation + '/user/dashboard';
                 $("#errors").css("display", "none");
@@ -1465,186 +1470,11 @@ function getFormInput() {
     var OR55                                    = document.getElementById("othertripreason_ofvisit5");
     var OR555                                   = OR55.options[OR55.selectedIndex];
     var othertripreason_ofvisit5                = $(OR555).val();
-    
-    //attachments data 
-    // i didnt know how to save the file (png, pdf, other format on the server)
-    /*
-    var form_data = {
-        UniqueID                            : UniqueID,
-        Title                               : Title,
-        full_name                           : full_name,
-        mobile_number                       : mobile_number,
-        landline_no                         : landline_no,
-        email_addr                          : email_addr,
-        home_addr                           : home_addr,
-        addr_move_indate                    : addr_move_indate,
-        house_ownrship                      : house_ownrship,
-        addr_while_visa                     : addr_while_visa,
-        uk_addr                             : uk_addr,
-        uk_addr_text_area                   : uk_addr_text_area,
-        nationalities                       : [nationalities],
-        national_id                         : national_id,
-        _other_names                        : _other_names,
-        relationship_status                 : relationship_status,
-        any_convictions                     : any_convictions,
-        conviction_text_area                : conviction_text_area,
-        visa_refusals                       : visa_refusals,
-        visa_refusals_textarea              : visa_refusals_textarea,
-        medical                             : medical,
-        medical_textarea                    : medical_textarea,
-        uk_NINo                             : uk_NINo,
-        uk_nino_textarea                    : uk_nino_textarea,
-        anyarmedforces                      : anyarmedforces,
-        armedforces_textarea                : armedforces_textarea,
-        immediate_family                    : immediate_family,
-        immediate_family_textarea           : immediate_family_textarea,
-        Proposaldate_UK_entry               : Proposaldate_UK_entry,
-        familymembertravelalong             : familymembertravelalong,
-        family_member_travelalong_textarea  : family_member_travelalong_textarea,
-        any_overseas_travel                 : any_overseas_travel,
-        Departuredate_UK                    : Departuredate_UK,
-        Returndate_UK                       : Returndate_UK,
 
-        fa_frst                             : fa_frst,
-        father_country_of_birth             : father_country_of_birth,
-        father_nationality                  : [father_nationality],
-        father_Secondnationality            : [father_Secondnationality],
-        father_DOB                          : father_DOB,
-        
-        mothers_f_na                        : mothers_f_na,
-        mothersCountryofBirth               : mothersCountryofBirth,
-        mother_nationality                  : [mother_nationality],
-        mother_Secondnationality            : [mother_Secondnationality],
-        mother_DOB                          : mother_DOB,
-
-        partner_fna                         : partner_fna,
-        partner_countryofbirth              : partner_countryofbirth,
-        partner_nationlity                  : [partner_nationlity],
-        partner_Snationality                : [partner_Snationality],
-        partner_DOB                         : partner_DOB,
-        
-        firstchild1                         : firstchild1,
-        child1_f_na                         : child1_f_na,
-        child1_countryofbirth               : child1_countryofbirth,
-        child1_nationality                  : [child1_nationality],
-        child1_Snationality                 : [child1_Snationality],
-        child1_DOB                          : child1_DOB,
-
-        child2_f_na                         : child2_f_na,
-        child2_countryofbirth               : child2_countryofbirth,
-        child2_nationality                  : [child2_nationality],
-        child2_Snationality                 : [child2_Snationality],
-        child2_DOB                          : child2_DOB,
-
-        visit                               : visit,
-        visitInfo                           : [
-                                                {
-                                                    country: 'UK',
-                                                    arrivalDate: UK_arrival_date1,
-                                                    departureDate: UK_departure_date1,
-                                                    reasonInfo: reason_ofvisit1,
-                                                },
-                                                {
-                                                    country: 'UK',
-                                                    arrivalDate: UK_arrival_date2,
-                                                    departureDate: UK_departure_date2,
-                                                    reasonInfo: reason_ofvisit2,
-                                                },
-                                                {
-                                                    country: 'UK',
-                                                    arrivalDate: UK_arrival_date3,
-                                                    departureDate: UK_departure_date3,
-                                                    reasonInfo: reason_ofvisit3,
-                                                },
-                                                {
-                                                    country: 'UK',
-                                                    arrivalDate: UK_arrival_date4,
-                                                    departureDate: UK_departure_date4,
-                                                    reasonInfo: reason_ofvisit4,
-                                                },
-                                                {
-                                                    country: 'UK',
-                                                    arrivalDate: UK_arrival_date5,
-                                                    departureDate: UK_departure_date5,
-                                                    reasonInfo: reason_ofvisit5,
-                                                },
-                                            ],
-
-        trip                                : trip,
-        tripInfo                            : [
-                                                {
-                                                    country: country1,
-                                                    arrivalDate: date_arrival_country1,
-                                                    departureDate: date_departure_country1,
-                                                    reasonInfo: tripreason_ofvisit1,
-                                                },
-                                                {
-                                                    country: country2,
-                                                    arrivalDate: date_arrival_country2,
-                                                    departureDate: date_departure_country2,
-                                                    reasonInfo: tripreason_ofvisit2,
-                                                },
-                                                {
-                                                    country: country3,
-                                                    arrivalDate: date_arrival_country3,
-                                                    departureDate: date_departure_country3,
-                                                    reasonInfo: tripreason_ofvisit3,
-                                                },
-                                                {
-                                                    country: country4,
-                                                    arrivalDate: date_arrival_country4,
-                                                    departureDate: date_departure_country4,
-                                                    reasonInfo: tripreason_ofvisit4,
-                                                },
-                                                {
-                                                    country: country5,
-                                                    arrivalDate: date_arrival_country5,
-                                                    departureDate: date_departure_country5,
-                                                    reasonInfo: tripreason_ofvisit5,
-                                                },
-                                            ],
-
-        other_trip                          : OTHER_TRIP,
-        otherTripInfo                       : [
-                                                {
-                                                    country: othertrip_country1,
-                                                    arrivalDate: othertrip_arrivaldate1,
-                                                    departureDate: othertrip_departuredate1,
-                                                    reasonInfo: othertripreason_ofvisit1,
-                                                },
-                                                {
-                                                    country: othertrip_country2,
-                                                    arrivalDate: othertrip_arrivaldate2,
-                                                    departureDate: othertrip_departuredate2,
-                                                    reasonInfo: othertripreason_ofvisit2,
-                                                },
-                                                {
-                                                    country: othertrip_country3,
-                                                    arrivalDate: othertrip_arrivaldate3,
-                                                    departureDate: othertrip_departuredate3,
-                                                    reasonInfo: othertripreason_ofvisit3,
-                                                },
-                                                {
-                                                    country: othertrip_country4,
-                                                    arrivalDate: othertrip_arrivaldate4,
-                                                    departureDate: othertrip_departuredate4,
-                                                    reasonInfo: othertripreason_ofvisit4,
-                                                },
-                                                {
-                                                    country: othertrip_country5,
-                                                    arrivalDate: othertrip_arrivaldate5,
-                                                    departureDate: othertrip_departuredate5,
-                                                    reasonInfo: othertripreason_ofvisit5,
-                                                },
-                                            ],
-    };
-
-    
     var uk_visa_photo               = $('#uk_visa_photo').prop('files')[0]; 
     var passport_front_page         = $('#passport_front_page').prop('files')[0];  
     var secondpassport_front_page   = $('#secondpassport_front_page').prop('files')[0];  
-    var previous_uk_visa            = $('#previous_uk_visa').prop('files')[0];   
-*/
+    var previous_uk_visa            = $('#previous_uk_visa').prop('files')[0];
 
     var form_data = new FormData();
     
@@ -1715,7 +1545,7 @@ function getFormInput() {
     form_data.append('child2_DOB', child2_DOB);
 
     form_data.append('visit', visit);
-    form_data.append('visitInfo', [
+    form_data.append('visitInfo', JSON.stringify([
                                     {
                                         country: 'UK',
                                         arrivalDate: UK_arrival_date1,
@@ -1746,10 +1576,10 @@ function getFormInput() {
                                         departureDate: UK_departure_date5,
                                         reasonInfo: reason_ofvisit5,
                                     },
-                                ] );
+                                ]));
 
     form_data.append('trip', trip);
-    form_data.append('tripInfo', [
+    form_data.append('tripInfo', JSON.stringify([
                                     {
                                         country: country1,
                                         arrivalDate: date_arrival_country1,
@@ -1780,10 +1610,10 @@ function getFormInput() {
                                         departureDate: date_departure_country5,
                                         reasonInfo: tripreason_ofvisit5,
                                     },
-                                ]);
+                                ]));
 
-    form_data.append('other_trip', other_trip);
-    form_data.append('otherTripInfo', [  
+    form_data.append('other_trip', OTHER_TRIP);
+    form_data.append('otherTripInfo', JSON.stringify([  
                                     {
                                         country: othertrip_country1,
                                         arrivalDate: othertrip_arrivaldate1,
@@ -1814,7 +1644,7 @@ function getFormInput() {
                                         departureDate: othertrip_departuredate5,
                                         reasonInfo: othertripreason_ofvisit5,
                                     },
-                                ]);
+                                ]));
                                   
 
 
@@ -1868,5 +1698,9 @@ function form_submit()
 function form_save()
 {
     const form_data = getFormInput();
+    // // Display the key/value pairs
+    // for(var pair of form_data.entries()) {
+    //     console.log(pair[0]+ ', '+ pair[1]); 
+    // }
     doFormAction(form_data, false);    
 }

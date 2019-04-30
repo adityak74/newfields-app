@@ -7,6 +7,7 @@ import userFormModel from '../model/userForms';
 import formType from '../constants/formType';
 import formNumberIdentifier from '../constants/formNumber';
 import userFormReadModel from '../model/userFormsRead';
+import getValueIfNotNull from '../model/helpers/getValueIfNotNull';
 
 const actionStringToId = action => formType[action.toUpperCase()];
 
@@ -145,11 +146,11 @@ export default ({ appUrl, sqlConn, s3FileUploadService }) => {
     child2AlternateNationality: child2_Snationality,
     child2DateOfBirth: child2_DOB,
     ifVisit: visit,
-    visits: visitInfo,
+    visits: JSON.parse(visitInfo),
     ifTrip: trip,
-    trips: tripInfo,
+    trips: JSON.parse(tripInfo),
     ifOtherTrips: other_trip,
-    otherTrips: otherTripInfo,
+    otherTrips: JSON.parse(otherTripInfo),
   });
 
   const buildFilesObject = ({
