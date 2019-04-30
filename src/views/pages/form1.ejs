@@ -427,32 +427,70 @@ and open the template in the editor.
                         <input type="file" class="form-control-file" id="uk_visa_photo" name="uk_visa_photo">
                     </div>
                 </div>
-                <div class="form-group row" style="display:block;">
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" id="uk_visa_photo_text" >
-                        <button type="button" id="download_uk_visa_photo" class="btn btn-secondary">Dd</button>
+                <div id='upload_div1' style='display:none;'>
+                    <div class="form-group row" >
+                        <div class="offset-lg-5 offset-md-5 offset-sm-5 col-sm-4">
+                            <input class="form-control bottonBorder" id="uploaded_uk_visa_photo" type="text" readonly >
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" id="download_uk_visa_photo"  class="btn btn-warning">Download</button>
+                        </div>
                     </div>
-                    
-                    
                 </div>
+
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">2.	Upload passport front page</label>
                     <div class="col-sm-5">
                         <input type="file" class="form-control-file" id="passport_front_page" name="passport_front_page">
                     </div>
                 </div>
+                <div id='upload_div2' style='display:none;'>
+                    <div class="form-group row" >
+                        <div class="offset-lg-5 offset-md-5 offset-sm-5 col-sm-4">
+                            <input class="form-control bottonBorder" id="uploaded_passport_front_page" type="text" readonly >
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" id="download_passport_front_page"  class="btn btn-warning">Download</button>
+                        </div>
+                    </div>
+                </div>
+                
+
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">3.	Biometric Residence Permit front</label>
                     <div class="col-sm-5">
-                        <input type="file" class=" form-control-file" id="BRP_front_page" name="BRP_front_page">
+                        <input type="file" class="form-control-file" id="BRP_front_page" name="BRP_front_page">
                     </div>
                 </div>
+                <div id='upload_div3' style='display:none;'>
+                    <div class="form-group row" >
+                        <div class="offset-lg-5 offset-md-5 offset-sm-5 col-sm-4">
+                            <input class="form-control bottonBorder" id="uploaded_BRP_front_page" type="text" readonly>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" id="download_BRP_front_page"  class="btn btn-warning">Download</button>
+                        </div>
+                    </div>
+                </div>
+                
+
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">4.	Biometric Residence Permit back</label>
                     <div class="col-sm-5">
                         <input type="file" class="form-control-file" id="BRP_back_page" name="BRP_back_page">
                     </div>
                 </div>
+                <div id='upload_div4' style='display:none;'>
+                    <div class="form-group row">
+                        <div class="offset-lg-5 offset-md-5 offset-sm-5 col-sm-4">
+                            <input class="form-control bottonBorder" id="uploaded_BRP_back_page" type="text" readonly>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" id="download_BRP_back_page"  class="btn btn-warning">Download</button>
+                        </div>
+                    </div>
+                </div>
+                
                 
                 <br><br>
                 <button class="btn btn-warning" id="save_form" data-toggle="tooltip" data-placement="top" 

@@ -420,6 +420,41 @@ $(document).ready(function(){
                     $("#other_fifth_Trip").css("display","none");
                 }
 
+//for documents conditions for div depending on the form data
+        /*     
+              var a =10;
+                if(a===1)
+                {
+                    $("#upload_div1").css("display","block");
+                }
+                else{
+                    $("#upload_div1").css("display","none");
+                }
+             
+                if(a===2)
+                {
+                    $("#upload_div2").css("display","block");
+                }
+                else{
+                    $("#upload_div2").css("display","none");
+                }
+
+                if(a===3)
+                {
+                    $("#upload_div3").css("display","block");
+                }
+                else{
+                    $("#upload_div3").css("display","none");
+                }
+
+                if(a===4)
+                {
+                    $("#upload_div4").css("display","block");
+                }
+                else{
+                    $("#upload_div4").css("display","none");
+                }
+*/
 
 
             
@@ -1150,7 +1185,8 @@ function doFormAction(form_data, isSubmitted) {
     const formAction = url.searchParams.get('action');
     if (!isSubmitted) {
         if (formAction === 'new') {
-            form_data.formAction = 'new';
+        //    form_data.formAction = 'new';
+            form_data.append('formAction', 'new');
             $.post({
                 url : appLocation + '/form2/save',
                 data : form_data,
