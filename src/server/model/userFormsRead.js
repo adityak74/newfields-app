@@ -69,21 +69,27 @@ const documentsDataTransform = documentsData => {
   switch (documentsData.type) {
     case BIOMETRIC_RESIDENCE_PERMIT_FRONT:
       documentsLinkData.biometric_residence_permit_front_link = documentsData.url;
+      documentsLinkData.biometric_residence_permit_front = documentsData.fileKey;
       break;
     case BIOMETRIC_RESIDENCE_PERMIT_BACK:
       documentsLinkData.biometric_residence_permit_back_link = documentsData.url;
+      documentsLinkData.biometric_residence_permit_back = documentsData.fileKey;
       break;
     case PASSPORT_FRONT_TWO:
       documentsLinkData.passport_front_two_link = documentsData.url;
+      documentsLinkData.passport_front_two = documentsData.fileKey;
       break;
     case PASSPORT_FRONT:
       documentsLinkData.passport_front_link = documentsData.url;
+      documentsLinkData.passport_front = documentsData.fileKey;
       break;
     case PREVIOUS_UK_VISA:
       documentsLinkData.previous_uk_visa_link = documentsData.url;
+      documentsLinkData.previous_uk_visa = documentsData.fileKey;
       break;
     case CURRENT_COUNTRY_RESIDENCE_PERMIT:
       documentsLinkData.current_visa_link = documentsData.url;
+      documentsLinkData.current_visa = documentsData.fileKey;
       break;
   }
   return documentsLinkData;

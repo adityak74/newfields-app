@@ -15,7 +15,7 @@ export default appConfig => (file, cb) => {
     Key: file.fileKey,
   };
 
-  s3.getSignedUrl('putObject', params, (err, url) => {
+  s3.getSignedUrl('getObject', params, (err, url) => {
     if (err) return cb(err, null);
     cb(null, { ...file, url });
   });

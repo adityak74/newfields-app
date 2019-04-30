@@ -138,10 +138,26 @@ $(document).ready(function() {
                 } else {
                     $("#childern_details2").css("display","none");
                 }
+
+                if(response.passport_front_link) {
+                    $("#upload_div2").css("display","block");
+                    $("#uploaded_passport_front_page_link").attr("href", response.passport_front_link);
+                } else {
+                    $("#upload_div2").css("display","none");
+                }
+
+                if(response.biometric_residence_permit_front_link) {
+                    $("#upload_div3").css("display","block");
+                    $("#BRP_front_page_link").attr("href", response.biometric_residence_permit_front_link);
+                } else {
+                    $("#upload_div3").css("display","none");
+                }
+
+
 //for documents
         /*     
               var a =10;
-                if(a===1)
+                if(response.===1)
                 {
                     $("#upload_div1").css("display","block");
                 }
@@ -157,13 +173,7 @@ $(document).ready(function() {
                     $("#upload_div2").css("display","none");
                 }
 
-                if(a===3)
-                {
-                    $("#upload_div3").css("display","block");
-                }
-                else{
-                    $("#upload_div3").css("display","none");
-                }
+                
 
                 if(a===4)
                 {

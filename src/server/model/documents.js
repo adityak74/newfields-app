@@ -113,7 +113,7 @@ const uploadFiles = (fileData, s3FileUploadService, action, onCb) => {
     });
   } else onCb(null, 
     action === formType.NEW 
-    ? getDocumentsData(fileData.formUID, null, fileData.documentType )
+    ? getDocumentsData(fileData.formUID, null, fileData.documentType)
     : null);
 };
 
