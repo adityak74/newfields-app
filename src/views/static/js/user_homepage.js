@@ -1,41 +1,54 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+const appLocation = window.location.origin;
+
+
+
 $(document).ready(function(){
-    form1_request_table();
+  $('#user_homepage a').trigger('onclick');
+  
 });
 
-function form1_request_table()
-{ 
-//     var CAT = $('#client_application_table').DataTable();
-//     $.ajax({
-//         url : '',
-//         data:{
-                
-//             },
-//         success : function(responseText) {
-        
-//          //   var jsonObj = JSON.parse(responseText);
-//          //   var arrayLength = jsonObj.length;
-//             for (var i=0;i<2;i++)
-//             {  
-//              //   var id = jsonObj[i]["CLIENT_ID"];
-               
-//                 CAT.row.add([
-// //                    activation_date,
-//                    i,// jsonObj[i]["CLIENT_ID"],
-//                    i,// jsonObj[i]["NAME"],
-//                    i,// jsonObj[i]["PBUILDINGNAME"],
-//                    i,// jsonObj[i]["STREET_NAME"],
-//                    i,
-//                    i,//  jsonObj[i]["ACTIVATION_CODE"],
-//                    "<label onclick=\"(function(){application_form(\'"+i+"\')})()\" \n\
-//                     style='cursor:pointer;color: #4d79ff;'><u>View Application</u></label>",
-//                     // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
-//                     // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
-//                     //     Property Profile\n\
-//                     // </label>"
-
-
-//                 ]).draw(false);
-//             }
-//         }
-//     });
-}
+function change_content(identifier)
+{
+    if(identifier==='user-home')
+    {   
+        $("#change_content").load(appLocation + '/user/homepage');
+    } 
+    else if(identifier==='contact')
+    {   
+        $("#change_content").load(appLocation + '/user/contact');
+    }
+    else if(identifier==='settings')
+    {   
+        $("#change_content").load(appLocation + '/user/settings');
+    }
+    else if(identifier==='sign-out')
+    {   $('#overlay1').show();
+        $('#img').show();
+        $.post({
+            url : appLocation + '/user/sign-out',
+            data : {},
+            success : function() {
+                $('#img').hide();
+                $('#overlay1').hide();
+                window.history.forward();
+                window.location.href = appLocation + '/user/sign-in';
+            },
+            error: function(xhr) {
+                $('#img').hide();
+                $('#overlay1').hide();
+                swal({
+                    title: "Server Error",
+                    text: "It seems like the server is down or under maintainance, please check back later.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                });
+            },
+        });
+    }
+}    

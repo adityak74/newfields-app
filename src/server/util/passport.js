@@ -11,7 +11,7 @@ const emaiLVerificationHTMLFile = path.join(
   '..',
   'views',
   'pages',
-  'emailVerify.ejs',
+  'email_verify.ejs',
 );
 
 export default (appConfig, emailService, passport, sqlConn) => {

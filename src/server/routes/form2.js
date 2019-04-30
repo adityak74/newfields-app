@@ -208,7 +208,7 @@ export default ({ appUrl, sqlConn, awsS3 }) => {
     });
   });
 
-  router.get('/show', (req, res) => res.render('pages/form2', { appLocation: appUrl }));
+  router.get('/show', (req, res) => res.render('pages/visa_new', { appLocation: appUrl }));
 
   router.post('/getFormData', isLoggedIn, (req, res) => {
     const { formId } = req.body;
