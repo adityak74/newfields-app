@@ -12,13 +12,12 @@ export default appConfig => (file, cb) => {
   //configuring parameters
   var params = {
     Bucket: 'newfields-documents',
-    Body : file.buffer,
-    Key : `${Date.now()}_${file.originalname}`,
+    Key: file.fileKey,
   };
 
-  s3.upload(params, (err, data) => {
-    //handle error
+  s3.getSignedUrl('putObject', params, (err, url) => {
     if (err) return cb(err, null);
-    cb(null, data);
+    cb(null, { ...file, url });
   });
+
 };

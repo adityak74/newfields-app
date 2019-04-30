@@ -6,10 +6,19 @@ import {
   formType,
   relationTypes as relation,
   tripTypes as trip,
+  documentType,
 } from '../constants';
 import sqlQueries from '../sqlQueries';
 
-const { FORM_READ, FORM_RELATIONS, RELATIONSHIP_INFO, TRIPS, FORM_TRIPS } = sqlQueries;
+const { FORM_READ, FORM_RELATIONS, RELATIONSHIP_INFO, TRIPS, FORM_TRIPS, DOCUMENTS } = sqlQueries;
+const {
+  BIOMETRIC_RESIDENCE_PERMIT_FRONT,
+  BIOMETRIC_RESIDENCE_PERMIT_BACK,
+  CURRENT_COUNTRY_RESIDENCE_PERMIT,
+  PREVIOUS_UK_VISA,
+  PASSPORT_FRONT,
+  PASSPORT_FRONT_TWO,
+} = documentType;
 
 const getRelationData = (connection, relationId, onCb) => {
   connection.query(RELATIONSHIP_INFO.RELATIONSHIP_INFO_SELECT_BY_ID, [relationId], (err, relation) => {
@@ -55,6 +64,31 @@ const relationDataTranform = relationshipData => {
   }
 };
 
+const documentsDataTransform = documentsData => {
+  const documentsLinkData = {};
+  switch (documentsData.type) {
+    case BIOMETRIC_RESIDENCE_PERMIT_FRONT:
+      documentsLinkData.biometric_residence_permit_front_link = documentsData.url;
+      break;
+    case BIOMETRIC_RESIDENCE_PERMIT_BACK:
+      documentsLinkData.biometric_residence_permit_back_link = documentsData.url;
+      break;
+    case PASSPORT_FRONT_TWO:
+      documentsLinkData.passport_front_two_link = documentsData.url;
+      break;
+    case PASSPORT_FRONT:
+      documentsLinkData.passport_front_link = documentsData.url;
+      break;
+    case PREVIOUS_UK_VISA:
+      documentsLinkData.previous_uk_visa_link = documentsData.url;
+      break;
+    case CURRENT_COUNTRY_RESIDENCE_PERMIT:
+      documentsLinkData.current_visa_link = documentsData.url;
+      break;
+  }
+  return documentsLinkData;
+};
+
 const tripDataTransform = tripData => ({
   country: tripData.country,
   arrivalDate: tripData.arrivalDate,
@@ -85,11 +119,12 @@ const getTripData = (connection, tripId, onCb) => {
 };
 
 const getFormRelationsData = (connection, sanitizedInput) => callback => {
-  connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err4, result1) => {
-    if (err4) return callback(err4, null);
+  connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err, result1) => {
+    if (err) return callback(err, null);
     if (result1.length) {
       const relationIds = result1.map(res => res.relationshipId);
-      asyncMapSeries(relationIds, (relationId, next) => getRelationData(connection, relationId, next), (err, relationsArray) => {
+      asyncMapSeries(relationIds, (relationId, next) => getRelationData(connection, relationId, next), (asyncMapSeriesErr, relationsArray) => {
+        if (asyncMapSeriesErr) return callback(asyncMapSeriesErr, null);
         const relationDataShimmed = relationsArray.map(relationDataTranform);
         return callback(null, relationDataShimmed);
       });
@@ -98,11 +133,12 @@ const getFormRelationsData = (connection, sanitizedInput) => callback => {
 };
 
 const getFormTripData = (connection, sanitizedInput) => callback => {
-  connection.query(FORM_TRIPS.FORM_TRIPS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err4, result1) => {
-    if (err4) return callback(err4, null);
+  connection.query(FORM_TRIPS.FORM_TRIPS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err, result1) => {
+    if (err) return callback(err, null);
     if (result1.length) {
       const tripIds = result1.map(res => res.tripId);
-      asyncMapSeries(tripIds, (tripId, next) => getTripData(connection, tripId, next), (err, tripsArray) => {
+      asyncMapSeries(tripIds, (tripId, next) => getTripData(connection, tripId, next), (asyncMapSeriesErr, tripsArray) => {
+        if (asyncMapSeriesErr) return callback(asyncMapSeriesErr, null);
         const tripsDataShimmed = tripsArray.map(tripDataTransform);
         const tripsDataGrouped = groupBy(groupByTripType, tripsDataShimmed);
         return callback(null, tripsDataGrouped);
@@ -111,7 +147,21 @@ const getFormTripData = (connection, sanitizedInput) => callback => {
   });
 };
 
-export default (req, sanitizedInput, sqlConnPool) => cb => {
+const getFormDocumentsData = (connection, sanitizedInput, s3FileDownloadService, currentFormNumber) => callback => {
+  connection.query(DOCUMENTS.DOCUMENTS_SELECT_BY_FORMUID, [sanitizedInput.formUID], (err, result1) => {
+    if (err) return callback(err, null);
+    if (result1.length) {
+      const documents = result1.filter(doc => doc.fileKey !== null).map(doc => ({ fileKey: doc.fileKey, type: doc.type }));
+      asyncMapSeries(documents, (document, next) => s3FileDownloadService(document, next), (asyncMapSeriesErr, documentsArray) => {
+        if (asyncMapSeriesErr) return callback(asyncMapSeriesErr, null);
+        const documentsData = documentsArray.map(documentsDataTransform);
+        return callback(null, documentsData);
+      });
+    } else return callback(null, []);
+  });
+};
+
+export default (req, sanitizedInput, sqlConnPool, s3FileDownloadService) => cb => {
   const currentUser = req.user;
   const incompleteForms = {};
   if (currentUser.admin) {
@@ -128,18 +178,24 @@ export default (req, sanitizedInput, sqlConnPool) => cb => {
       connection.query(incompleteForms.query, incompleteForms.params, (err2, result) => {
         if (err2) cb(err2, null);
         if (result[0]) {
+          const currentFormNumber = result[0].formNumber;
           connection.query(FORM_READ.USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID, [result[0].formUID, result[0].formUID] , (err3, rows) => {
             if (err3) return cb(err3, null);
             const userFormDataWithInfo = rows[0];
             const formTripsData = getFormTripData(connection, sanitizedInput);
             const formRelationData = getFormRelationsData(connection, sanitizedInput);
+            const formDocumentsData = getFormDocumentsData(connection, sanitizedInput, s3FileDownloadService, currentFormNumber);
             let resultObj = { ...userFormDataWithInfo };
-            parallel([formRelationData, formTripsData], (asyncParallelErr, formDataResults) => {
+            parallel([formRelationData, formTripsData, formDocumentsData], (asyncParallelErr, formDataResults) => {
               if (asyncParallelErr) return cb(asyncParallelErr, null);
               if (formDataResults.length) {
                 const relationDataShimmed = formDataResults[0];
                 relationDataShimmed.forEach(relation => 
                   resultObj = { ...resultObj, ...relation }
+                );
+                const documentDataShimmed = formDataResults[2];
+                documentDataShimmed.forEach(doc => 
+                  resultObj = { ...resultObj, ...doc }
                 );
                 resultObj = { ...resultObj, ...formDataResults[1] };
               }

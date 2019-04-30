@@ -18,6 +18,7 @@ import config from './util/conf';
 import passportConfig from './util/passport';
 import sendMail from './util/sendMail';
 import uploadDocument from './util/uploadDocument';
+import getS3SignedDocument from './util/getS3SignedDocument';
 
 const app = express();
 const appConfig = config(process.env.NODE_ENV);
@@ -32,6 +33,7 @@ const emailService = sendMail(appConfig);
 
 // s3 file uploading init
 const s3FileUploadService = uploadDocument(appConfig);
+const s3FileDownloadService = getS3SignedDocument(appConfig);
 
 const appPort = appConfig.get('port');
 const appLocation = appConfig.get('location');
@@ -87,8 +89,8 @@ app.use('/images', express.static(path.join(staticPath, 'images')));
 
 app.use('/admin', adminRouteHandler({ appUrl, passport, sqlConn: sql }));
 app.use('/user', userRouteHandler({ appUrl, appSecret: appConfig.get('secret'), emailService, passport, sqlConn: sql }));
-app.use('/form1', form1RouteHandler({ appUrl, sqlConn: sql, s3FileUploadService }));
-app.use('/form2', form2RouteHandler({ appUrl, sqlConn: sql, s3FileUploadService }));
+app.use('/form1', form1RouteHandler({ appUrl, sqlConn: sql, awsS3: { s3FileUploadService, s3FileDownloadService } }));
+app.use('/form2', form2RouteHandler({ appUrl, sqlConn: sql, awsS3: { s3FileUploadService, s3FileDownloadService } }));
 
 app.get('/', (req, res) => {
   res.redirect('/user/sign-in');

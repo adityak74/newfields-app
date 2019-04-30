@@ -11,8 +11,9 @@ import getValueIfNotNull from '../model/helpers/getValueIfNotNull';
 
 const actionStringToId = action => formType[action.toUpperCase()];
 
-export default ({ appUrl, sqlConn, s3FileUploadService }) => {
+export default ({ appUrl, sqlConn, awsS3 }) => {
   const router = express.Router();
+  const { s3FileUploadService, s3FileDownloadService } = awsS3;
 
   const buildInputObject = ({
     formAction,
@@ -158,7 +159,7 @@ export default ({ appUrl, sqlConn, s3FileUploadService }) => {
       const input = { formUID: formId };
       formUIDValidator(input, {}, (err, sanitizedInput) => {
         if (err) return res.status(400).send('Unknown data');
-        const userModelRead = userFormReadModel(req, sanitizedInput, sqlConn);
+        const userModelRead = userFormReadModel(req, sanitizedInput, sqlConn, s3FileDownloadService);
         userModelRead((err, data) => {
           if (err) return res.status(400).send(err.message || err);
           res.status(200).send(data);
