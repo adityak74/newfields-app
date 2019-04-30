@@ -31,15 +31,15 @@ $(document).ready(function() {
 
     const url = new URL(window.location.href);
     if (url.searchParams.get('formId')) {
-        $('#overlay1').show();
-        $('#img').show();
+        // $('#overlay1').show();
+        // $('#img').show();
         const formId = url.searchParams.get('formId');
         $.post({
             url : appLocation + '/form1/getFormData',
             data : { formId: formId },
             success : function(response) {
-                $('#img').hide();
-                $('#overlay1').hide();
+                // $('#img').hide();
+                // $('#overlay1').hide();
                 $("#errors").css("display", "none");
                 console.log(response);
           
@@ -194,8 +194,8 @@ $(document).ready(function() {
                 
             },
             error: function(xhr) {
-                $('#img').hide();
-                $('#overlay1').hide();
+                // $('#img').hide();
+                // $('#overlay1').hide();
                 if(xhr.status === 400) {
                     swal({
                         title: "Server Error",
@@ -431,8 +431,8 @@ function show_success_toast(message) {
 function doFormAction(form_data, isSubmitted) {
     const url = new URL(window.location.href);
     const formAction = url.searchParams.get('action');
-    $('#overlay1').show();
-    $('#img').show();
+    // $('#overlay1').show();
+    // $('#img').show();
     if (!isSubmitted) {
         if (formAction === 'new') {
             form_data.append('formAction', 'new');
@@ -442,16 +442,16 @@ function doFormAction(form_data, isSubmitted) {
                 contentType: false,
                 processData: false,
                 success : function(responseJSON) {
-                    $('#img').hide();
-                    $('#overlay1').hide();
+                    // $('#img').hide();
+                    // $('#overlay1').hide();
                     const formUID = responseJSON.data.formUID;
                     const location = window.location;
                     window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
                     $("#errors").css("display", "none");
                 },
                 error: function(xhr) {
-                    $('#img').hide();
-                    $('#overlay1').hide();
+                    // $('#img').hide();
+                    // $('#overlay1').hide();
                     if(xhr.status === 400) {
                         const errors = xhr.responseJSON.details;
                         $("#errors_list").empty();
@@ -474,8 +474,8 @@ function doFormAction(form_data, isSubmitted) {
                 contentType: false,
                 processData: false,
                 success : function(responseJSON) {
-                    $('#img').hide();
-                    $('#overlay1').hide();
+                    // $('#img').hide();
+                    // $('#overlay1').hide();
                     const formUID = responseJSON.data.formUID;
                     if (formUID) {
                         show_success_toast('Form saved successfully');
@@ -491,8 +491,8 @@ function doFormAction(form_data, isSubmitted) {
                     $("#errors").css("display", "none");
                 },
                 error: function(xhr) {
-                    $('#img').hide();
-                    $('#overlay1').hide();
+                    // $('#img').hide();
+                    // $('#overlay1').hide();
                     if(xhr.status === 400) {
                         const errors = xhr.responseJSON.details;
                         $("#errors_list").empty();
@@ -517,15 +517,15 @@ function doFormAction(form_data, isSubmitted) {
             contentType: false,
             processData: false,
             success : function(responseJSON) {
-                $('#img').hide();
-                $('#overlay1').hide();
+                // $('#img').hide();
+                // $('#overlay1').hide();
                // window.location.href = appLocation + '/user/dashboard';
                 window.close();
                 $("#errors").css("display", "none");
             },
             error: function(xhr) {
-                $('#img').hide();
-                $('#overlay1').hide();
+                // $('#img').hide();
+                // $('#overlay1').hide();
                 if(xhr.status === 400) {
                     const errors = xhr.responseJSON.details;
                     $("#errors_list").empty();
