@@ -74,7 +74,7 @@ $(document).ready(function(){
 
                 $('#Unique_id').val();
                 $('#Title').val(response.title);
-                $('#formRefNumber').text('#'.concat(response.formReferenceNumber));
+                $('#formRefNumber').text("Reference number: "+'#'.concat(response.formReferenceNumber));
     
                 $('#full_name').val(response.fullName); 
                 $('#mobile_number').val(response.mobile);
@@ -1675,10 +1675,12 @@ function getFormInput() {
 
 function form_submit()
 {
+    $('#overlay1').show();
+    $('#img').show();
     const form_data = getFormInput();
     console.log('FORM-DATA', form_data);
     doFormAction(form_data, true);
-
+    
     $.post({
         url : appLocation + '/form2/save',
         data : form_data,

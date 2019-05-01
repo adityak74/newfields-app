@@ -123,7 +123,8 @@ function Openclient_form1(id)
     
     var reference_id = id;
     $("#ref_no").val(reference_id);
-    
+    $('#overlay1').show();
+    $('#img').show();
     $.post({
         url : appLocation + '/form1/getFormData',
         data: { formId: reference_id },
@@ -183,7 +184,9 @@ function Openclient_form1(id)
             $("#uploaded_BRP_back_page").val(responseText.biometric_residence_permit_back);
             
 
-            
+            $('#img').hide();
+            $('#overlay1').hide();
+        
         $('#form1_request_modal').modal('show');   
         }
     });
@@ -257,7 +260,9 @@ function processed_forms_request_table(formsDataArray)
 }
 
 function Openclient_form2(id)
-{
+{   
+    $('#overlay1').show();
+    $('#img').show();
     var reference_id = id;
     $("#ref_no").val(reference_id);
     
@@ -417,7 +422,8 @@ function Openclient_form2(id)
             $("#uploaded_previous_uk_visa_link").attr("href", responseText.previous_uk_visa_link);
             $("#uploaded_previous_uk_visa").val(responseText.previous_uk_visa);
            
-
+            $('#img').hide();
+            $('#overlay1').hide();
             
         $('#form2_request_modal').modal('show');   
         }
