@@ -38,7 +38,7 @@ export default appConfig => ({
         Data: emailSubject,
       }
     },
-    Source: fromAddress.length ? fromAddress : supportEmail,
+    Source: fromAddress ? fromAddress : supportEmail,
   };
 
   ses.sendEmail(params)

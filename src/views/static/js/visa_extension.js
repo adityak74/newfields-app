@@ -8,7 +8,7 @@ const appLocation = window.location.origin;
 $(document).ready(function() {
     
     $("#email_address").on("change", validate);
-    $("#demo").submit(function(){
+    $("#newfields_form1").submit(function(){
         $('#myModal').modal('show');
            return false;
     });

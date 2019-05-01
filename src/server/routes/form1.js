@@ -11,7 +11,7 @@ import getValueIfNotNull from '../model/helpers/getValueIfNotNull';
 
 const actionStringToId = action => formType[action.toUpperCase()];
 
-export default ({ appUrl, sqlConn, awsS3 }) => {
+export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
   const router = express.Router();
   const { s3FileUploadService, s3FileDownloadService } = awsS3;
 
@@ -121,7 +121,7 @@ export default ({ appUrl, sqlConn, awsS3 }) => {
     form1Validator(inputObj, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
       else {
-        const userModelSave = userFormModel(req, sanitizedInput, inputFiles, sqlConn, s3FileUploadService, formActionIdentifier, formNumberIdentifier.ONE);
+        const userModelSave = userFormModel(req, sanitizedInput, inputFiles, sqlConn, s3FileUploadService, emailService, formActionIdentifier, formNumberIdentifier.ONE);
         userModelSave((err, data) => {
           if (err) return res.status(400).send(err);
           console.log('form retval', data);
@@ -143,7 +143,7 @@ export default ({ appUrl, sqlConn, awsS3 }) => {
       const formActionIdentifier = actionStringToId(inputObj.formAction);
       const inputFiles = buildFilesObject(req.files);
       
-      const userModelSave = userFormModel(req, inputObj, inputFiles, sqlConn, s3FileUploadService, formActionIdentifier, formNumberIdentifier.ONE);
+      const userModelSave = userFormModel(req, inputObj, inputFiles, sqlConn, s3FileUploadService, emailService, formActionIdentifier, formNumberIdentifier.ONE);
       userModelSave((err, data) => {
         if (err) return res.status(400).send(err);
         const retData = { data };

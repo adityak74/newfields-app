@@ -1,4 +1,7 @@
 import parallel from 'async/parallel';
+import path from 'path';
+import { renderFile as ejsRenderFile } from 'ejs';
+import capitalizeFirst from '../util/capitalizeFirst';
 import {
   formType,
   formProcessingStatus,
@@ -12,7 +15,16 @@ import formRelationsModel from './formRelations';
 import formTripsModel from './formTrips';
 import formDocumentsModel from './documents';
 
-export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadService, action = formType.NEW, formNumber) => cb => {
+const formConfirmationHTMLFile = path.join(
+  __dirname,
+  '..',
+  '..',
+  'views',
+  'pages',
+  'form_confirmation.ejs',
+);
+
+export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadService, emailService, action = formType.NEW, formNumber) => cb => {
 
   const currentUser = req.user;
   const { FORM_CREATE, FORM_READ, FORM_UPDATE } = sqlQueries;
@@ -94,6 +106,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                     if (err3) cb(err3, null); 
                     if (!rows.length) cb(new Error("Form not found"), null);
                     const formUID = rows[0].formUID;
+                    const currentFormRefNumber = rows[0].formRefNumber;
                     const formDataInput = getFormDataObject(formUID, sanitizedInput);
                     const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
                     // update rest of the data here
@@ -120,6 +133,20 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                                     throw commitErr;
                                   });
                                 }
+                                ejsRenderFile(
+                                  formConfirmationHTMLFile,
+                                  {
+                                    userName: capitalizeFirst(currentUser.name),
+                                    formReferenceNumber: currentFormRefNumber
+                                  },
+                                  (err, htmlString) => {
+                                    emailService({
+                                      toAddress: currentUser.email,
+                                      emailHtmlData: htmlString,
+                                      emailTextData: htmlString,
+                                      emailSubject: "Newfields - Form Confirmation",
+                                    });
+                                });
                                 cb(null, updateFormResponse);
                               });
                             });
@@ -176,6 +203,20 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                                 throw commitErr;
                               });
                             }
+                            ejsRenderFile(
+                              formConfirmationHTMLFile,
+                              {
+                                userName: capitalizeFirst(currentUser.name),
+                                formReferenceNumber: formRefNumber
+                              },
+                              (err, htmlString) => {
+                                emailService({
+                                  toAddress: currentUser.email,
+                                  emailHtmlData: htmlString,
+                                  emailTextData: htmlString,
+                                  emailSubject: "Newfields - Form Confirmation",
+                                });
+                            });
                             cb(null, createNewFormEntryInput);
                           });
                         });
