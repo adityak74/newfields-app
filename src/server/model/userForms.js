@@ -24,6 +24,23 @@ const formConfirmationHTMLFile = path.join(
   'form_confirmation.ejs',
 );
 
+const sendFormConfirmationEmail = (currentUser, formRefNumber) => {
+  ejsRenderFile(
+    formConfirmationHTMLFile,
+    {
+      userName: capitalizeFirst(currentUser.name),
+      formReferenceNumber: formRefNumber
+    },
+    (err, htmlString) => {
+      emailService({
+        toAddress: currentUser.email,
+        emailHtmlData: htmlString,
+        emailTextData: htmlString,
+        emailSubject: "Newfields - Form Confirmation",
+      });
+  });
+};
+
 export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadService, emailService, action = formType.NEW, formNumber) => cb => {
 
   const currentUser = req.user;
@@ -133,20 +150,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                                     throw commitErr;
                                   });
                                 }
-                                ejsRenderFile(
-                                  formConfirmationHTMLFile,
-                                  {
-                                    userName: capitalizeFirst(currentUser.name),
-                                    formReferenceNumber: currentFormRefNumber
-                                  },
-                                  (err, htmlString) => {
-                                    emailService({
-                                      toAddress: currentUser.email,
-                                      emailHtmlData: htmlString,
-                                      emailTextData: htmlString,
-                                      emailSubject: "Newfields - Form Confirmation",
-                                    });
-                                });
+                                sendFormConfirmationEmail(currentUser, currentFormRefNumber);
                                 cb(null, updateFormResponse);
                               });
                             });
@@ -203,20 +207,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                                 throw commitErr;
                               });
                             }
-                            ejsRenderFile(
-                              formConfirmationHTMLFile,
-                              {
-                                userName: capitalizeFirst(currentUser.name),
-                                formReferenceNumber: formRefNumber
-                              },
-                              (err, htmlString) => {
-                                emailService({
-                                  toAddress: currentUser.email,
-                                  emailHtmlData: htmlString,
-                                  emailTextData: htmlString,
-                                  emailSubject: "Newfields - Form Confirmation",
-                                });
-                            });
+                            sendFormConfirmationEmail(currentUser, formRefNumber);
                             cb(null, createNewFormEntryInput);
                           });
                         });
