@@ -62,6 +62,8 @@ $(document).ready(function(){
 
     const url = new URL(window.location.href);
     if (url.searchParams.get('formId')) {
+        $('#overlay1').show();
+        $('#img').show();
         const formId = url.searchParams.get('formId');
         $.post({
             url : appLocation + '/form2/getFormData',
@@ -454,12 +456,13 @@ $(document).ready(function(){
                     $("#upload_div4").css("display","none");
                 }
 
-
-
-            
-                
+                $('#img').hide();
+                $('#overlay1').hide();
+    
             },
             error: function(xhr) {
+                $('#img').hide();
+                $('#overlay1').hide();
                 if(xhr.status === 400) {
                     swal({
                         title: "Server Error",
@@ -1182,6 +1185,8 @@ function show_success_toast(message) {
 function doFormAction(form_data, isSubmitted) {
     const url = new URL(window.location.href);
     const formAction = url.searchParams.get('action');
+    $('#overlay1').show();
+    $('#img').show();
     if (!isSubmitted) {
         if (formAction === 'new') {
             form_data.set('formAction', 'new');
@@ -1195,9 +1200,13 @@ function doFormAction(form_data, isSubmitted) {
                     const location = window.location;
                     window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
                     $("#errors").css("display", "none");
+                    $('#img').hide();
+                    $('#overlay1').hide();
                 },
                 error: function(xhr) {
                     if(xhr.status === 400) {
+                        $('#img').hide();
+                        $('#overlay1').hide();
                         const errors = xhr.responseJSON.details;
                         $("#errors_list").empty();
                         $("#errors").css("display", "block");
@@ -1218,6 +1227,8 @@ function doFormAction(form_data, isSubmitted) {
                 contentType: false,
                 processData: false,
                 success : function(responseJSON) {
+                    $('#img').hide();
+                    $('#overlay1').hide();
                     const formUID = responseJSON.data.formUID;
                     if (formUID) {
                         show_success_toast('Form saved successfully');
@@ -1233,6 +1244,8 @@ function doFormAction(form_data, isSubmitted) {
                     $("#errors").css("display", "none");
                 },
                 error: function(xhr) {
+                    $('#img').hide();
+                    $('#overlay1').hide();
                     if(xhr.status === 400) {
                         const errors = xhr.responseJSON.details;
                         $("#errors_list").empty();
@@ -1257,10 +1270,14 @@ function doFormAction(form_data, isSubmitted) {
             contentType: false,
             processData: false,
             success : function(responseJSON) {
+                $('#img').hide();
+                $('#overlay1').hide();
                 window.location.href = appLocation + '/user/dashboard';
                 $("#errors").css("display", "none");
             },
             error: function(xhr) {
+                $('#img').hide();
+                $('#overlay1').hide();
                 if(xhr.status === 400) {
                     const errors = xhr.responseJSON.details;
                     $("#errors_list").empty();
@@ -1666,6 +1683,8 @@ function form_submit()
         url : appLocation + '/form2/save',
         data : form_data,
         success : function(responseText) {
+            $('#img').hide();
+            $('#overlay1').hide();
             $("#errors").css("display", "none");
             console.log("responseText: "+responseText);
             swal({
@@ -1677,9 +1696,10 @@ function form_submit()
             });
         },
         error: function(xhr) {
+            $('#img').hide();
+            $('#overlay1').hide();
             if(xhr.status === 400) {
                 const errors = xhr.responseJSON.details;
-                
                 $("#errors_list").empty();
                 $("#errors").css("display", "block");
                 errors.forEach(error => {

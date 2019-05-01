@@ -59,8 +59,7 @@ $(document).ready(function () {
             $('#overlay1').hide();
             console.log('all user forms', responseData);
 
-            //only submitted form from client should be in form1 and form2 
-            //if incomplete then in incomplete table
+            // after form processed it should only be visible in processed table
 
             form1_request_table(responseData.filter(form => form.formNumber === 1 && form.status === 3 ));
             form2_request_table(responseData.filter(form => form.formNumber === 2 && form.status === 3 ));

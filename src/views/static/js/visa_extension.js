@@ -38,8 +38,7 @@ $(document).ready(function() {
             url : appLocation + '/form1/getFormData',
             data : { formId: formId },
             success : function(response) {
-                $('#img').hide();
-                $('#overlay1').hide();
+                
                 $("#errors").css("display", "none");
                 console.log(response);
           
@@ -173,7 +172,8 @@ $(document).ready(function() {
                 } else {
                     $("#upload_div4").css("display","none");
                 }
- 
+                $('#img').hide();
+                $('#overlay1').hide();
             },
             error: function(xhr) {
                 $('#img').hide();
@@ -424,12 +424,12 @@ function doFormAction(form_data, isSubmitted) {
                 contentType: false,
                 processData: false,
                 success : function(responseJSON) {
-                    $('#img').hide();
-                    $('#overlay1').hide();
                     const formUID = responseJSON.data.formUID;
                     const location = window.location;
                     window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
                     $("#errors").css("display", "none");
+                    $('#img').hide();
+                    $('#overlay1').hide();
                 },
                 error: function(xhr) {
                     $('#img').hide();
