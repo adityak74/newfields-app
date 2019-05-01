@@ -20,7 +20,7 @@ and open the template in the editor.
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.28.12/sweetalert2.all.js"></script>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
         
-        <script type="text/javascript" src="<%= appLocation %>/js/form2.js"></script>
+        <script type="text/javascript" src="<%= appLocation %>/js/visa_new.js"></script>
         <link type ="text/css" rel="stylesheet" href="<%= appLocation %>/css/FormStyle.css">
     </head>
     <body>
@@ -1634,17 +1634,19 @@ and open the template in the editor.
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">1.	Current country residence permit/visa(image)</label>
                     <div class="col-sm-5">
-                        <input type="file" class="form-control-file" id="uk_visa_photo">
+                        <input type="file" class="form-control-file" id="current_country_permit_photo">
                     </div>
                 </div>
 
                 <div id='upload_div1' style='display:none;'>
                     <div class="form-group row" >
                         <div class="offset-lg-5 offset-md-5 offset-sm-5 col-sm-4">
-                            <input class="form-control bottonBorder" id="uploaded_uk_visa_photo" type="text" readonly>
+                            <input class="form-control bottonBorder" id="uploaded_current_country_permit_photo" type="text" readonly>
                         </div>
                         <div class="col-sm-1">
-                            <button type="button" id="download_uk_visa_photo"  class="btn btn-warning">Download</button>
+                            <a id="current_country_permit_photo_link" target="_blank">
+                                <button type="button" id="" class="btn btn-warning">Download</button>
+                            </a>                               
                         </div>
                     </div>
                 </div>
@@ -1662,7 +1664,9 @@ and open the template in the editor.
                             <input class="form-control bottonBorder" id="uploaded_passport_front_page" type="text" readonly>
                         </div>
                         <div class="col-sm-1">
-                            <button type="button" id="download_passport_front_page" class="btn btn-warning">Download</button>
+                            <a id="uploaded_passport_front_page_link" target="_blank">
+                                <button type="button" id="download_passport_front_page" class="btn btn-warning">Download</button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1680,7 +1684,9 @@ and open the template in the editor.
                             <input class="form-control bottonBorder" id="uploaded_secondpassport_front_page" type="text" readonly>
                         </div>
                         <div class="col-sm-1">
-                            <button type="button" id="download_secondpassport_front_page" class="btn btn-warning">Download</button>
+                            <a id="uploaded_secondpassport_front_page_link" target="_blank">
+                                <button type="button" id="download_secondpassport_front_page" class="btn btn-warning">Download</button>
+                            </a>        
                         </div>
                     </div>
                 </div>
@@ -1698,7 +1704,9 @@ and open the template in the editor.
                             <input class="form-control bottonBorder" id="uploaded_previous_uk_visa" type="text" readonly>
                         </div>
                         <div class="col-sm-1">
-                            <button type="button" id="download_previous_uk_visa" class="btn btn-warning">Download</button>
+                            <a id="uploaded_previous_uk_visa_link" target="_blank">
+                                <button type="button" id="download_previous_uk_visa" class="btn btn-warning">Download</button>
+                            </a>        
                         </div>
                     </div>
                 </div>

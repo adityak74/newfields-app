@@ -12,7 +12,7 @@ export default (formUID, sanitizedInput) => ({
   town: getValueIfNotNull(sanitizedInput.town),
   county: getValueIfNotNull(sanitizedInput.county),
   postcode: getValueIfNotNull(sanitizedInput.postcode),
-  nationalities: getValueIfNotNull(sanitizedInput.nationalities) ? sanitizedInput.nationalities.join(','): '',
+  nationalities: getValueIfNotNull(sanitizedInput.nationalities) ? sanitizedInput.nationalities : '',
   relationship: sanitizedInput.relationshipStatus,
   otherNames: getValueIfNotNull(sanitizedInput.otherNames),
 });

@@ -20,7 +20,7 @@ and open the template in the editor.
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.28.12/sweetalert2.all.js"></script> 
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
       
-        <script type="text/javascript" src="<%= appLocation %>/js/form1.js"></script>
+        <script type="text/javascript" src="<%= appLocation %>/js/visa_extension.js"></script>
         <link type ="text/css" rel="stylesheet" href="<%= appLocation %>/css/FormStyle.css">
     </head>
     <body>
@@ -540,7 +540,14 @@ and open the template in the editor.
         </div>
         
         <br><br><br><br>
-           
+
+        <div id="overlay1" style="display:none" class="overlay">
+            <div class="overlay-content">
+                <label id="overlay_label_text" style="font-size: 25px;"></label><br>
+                <img id="img" style="display:none" src="<%= appLocation %>/images/Dual Ring.gif" />
+            </div>
+        </div>  
+        
         <footer class="fixed-bottom" id="page_footer">
             <label>Version 1.0</label>    
         </footer>

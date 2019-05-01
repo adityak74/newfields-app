@@ -9,8 +9,16 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script type="text/javascript" src="<%= appLocation %>/js/admin-homepage.js"></script>
+        <script type="text/javascript" src="<%= appLocation %>/js/admin_dashboard.js"></script>
     </head>
+<style>
+    .bottonBorder{
+        border: 0;
+        outline: 0;
+        border-bottom: 2px solid black;
+    }
+</style>
+
     <body>
         <p class="lead"  align="left">Welcome <label>Admin</label></p>
         <br>
@@ -363,34 +371,54 @@ and open the template in the editor.
                             
                             <div class="form-group row">
                                 <label for="inputPassword" class="col-sm-5 col-form-label">1.	Any previous UK visa</label>
-                                <div class="col-sm-5">
-                                    <button class="btn btn-warning" id="uk_visa_photo" data-toggle="tooltip" data-placement="right" 
+                                <div class="col-sm-4">
+                                    <input class="form-control bottonBorder" id="uploaded_uk_visa_photo" type="text" readonly>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a id="uk_visa_photo_link" target="_blank">
+                                        <button class="btn btn-warning" id="download_uk_visa_photo" data-toggle="tooltip" data-placement="right" 
                                             type="button" title='Download Uk visa document'>Download</button>
-                                    </button>
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="inputPassword" class="col-sm-5 col-form-label">2.	Upload passport front page</label>
-                                <div class="col-sm-5">
-                                    <button class="btn btn-warning" id="passport_front_page" data-toggle="tooltip" data-placement="right" 
+                                <label for="inputPassword" class="col-sm-5 col-form-label">2.	Passport front page</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control bottonBorder" id="uploaded_passport_front_page" type="text" readonly >
+                                </div>
+                                <div class="col-sm-1">
+                                    <a id="uploaded_passport_front_page_link" target="_blank">
+                                        <button class="btn btn-warning" id="download_passport_front_page" data-toggle="tooltip" data-placement="right" 
                                             type="button" title='Download passport front'>Download</button>
-                                    </button>
+                                        </button>
+                                    </a>    
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputPassword" class="col-sm-5 col-form-label">3.	Biometric Residence Permit front</label>
-                                <div class="col-sm-5">
-                                    <button class="btn btn-warning" id="passport_BRP_front_page" data-toggle="tooltip" data-placement="right" 
-                                            type="button" title='Download BRP front'>Download</button>
-                                    </button>
+                                <div class="col-sm-4">
+                                    <input class="form-control bottonBorder" id="uploaded_BRP_front_page" type="text" readonly>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a id="BRP_front_page_link" target="_blank">
+                                        <button class="btn btn-warning" id="download_BRP_front_page" data-toggle="tooltip" data-placement="right" 
+                                                type="button" title='Download BRP front'>Download</button>
+                                        </button>
+                                    </a>    
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputPassword" class="col-sm-5 col-form-label">4.	Biometric Residence Permit back</label>
-                                <div class="col-sm-5">
-                                    <button class="btn btn-warning" id="passport_BRP_front_page" data-toggle="tooltip" data-placement="right" 
-                                            type="button" title='Download BRP back'>Download</button>
-                                    </button>
+                                <div class="col-sm-4">
+                                    <input class="form-control bottonBorder" id="uploaded_BRP_back_page" type="text" readonly>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a id="BRP_back_page_link" target="_blank">
+                                        <button class="btn btn-warning" id="download_BRP_back_page" data-toggle="tooltip" data-placement="right" 
+                                                type="button" title='Download BRP back'>Download</button>
+                                        </button>
+                                    </a>    
                                 </div>
                             </div>
                             
@@ -1399,61 +1427,73 @@ and open the template in the editor.
 
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-5 col-form-label">1.	Current country residence permit/visa(image)</label>
-                        <div class="col-sm-5">
-                            <button class="btn btn-warning" id="uk_visa_photo" data-toggle="tooltip" data-placement="right" 
-                                    type="button" title='Download document'>Download</button>
-                            </button>
+                        <div class="col-sm-4">
+                            <input class="form-control bottonBorder" id="uploaded_current_country_permit_photo" type="text" readonly>
+                        </div>
+                        <div class="col-sm-1">
+                            <a id="current_country_permit_photo_link" target="_blank">
+                                <button type="button" id="" class="btn btn-warning">Download</button>
+                            </a>                               
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-5 col-form-label">2.	Passport front page(image)</label>
-                        <div class="col-sm-5">
-                            <button class="btn btn-warning" id="passport_front_page" data-toggle="tooltip" data-placement="right" 
-                                    type="button" title='Download passport front'>Download</button>
-                            </button>
+                        <div class="col-sm-4">
+                            <input class="form-control bottonBorder" id="uploaded_passport_front_page" type="text" readonly>
+                        </div>
+                        <div class="col-sm-1">
+                            <a id="uploaded_passport_front_page_link" target="_blank">
+                                <button type="button" id="download_passport_front_page" class="btn btn-warning">Download</button>
+                            </a>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-5 col-form-label">3.	Second passport front page (if any)</label>
-                        <div class="col-sm-5">
-                            <button class="btn btn-warning" id="passport_BRP_front_page" data-toggle="tooltip" data-placement="right" 
-                                    type="button" title='Download document'>Download</button>
-                            </button>
+                        <div class="col-sm-4">
+                            <input class="form-control bottonBorder" id="uploaded_secondpassport_front_page" type="text" readonly>
+                        </div>
+                        <div class="col-sm-1">
+                            <a id="uploaded_secondpassport_front_page_link" target="_blank">
+                                <button type="button" id="download_secondpassport_front_page" class="btn btn-warning">Download</button>
+                            </a>        
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-5 col-form-label">4.	Any previous UK visa</label>
-                        <div class="col-sm-5">
-                            <button class="btn btn-warning" id="passport_BRP_front_page" data-toggle="tooltip" data-placement="right" 
-                                    type="button" title='Download document'>Download</button>
+                        <div class="offset-lg-5 offset-md-5 offset-sm-5 col-sm-4">
+                            <input class="form-control bottonBorder" id="uploaded_previous_uk_visa" type="text" readonly>
+                        </div>
+                        <div class="col-sm-1">
+                            <a id="uploaded_previous_uk_visa_link" target="_blank">
+                                <button type="button" id="download_previous_uk_visa" class="btn btn-warning">Download</button>
+                            </a>        
+                        </div>
+                    </div>
+                    <br>
+                    <h5>Application Status</h5>
+                    <hr class="hr_style">
+
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <select class="form-control" id="status_update">
+                                <option value="1" disabled>Submitted</option>
+                                <option value="2">Application In Progress</option>
+                                <option value="3">Application Processed</option>
+                            </select>
+                        </div>
+                        <label for="staticEmail"  class="col-sm-5 col-form-label"></label>
+                        <div class="col-sm-2">
+                            <button class="btn btn-primary" id="save_form" data-toggle="tooltip" data-placement="top" 
+                                type="button" title='Update'>Update Application Status
                             </button>
                         </div>
                     </div>
-                            <br>
-                            <h5>Application Status</h5>
-                            <hr class="hr_style">
-
-                            <div class="form-group row">
-                                <div class="col-sm-4">
-                                    <select class="form-control" id="status_update">
-                                        <option value="1" disabled>Submitted</option>
-                                        <option value="2">Application In Progress</option>
-                                        <option value="3">Application Processed</option>
-                                    </select>
-                                </div>
-                                <label for="staticEmail"  class="col-sm-5 col-form-label"></label>
-                                <div class="col-sm-2">
-                                    <button class="btn btn-primary" id="save_form" data-toggle="tooltip" data-placement="top" 
-                                        type="button" title='Update'>Update Application Status
-                                    </button>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
-                    </div>
+                    <br>
                 </div>
-            </div> 
-        </div>       
+            </div>
+        </div>
+    </div> 
+</div>       
  <!-- admin page tab 2 modal end  -->
 
 <style>
@@ -1468,7 +1508,38 @@ display: inline-block;
 margin: 2px;
 margin-right: 10px;
 }
+
+.overlay
+{
+    position: absolute;
+    left: 0; 
+    top: 0; 
+    right: 0; 
+    bottom: 0; 
+    z-index: 2;
+    background-color: rgba(255,255,255,0.8);
+    
+    
+}
+.overlay-content {
+    position: absolute;
+    transform: translateY(-50%);
+     -webkit-transform: translateY(-50%);
+     -ms-transform: translateY(-50%);
+    top: 40%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #555;
+}
 </style>
+
+    <div id="overlay1" style="display:none" class="overlay">
+        <div class="overlay-content">
+            <label id="overlay_label_text" style="font-size: 25px;"></label><br>
+            <img id="img" style="display:none" src="<%= appLocation %>/images/Dual Ring.gif" />
+        </div>
+    </div>
 
  <footer class="fixed-bottom" id="page_footer">
     <label>Version 1.0</label>    

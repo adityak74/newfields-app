@@ -420,41 +420,39 @@ $(document).ready(function(){
                     $("#other_fifth_Trip").css("display","none");
                 }
 
-//for documents conditions for div depending on the form data
-        /*     
-              var a =10;
-                if(a===1)
-                {
+//documents
+                if(response.previous_uk_visa) {
                     $("#upload_div1").css("display","block");
-                }
-                else{
+                    $("#current_country_permit_photo_link").attr("href",response.current_visa_link);
+                    $("#uploaded_current_country_permit_photo").val(response.current_visa);
+                } else {
                     $("#upload_div1").css("display","none");
                 }
-             
-                if(a===2)
-                {
+
+                if(response.passport_front_link) {
                     $("#upload_div2").css("display","block");
-                }
-                else{
+                    $("#uploaded_passport_front_page_link").attr("href", response.passport_front_link);
+                    $("#uploaded_passport_front_page").val(response.passport_front);
+                } else {
                     $("#upload_div2").css("display","none");
                 }
 
-                if(a===3)
-                {
+                if(response.passport_front_two_link) {
                     $("#upload_div3").css("display","block");
-                }
-                else{
+                    $("#uploaded_secondpassport_front_page_link").attr("href", response.passport_front_two_link);
+                    $("#uploaded_secondpassport_front_page").val(response.passport_front_two);
+                } else {
                     $("#upload_div3").css("display","none");
                 }
 
-                if(a===4)
-                {
+                if(response.biometric_residence_permit_back_link) {
                     $("#upload_div4").css("display","block");
-                }
-                else{
+                    $("#uploaded_previous_uk_visa_link").attr("href", response.previous_uk_visa_link);
+                    $("#uploaded_previous_uk_visa").val(response.previous_uk_visa);
+                } else {
                     $("#upload_div4").css("display","none");
                 }
-*/
+
 
 
             
@@ -1471,7 +1469,7 @@ function getFormInput() {
     var OR555                                   = OR55.options[OR55.selectedIndex];
     var othertripreason_ofvisit5                = $(OR555).val();
 
-    var uk_visa_photo               = $('#uk_visa_photo').prop('files')[0]; 
+    var current_country_permit_photo               = $('#current_country_permit_photo').prop('files')[0]; 
     var passport_front_page         = $('#passport_front_page').prop('files')[0];  
     var secondpassport_front_page   = $('#secondpassport_front_page').prop('files')[0];  
     var previous_uk_visa            = $('#previous_uk_visa').prop('files')[0];
@@ -1648,7 +1646,7 @@ function getFormInput() {
                                   
 
 
-    form_data.append('uk_visa_photo', uk_visa_photo);
+    form_data.append('current_country_permit_photo', current_country_permit_photo);
     form_data.append('passport_front_page', passport_front_page);
     form_data.append('secondpassport_front_page', secondpassport_front_page);
     form_data.append('previous_uk_visa', previous_uk_visa);

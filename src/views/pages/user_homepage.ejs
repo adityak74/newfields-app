@@ -9,57 +9,110 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script type="text/javascript" src="<%= appLocation %>/js/user_operations.js"></script>
-        
+        <script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <link type ="text/css" rel="stylesheet" href="<%= appLocation %>/css/FormStyle.css">
+        <script type="text/javascript" src="<%= appLocation %>/js/user_homepage.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+       
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
         
     </head>
     <body>
+        <style>
+            .jumbotron {
+            background: url("<%= appLocation %>/images/Header_1.png") no-repeat center center;
+            background-size: cover;
+            background-size: 100% 270px;
+            -webkit-background-size: 100% 100%;
+            -moz-background-size: 100% 100%;
+            -o-background-size: 100% 100%;
+            min-height: 270px;
+        }
         
-        
-        <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
-            <h5 class="h5 mb-0 text-gray-800" style="color:#77b300;">Home page</h5>
-        </div>
-        
-            <div class="row" >
-                <div class="col">
-                    <!-- <div class="form-group row"> -->
-                        <!-- <div class="col-md-2 col-sm-12"> -->
-                        <a href="<%= appLocation %>/form1/show?action=new" target="_blank">
-                            <button class="btn btn-primary">Start a visa extension application (form 1)</button>
+/*        .navbar{
+            background: url("Images/Header_1.png");
+            background-size: 100% 270px;
+        }*/
+        </style>
+       
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+
+            <div class='container'>
+  <!-- Navbar brand -->
+            <a class="navbar-brand" href="#">Newfields</a>
+
+            <!-- Collapse button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+              aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="basicExampleNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" id='user_homepage' style="cursor: pointer;">
+                        <a class="nav-link" onclick="change_content('user-home');">Home
+                            <span class="sr-only">(current)</span>
                         </a>
-                        <!-- </div> -->
-                    <!-- </div> -->
-                </div>
-                <div class="col">
-                    <!-- <div class="form-group row" > -->
-                        <!-- <div class="col-md-2 col-sm-12" > -->
-                        <a href="<%= appLocation %>/form2/show?action=new" target="_blank" style="float:right;">
-                            <button class="btn btn-primary" >Start an entry visa application (form 2)</button>
-                        </a>
-                        <!-- </div> -->
-                    <!-- </div> -->
+                    </li>
+                    <li class="nav-item" style="cursor: pointer;">
+                        <a class="nav-link" onclick="change_content('contact');">Contact</a>
+                    </li>
+                    
+
+                    <!-- Dropdown -->
+                    <li class="nav-item dropdown" style="cursor: pointer;">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">Profile  <i class="fas fa-user-circle"></i></a>
+                        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" onclick="change_content('settings');">Settings</a>
+                            <a class="dropdown-item" onclick="change_content('sign-out');">Sign out</a>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+  <!-- Collapsible content -->
+            </div>    
+        </nav>
+<!--/.Navbar-->
+        
+        
+        
+        
+        
+        <div class="container" id="first_container">
+
+            <p class="lead"  align="left">You are logged in as <label><%= username %></label></p>
+            <br>
+            <div id="change_content">
+                
+            </div>
+
+            <div id="overlay1" style="display:none" class="overlay">
+                <div class="overlay-content">
+                    <label id="overlay_label_text" style="font-size: 25px;"></label><br>
+                    <img id="img" style="display:none" src="<%= appLocation %>/images/Dual Ring.gif" />
                 </div>
             </div>
-         <br>
-         <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Applications</h6>
-              </div>
-              <div class="card-body">
-                  <div class="table-responsive">
-                      <table id="client_application_table" class="table table-bordered table-hover table-striped">
-                          <thead>
-                              <th>Start Date</th>
-                              <th>Reference id</th>
-                              <th>Application type</th>
-                              <th>Status</th>
-                              <th>View</th>
-                          </thead>
-                      </table>
-                  </div> 
-              </div>
-          </div>
+            
+        </div>
+        
+        
+        <br><br><br><br>
+           
+        <footer class="fixed-bottom" id="page_footer">
+            <label>Version 1.0</label>    
+        </footer>
+
+        
         
     </body>
 </html>

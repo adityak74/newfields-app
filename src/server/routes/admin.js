@@ -16,7 +16,7 @@ export default ({ appUrl, sqlConn }) => {
   router.get('/page', isAdmin, (req, res) => {
     res.header('Cache-Control', 'no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0');
     res.header('Pragma', 'no-cache');
-    res.render('pages/admin_page', { appLocation: appUrl });
+    res.render('pages/admin_homepage', { appLocation: appUrl });
   });
 
   router.post('/updateProgress', isAdmin, (req, res) => {
