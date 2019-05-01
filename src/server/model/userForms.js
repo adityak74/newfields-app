@@ -4,6 +4,7 @@ import {
   formProcessingStatus,
 } from '../constants';
 import getFormUID from '../util/getFormUID';
+import getFormRefNumber from '../util/getFormRefNumber';
 import sqlQueries from '../sqlQueries';
 import getFormDataObject from './helpers/getFormData';
 import getFormDataExtraInfoDataObject from './helpers/getFormDataExtraInfoData';
@@ -20,10 +21,12 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
   switch(action) {
     case NEW:
       const newFormUID = getFormUID(formNumber, currentUser);
+      const formRefNumber = getFormRefNumber(formNumber);
       const createNewFormEntryInput = {
         userId: currentUser.id,
         formUID: newFormUID,
         formNumber,
+        formRefNumber,
         status: NEW,
         processingStatus: formProcessingStatus.SUBMITTED,
       };
@@ -133,10 +136,12 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
       }  else {
         // submit as new form
         const newFormUID = getFormUID(formNumber, currentUser);
+        const formRefNumber = getFormRefNumber(formNumber);
         const createNewFormEntryInput = {
           userId: currentUser.id,
           formUID: newFormUID,
           formNumber,
+          formRefNumber,
           status: NEW,
           processingStatus: formProcessingStatus.SUBMITTED,
         };

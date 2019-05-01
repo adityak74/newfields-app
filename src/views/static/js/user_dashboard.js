@@ -45,7 +45,7 @@ $(document).ready(function(){
 
                     CAT.row.add([
                         response_date,
-                        formResponse.formUID,
+                        formResponse.formRefNumber || formResponse.formUID,
                         application_type,
                         getStatusFromCode(formResponse.status),
                         "<label onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\')})()\" \n\

@@ -64,7 +64,7 @@ function form1_request_table(formsDataArray)
         var response_date = date.substr(0,28);
         LCT.row.add([
             response_date,
-            formResponse.formUID,
+            formResponse.formRefNumber || formResponse.formUID,
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
@@ -173,7 +173,7 @@ function form2_request_table(formsDataArray)
         var response_date = date.substr(0,28);
         LCT.row.add([
             response_date,
-            formResponse.formUID,
+            formResponse.formRefNumber || formResponse.formUID,
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
@@ -237,8 +237,8 @@ function Openclient_form2(id)
     $("#ref_no").val(reference_id);
     
     //ajax call
-    $.ajax({
-        url : appLocation + '/form1/getFormData',
+    $.post({
+        url : appLocation + '/form2/getFormData',
         data:{ formId: reference_id },
         success : function(responseText) {
             $('#Unique_id').val(responseText.UniqueID);

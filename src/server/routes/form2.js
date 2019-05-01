@@ -155,18 +155,23 @@ export default ({ appUrl, sqlConn, awsS3 }) => {
   });
 
   const buildFilesObject = ({
-    uk_visa_photo,
+    current_country_permit_photo,
     passport_front_page,
     secondpassport_front_page,
     previous_uk_visa,
   }) => ({
-    current_visa: getValueIfNotNull(uk_visa_photo) ? uk_visa_photo[0] : null,
+    current_visa: getValueIfNotNull(current_country_permit_photo) ? current_country_permit_photo[0] : null,
     passport_front: getValueIfNotNull(passport_front_page) ? passport_front_page[0]: null,
     passport_front_two: getValueIfNotNull(secondpassport_front_page) ? secondpassport_front_page[0]: null,
     previous_uk_visa: getValueIfNotNull(previous_uk_visa) ? previous_uk_visa[0] : null,
   });
   
-  router.post('/submit', (req, res) => {
+  router.post('/submit', multer().fields([
+    { name: 'current_country_permit_photo', maxCount: 1 },
+    { name: 'passport_front_page', maxCount: 1 },
+    { name: 'secondpassport_front_page', maxCount: 1 },
+    { name: 'previous_uk_visa', maxCount: 1 },
+    ]), isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
     const inputFiles = buildFilesObject(req.files);
@@ -186,7 +191,7 @@ export default ({ appUrl, sqlConn, awsS3 }) => {
   });
   
   router.post('/save', multer().fields([
-    { name: 'uk_visa_photo', maxCount: 1 },
+    { name: 'current_country_permit_photo', maxCount: 1 },
     { name: 'passport_front_page', maxCount: 1 },
     { name: 'secondpassport_front_page', maxCount: 1 },
     { name: 'previous_uk_visa', maxCount: 1 },

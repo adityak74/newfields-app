@@ -72,6 +72,7 @@ $(document).ready(function(){
 
                 $('#Unique_id').val();
                 $('#Title').val(response.title);
+                $('#formRefNumber').text('#'.concat(response.formReferenceNumber));
     
                 $('#full_name').val(response.fullName); 
                 $('#mobile_number').val(response.mobile);
@@ -1650,8 +1651,6 @@ function getFormInput() {
     form_data.append('passport_front_page', passport_front_page);
     form_data.append('secondpassport_front_page', secondpassport_front_page);
     form_data.append('previous_uk_visa', previous_uk_visa);
-
-//    alert(form_data); 
 
 
     return form_data;

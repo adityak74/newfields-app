@@ -45,6 +45,7 @@ $(document).ready(function() {
           
                 $('#Unique_id').val();
                 $('#Title').val(response.title);
+                $('#formRefNumber').text('#'.concat(response.formReferenceNumber));
     
                 $('#full_name').val(response.fullName); 
                 $('#mobile_number').val(response.mobile);
@@ -429,7 +430,6 @@ function doFormAction(form_data, isSubmitted) {
                     const location = window.location;
                     window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
                     $("#errors").css("display", "none");
-                    alert("save");
                 },
                 error: function(xhr) {
                     $('#img').hide();

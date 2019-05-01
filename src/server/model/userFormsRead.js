@@ -185,13 +185,14 @@ export default (req, sanitizedInput, sqlConnPool, s3FileDownloadService) => cb =
         if (err2) cb(err2, null);
         if (result[0]) {
           const currentFormNumber = result[0].formNumber;
+          const currentFormRefNumber = result[0].formRefNumber;
           connection.query(FORM_READ.USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID, [result[0].formUID, result[0].formUID] , (err3, rows) => {
             if (err3) return cb(err3, null);
             const userFormDataWithInfo = rows[0];
             const formTripsData = getFormTripData(connection, sanitizedInput);
             const formRelationData = getFormRelationsData(connection, sanitizedInput);
             const formDocumentsData = getFormDocumentsData(connection, sanitizedInput, s3FileDownloadService, currentFormNumber);
-            let resultObj = { ...userFormDataWithInfo };
+            let resultObj = { ...userFormDataWithInfo, formReferenceNumber: currentFormRefNumber };
             parallel([formRelationData, formTripsData, formDocumentsData], (asyncParallelErr, formDataResults) => {
               if (asyncParallelErr) return cb(asyncParallelErr, null);
               if (formDataResults.length) {
