@@ -144,9 +144,21 @@ function Openclient_form1(id)
             $('#child2_dob').val(responseText.child2DateOfBirth);
             $('#child2_placeofbirth').val(responseText.child2CountryOfBirth);  
 
- //download documents pending
+ //download documents
+            $("#uk_visa_photo_link").attr("href", responseText.previous_uk_visa_link);
+            $("#uploaded_uk_visa_photo").val(responseText.previous_uk_visa);
+            
+            $("#uploaded_passport_front_page_link").attr("href", responseText.passport_front_link);
+            $("#uploaded_passport_front_page").val(responseText.passport_front);
 
+            $("#BRP_front_page_link").attr("href", responseText.biometric_residence_permit_front_link);
+            $("#uploaded_BRP_front_page").val(responseText.biometric_residence_permit_front);
+            
+            $("#BRP_back_page_link").attr("href", responseText.biometric_residence_permit_back_link);
+            $("#uploaded_BRP_back_page").val(responseText.biometric_residence_permit_back);
+            
 
+            
         $('#form1_request_modal').modal('show');   
         }
     });
@@ -366,7 +378,20 @@ function Openclient_form2(id)
             $('#f2_othertrip_departuredate5').val(responseText.otherTripInfo[4].departureDate);
             $('#f2_othertripreason_ofvisit5').val(responseText.otherTripInfo[4].reasonInfo);
 
-            //download documents pending
+//download documents 
+
+            $("#current_country_permit_photo_link").attr("href",responseText.current_visa_link);
+            $("#uploaded_current_country_permit_photo").val(responseText.current_visa);
+            
+            $("#uploaded_passport_front_page_link").attr("href", responseText.passport_front_link);
+            $("#uploaded_passport_front_page").val(responseText.passport_front);
+            
+            $("#uploaded_secondpassport_front_page_link").attr("href", responseText.passport_front_two_link);
+            $("#uploaded_secondpassport_front_page").val(responseText.passport_front_two);
+            
+            $("#uploaded_previous_uk_visa_link").attr("href", responseText.previous_uk_visa_link);
+            $("#uploaded_previous_uk_visa").val(responseText.previous_uk_visa);
+           
 
             
         $('#form2_request_modal').modal('show');   

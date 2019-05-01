@@ -140,6 +140,14 @@ $(document).ready(function() {
                 } else {
                     $("#childern_details2").css("display","none");
                 }
+//documents
+                if(response.previous_uk_visa) {
+                    $("#upload_div1").css("display","block");
+                    $("#uk_visa_photo_link").attr("href",response.previous_uk_visa_link);
+                    $("#uploaded_uk_visa_photo").val(response.previous_uk_visa);
+                } else {
+                    $("#upload_div1").css("display","none");
+                }
 
                 if(response.passport_front_link) {
                     $("#upload_div2").css("display","block");
@@ -157,41 +165,14 @@ $(document).ready(function() {
                     $("#upload_div3").css("display","none");
                 }
 
-
-//for documents
-        /*     
-              var a =10;
-                if(response.===1)
-                {
-                    $("#upload_div1").css("display","block");
-                }
-                else{
-                    $("#upload_div1").css("display","none");
-                }
-             
-                if(a===2)
-                {
-                    $("#upload_div2").css("display","block");
-                }
-                else{
-                    $("#upload_div2").css("display","none");
-                }
-
-                
-
-                if(a===4)
-                {
+                if(response.biometric_residence_permit_back_link) {
                     $("#upload_div4").css("display","block");
-                }
-                else{
+                    $("#BRP_back_page_link").attr("href", response.biometric_residence_permit_back_link);
+                    $("#uploaded_BRP_back_page").val(response.biometric_residence_permit_back);
+                } else {
                     $("#upload_div4").css("display","none");
                 }
-*/
-             
-
-
-
-                
+ 
             },
             error: function(xhr) {
                 $('#img').hide();
