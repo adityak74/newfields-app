@@ -448,7 +448,7 @@ $(document).ready(function(){
                     $("#upload_div3").css("display","none");
                 }
 
-                if(response.biometric_residence_permit_back_link) {
+                if(response.previous_uk_visa_link) {
                     $("#upload_div4").css("display","block");
                     $("#uploaded_previous_uk_visa_link").attr("href", response.previous_uk_visa_link);
                     $("#uploaded_previous_uk_visa").val(response.previous_uk_visa);

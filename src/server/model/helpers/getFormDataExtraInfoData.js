@@ -27,7 +27,7 @@ export default (formUID, sanitizedInput, formNumber) => ({
     ? getValueIfNotNull(sanitizedInput.partnerHomeAddress)
     : null,
   partnerNationalities: formNumber === formNumberConstants.ONE 
-    ? (getValueIfNotNull(sanitizedInput.partnerNationalities) ? sanitizedInput.partnerNationalities.join(',') : null)
+    ? (getValueIfNotNull(sanitizedInput.partnerNationalities) ? sanitizedInput.partnerNationalities : null)
     : null,
   partnerAlternateNationality: formNumber === formNumberConstants.TWO
     ? getValueIfNotNull(sanitizedInput.partnerAlternateNationality)

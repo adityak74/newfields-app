@@ -38,7 +38,7 @@ $(document).ready(function() {
             url : appLocation + '/form1/getFormData',
             data : { formId: formId },
             success : function(response) {
-                
+                relationship_status();
                 $("#errors").css("display", "none");
                 console.log(response);
           

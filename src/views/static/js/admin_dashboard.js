@@ -19,9 +19,20 @@ function application_form(formNumber, formUID) {
     window.open(location.origin + '/form' + formNumber+'/show?action=update&formId=' + formUID, '_blank');
 }
 
-function updateFormStatus() {
-    const formId = $('#Unique_id').val();
-    const statusCode = parseInt($('#status_update').val(), 10);
+function updateFormStatus(identifier) {
+    var formId;
+    var statusCode;
+    if(identifier===1)
+    {
+        formId = $('#Unique_id_one').val();
+        statusCode = parseInt($('#status_update_one').val(), 10);
+    }
+    else if(identifier===2)
+    {
+        formId = $('#Unique_id_two').val();
+        statusCode = parseInt($('#status_update_second').val(), 10);
+    }
+
     $.post({
         url : appLocation + '/admin/updateProgress',
         data : { formId, progressStatusCode: statusCode },
@@ -35,8 +46,6 @@ function updateFormStatus() {
             });
         },
         error: function(xhr) {
-            $('#img').hide();
-            $('#overlay1').hide();
             swal({
                 title: "Server Error",
                 text: "It seems like the server is down or under maintainance, please check back later.",
@@ -61,9 +70,9 @@ $(document).ready(function () {
 
             // after form processed it should only be visible in processed table
 
-            form1_request_table(responseData.filter(form => form.formNumber === 1 && form.status === 3 ));
-            form2_request_table(responseData.filter(form => form.formNumber === 2 && form.status === 3 ));
-            incomplete_forms_request_table(responseData.filter(form => [1,2].includes(form.status)));
+            form1_request_table(responseData.filter(form => form.formNumber === 1 && form.status === 3 && form.processingStatus !== 3 ));
+            form2_request_table(responseData.filter(form => form.formNumber === 2 && form.status === 3 && form.processingStatus !== 3));
+            incomplete_forms_request_table(responseData.filter(form => [1,2].includes(form.status) && form.processingStatus !== 3));
             processed_forms_request_table(responseData.filter(form => [3].includes(form.processingStatus)));
         },
         error: function(xhr) {
@@ -96,31 +105,26 @@ function form1_request_table(formsDataArray)
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
-            // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
-            // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
-            //     Property Profile\n\
-            // </label>"
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
         ]).draw(false);
     });
 }
 
-function form_classification(formnumber, formUID)
+function form_classification(formnumber, formUID, status)
 {
     if(formnumber==="1")
     {
-        Openclient_form1(formUID);
+        Openclient_form1(formUID, status);
     }
     else if(formnumber==="2")
     {
-        Openclient_form2(formUID);
+        Openclient_form2(formUID,status);
     }
 }
 
 
-function Openclient_form1(id)
+function Openclient_form1(id, status)
 {
-    
     var reference_id = id;
     $("#ref_no").val(reference_id);
     $('#overlay1').show();
@@ -129,9 +133,17 @@ function Openclient_form1(id)
         url : appLocation + '/form1/getFormData',
         data: { formId: reference_id },
         success : function(responseText) {
-            console.log('formdata', responseText);
+            console.log('formdata', responseText, status);
+            if([1,2].includes(status))
+            {
+                $('#form_one_status').hide();
+            }
+            else{
+                $('#form_one_status').show();
+            }    
+            
 
-            $('#Unique_id').val(responseText.uniqueId);
+            $('#Unique_id_one').val(responseText.uniqueId);
             $('#Title').val(responseText.title); 
             $('#full_name').val(responseText.fullName); 
             $('#mobile_number').val(responseText.mobile);
@@ -205,12 +217,7 @@ function form2_request_table(formsDataArray)
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
-            
-            // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
-            // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
-            //     Property Profile\n\
-            // </label>"
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
         ]).draw(false);
     });
 }
@@ -227,12 +234,7 @@ function incomplete_forms_request_table(formsDataArray)
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
-            
-            // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
-            // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
-            //     Property Profile\n\
-            // </label>"
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
         ]).draw(false);
     });
 }
@@ -249,17 +251,12 @@ function processed_forms_request_table(formsDataArray)
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"\')})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
-            
-            // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
-            // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
-            //     Property Profile\n\
-            // </label>"
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
         ]).draw(false);
     });
 }
 
-function Openclient_form2(id)
+function Openclient_form2(id, status)
 {   
     $('#overlay1').show();
     $('#img').show();
@@ -271,7 +268,15 @@ function Openclient_form2(id)
         url : appLocation + '/form2/getFormData',
         data:{ formId: reference_id },
         success : function(responseText) {
-            $('#Unique_id').val(responseText.UniqueID);
+            console.log(responseText)
+            if([1,2].includes(status))
+            {
+                $('#form_second_status').hide();
+            }
+            else{
+                $('#form_second_status').show();
+            }
+            $('#Unique_id_two').val(responseText.uniqueId);
             $('#f2_title').val(responseText.title);
             $('#f2_full_name').val(responseText.fullName); 
             $('#f2_mobile_number').val(responseText.mobile);
@@ -413,8 +418,9 @@ function Openclient_form2(id)
             $("#current_country_permit_photo_link").attr("href",responseText.current_visa_link);
             $("#uploaded_current_country_permit_photo").val(responseText.current_visa);
             
-            $("#uploaded_passport_front_page_link").attr("href", responseText.passport_front_link);
-            $("#uploaded_passport_front_page").val(responseText.passport_front);
+            console.log(responseText.passport_front_link);
+            $("#uploaded_firstpassport_front_page_link").attr("href", responseText.passport_front_link);
+            $("#uploaded_firstpassport_front_page").val(responseText.passport_front);
             
             $("#uploaded_secondpassport_front_page_link").attr("href", responseText.passport_front_two_link);
             $("#uploaded_secondpassport_front_page").val(responseText.passport_front_two);

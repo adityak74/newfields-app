@@ -10,6 +10,18 @@ function getStatusFromCode(formStatusCode) {
     return statusText;
 }
 
+function getFormProcessingStatusFromCode(formProcessingStatusCode) {
+    let statusText = '';
+    switch (formProcessingStatusCode) {
+        case 0: statusText = ''; break; // not submitted
+        case 1: statusText = ''; break; // submitted but admnin not started
+        case 2: statusText = 'Incomplete'; break; // submitted and admin in progress
+        case 3: statusText = 'Submitted'; break; // admin complete
+        default: statusText = 'Incomplete'; break;
+    }
+    return statusText;
+}
+
 function application_form(formNumber, formUID) {
     window.open(location.origin + '/form' + formNumber+'/show?action=update&formId=' + formUID, '_blank');
 }
@@ -48,6 +60,7 @@ $(document).ready(function(){
                         formResponse.formRefNumber || formResponse.formUID,
                         application_type,
                         getStatusFromCode(formResponse.status),
+                        getFormProcessingStatusFromCode(formResponse.processingStatus),
                         "<label onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\')})()\" \n\
                         style='cursor:pointer;color: #4d79ff;'><u>View Application</u></label>",
                         // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
