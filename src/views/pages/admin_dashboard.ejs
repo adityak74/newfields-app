@@ -138,7 +138,7 @@ and open the template in the editor.
  <!-- admin page tab 1 modal start        -->
         <div id="form1_request_modal" class="modal fade" role="dialog" style="overflow-y: hidden;">
             <div class="modal-dialog modal-lg" style="max-width:80%; width: 80%;">
-
+                <input id="Unique_id" type="hidden" autocomplete="nope">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Form 1 Customer Details</h4>
@@ -435,9 +435,8 @@ and open the template in the editor.
                                     </select>
                                 </div>
                                 <div class="col-sm-2">
-                                    <button class="btn btn-primary" id="save_form" data-toggle="tooltip" data-placement="top" 
-                                        type="button" title='Update'>Update Application Status
-                                    </button>
+                                    <button class="btn btn-primary" id="update_form_status" data-toggle="tooltip" data-placement="top"
+                                        type="button" title='Update' onclick="updateFormStatus()" >Update Application Status</button>
                                 </div>
                             </div>
                         </div>

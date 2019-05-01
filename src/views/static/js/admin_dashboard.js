@@ -19,6 +19,35 @@ function application_form(formNumber, formUID) {
     window.open(location.origin + '/form' + formNumber+'/show?action=update&formId=' + formUID, '_blank');
 }
 
+function updateFormStatus() {
+    const formId = $('#Unique_id').val();
+    const statusCode = parseInt($('#status_update').val(), 10);
+    $.post({
+        url : appLocation + '/admin/updateProgress',
+        data : { formId, progressStatusCode: statusCode },
+        success : function(responseData) {
+            swal({
+                title: "Form Status Updated",
+                text: "Form status has been successfully updated. Email notifications will be sent.",
+                icon: "success",
+                buttons: true,
+                dangerMode: false,
+            });
+        },
+        error: function(xhr) {
+            $('#img').hide();
+            $('#overlay1').hide();
+            swal({
+                title: "Server Error",
+                text: "It seems like the server is down or under maintainance, please check back later.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            });
+        },
+    });
+}
+
 $(document).ready(function () {
     $('#overlay1').show();
     $('#img').show();
@@ -79,8 +108,6 @@ function form1_request_table(formsDataArray)
 
 function form_classification(formnumber, formUID)
 {
-    console.log("formnumber: "+ formnumber);
-    console.log("formUID: "+ formUID);
     if(formnumber==="1")
     {
         Openclient_form1(formUID);
@@ -97,15 +124,14 @@ function Openclient_form1(id)
     
     var reference_id = id;
     $("#ref_no").val(reference_id);
-    console.log('formdata', appLocation, id);
-    //ajax call
+    
     $.post({
         url : appLocation + '/form1/getFormData',
         data: { formId: reference_id },
         success : function(responseText) {
             console.log('formdata', responseText);
 
-        //    $('#Unique_id').val(UniqueID);
+            $('#Unique_id').val(responseText.uniqueId);
             $('#Title').val(responseText.title); 
             $('#full_name').val(responseText.fullName); 
             $('#mobile_number').val(responseText.mobile);
@@ -195,7 +221,7 @@ function incomplete_forms_request_table(formsDataArray)
         var response_date = date.substr(0,28);
         LCT.row.add([
             response_date,
-            formResponse.formUID,
+            formResponse.formRefNumber || formResponse.formUID,
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
@@ -217,7 +243,7 @@ function processed_forms_request_table(formsDataArray)
         var response_date = date.substr(0,28);
         LCT.row.add([
             response_date,
-            formResponse.formUID,
+            formResponse.formRefNumber || formResponse.formUID,
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
