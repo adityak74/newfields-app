@@ -34,6 +34,9 @@ $(document).ready(function() {
         $('#overlay1').show();
         $('#img').show();
         const formId = url.searchParams.get('formId');
+
+       // console.log("Status: "+ url.searchParams.get('status'));
+
         $.post({
             url : appLocation + '/form1/getFormData',
             data : { formId: formId },

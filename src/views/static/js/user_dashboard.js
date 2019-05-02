@@ -13,14 +13,16 @@ function getStatusFromCode(formStatusCode) {
 function getFormProcessingStatusFromCode(formProcessingStatusCode) {
     let statusText = '';
     switch (formProcessingStatusCode) {
-        case 0: statusText = ''; break; // not submitted
-        case 1: statusText = ''; break; // submitted but admnin not started
-        case 2: statusText = 'Incomplete'; break; // submitted and admin in progress
-        case 3: statusText = 'Submitted'; break; // admin complete
+        case 0: statusText = 'Application not submitted'; break; // not submitted
+        case 1: statusText = 'Application submitted'; break; // submitted but admnin not started
+        case 2: statusText = 'Application in process by Newfields '; break; // submitted and admin in progress
+        case 3: statusText = 'Application processed by Newfields'; break; // admin complete
         default: statusText = 'Incomplete'; break;
     }
     return statusText;
 }
+
+//also add
 
 function application_form(formNumber, formUID) {
     window.open(location.origin + '/form' + formNumber+'/show?action=update&formId=' + formUID, '_blank');
@@ -54,8 +56,6 @@ $(document).ready(function(){
                         application_type = "Entry visa application";
                     }
 
-                    
-//[3].includes(form.processingStatus)
                     var user_access;
                     if([1,2].includes(formResponse.status))
                     {
@@ -65,7 +65,7 @@ $(document).ready(function(){
                     {
                         user_access='View Application'
                     }
-                    console.log("user_access: "+ user_access);
+
                     CAT.row.add([
                         response_date,
                         formResponse.formRefNumber || formResponse.formUID,
@@ -74,12 +74,6 @@ $(document).ready(function(){
                         getFormProcessingStatusFromCode(formResponse.processingStatus),
                         "<label onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\')})()\" \n\
                         style='cursor:pointer;color: #4d79ff;'><u>"+user_access+"</u></label>",
-                        // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
-                        // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
-                        //     Property Profile\n\
-                        // </label>"
-        
-        
                     ]).draw(false);
                 });
             }
