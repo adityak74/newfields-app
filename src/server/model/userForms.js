@@ -24,7 +24,7 @@ const formConfirmationHTMLFile = path.join(
   'form_confirmation.ejs',
 );
 
-const sendFormConfirmationEmail = (currentUser, formRefNumber) => {
+const sendFormConfirmationEmail = (currentUser, formRefNumber, emailService) => {
   ejsRenderFile(
     formConfirmationHTMLFile,
     {
@@ -150,7 +150,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                                     throw commitErr;
                                   });
                                 }
-                                sendFormConfirmationEmail(currentUser, currentFormRefNumber);
+                                sendFormConfirmationEmail(currentUser, currentFormRefNumber, emailService);
                                 cb(null, updateFormResponse);
                               });
                             });
@@ -206,7 +206,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                                 throw commitErr;
                               });
                             }
-                            sendFormConfirmationEmail(currentUser, formRefNumber);
+                            sendFormConfirmationEmail(currentUser, formRefNumber, emailService);
                             cb(null, createNewFormEntryInput);
                           });
                         });
