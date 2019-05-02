@@ -138,7 +138,7 @@ and open the template in the editor.
  <!-- admin page tab 1 modal start        -->
         <div id="form1_request_modal" class="modal fade" role="dialog" style="overflow-y: hidden;">
             <div class="modal-dialog modal-lg" style="max-width:80%; width: 80%;">
-                <input id="Unique_id" type="hidden" autocomplete="nope">
+                <input id="Unique_id_one" type="hidden" autocomplete="nope">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Form 1 Customer Details</h4>
@@ -421,22 +421,25 @@ and open the template in the editor.
                                     </a>    
                                 </div>
                             </div>
-                            
-                            <h5>Application Status</h5>
-                            <hr class="hr_style">
 
-                            <div class="form-group row">
-                                <label for="staticEmail"  class="col-sm-5 col-form-label">Update application status</label>
-                                <div class="col-sm-4">
-                                    <select class="form-control" id="status_update">
-                                        <option value="1" disabled>Submitted</option>
-                                        <option value="2">Application In Progress</option>
-                                        <option value="3">Application Processed</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-2">
-                                    <button class="btn btn-primary" id="update_form_status" data-toggle="tooltip" data-placement="top"
-                                        type="button" title='Update' onclick="updateFormStatus()" >Update Application Status</button>
+                            <div id="form_one_status" style="display:none;">
+                                <h5>Application Status</h5>
+                                <hr class="hr_style">
+                            
+                                <div class="form-group row">
+                                    <label for="staticEmail"  class="col-sm-5 col-form-label">Update application status</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="status_update_one">
+                                            <option value="1" disabled>Submitted</option>
+                                            <option value="2">Application In Progress</option>
+                                            <option value="3">Application Processed</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-primary" id="update_form_status" data-toggle="tooltip" data-placement="top"
+                                            type="button" title='Update' onclick="updateFormStatus(1)" >Update Application Status</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -451,6 +454,7 @@ and open the template in the editor.
 
         <div id="form2_request_modal" class="modal fade" role="dialog" style="overflow-y: hidden;">
             <div class="modal-dialog modal-lg" style="max-width:80%; width: 80%;">
+                <input id="Unique_id_two" type="hidden" autocomplete="nope">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Form 2 Customer Details</h4>
@@ -1438,11 +1442,11 @@ and open the template in the editor.
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-5 col-form-label">2.	Passport front page(image)</label>
                         <div class="col-sm-4">
-                            <input class="form-control bottonBorder" id="uploaded_passport_front_page" type="text" readonly>
+                            <input class="form-control bottonBorder" id="uploaded_firstpassport_front_page" type="text" readonly>
                         </div>
                         <div class="col-sm-1">
-                            <a id="uploaded_passport_front_page_link" target="_blank">
-                                <button type="button" id="download_passport_front_page" class="btn btn-warning">Download</button>
+                            <a id="uploaded_firstpassport_front_page_link" target="_blank">
+                                <button type="button" id="" class="btn btn-warning">Download</button>
                             </a>
                         </div>
                     </div>
@@ -1459,7 +1463,7 @@ and open the template in the editor.
                     </div>
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-5 col-form-label">4.	Any previous UK visa</label>
-                        <div class="offset-lg-5 offset-md-5 offset-sm-5 col-sm-4">
+                        <div class="col-sm-4">
                             <input class="form-control bottonBorder" id="uploaded_previous_uk_visa" type="text" readonly>
                         </div>
                         <div class="col-sm-1">
@@ -1469,22 +1473,25 @@ and open the template in the editor.
                         </div>
                     </div>
                     <br>
-                    <h5>Application Status</h5>
-                    <hr class="hr_style">
+                    <div id="form_second_status" style="display:none;">
+                        <h5>Application Status</h5>
+                        <hr class="hr_style">
 
-                    <div class="form-group row">
-                        <div class="col-sm-4">
-                            <select class="form-control" id="status_update">
-                                <option value="1" disabled>Submitted</option>
-                                <option value="2">Application In Progress</option>
-                                <option value="3">Application Processed</option>
-                            </select>
-                        </div>
-                        <label for="staticEmail"  class="col-sm-5 col-form-label"></label>
-                        <div class="col-sm-2">
-                            <button class="btn btn-primary" id="save_form" data-toggle="tooltip" data-placement="top" 
-                                type="button" title='Update'>Update Application Status
-                            </button>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <select class="form-control" id="status_update_second">
+                                    <option value="1" disabled>Submitted</option>
+                                    <option value="2">Application In Progress</option>
+                                    <option value="3">Application Processed</option>
+                                </select>
+                            </div>
+                            <label for="staticEmail"  class="col-sm-5 col-form-label"></label>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" id="" data-toggle="tooltip" data-placement="top" 
+                                    type="button" title='Update' onclick="updateFormStatus(2)">Update Application Status
+                                </button>
+
+                            </div>
                         </div>
                     </div>
                     <br>
@@ -1510,7 +1517,7 @@ margin-right: 10px;
 
 .overlay
 {
-    position: absolute;
+    position: fixed;
     left: 0; 
     top: 0; 
     right: 0; 
@@ -1535,7 +1542,7 @@ margin-right: 10px;
 
     <div id="overlay1" style="display:none" class="overlay">
         <div class="overlay-content">
-            <label id="overlay_label_text" style="font-size: 25px;"></label><br>
+            <label id="overlay_label_text" style="font-size: 25px;">Loading...</label><br>
             <img id="img" style="display:none" src="<%= appLocation %>/images/Dual Ring.gif" />
         </div>
     </div>
