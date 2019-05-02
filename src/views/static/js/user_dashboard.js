@@ -54,7 +54,18 @@ $(document).ready(function(){
                         application_type = "Entry visa application";
                     }
 
-
+                    
+//[3].includes(form.processingStatus)
+                    var user_access;
+                    if([1,2].includes(formResponse.status))
+                    {
+                        user_access='Edit Application'
+                    }
+                    else if([3].includes(formResponse.status))
+                    {
+                        user_access='View Application'
+                    }
+                    console.log("user_access: "+ user_access);
                     CAT.row.add([
                         response_date,
                         formResponse.formRefNumber || formResponse.formUID,
@@ -62,7 +73,7 @@ $(document).ready(function(){
                         getStatusFromCode(formResponse.status),
                         getFormProcessingStatusFromCode(formResponse.processingStatus),
                         "<label onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\')})()\" \n\
-                        style='cursor:pointer;color: #4d79ff;'><u>View Application</u></label>",
+                        style='cursor:pointer;color: #4d79ff;'><u>"+user_access+"</u></label>",
                         // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
                         // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
                         //     Property Profile\n\
