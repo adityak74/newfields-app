@@ -57,7 +57,6 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
         formNumber,
         formRefNumber,
         status: NEW,
-        processingStatus: formProcessingStatus.SUBMITTED,
       };
       sqlConnPool.getConnection((err, connection) => {
         if (err) cb(err, null);
@@ -70,7 +69,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                 if (err3) cb(err3, null);
                 const { formUID } = rows[0];
                 const formDataInput = getFormDataObject(formUID, sanitizedInput);
-                const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
+                const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput);
 
                 connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
                   if (err4) cb(err4, null);
@@ -125,7 +124,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                     const formUID = rows[0].formUID;
                     const currentFormRefNumber = rows[0].formRefNumber;
                     const formDataInput = getFormDataObject(formUID, sanitizedInput);
-                    const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
+                    const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput);
                     // update rest of the data here
                     connection.query(FORM_UPDATE.UPDATE_NEW_FORM_DATA_ENTRY, [formDataInput, formUID], (err4, rows4) => {
                       if (err4) cb(err4, null);
@@ -135,6 +134,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                         connection.query(FORM_UPDATE.UPDATE_NEW_FORM_ENTRY, 
                           [{ 
                             status: SUBMIT,
+                            processingStatus: formProcessingStatus.SUBMITTED,
                             updateDate: new Date().toISOString().slice(0, 19).replace('T', ' ')
                           }, 
                           formUID], (err6, rows6) => {
@@ -173,8 +173,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
           formUID: newFormUID,
           formNumber,
           formRefNumber,
-          status: NEW,
-          processingStatus: formProcessingStatus.SUBMITTED,
+          status: SUBMIT,
         };
         sqlConnPool.getConnection((err, connection) => {
           if (err) cb(err, null);
@@ -187,13 +186,13 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
                   if (err3) cb(err3, null);
                   const formUID = rows[0].formUID;
                   const formDataInput = getFormDataObject(formUID, sanitizedInput);
-                  const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
+                  const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput);
                   // insert rest of the data here
                   connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_ENTRY, formDataInput, (err4, rows4) => {
                     if (err4) cb(err4, null);
                     connection.query(FORM_CREATE.CREATE_NEW_FORM_DATA_EXTRA_INFO_ENTRY, formDataExtraInfoInput, (err5, rows5) => {
                       if (err5) cb(err5, null);
-                      connection.query(FORM_UPDATE.UPDATE_FORM_SUBMIT_BY_FORMID_USERID, [{ status: SUBMIT }, formUID, currentUser.id], (err6, rows6) => {
+                      connection.query(FORM_UPDATE.UPDATE_FORM_SUBMIT_BY_FORMID_USERID, [{ processingStatus: formProcessingStatus.SUBMITTED, status: SUBMIT }, formUID, currentUser.id], (err6, rows6) => {
                         if (err6) cb(err6, null);
                         // commit the transaction here
                         const tripsModel = formTripsModel(formUID, formNumber, sanitizedInput, connection, formType.SUBMIT, formDataExtraInfoInput);
@@ -237,7 +236,7 @@ export default (req, sanitizedInput, inputFiles, sqlConnPool, s3FileUploadServic
             if (!rows.length) return cb(new Error("Form not found"), null);
             const formUID = rows[0].formUID;
             const formDataInput = getFormDataObject(formUID, sanitizedInput);
-            const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput, formNumber);
+            const formDataExtraInfoInput =  getFormDataExtraInfoDataObject(formUID, sanitizedInput);
             // update rest of the data here
             connection.query(FORM_UPDATE.UPDATE_NEW_FORM_DATA_ENTRY, [formDataInput, formUID], (err4, rows4) => {
               if (err4) cb(err4, null);

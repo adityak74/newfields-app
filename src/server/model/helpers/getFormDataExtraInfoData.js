@@ -1,7 +1,22 @@
-import { formNumber as formNumberConstants } from '../../constants';
 import getValueIfNotNull from './getValueIfNotNull';
 
-export default (formUID, sanitizedInput, formNumber) => ({
+const getPartnerNationalitites = sanitizedInput => {
+  if (sanitizedInput.partnerNationalities)
+    return sanitizedInput.partnerNationalities;
+  if (sanitizedInput.partnerNationality)
+    return sanitizedInput.partnerNationality;
+  return '';
+};
+
+const getPlaceOfBirth = sanitizedInput => {
+  if (sanitizedInput.partnerPlaceOfBirth)
+    return sanitizedInput.partnerPlaceOfBirth;
+  if (sanitizedInput.partnerCountryOfBirth)
+    return sanitizedInput.partnerCountryOfBirth;
+  return '';
+};
+
+export default (formUID, sanitizedInput) => ({
   formUniqueId: formUID,
   ukEntryDate: sanitizedInput.dateUKEntry,
   conviction: sanitizedInput.anyConvictions,
@@ -16,30 +31,14 @@ export default (formUID, sanitizedInput, formNumber) => ({
   ukNextDepartureDate: sanitizedInput.nextPlannedDeparture,
   ukNextArrivalDate: sanitizedInput.nextDateArrival,
   // only applicable for form1, form2 is serialzed in relationships table  
-  partnerTitle: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerTitle) 
-    : null,
-  partnerFullName: formNumber === formNumberConstants.ONE ? sanitizedInput.partnerFullName : null,
-  partnerMobile: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerMobileNumber)
-    : null,
-  partnerUKHomeAddress: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerHomeAddress)
-    : null,
-  partnerNationalities: formNumber === formNumberConstants.ONE 
-    ? (getValueIfNotNull(sanitizedInput.partnerNationalities) ? sanitizedInput.partnerNationalities : null)
-    : null,
-  partnerAlternateNationality: formNumber === formNumberConstants.TWO
-    ? getValueIfNotNull(sanitizedInput.partnerAlternateNationality)
-    : null,
-  partnerDateOfBirth: formNumber === formNumberConstants.ONE 
-    ? sanitizedInput.partnerDateOfBirth
-    : null,
-  partnerPlaceOfBirth: formNumber === formNumberConstants.ONE 
-    ? getValueIfNotNull(sanitizedInput.partnerPlaceOfBirth)
-    : null,
-  // only applicable for form1
-  // form2 is serialzed in relationships table
+  partnerTitle: getValueIfNotNull(sanitizedInput.partnerTitle),
+  partnerFullName: getValueIfNotNull(sanitizedInput.partnerFullName),
+  partnerMobile: getValueIfNotNull(sanitizedInput.partnerMobileNumber),
+  partnerUKHomeAddress: getValueIfNotNull(sanitizedInput.partnerHomeAddress),
+  partnerNationalities: getPartnerNationalitites(sanitizedInput),
+  partnerAlternateNationality: getValueIfNotNull(sanitizedInput.partnerAlternateNationality),
+  partnerDateOfBirth: getValueIfNotNull(sanitizedInput.partnerDateOfBirth),
+  partnerPlaceOfBirth: getPlaceOfBirth(sanitizedInput),
   homeAddress: getValueIfNotNull(sanitizedInput.homeAddress),
   moveInDate: getValueIfNotNull(sanitizedInput.homeMoveInDate),
   homeOwnership: getValueIfNotNull(sanitizedInput.homeOwnership),
