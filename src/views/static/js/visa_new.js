@@ -458,7 +458,7 @@ $(document).ready(function(){
                     $("#upload_div4").css("display","none");
                 }
 
-                if(status1==='2')
+                if(status1==='3')
                 {
                     formreadonly(); //hide submit and save option and make all fields readonly
                 }
