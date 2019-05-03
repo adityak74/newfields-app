@@ -157,6 +157,7 @@ $(document).ready(function() {
                     $("#uk_visa_photo").removeAttr("required", "required");
                 } else {
                     $("#upload_div1").css("display","none");
+                    $("#uk_visa_photo").attr("required", "required");
                 }
 
                 if(response.passport_front_link) {
@@ -166,6 +167,7 @@ $(document).ready(function() {
                     $("#passport_front_page").removeAttr("required", "required");
                 } else {
                     $("#upload_div2").css("display","none");
+                    $("#passport_front_page").attr("required", "required");
                 }
 
                 if(response.biometric_residence_permit_front_link) {
@@ -175,6 +177,7 @@ $(document).ready(function() {
                     $("#BRP_front_page").removeAttr("required", "required");
                 } else {
                     $("#upload_div3").css("display","none");
+                    $("#BRP_front_page").attr("required", "required");
                 }
 
                 if(response.biometric_residence_permit_back_link) {
@@ -184,6 +187,7 @@ $(document).ready(function() {
                     $("#BRP_back_page").removeAttr("required", "required");
                 } else {
                     $("#upload_div4").css("display","none");
+                    $("#BRP_back_page").attr("required", "required");
                 }
 
                 if(currentFormStatus===3)
