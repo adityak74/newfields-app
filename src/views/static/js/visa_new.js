@@ -430,32 +430,40 @@ $(document).ready(function(){
                     $("#upload_div1").css("display","block");
                     $("#current_country_permit_photo_link").attr("href",response.current_visa_link);
                     $("#uploaded_current_country_permit_photo").val(response.current_visa);
+                    $("#current_country_permit_photo").removeAttr("required", "required");
                 } else {
                     $("#upload_div1").css("display","none");
+                    $("#current_country_permit_photo").attr("required", "required");
                 }
 
                 if(response.passport_front_link) {
                     $("#upload_div2").css("display","block");
                     $("#uploaded_passport_front_page_link").attr("href", response.passport_front_link);
                     $("#uploaded_passport_front_page").val(response.passport_front);
+                    $("#passport_front_page").removeAttr("required", "required");
                 } else {
                     $("#upload_div2").css("display","none");
+                    $("#passport_front_page").attr("required", "required");
                 }
 
                 if(response.passport_front_two_link) {
                     $("#upload_div3").css("display","block");
                     $("#uploaded_secondpassport_front_page_link").attr("href", response.passport_front_two_link);
                     $("#uploaded_secondpassport_front_page").val(response.passport_front_two);
+                    $("#secondpassport_front_page").removeAttr("required", "required");
                 } else {
                     $("#upload_div3").css("display","none");
+                    $("#secondpassport_front_page").attr("required", "required");
                 }
 
                 if(response.previous_uk_visa_link) {
                     $("#upload_div4").css("display","block");
                     $("#uploaded_previous_uk_visa_link").attr("href", response.previous_uk_visa_link);
                     $("#uploaded_previous_uk_visa").val(response.previous_uk_visa);
+                    $("#previous_uk_visa").removeAttr("required", "required");
                 } else {
                     $("#upload_div4").css("display","none");
+                    $("#previous_uk_visa").attr("required", "required");
                 }
 
                 if(currentFormStatus===3)
