@@ -57,7 +57,7 @@ and open the template in the editor.
         </div>
         
         <div class="container">
-            <button class="btn btn-warning" id="" data-toggle="tooltip" data-placement="top" onclick="form_save();"  
+            <button class="btn btn-warning" id="save_form" data-toggle="tooltip" data-placement="top" onclick="form_save();"  
                  title="Save form and continue later" type="button">Save form
             </button>
             <div id="errors" style="color: grey; border: 1px solid red; padding: 15px; margin: 20px; display: none;">
@@ -1720,7 +1720,7 @@ and open the template in the editor.
                 
                 
                 <br><br>
-                <button class="btn btn-warning" id="" data-toggle="tooltip" data-placement="top"  
+                <button class="btn btn-warning" id="save_form1" data-toggle="tooltip" data-placement="top"  
                         title="Save form and continue later" onclick="form_save();" type="button">Save form
                 </button>
                 <button class="btn btn-primary" id="submit_details" data-toggle="tooltip" data-placement="top" 
@@ -1754,7 +1754,7 @@ and open the template in the editor.
             </form>
             <div id="overlay1" style="display:none" class="overlay">
                 <div class="overlay-content">
-                    <label id="overlay_label_text" style="font-size: 25px;">Loading...</label><br>
+                    <label id="overlay_label_text" style="font-size: 25px;">Processing...</label><br>
                     <img id="img" style="display:none" src="<%= appLocation %>/images/Dual Ring.gif" />
                 </div>
             </div> 

@@ -184,10 +184,10 @@ $(document).ready(function() {
                     $("#upload_div4").css("display","none");
                 }
 
-                 if(status1==='3')
-                 {
+                if(status1==='3')
+                {
                     formreadonly(); //hide submit and save option and make all fields readonly
-                 } 
+                } 
 
                 $('#img').hide();
                 $('#overlay1').hide();
@@ -443,10 +443,11 @@ function doFormAction(form_data, isSubmitted) {
                 success : function(responseJSON) {
                     const formUID = responseJSON.data.formUID;
                     const location = window.location;
-                    window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
-                    $("#errors").css("display", "none");
                     $('#img').hide();
                     $('#overlay1').hide();
+                    window.location.href = location.origin + location.pathname + '?action=update&formId=' + formUID;
+                    $("#errors").css("display", "none");
+                    show_success_toast('Form saved successfully');
                 },
                 error: function(xhr) {
                     $('#img').hide();
@@ -519,7 +520,20 @@ function doFormAction(form_data, isSubmitted) {
                 $('#img').hide();
                 $('#overlay1').hide();
                // window.location.href = appLocation + '/user/dashboard';
-                window.close();
+               
+                Swal.fire({
+                    title: "Application submitted",
+                    text: "Application has been formwarded to Newfields for futher process",
+                    type: 'success',
+                    confirmButtonText: 'Close window!'
+                }).then((result) => {
+                    if (result.value) {
+                        close();    }
+                    else{
+                        formreadonly();
+                    }
+                });
+               
                 $("#errors").css("display", "none");
             },
             error: function(xhr) {
@@ -674,6 +688,7 @@ function formreadonly()
     $('#save_form').hide();
     $('#save_form1').hide();
     $('#submit_details').hide();
+
     $('#Title').prop('disabled', true);
     $('#full_name').prop('disabled', true);
     $('#mobile_number').prop('disabled', true);
