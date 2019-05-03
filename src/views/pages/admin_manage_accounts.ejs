@@ -9,6 +9,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- <link type ="text/css" rel="stylesheet" href="<%= appLocation %>/css/contact_us.css"> -->
+        <script type="text/javascript" src="<%= appLocation %>/js/admin_manage_accounts.js"></script>
     </head>
     <body>
         
@@ -53,7 +54,8 @@ and open the template in the editor.
             
             <br>
             <button class="btn btn-primary" id="create_na" data-toggle="tooltip" data-placement="top" style="float:right;"
-                    type="submit" title='Create New Account User'> Add admin account
+                    type="submit" title='Create New Account User' onclick="new_admin()"> 
+                    Add admin account
             </button>
 
         </form>

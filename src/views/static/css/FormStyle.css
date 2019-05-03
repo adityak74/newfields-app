@@ -29,6 +29,11 @@ margin: 2px;
 margin-right: 10px;
 }
 
+.buttonShadow{
+
+box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
 #submit_details{
 float:right;
 top: 5px;
@@ -37,7 +42,7 @@ bottom:0;
 box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-#submit_details:active , #save_form:active {
+#submit_details:active , #save_form:active , #save_form1:active {
     transform: translateY(4px);
     cursor: pointer;
 }

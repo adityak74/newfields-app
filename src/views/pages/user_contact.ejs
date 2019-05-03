@@ -10,6 +10,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type ="text/css" rel="stylesheet" href="<%= appLocation %>/css/contact_us.css">
+        <script type="text/javascript" src="<%= appLocation %>/js/user_contact.js"></script>
     </head>
     <body>
         
@@ -22,24 +23,24 @@ and open the template in the editor.
             <div class="col-xl-6 col-lg-6" style='margin:0;padding:0;'>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" id="n" placeholder="NAME"  autocomplete="nope">
+                        <input type="text" class="form-control" id="n_a_m_e" placeholder="NAME"  autocomplete="nope">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-12">
-                      <input type="email" class="form-control" id="e" placeholder="EMAIL"  autocomplete="nope">
+                      <input type="email" class="form-control" id="e_m_a_i_l" placeholder="EMAIL"  autocomplete="nope">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <textarea class="form-control" rows="10" placeholder="MESSAGE" name="message" autocomplete="nope"></textarea>
+                        <textarea class="form-control" id="message_text" rows="10" placeholder="MESSAGE" name="message" autocomplete="nope"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12 ">
-                        <button class="btn btn-primary"  style="float:right;">
+                        <button class="btn btn-primary"  style="float:right;" onclick="Send_supoortMail()">
                             Send   <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>

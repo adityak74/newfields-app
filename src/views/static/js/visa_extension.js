@@ -15,7 +15,7 @@ $(document).ready(function() {
 //     $('#js-date').datepicker();
     
     $("#relationship_status").on('input', relationship_status);
-    $("#add_children").on('click', add_children);
+   // $("#add_children").on('click', add_children);
   
 //    $( ".datepicker" ).datepicker({
 //        format: 'yyyy-mm-dd'
@@ -34,14 +34,14 @@ $(document).ready(function() {
         $('#overlay1').show();
         $('#img').show();
         const formId = url.searchParams.get('formId');
-
-       // console.log("Status: "+ url.searchParams.get('status'));
+        var status1 = url.searchParams.get('status');
+        console.log("Status: "+ url.searchParams.get('status'));
 
         $.post({
             url : appLocation + '/form1/getFormData',
             data : { formId: formId },
             success : function(response) {
-                relationship_status();
+                
                 $("#errors").css("display", "none");
                 console.log(response);
           
@@ -69,6 +69,7 @@ $(document).ready(function() {
                 }
                 if(response.conviction==='Yes')
                 {   $("#conviction_text_area").css("display","block");
+                    convictions(response.conviction.toLowerCase());
                 }else{
                     $("#conviction_text_area").css("display","none");
                 }
@@ -82,6 +83,7 @@ $(document).ready(function() {
                 if (response.visaRefusal === 'Yes')
                 {
                     $("#visa_refusals_textarea").css("display","block");
+                    visa(response.visaRefusal.toLowerCase());
                 }
                 else{
                     $("#visa_refusals_textarea").css("display","none");
@@ -95,7 +97,8 @@ $(document).ready(function() {
                 if(response.relationship==="single")
                 {
                     $("#partner_details").css("display","none"); 
-                    $('#partner_Title').val(response.partnerTitle);  
+                  //  $('#partner_Title').val(response.partnerTitle); 
+                    $("#partner_Title")[0].selectedIndex = 0; 
                     $('#partner_full_name').val(response.partnerFullName); 
                     $('#partner_mobile_number').val(response.partnerMobile);
                     $('#partner_uk_home_address').val(response.partnerUKHomeAddress);
@@ -103,9 +106,16 @@ $(document).ready(function() {
                     $('#partner_dob').val(response.partnerDateOfBirth);
                     $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
                 }
-                else{
+                else
+                {   relationship_status();
                     $("#partner_details").css("display","block"); 
-                    $('#partner_Title').val(response.partnerTitle);  
+                    if(response.partnerTitle==='title')
+                    {
+                        $("#partner_Title")[0].selectedIndex = 0;
+                    }
+                    else{
+                        $('#partner_Title').val(response.partnerTitle);  
+                    }
                     $('#partner_full_name').val(response.partnerFullName); 
                     $('#partner_mobile_number').val(response.partnerMobile);
                     $('#partner_uk_home_address').val(response.partnerUKHomeAddress);
@@ -113,10 +123,7 @@ $(document).ready(function() {
                     $('#partner_dob').val(response.partnerDateOfBirth);
                     $('#partner_placeofbirth').val(response.partnerPlaceOfBirth);
                 }
-                
-             //   convictions(response.conviction.toLowerCase());
-            //    visa(response.visaRefusal.toLowerCase());
-
+             
 //for children 
                 $('#child1_full_name').val(response.child1FullName); 
                 $('#child1_nationalities').val(response.child1Nationalitites);
@@ -134,6 +141,7 @@ $(document).ready(function() {
                 }
                 if (response.anyChildren === 'Yes') {
                     $("#childern_details").css("display","block");
+                    radio_option(response.anyChildren.toLowerCase());
                 } else {
                     $("#childern_details").css("display","none");
                 }
@@ -175,6 +183,12 @@ $(document).ready(function() {
                 } else {
                     $("#upload_div4").css("display","none");
                 }
+
+                 if(status1==='3')
+                 {
+                    formreadonly(); //hide submit and save option and make all fields readonly
+                 } 
+
                 $('#img').hide();
                 $('#overlay1').hide();
             },
@@ -655,3 +669,70 @@ function form_save()
     doFormAction(form_data, false);    
 }
 
+function formreadonly()
+{
+    $('#save_form').hide();
+    $('#save_form1').hide();
+    $('#submit_details').hide();
+    $('#Title').prop('disabled', true);
+    $('#full_name').prop('disabled', true);
+    $('#mobile_number').prop('disabled', true);
+    $('#address_line1').prop('disabled', true);
+    $('#address_line2').prop('disabled', true);
+    $('#town').prop('disabled', true);
+    $('#county').prop('disabled', true);
+    $('#postcode').prop('disabled', true);
+    $('#email_address').prop('disabled', true);
+    $('#relationship_status').prop('disabled', true);
+    $('#nationalities').prop('disabled', true);
+    $('#date_UK_entry').prop('disabled', true);
+    
+    $('#conviction_text_area').prop('disabled', true);
+    $('input:radio[name=any_convictions]').prop('disabled', true);;
+ 
+    $('#visa_refusals_textarea').prop('disabled', true);
+    $('input:radio[name=visa_refusals]').prop('disabled', true);
+  
+    $('#details_public_funds').prop('disabled', true);
+    $('#UK_NINo').prop('disabled', true);
+    $('#next_planned_departure').prop('disabled', true);
+    $('#UK_date_arrival_back').prop('disabled', true);
+ 
+    $("#partner_Title").prop('disabled', true); 
+    $('#partner_full_name').prop('disabled', true);
+    $('#partner_mobile_number').prop('disabled', true);
+    $('#partner_uk_home_address').prop('disabled', true);
+    $('#partner_nationalities').prop('disabled', true);
+    $('#partner_dob').prop('disabled', true);
+    $('#partner_placeofbirth').prop('disabled', true);
+   
+    
+//for children 
+    $('input:radio[name=any_children]').prop('disabled', true);
+    $('#child1_full_name').prop('disabled', true); 
+    $('#child1_nationalities').prop('disabled', true);
+    $('#child1_dob').prop('disabled', true);
+    $('#child1_placeofbirth').prop('disabled', true);
+
+    $('#child2_full_name').prop('disabled', true);
+    $('#child2_nationalities').prop('disabled', true);
+    $('#child2_dob').prop('disabled', true);
+    $('#child2_placeofbirth').prop('disabled', true);
+    
+    $('#add_children').hide();
+    $('#remove_children1').hide();
+    $('#remove_children2').hide();
+   
+//documents
+    $('#uk_visa_photo').hide(); 
+    $('#passport_front_page').hide();
+    $('#BRP_front_page').hide();
+    $('#BRP_back_page').hide();
+
+    $("#uploaded_uk_visa_photo").prop('disabled', true);
+    $("#uploaded_passport_front_page").prop('disabled', true);
+    $("#uploaded_BRP_front_page").prop('disabled', true);
+    $("#uploaded_BRP_back_page").prop('disabled', true);
+   
+   
+}

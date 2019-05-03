@@ -22,10 +22,11 @@ function getFormProcessingStatusFromCode(formProcessingStatusCode) {
     return statusText;
 }
 
-//also add
+//also add status
 
-function application_form(formNumber, formUID) {
-    window.open(location.origin + '/form' + formNumber+'/show?action=update&formId=' + formUID, '_blank');
+function application_form(formNumber, formUID, status) {
+    console.log("status: "+ status);
+    window.open(location.origin + '/form' + formNumber+'/show?action=update&formId=' + formUID + '&status='+status   , '_blank');
 }
 
 $(document).ready(function(){
@@ -65,6 +66,7 @@ $(document).ready(function(){
                     {
                         user_access='View Application'
                     }
+              //      console.log("formResponse.processingStatus: "+ formResponse.processingStatus);
 
                     CAT.row.add([
                         response_date,
@@ -72,8 +74,8 @@ $(document).ready(function(){
                         application_type,
                         getStatusFromCode(formResponse.status),
                         getFormProcessingStatusFromCode(formResponse.processingStatus),
-                        "<label onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\')})()\" \n\
-                        style='cursor:pointer;color: #4d79ff;'><u>"+user_access+"</u></label>",
+                        "<button onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\',"+formResponse.status+")})()\" \n\
+                        class='btn btn-link btn-sm' type='button'>"+user_access+"</button>",
                     ]).draw(false);
                 });
             }
@@ -91,41 +93,3 @@ $(document).ready(function(){
         },
 });
 });
-
-function form1_request_table()
-{ 
-//     var CAT = $('#client_application_table').DataTable();
-//     $.ajax({
-//         url : '',
-//         data:{
-                
-//             },
-//         success : function(responseText) {
-        
-//          //   var jsonObj = JSON.parse(responseText);
-//          //   var arrayLength = jsonObj.length;
-//             for (var i=0;i<2;i++)
-//             {  
-//              //   var id = jsonObj[i]["CLIENT_ID"];
-               
-//                 CAT.row.add([
-// //                    activation_date,
-//                    i,// jsonObj[i]["CLIENT_ID"],
-//                    i,// jsonObj[i]["NAME"],
-//                    i,// jsonObj[i]["PBUILDINGNAME"],
-//                    i,// jsonObj[i]["STREET_NAME"],
-//                    i,
-//                    i,//  jsonObj[i]["ACTIVATION_CODE"],
-//                    "<label onclick=\"(function(){application_form(\'"+i+"\')})()\" \n\
-//                     style='cursor:pointer;color: #4d79ff;'><u>View Application</u></label>",
-//                     // "<label onclick=\"(function(){OpenDevicePage(\'"+i+"\')})()\" \n\
-//                     // style='background-color:"+""+";border-radius:10px; color: grey; cursor: pointer; padding: 5px 10px;' type='button'>\n\
-//                     //     Property Profile\n\
-//                     // </label>"
-
-
-//                 ]).draw(false);
-//             }
-//         }
-//     });
-}
