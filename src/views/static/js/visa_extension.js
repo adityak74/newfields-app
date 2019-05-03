@@ -34,14 +34,12 @@ $(document).ready(function() {
         $('#overlay1').show();
         $('#img').show();
         const formId = url.searchParams.get('formId');
-        var status1 = url.searchParams.get('status');
-        console.log("Status: "+ url.searchParams.get('status'));
 
         $.post({
             url : appLocation + '/form1/getFormData',
             data : { formId: formId },
             success : function(response) {
-                
+                const currentFormStatus = response.formStatus;
                 $("#errors").css("display", "none");
                 console.log(response);
           
@@ -184,7 +182,7 @@ $(document).ready(function() {
                     $("#upload_div4").css("display","none");
                 }
 
-                if(status1==='3')
+                if(currentFormStatus===3)
                 {
                     formreadonly(); //hide submit and save option and make all fields readonly
                 } 
