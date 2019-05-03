@@ -55,9 +55,10 @@ and open the template in the editor.
         </div>
         
         <div class="container">
-            <button class="btn btn-warning" id="" data-toggle="tooltip" data-placement="top" onclick="form_save();" 
+            <button class="btn btn-warning buttonShadow" id="save_form" data-toggle="tooltip" data-placement="top" onclick="form_save();" 
                 title="Save form and continue later" type="button">Save form
             </button>
+            <br>
             <div id="errors" style="color: grey; border: 1px solid red; padding: 15px; margin: 20px; display: none;">
                 <ul id="errors_list">
                 </ul>
@@ -341,8 +342,10 @@ and open the template in the editor.
                 <div id="childern_details" style="display: none;">
                     <br>
                     <h5>Children Details</h5>
+                    <br>
+                    <h5>First Child</h5>
                     <hr class="hr_style">
-                
+                    
                     <div class="form-group row">
                         <label for="staticEmail"  class="col-sm-5 col-form-label">1.	Full name</label>
                         <div class="col-sm-5">
@@ -376,16 +379,17 @@ and open the template in the editor.
                     <br>
                     
                     <button class="btn btn-primary" id="add_children" data-toggle="tooltip" data-placement="top" 
-                        type="button" onclick="add_children2();">Add more
+                        type="button" onclick="add_children2();"  title="Add more details">Add more
                     </button>
                     <button class="btn btn-warning" id="remove_children1" data-toggle="tooltip" data-placement="top" 
-                        type="button" onclick="remove_children(1);" title="Remove child details">Remove
+                        type="button" onclick="remove_children(1);" style="float:right;" title="Remove children details">Remove
                     </button>
                     
                 </div>
                 
                 <div id="childern_details2" style="display: none;">
-                    <br>
+                    <br><br>
+                    <h5>Second Child</h5>
                     <hr class="hr_style">
                 
                     <div class="form-group row">
@@ -420,7 +424,7 @@ and open the template in the editor.
                     </div>
                     <br>
                     <button class="btn btn-warning" id="remove_children2" data-toggle="tooltip" data-placement="top" 
-                        type="button" onclick="remove_children(2);" title="Remove child details">Remove
+                        type="button" onclick="remove_children(2);" style="float:right;" title="Remove child details">Remove
                     </button>
                 </div>
                 
@@ -431,7 +435,7 @@ and open the template in the editor.
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">1.	Any previous UK visa</label>
                     <div class="col-sm-5">
-                        <input type="file" class="form-control-file" id="uk_visa_photo" name="uk_visa_photo">
+                        <input type="file" class="form-control-file" id="uk_visa_photo" name="uk_visa_photo" required>
                     </div>
                 </div>
                 <div id='upload_div1' style='display:none;'>
@@ -450,7 +454,7 @@ and open the template in the editor.
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">2.	Upload passport front page</label>
                     <div class="col-sm-5">
-                        <input type="file" class="form-control-file" id="passport_front_page" name="passport_front_page">
+                        <input type="file" class="form-control-file" id="passport_front_page" name="passport_front_page" required>
                     </div>
                 </div>
                 <div id='upload_div2' style='display:none;'>
@@ -470,7 +474,7 @@ and open the template in the editor.
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">3.	Biometric Residence Permit front</label>
                     <div class="col-sm-5">
-                        <input type="file" class="form-control-file" id="BRP_front_page" name="BRP_front_page">
+                        <input type="file" class="form-control-file" id="BRP_front_page" name="BRP_front_page" required>
                     </div>
                 </div>
                 <div id='upload_div3' style='display:none;'>
@@ -490,7 +494,7 @@ and open the template in the editor.
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">4.	Biometric Residence Permit back</label>
                     <div class="col-sm-5">
-                        <input type="file" class="form-control-file" id="BRP_back_page" name="BRP_back_page">
+                        <input type="file" class="form-control-file" id="BRP_back_page" name="BRP_back_page" required>
                     </div>
                 </div>
                 <div id='upload_div4' style='display:none;'>
@@ -506,15 +510,15 @@ and open the template in the editor.
                     </div>
                 </div>
                 
-                
+            <div id='buttons_div'>  
                 <br><br>
-                <button class="btn btn-warning" id="save_form" data-toggle="tooltip" data-placement="top" 
+                <button class="btn btn-warning buttonShadow" id="save_form1" data-toggle="tooltip" data-placement="top" 
                         type="button" onclick="form_save();"  title='Save form and continue later'>Save form
                 </button>
                 <button class="btn btn-primary" id="submit_details" data-toggle="tooltip" data-placement="top" 
                         type="submit" title='Submit'>Submit form
                 </button>
-
+            </div>     
     <!--modal-->
                 <div class="modal fade" id="myModal" >
                     <div style="margin-top: 10%;" class="modal-dialog">
@@ -544,7 +548,7 @@ and open the template in the editor.
             </form>
             <div id="overlay1" style="display:none" class="overlay">
                 <div class="overlay-content">
-                    <label id="overlay_label_text" style="font-size: 25px;">Loading...</label><br>
+                    <label id="overlay_label_text" style="font-size: 25px;">Processing...</label><br>
                     <img id="img" style="display:none" src="<%= appLocation %>/images/Dual Ring.gif" />
                 </div>
             </div> 

@@ -65,6 +65,8 @@ $(document).ready(function(){
         $('#overlay1').show();
         $('#img').show();
         const formId = url.searchParams.get('formId');
+        var status1 = url.searchParams.get('status');
+        
         $.post({
             url : appLocation + '/form2/getFormData',
             data : { formId: formId },
@@ -454,6 +456,11 @@ $(document).ready(function(){
                     $("#uploaded_previous_uk_visa").val(response.previous_uk_visa);
                 } else {
                     $("#upload_div4").css("display","none");
+                }
+
+                if(status1==='3')
+                {
+                    formreadonly(); //hide submit and save option and make all fields readonly
                 }
 
                 $('#img').hide();
@@ -1274,6 +1281,20 @@ function doFormAction(form_data, isSubmitted) {
                 $('#overlay1').hide();
                 window.location.href = appLocation + '/user/dashboard';
                 $("#errors").css("display", "none");
+
+                Swal.fire({
+                    title: "Application submitted",
+                    text: "Application has been formwarded to Newfields for futher process",
+                    type: 'success',
+                    confirmButtonText: 'Click to close window!'
+                }).then((result) => {
+                    if (result.value) {
+                        close();    }
+                    else{
+                        formreadonly();
+                    }
+                });
+
             },
             error: function(xhr) {
                 $('#img').hide();
@@ -1722,4 +1743,211 @@ function form_save()
     //     console.log(pair[0]+ ', '+ pair[1]); 
     // }
     doFormAction(form_data, false);    
+}
+
+
+function formreadonly()
+{
+    $('#save_form').hide();
+    $('#save_form1').hide();
+    $('#submit_details').hide();
+
+    $('#Title').prop('disabled', true);
+    $('#full_name').prop('disabled', true);
+    $('#mobile_number').prop('disabled', true);
+    $('#landline_no').prop('disabled', true);
+    $('#email_addr').prop('disabled', true);
+    $('#home_addr').prop('disabled', true);
+    $('#addr_move_indate').prop('disabled', true);
+    $('#house_ownrship').prop('disabled', true);
+
+    $('#addr_while_visa').prop('disabled', true);
+
+
+    $('#uk_addr_text_area').prop('disabled', true);
+    $('input:radio[name=uk_addr]').prop('disabled', true);;
+   
+    $('#nationalities').prop('disabled', true);
+    $('#national_id').prop('disabled', true); 
+    $('#_other_names').prop('disabled', true);
+    $('#relationship_status').prop('disabled', true);
+    $('#Proposaldate_UK_entry').prop('disabled', true);
+
+    $('#conviction_text_area').prop('disabled', true);
+    $('input:radio[name=any_convictions]').prop('disabled', true);
+    
+    $('#visa_refusals_textarea').prop('disabled', true);
+    $('input:radio[name=visa_refusals]').prop('disabled', true);
+    
+    $('#medical_textarea').prop('disabled', true);
+    $('input:radio[name=medical]').prop('disabled', true);
+
+    $('#uk_nino_textarea').prop('disabled', true);
+    $('input:radio[name=uk_NINo]').prop('disabled', true);
+
+
+    $('#armedforces_textarea').prop('disabled', true);
+    $('input:radio[name=anyarmedforces]').prop('disabled', true);
+
+    $('#immediate_family_textarea').prop('disabled', true);
+    $('input:radio[name=immediate_family]').prop('disabled', true);
+
+    $('#family_member_travelalong_textarea').prop('disabled', true);
+    $('input:radio[name=familymembertravelalong]').prop('disabled', true);
+    
+    $('#any_overseas_travel').prop('disabled', true);
+    $('#Departuredate_UK').prop('disabled', true);
+    $('#Returndate_UK').prop('disabled', true);
+
+  
+    $('#fa_frst').prop('disabled', true);
+    $('#father_country_of_birth').prop('disabled', true);
+    $('#father_nationality').prop('disabled', true);
+    $('#father_Secondnationality').prop('disabled', true);
+    $('#father_DOB').prop('disabled', true);
+
+    $('#mothers_f_na').prop('disabled', true);
+    $('#mothersCountryofBirth').prop('disabled', true);
+    $('#mother_nationality').prop('disabled', true);
+    $('#mother_Secondnationality').prop('disabled', true);
+    $('#mother_DOB').prop('disabled', true);
+
+    $('#partner_fna').prop('disabled', true);
+    $('#partner_countryofbirth').prop('disabled', true);
+    $('#partner_nationlity').prop('disabled', true);
+    $('#partner_Snationality').prop('disabled', true);
+    $('#partner_DOB').prop('disabled', true);
+
+// for children
+    $('input:radio[name=firstchild1]').prop('disabled', true);
+    $('#child1_f_na').prop('disabled', true);
+    $('#child1_countryofbirth').prop('disabled', true);
+    $('#child1_nationality').prop('disabled', true);
+    $('#child1_Snationality').prop('disabled', true);
+    $('#child1_DOB').prop('disabled', true);
+
+    $('#child2_f_na').prop('disabled', true);
+    $('#child2_countryofbirth').prop('disabled', true);
+    $('#child2_nationality').prop('disabled', true);
+    $('#child2_Snationality').prop('disabled', true);
+    $('#child2_DOB').prop('disabled', true);
+
+    $("#childern_details1 :button").hide();
+    $("#children_details2 :button").hide();
+
+
+    
+
+// visits
+    $("input[name='visit']").prop('disabled', true);
+    $("input[name='TRIP']").prop('disabled', true);
+    $("input[name='OTHER_TRIP']").prop('disabled', true);
+
+    $("#UK_arrival_date1").prop('disabled', true);
+    $("#UK_departure_date1").prop('disabled', true); 
+    $("#reason_ofvisit1").prop('disabled', true);
+    
+    $("#UK_arrival_date2").prop('disabled', true); 
+    $("#UK_departure_date2").prop('disabled', true);
+    $("#reason_ofvisit2").prop('disabled', true); 
+    
+    $("#UK_arrival_date3").prop('disabled', true);
+    $("#UK_departure_date3").prop('disabled', true);
+    $("#reason_ofvisit3").prop('disabled', true);
+    
+    $("#UK_arrival_date4").prop('disabled', true);
+    $("#UK_departure_date4").prop('disabled', true);
+    $("#reason_ofvisit4").prop('disabled', true);
+
+    $("#UK_arrival_date5").prop('disabled', true);
+    $("#UK_departure_date5").prop('disabled', true);
+    $("#reason_ofvisit5").prop('disabled', true);
+
+//trips
+
+    $("#country1").prop('disabled', true);
+    $("#date_arrival_country1").prop('disabled', true);
+    $("#date_departure_country1").prop('disabled', true);
+    $("#tripreason_ofvisit1").prop('disabled', true);
+
+    $("#country2").prop('disabled', true);
+    $("#date_arrival_country2").prop('disabled', true);
+    $("#date_departure_country2").prop('disabled', true);
+    $("#tripreason_ofvisit2").prop('disabled', true);
+    
+    $("#country3").prop('disabled', true);
+    $("#date_arrival_country3").prop('disabled', true);
+    $("#date_departure_country3").prop('disabled', true);
+    $("#tripreason_ofvisit3").prop('disabled', true);
+   
+    $("#country4").prop('disabled', true);
+    $("#date_arrival_country4").prop('disabled', true);
+    $("#date_departure_country4").prop('disabled', true);
+    $("#tripreason_ofvisit4").prop('disabled', true);
+  
+    $("#country5").prop('disabled', true);
+    $("#date_arrival_country5").prop('disabled', true);
+    $("#date_departure_country5").prop('disabled', true);
+    $("#tripreason_ofvisit5").prop('disabled', true);
+   
+//other trips
+
+    $("#othertrip_country1").prop('disabled', true);
+    $("#othertrip_arrivaldate1").prop('disabled', true);
+    $("#othertrip_departuredate1").prop('disabled', true);
+    $("#othertripreason_ofvisit1").prop('disabled', true);
+
+    $("#othertrip_country2").prop('disabled', true);
+    $("#othertrip_arrivaldate2").prop('disabled', true);
+    $("#othertrip_departuredate2").prop('disabled', true);
+    $("#othertripreason_ofvisit2").prop('disabled', true);
+
+    $("#othertrip_country3").prop('disabled', true);
+    $("#othertrip_arrivaldate3").prop('disabled', true);
+    $("#othertrip_departuredate3").prop('disabled', true);
+    $("#othertripreason_ofvisit3").prop('disabled', true);
+
+    $("#othertrip_country4").prop('disabled', true);
+    $("#othertrip_arrivaldate4").prop('disabled', true);
+    $("#othertrip_departuredate4").prop('disabled', true);
+    $("#othertripreason_ofvisit4").prop('disabled', true);
+
+    $("#othertrip_country5").prop('disabled', true);
+    $("#othertrip_arrivaldate5").prop('disabled', true);
+    $("#othertrip_departuredate5").prop('disabled', true);
+    $("#othertripreason_ofvisit5").prop('disabled', true);
+
+//disabling all visits, trips and other trips buttons
+
+    $("#first_visit :button").hide();
+    $("#second_visit :button").hide();
+    $("#third_visit :button").hide();
+    $("#fourth_visit :button").hide();
+    $("#fifth_visit :button").hide();
+
+    $("#first_Trip :button").hide();
+    $("#second_Trip :button").hide();
+    $("#third_Trip :button").hide();
+    $("#fourth_Trip :button").hide();
+    $("#fifth_Trip :button").hide();
+
+    $("#other_first_Trip :button").hide();
+    $("#other_second_Trip :button").hide();
+    $("#other_third_Trip :button").hide();
+    $("#other_fourth_Trip :button").hide();
+    $("#other_fifth_Trip :button").hide();
+
+
+//documents
+
+    $('#current_country_permit_photo').hide(); 
+    $('#passport_front_page').hide();
+    $('#secondpassport_front_page').hide();
+    $('#previous_uk_visa').hide();
+
+    $("#uploaded_current_country_permit_photo").prop('disabled', true);;
+    $("#uploaded_passport_front_page").prop('disabled', true);
+    $("#uploaded_secondpassport_front_page").prop('disabled', true);
+    $("#uploaded_previous_uk_visa").prop('disabled', true);
+    
 }

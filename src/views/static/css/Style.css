@@ -109,3 +109,7 @@ margin-left: 4px;
     text-align: center;
     color: #555;
 }
+
+.fa-facebook-square:hover {
+    color: #3b5998;
+}
