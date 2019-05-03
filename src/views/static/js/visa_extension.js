@@ -154,40 +154,36 @@ $(document).ready(function() {
                     $("#upload_div1").css("display","block");
                     $("#uk_visa_photo_link").attr("href",response.previous_uk_visa_link);
                     $("#uploaded_uk_visa_photo").val(response.previous_uk_visa);
-                    $("#upload_div1").removeAttr("required", "required");
+                    $("#uk_visa_photo").removeAttr("required", "required");
                 } else {
                     $("#upload_div1").css("display","none");
-                    $("#upload_div1").attr("required", "required");
                 }
 
                 if(response.passport_front_link) {
                     $("#upload_div2").css("display","block");
                     $("#uploaded_passport_front_page_link").attr("href", response.passport_front_link);
                     $("#uploaded_passport_front_page").val(response.passport_front);
-                    $("#upload_div2").removeAttr("required", "required");
+                    $("#passport_front_page").removeAttr("required", "required");
                 } else {
                     $("#upload_div2").css("display","none");
-                    $("#upload_div2").attr("required", "required");
                 }
 
                 if(response.biometric_residence_permit_front_link) {
                     $("#upload_div3").css("display","block");
                     $("#BRP_front_page_link").attr("href", response.biometric_residence_permit_front_link);
                     $("#uploaded_BRP_front_page").val(response.biometric_residence_permit_front);
-                    $("#upload_div3").removeAttr("required", "required");
+                    $("#BRP_front_page").removeAttr("required", "required");
                 } else {
                     $("#upload_div3").css("display","none");
-                    $("#upload_div3").attr("required", "required");
                 }
 
                 if(response.biometric_residence_permit_back_link) {
                     $("#upload_div4").css("display","block");
                     $("#BRP_back_page_link").attr("href", response.biometric_residence_permit_back_link);
                     $("#uploaded_BRP_back_page").val(response.biometric_residence_permit_back);
-                    $("#upload_div4").removeAttr("required", "required");
+                    $("#BRP_back_page").removeAttr("required", "required");
                 } else {
                     $("#upload_div4").css("display","none");
-                    $("#upload_div4").attr("required", "required");
                 }
 
                 if(currentFormStatus===3)
