@@ -24,9 +24,9 @@ function getFormProcessingStatusFromCode(formProcessingStatusCode) {
 
 //also add status
 
-function application_form(formNumber, formUID, status) {
-    console.log("status: "+ status);
-    window.open(location.origin + '/form' + formNumber+'/show?action=update&formId=' + formUID + '&status='+status   , '_blank');
+function application_form(formNumber, formUID) {
+    
+    window.open(location.origin + '/form' + formNumber+'/show?action=update&formId=' + formUID   , '_blank');
 }
 
 $(document).ready(function(){
@@ -74,7 +74,7 @@ $(document).ready(function(){
                         application_type,
                         getStatusFromCode(formResponse.status),
                         getFormProcessingStatusFromCode(formResponse.processingStatus),
-                        "<button onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\',"+formResponse.status+")})()\" \n\
+                        "<button onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\'+)})()\" \n\
                         class='btn btn-link btn-sm' type='button'>"+user_access+"</button>",
                     ]).draw(false);
                 });
