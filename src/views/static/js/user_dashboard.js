@@ -74,7 +74,7 @@ $(document).ready(function(){
                         application_type,
                         getStatusFromCode(formResponse.status),
                         getFormProcessingStatusFromCode(formResponse.processingStatus),
-                        "<button onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\'+)})()\" \n\
+                        "<button onclick=\"(function(){application_form("+formResponse.formNumber+",\'"+formResponse.formUID+"\')})()\" \n\
                         class='btn btn-link btn-sm' type='button'>"+user_access+"</button>",
                     ]).draw(false);
                 });
