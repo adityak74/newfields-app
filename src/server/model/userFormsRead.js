@@ -168,15 +168,9 @@ const getFormDocumentsData = (connection, sanitizedInput, s3FileDownloadService,
 };
 
 export default (req, sanitizedInput, sqlConnPool, s3FileDownloadService) => cb => {
-  const currentUser = req.user;
   const incompleteForms = {};
-  if (currentUser.admin) {
-    incompleteForms.query = FORM_READ.USERFORMS_SELECT_BY_FORMID_ALL;
-    incompleteForms.params = [sanitizedInput.formUID];
-  } else {
-    incompleteForms.query = FORM_READ.USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE;
-    incompleteForms.params = [sanitizedInput.formUID, currentUser.id];
-  }
+  incompleteForms.query = FORM_READ.USERFORMS_SELECT_BY_FORMID_ALL;
+  incompleteForms.params = [sanitizedInput.formUID];
   sqlConnPool.getConnection((err, connection) => {
     if (err) cb(err, null);
     connection.beginTransaction((err1) => {
