@@ -445,11 +445,6 @@ function Openclient_form2(id, status)
             $('#overlay1').hide();
 
 
-            if()//processing status done
-            {
-
-            }
-
             
         $('#form2_request_modal').modal('show');   
         }
