@@ -87,8 +87,26 @@ $(document).ready(function() {
                     $("#visa_refusals_textarea").css("display","none");
                 }
 
-                $('#details_public_funds').val(response.publicFunds); 
                 $('#UK_NINo').val(response.nationalInsuranceNumber);
+
+// for UK nino--- enter UK nino text-area value by default, show text area on condition
+     /*           $('#UK_NINo').val(response.nationalInsuranceNumber);
+                var $radios = $('input:radio[name=uk_NINo]');
+                if($radios.is(':checked') === false) {
+                    $radios.filter('[value='+ response.ukNino +']').prop('checked', true);
+                }
+                if (response.ukNino === 'Yes')
+                {
+                    $("#UK_NINo").css("display","block");
+                    $("#nino_I").css("display","block");
+                }
+                else{
+                    $("#UK_NINo").css("display","none");
+                    $("#nino_I").css("display","none");
+                }
+*/
+                $('#details_public_funds').val(response.publicFunds); 
+            
                 $('#next_planned_departure').val(response.ukNextDepartureDate);
                 $('#UK_date_arrival_back').val(response.ukNextArrivalDate);
 
@@ -316,6 +334,24 @@ function visa(option)
     }
 }
 
+//UK NINo
+function NINo(option)
+{
+    if(option==="yes")
+    {
+        $("#UK_NINo").css("display","block");
+        $("#UK_NINo").attr("required", "required");
+        $("#nino_I").css("display","block");
+    }
+    else if(option==="no")
+    {
+        $("#UK_NINo").css("display","none");
+        $("#nino_I").css("display","none");
+        $("#UK_NINo").removeAttr("required", "required");
+        $("#UK_NINo").val("");
+    }
+}
+
 function radio_option(option)
 {
     if(option==="yes")
@@ -330,8 +366,9 @@ function radio_option(option)
     {
         remove_children(1);
     }
-    
 }
+
+
 function add_children2()
 {
    // $("#remove_children").css("display","block"); 

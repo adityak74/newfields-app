@@ -227,7 +227,35 @@ and open the template in the editor.
                         </select>
                     </div>
                 </div>
+
                 <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-5 col-form-label">16.	Have you had any UK National Insurance number you have received</label>
+                    <div class="col-sm form-check form-check-inline" >
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input  type="radio" value="Yes" class="form-check-input" name="uk_NINo" onclick="NINo('yes');" required>
+                            Yes
+                        </label>
+                    </div>
+                    <div class="col-sm form-check form-check-inline">
+                        <label class="form-check-label col-form-label" style="margin-left: 6%;">
+                            <input type="radio" value="No" class="form-check-input" name="uk_NINo" onclick="NINo('no');" >
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-5 offset-md-5 offset-lg-5">
+                        <input class="form-control" style="display:none;" id="UK_NINo" rows="3" autocomplete="nope" placeholder="any UK National Insurance number, please provide details here" >
+                    </div>
+                    <div class="col-sm-1">
+                        <p id="nino_I" style="display:none;">
+                            <i data-toggle="tooltip" data-placement="right" title="UK NI No e.g QQ123456C" class="fa fa-lg fa-info-circle"></i>
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">10.	 Your UK national insurance number</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="UK_NINo" placeholder="UK national insurance number(NINo)" autocomplete="nope" required>
@@ -237,8 +265,7 @@ and open the template in the editor.
                             <i data-toggle="tooltip" data-placement="right" title="UK NI No e.g QQ123456C" class="fa fa-lg fa-info-circle"></i>
                         </p>
                     </div>
-                    
-                </div>
+                </div> -->
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">11.	 Your next planned departure from the UK on</label>
                     <div class="input-group col-sm-5 ">
