@@ -22,6 +22,15 @@ const resetPasswordHTMLFile = path.join(
   'reset_email.ejs',
 );
 
+const userContactHTMLFile = path.join(
+  __dirname,
+  '..',
+  '..',
+  'views',
+  'pages',
+  'user_contact_email.ejs',
+);
+
 export default ({ appUrl, emailService, passport, sqlConn }) => {
   const router = express.Router();
   
@@ -90,6 +99,26 @@ export default ({ appUrl, emailService, passport, sqlConn }) => {
   router.get('/homepage', isLoggedIn, (req, res) => res.render('pages/user_dashboard', { appLocation: appUrl }));
 
   router.get('/contact', isLoggedIn, (req, res) => res.render('pages/user_contact', { appLocation: appUrl }));
+  
+  router.post('/contact', isLoggedIn, (req, res) => {
+    const { client_name, client_email, message_text } = req.body;
+    ejsRenderFile(
+      userContactHTMLFile,
+      {
+        userName: client_name,
+        email: client_email,
+        message: message_text,
+      },
+      (err, htmlString) => {
+        emailService({
+          toAddress: 'gagansingh2822@gmail.com',
+          emailHtmlData: htmlString,
+          emailTextData: htmlString,
+          emailSubject: "Newfields - Contact",
+        });
+    });
+    res.status(200).send();
+  });
 
   router.get('/settings', isLoggedIn, (req, res) => { 
     const newUser = {
