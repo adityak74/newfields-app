@@ -92,7 +92,7 @@ function fetchagent_table()
                 "name",
                 "Email",
                 "Password",
-                "<button onclick='alert('activating agent')' class='btn btn-link btn-sm' type='button'>"+agent_status+"</button>",
+                "<button onclick=\"alert('activating agent account');\"  class='btn btn-link btn-sm' type='button'>"+agent_status+"</button>",
             ]).draw(false);
         }
             
