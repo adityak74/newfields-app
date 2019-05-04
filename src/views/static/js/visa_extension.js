@@ -44,7 +44,16 @@ $(document).ready(function() {
                 console.log(response);
           
                 $('#Unique_id').val();
-                $('#Title').val(response.title);
+             
+                if(response.title==="title")
+                {   
+                    $("#Title")[0].selectedIndex = 0; 
+                }
+                else{
+                    $('#Title').val(response.title); 
+                }
+
+                
                 $('#formRefNumber').text("Reference number: "+'#'.concat(response.formReferenceNumber));
     
                 $('#full_name').val(response.fullName); 
@@ -105,7 +114,15 @@ $(document).ready(function() {
                     $("#nino_I").css("display","none");
                 }
 */
-                $('#details_public_funds').val(response.publicFunds); 
+                
+                if(response.publicFunds==='select option')
+                {
+                    $("#details_public_funds")[0].selectedIndex = 0;
+                }
+                else{
+                    $('#details_public_funds').val(response.publicFunds);  
+                }
+
             
                 $('#next_planned_departure').val(response.ukNextDepartureDate);
                 $('#UK_date_arrival_back').val(response.ukNextArrivalDate);

@@ -14,6 +14,19 @@ function getStatusFromCode(formStatusCode) {
     }
     return statusText;
 }
+/*
+function getFormProcessingStatusFromCode(formProcessingStatusCode) {
+    let statusText = '';
+    switch (formProcessingStatusCode) {
+        case 0: statusText = 'Application not received by Newfields'; break; // not submitted
+        case 1: statusText = 'Application received by Newfields'; break; // submitted but admnin not started
+        case 2: statusText = 'Application in process by Newfields '; break; // submitted and admin in progress
+        case 3: statusText = 'Application processed by Newfields'; break; // admin complete
+        default: statusText = 'Incomplete'; break;
+    }
+    return statusText;
+} */
+
 
 function application_form(formNumber, formUID) {
     window.open(location.origin + '/form' + formNumber+'/show?action=update&formId=' + formUID, '_blank');
@@ -430,6 +443,13 @@ function Openclient_form2(id, status)
            
             $('#img').hide();
             $('#overlay1').hide();
+
+
+            if()//processing status done
+            {
+
+            }
+
             
         $('#form2_request_modal').modal('show');   
         }
