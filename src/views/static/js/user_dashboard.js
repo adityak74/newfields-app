@@ -2,10 +2,10 @@
 function getStatusFromCode(formStatusCode) {
     let statusText = '';
     switch (formStatusCode) {
-        case 1: statusText = 'Incomplete'; break;
-        case 2: statusText = 'Incomplete'; break;
-        case 3: statusText = 'Submitted'; break;
-        default: statusText = 'Incomplete'; break;
+        case 1: statusText = 'Application incomplete'; break;
+        case 2: statusText = 'Application incomplete'; break;
+        case 3: statusText = 'Application submitted'; break;
+        default: statusText = 'Application incomplete'; break;
     }
     return statusText;
 }
@@ -13,8 +13,8 @@ function getStatusFromCode(formStatusCode) {
 function getFormProcessingStatusFromCode(formProcessingStatusCode) {
     let statusText = '';
     switch (formProcessingStatusCode) {
-        case 0: statusText = 'Application not submitted'; break; // not submitted
-        case 1: statusText = 'Application submitted'; break; // submitted but admnin not started
+        case 0: statusText = 'Application not received by Newfields'; break; // not submitted
+        case 1: statusText = 'Application received by Newfields'; break; // submitted but admnin not started
         case 2: statusText = 'Application in process by Newfields '; break; // submitted and admin in progress
         case 3: statusText = 'Application processed by Newfields'; break; // admin complete
         default: statusText = 'Incomplete'; break;
