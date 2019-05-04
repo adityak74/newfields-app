@@ -12,66 +12,128 @@ and open the template in the editor.
         <script type="text/javascript" src="<%= appLocation %>/js/admin_manage_accounts.js"></script>
     </head>
     <body>
+            <style>
+                #page_footer{
+                background-color: grey;
+                opacity: 0.6;
+                text-align:right;
+                }
+                
+                #page_footer label{
+                display: inline-block;
+                margin: 2px;
+                margin-right: 10px;
+                }
+            </style>
         
         <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
             <h5 class="h5 mb-0 text-gray-800" style="color:#77b300;">Manage Accounts</h5>
         </div>
         <br>
-        <form>
-            
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-5 col-form-label">1.	First name</label>
-                
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="Na_firstname" placeholder="enter first name" autocomplete="nope" required>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-5 col-form-label">2.	Last name</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="Na_lastname" placeholder="enter last name" autocomplete="nope" required>
-                </div>
-            </div>
-            <!-- <div class="form-group row">
-                <label for="inputPassword" class="col-sm-5 col-form-label">3.	Designation/Role</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="Na_deignation/role" placeholder="enter designation/role" autocomplete="nope" required>
-                </div>
-            </div> -->
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-5 col-form-label">3.	Username</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="Na_username" placeholder="enter username" autocomplete="nope" required>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-5 col-form-label">4.	Password</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="Na_password" placeholder="enter password" autocomplete="nope" required>
-                </div>
-            </div>
-            
-            
-            <br>
-            <button class="btn btn-primary" id="create_na" data-toggle="tooltip" data-placement="top" style="float:right;"
-                    type="submit" title='Create New Account User' onclick="new_admin()"> 
-                    Add admin account
-            </button>
 
-        </form>
-        <style>
-            #page_footer{
-            background-color: grey;
-            opacity: 0.6;
-            text-align:right;
-            }
-            
-            #page_footer label{
-            display: inline-block;
-            margin: 2px;
-            margin-right: 10px;
-            }
-        </style>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" id='requests'>
+                <a class="nav-link active" href="#admin_tab" role="tab" data-toggle="tab">Admin accounts</a>
+            </li>
+            <li class="nav-item" id='active1'>
+                <a class="nav-link" href="#agents_tab" role="tab" data-toggle="tab">Agent accounts</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <br>
+    <!--new client request content-->    
+            <div role="tabpanel" class="tab-pane fade in show active" id="admin_tab">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">New admin</h6>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">1.	First name</label>
+                                
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="Na_firstname" placeholder="enter first name" autocomplete="nope" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">2.	Last name</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="Na_lastname" placeholder="enter last name" autocomplete="nope" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">3.	Username</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="Na_username" placeholder="enter username" autocomplete="nope" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-5 col-form-label">4.	Password</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="Na_password" placeholder="enter password" autocomplete="nope" required>
+                                </div>
+                            </div>
+                            <br>
+                            <button class="btn btn-primary" id="create_na" data-toggle="tooltip" data-placement="top" style="float:right;"
+                                    type="submit" title='Create New Account User' onclick="new_admin()"> 
+                                    Add admin account
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Current admin accounts</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="admin_table" class="table table-bordered table-hover table-striped" style="font-size: 14px;">
+                                <thead>
+                                    <th>Activated Date</th>
+                                    <th>Admin Name</th>
+                                    <th>Email Address</th>
+                                    <th style="width:10px;">Status</th>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+ <!-- Agents tab     -->
+            <div role="tabpanel" class="tab-pane fade" id="agents_tab">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Agents details</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="agents_table" class="table table-bordered table-hover table-striped" style="font-size: 14px;">
+                                <thead>
+                                    <th>Requested Date</th>
+                                    <th>Agent Name</th>
+                                    <th>Email Address</th>
+                                    <th>Password</th>
+                                    <th style="width:10px;">Status</th>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+       
             
             <footer class="fixed-bottom" id="page_footer">
                 <label>Version 1.0</label>    

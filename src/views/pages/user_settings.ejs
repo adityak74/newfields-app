@@ -19,7 +19,7 @@ and open the template in the editor.
         
         
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="card shadow mb-4">
                           <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -31,10 +31,10 @@ and open the template in the editor.
                             <div class="form-group row">
                                 <label for="fullname" class="col-2 col-form-label"><i class="fas fa-2x fa-user-circle"></i></label>
                                 <div class="col-10">
-                                  <input type="text" class="form-control-plaintext" readonly  id="fullname" value="<%= userData.name %>">
+                                  <input type="text" class="form-control-plaintext" disabled  id="fullname" value="<%= userData.name %>">
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <!-- <div class="form-group row">
                                 <label for="location" class="col-2 col-form-label"><i class="fas fa-2x fa-map-marker"></i></label>
                                 <div class="col-10">
                                   <input type="text" class="form-control-plaintext" readonly  id="location" value="<%= userData.location %>">
@@ -45,41 +45,30 @@ and open the template in the editor.
                                 <div class="col-10">
                                   <input type="text" class="form-control-plaintext" readonly  id="dob" value="<%= userData.dateOfBirth %>">
                                 </div>
+                            </div> -->
+
+                            <div class="form-group row">
+                                <label for="email" class="col-2 col-form-label"><i class="fas fa-2x fa-envelope"></i></label>
+                                <div class="col-7">
+                                    <input type="text" class="form-control-plaintext" disabled  id="email" value="<%= userData.email %>">
+                                </div>
+                                <div class="col-3">
+                                        <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#myModal">
+                                        Change Password
+                                        </button>
+                                    </div>
                             </div>
+                            <div class="form-group row">
+                                
+                                
+                            </div>
+
                         </form>
                         
                     </div>
                 </div>
             </div>
         
-        
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="card shadow mb-4">
-                          <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Credentials</h6>
-                    </div>
-                    <div class="card-body">
-
-                        <form>
-                            <div class="form-group row">
-                                <label for="email" class="col-2 col-form-label"><i class="fas fa-2x fa-envelope"></i></label>
-                                <div class="col-10">
-                                  <input type="text" class="form-control-plaintext" readonly  id="email" value="<%= userData.email %>">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                
-                                <div class="col-10">
-                                  <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#myModal">
-                                    Change Password
-                                  </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
         
         <div class="modal fade" id="myModal" >

@@ -118,7 +118,7 @@ function form1_request_table(formsDataArray)
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
         ]).draw(false);
     });
 }
@@ -169,6 +169,9 @@ function Openclient_form1(id, status)
             $('#relationship_status').val(responseText.relationship);
             $('#nationalities').val(responseText.nationalities);
             $('#date_UK_entry').val(responseText.ukEntryDate);
+
+            alert(responseText.ukEntryDate.toLocaleDateString());
+
             $('#conviction_text_area').val(responseText.convictionText);
             $('#visa_refusals_textarea').val(responseText.visaRefusalText);
 
@@ -230,7 +233,7 @@ function form2_request_table(formsDataArray)
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
         ]).draw(false);
     });
 }
@@ -247,7 +250,7 @@ function incomplete_forms_request_table(formsDataArray)
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
         ]).draw(false);
     });
 }
@@ -264,7 +267,7 @@ function processed_forms_request_table(formsDataArray)
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>Open</button>",
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
         ]).draw(false);
     });
 }

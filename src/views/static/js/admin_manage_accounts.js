@@ -1,6 +1,13 @@
 
 
 
+$(document).ready(function () {
+    fetchadmin_table();
+    fetchagent_table();
+});
+
+
+
 function Send_supoortMail()
 {
     var first_name  = $('#Na_firstname').val();
@@ -37,6 +44,57 @@ function Send_supoortMail()
             });
         }
     });
+}
+
+function fetchadmin_table()
+{
+    var AT = $('#admin_table').DataTable();
+        
 
 
+        for (var i=0;i<5;i++)
+        {
+
+            AT.row.add([
+                "Date" ,
+                "name",
+                "Email",
+                "Status",
+            ]).draw(false);
+        }
+}
+
+
+function fetchagent_table()
+{
+    var AT = $('#agents_table').DataTable();
+  //  formsDataArray.forEach(formResponse => {
+       // var date = new Date(formResponse.createDate).toString();
+       // var response_date = date.substr(0,28);
+
+       var agent_status;
+       var agent_request_status = 0;
+
+       if(agent_request_status===0)
+       {
+            agent_status ="Authenticate account";
+       }
+       else if (agent_request_status===1){
+            agent_status ="Active";
+       }
+
+
+        for (var i=0;i<5;i++)
+        {
+
+            AT.row.add([
+                "Date" ,
+                "name",
+                "Email",
+                "Password",
+                "<button onclick='alert('activating agent')' class='btn btn-link btn-sm' type='button'>"+agent_status+"</button>",
+            ]).draw(false);
+        }
+            
+  //  });
 }

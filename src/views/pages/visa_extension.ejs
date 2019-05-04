@@ -228,8 +228,9 @@ and open the template in the editor.
                     </div>
                 </div>
 
+********  Needs to be added in  backend for yes or no for form 1 ********  
                 <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-5 col-form-label">16.	Have you had any UK National Insurance number you have received</label>
+                    <label for="inputPassword" class="col-sm-5 col-form-label">10.	Have you had any UK National Insurance number you have received</label>
                     <div class="col-sm form-check form-check-inline" >
                         <label class="form-check-label col-form-label" style="margin-left: 6%;">
                             <input  type="radio" value="Yes" class="form-check-input" name="uk_NINo" onclick="NINo('yes');" required>
@@ -267,9 +268,9 @@ and open the template in the editor.
                     </div>
                 </div> -->
                 <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-5 col-form-label">11.	 Your next planned departure from the UK on</label>
+                    <label for="inputPassword" class="col-sm-5 col-form-label">11.	 Your next planned departure from the UK (if known)</label>
                     <div class="input-group col-sm-5 ">
-                        <input data-provide="datepicker" class="form-control" id="next_planned_departure"  placeholder="dd/mm/yyyy" required>
+                        <input data-provide="datepicker" class="form-control" id="next_planned_departure"  placeholder="dd/mm/yyyy" >
                         <div class="input-group-append">
                             <button class="btn btn-secondary" type="button" onclick="show_date('1')">
                               <i class="fa fa-calendar"></i>
@@ -279,9 +280,9 @@ and open the template in the editor.
                 </div>
         
                 <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-5 col-form-label">12.	 Arrival back in the UK on</label>
+                    <label for="inputPassword" class="col-sm-5 col-form-label">12.	 Arrival back in the UK (if known)</label>
                     <div class="input-group col-sm-5">
-                        <input data-provide="datepicker" class="form-control" id="UK_date_arrival_back"  placeholder="dd/mm/yyyy" required>
+                        <input data-provide="datepicker" class="form-control" id="UK_date_arrival_back"  placeholder="dd/mm/yyyy" >
                         <div class="input-group-append">
                             <button class="btn btn-secondary" type="button" onclick="show_date('2')">
                               <i class="fa fa-calendar"></i>
@@ -517,7 +518,7 @@ and open the template in the editor.
                     </div>
                 </div>
                 
-
+                ********   Needs to be removed from backend for form 1********  
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">4.	Biometric Residence Permit back</label>
                     <div class="col-sm-5">
