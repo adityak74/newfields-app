@@ -170,8 +170,6 @@ function Openclient_form1(id, status)
             $('#nationalities').val(responseText.nationalities);
             $('#date_UK_entry').val(responseText.ukEntryDate);
 
-            alert(responseText.ukEntryDate.toLocaleDateString());
-
             $('#conviction_text_area').val(responseText.convictionText);
             $('#visa_refusals_textarea').val(responseText.visaRefusalText);
 
