@@ -6,13 +6,15 @@
   "scripts": {
     "build": "webpack --mode production",
     "build:constants": "NODE_ENV=development babel-node src/server/scripts/generateAppConstants",
+    "build:constants:prod": "NODE_ENV=production babel-node src/server/scripts/generateAppConstants",
     "clean:i": "npm run clean:mac && npm i",
     "clean:mac": "rm -rf node_modules *-lock.json",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "npm run build && babel-node src/server/index.js",
     "server": "nodemon --exec babel-node src/server/index.js",
-    "server:dev": "NODE_ENV=development nodemon --exec babel-node src/server/index.js"
+    "server:dev": "NODE_ENV=development nodemon --exec babel-node src/server/index.js",
+    "server:prod": "NODE_ENV=production babel-node src/server/index.js"
   },
   "author": "Aditya Karnam, Gaganpreet Singh",
   "license": "ISC",
