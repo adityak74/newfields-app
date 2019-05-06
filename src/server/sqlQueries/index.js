@@ -57,6 +57,12 @@ const DOCUMENTS = {
   UPDATE_DOCUMENTS_ENTRY_BY_FORMUID_TYPE: 'UPDATE documents SET ? WHERE formUID = ? and type = ?',
 };
 
+const USERS = {
+  SELECT_ALL_ADMINS: 'SELECT * from users where admin = 1',
+  SELECT_ALL_AGENTS: 'SELECT * from users where agent = 1',
+  UPDATE_AGENT: 'UPDATE users SET ? WHERE id = ? and agent = 1',
+}
+
 export default {
   DOCUMENTS,
   FORM_CREATE,
@@ -66,4 +72,5 @@ export default {
   FORM_RELATIONS,
   FORM_TRIPS,
   TRIPS,
+  USERS,
 };
