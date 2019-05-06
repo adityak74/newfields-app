@@ -83,6 +83,7 @@ export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
     tripInfo,
     other_trip,
     otherTripInfo,
+    additional_info_text_area,
   }) => ({
     formAction,
     uniqueId: UniqueID,
@@ -152,6 +153,7 @@ export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
     trips: JSON.parse(tripInfo),
     ifOtherTrips: other_trip,
     otherTrips: JSON.parse(otherTripInfo),
+    additionalInfoText: additional_info_text_area,
   });
 
   const buildFilesObject = ({

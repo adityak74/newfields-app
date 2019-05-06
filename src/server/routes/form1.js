@@ -55,6 +55,7 @@ export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
     child2_nationalities,
     child2_dob,
     child2_placeofbirth,
+    additional_info_text_area,
   }) => ({
     formAction,
     uniqueId: UniqueID,
@@ -95,6 +96,7 @@ export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
     child2Nationalitites: child2_nationalities,
     child2DateOfBirth: child2_dob,
     child2PlaceOfBirth: child2_placeofbirth,
+    additionalInfoText: additional_info_text_area,
   });
   
   const buildFilesObject = ({
