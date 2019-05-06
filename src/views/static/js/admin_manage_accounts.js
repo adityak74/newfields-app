@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 
 
-function Send_supoortMail()
+function create_new_admin()
 {
     var first_name  = $('#Na_firstname').val();
     var last_name   = $('#Na_lastname').val();
@@ -49,19 +49,32 @@ function Send_supoortMail()
 function fetchadmin_table()
 {
     var AT = $('#admin_table').DataTable();
-        
-
-
-        for (var i=0;i<5;i++)
-        {
-
-            AT.row.add([
-                "Date" ,
-                "name",
-                "Email",
-                "Status",
-            ]).draw(false);
-        }
+    $.get({
+        url : '',
+        data : {},
+        success : function(responseData) {    
+            for (var i=0;i<5;i++)
+            {
+                AT.row.add([
+                    "Date" ,
+                    "name",
+                    "Email",
+                    "Status",
+                ]).draw(false);
+            }
+        },
+        error: function(xhr) {
+            $('#img').hide();
+            $('#overlay1').hide();
+            swal({
+                title: "Server Error",
+                text: "It seems like the server is down or under maintainance, please check back later.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            });
+        },
+    });
 }
 
 
@@ -71,17 +84,21 @@ function fetchagent_table()
   //  formsDataArray.forEach(formResponse => {
        // var date = new Date(formResponse.createDate).toString();
        // var response_date = date.substr(0,28);
+    var AT = $('#admin_table').DataTable();
+    $.get({
+        url : '',
+        data : {},
+        success : function(responseData) {  
+        var agent_status;
+        var agent_request_status = 0;
 
-       var agent_status;
-       var agent_request_status = 0;
-
-       if(agent_request_status===0)
-       {
-            agent_status ="Authenticate account";
-       }
-       else if (agent_request_status===1){
-            agent_status ="Active";
-       }
+        if(agent_request_status===0)
+        {
+                agent_status ="Authenticate account";
+        }
+        else if (agent_request_status===1){
+                agent_status ="Active";
+        }
 
 
         for (var i=0;i<5;i++)
@@ -95,6 +112,22 @@ function fetchagent_table()
                 "<button onclick=\"alert('activating agent account');\"  class='btn btn-link btn-sm' type='button'>"+agent_status+"</button>",
             ]).draw(false);
         }
-            
-  //  });
+        },
+        error: function(xhr) {
+            $('#img').hide();
+            $('#overlay1').hide();
+            swal({
+                title: "Server Error",
+                text: "It seems like the server is down or under maintainance, please check back later.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            });
+        },
+    });
+}
+
+function activate_agent()
+{
+    
 }
