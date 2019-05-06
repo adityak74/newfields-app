@@ -26,7 +26,8 @@ export default (appConfig, emailService, passport, sqlConn) => {
 
   passport.deserializeUser((id, done) => {
     sqlConn.query("SELECT * FROM users WHERE id = ? ", [id], (err, rows) => {
-      done(err, rows[0]);
+      if (err) return done(err, null);
+      done(null, rows[0]);
     });
   });
 

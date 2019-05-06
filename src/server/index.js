@@ -24,9 +24,16 @@ const app = express();
 const appConfig = config(process.env.NODE_ENV);
 const sql = sqlInit(appConfig);
 
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+  host: appConfig.get('redisHost'),
+  port: appConfig.get('redisPort'),
+});
 
 const redisStore = connectRedis(session);
+
+// redisClient.on("error", function (err) {
+//   console.log("Error " + err);
+// });
 
 // email init
 const emailService = sendMail(appConfig);
