@@ -10,7 +10,7 @@ import agentUpdate from '../model/agentUpdate';
 import formProgress from '../model/formProgress';
 import { SUBMIT } from '../constants/formType';
 
-export default ({ appUrl, passport, sqlConn }) => {
+export default ({ appUrl, emailService, passport, sqlConn }) => {
   const router = express.Router();
 
   router.get('/homepage', isAdmin, (req, res) => res.render('pages/admin_dashboard', { appLocation: appUrl }));
@@ -65,7 +65,7 @@ export default ({ appUrl, passport, sqlConn }) => {
     const input = { userID: agent_user_id };
     validateUserID(input, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
-      const updateAgent = agentUpdate(sqlConn, sanitizedInput);
+      const updateAgent = agentUpdate(sqlConn, sanitizedInput, emailService);
       updateAgent((err, result) => {
         if (err) return res.status(400).send(err);
         else res.send(result);

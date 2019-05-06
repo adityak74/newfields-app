@@ -94,7 +94,7 @@ app.use('/js', express.static(path.join(staticPath, 'js')));
 app.use('/css', express.static(path.join(staticPath, 'css')));
 app.use('/images', express.static(path.join(staticPath, 'images')));
 
-app.use('/admin', adminRouteHandler({ appUrl, passport, sqlConn: sql }));
+app.use('/admin', adminRouteHandler({ appUrl, emailService, passport, sqlConn: sql }));
 app.use('/user', userRouteHandler({ appUrl, appSecret: appConfig.get('secret'), emailService, passport, sqlConn: sql }));
 app.use('/form1', form1RouteHandler({ appUrl, emailService, sqlConn: sql, awsS3: { s3FileUploadService, s3FileDownloadService } }));
 app.use('/form2', form2RouteHandler({ appUrl, emailService, sqlConn: sql, awsS3: { s3FileUploadService, s3FileDownloadService } }));

@@ -60,6 +60,7 @@ const DOCUMENTS = {
 const USERS = {
   SELECT_ALL_ADMINS: 'SELECT * from users where admin = 1',
   SELECT_ALL_AGENTS: 'SELECT * from users where agent = 1',
+  SELECT_USER_BY_ID: 'SELECT * from users where id = ?',
   UPDATE_AGENT: 'UPDATE users SET ? WHERE id = ? and agent = 1',
 }
 
