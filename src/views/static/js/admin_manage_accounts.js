@@ -4,6 +4,9 @@
 $(document).ready(function () {
     fetchadmin_table();
     fetchagent_table();
+    $("#add_new_admin_form").submit(function(){
+        return false;
+    });
 });
 
 
@@ -16,10 +19,9 @@ function create_new_admin()
     var password    = $('#Na_password').val();
     
     $.post({
-        url : '',
-        data: {  },
+        url : appLocation + '/admin/add-admin',
+        data: { first_name, last_name, user_name, password },
         success : function(responseText) {
-            
             swal({
                 title: "Success",
                 text: "New admin account created successfully",
@@ -40,7 +42,6 @@ function create_new_admin()
                 buttons: false,
                 dangerMode: true,
                 timer: 2500,
-               
             });
         }
     });
@@ -49,10 +50,11 @@ function create_new_admin()
 function fetchadmin_table()
 {
     var AT = $('#admin_table').DataTable();
-    $.get({
-        url : '',
+    $.post({
+        url : appLocation + '/admin/all',
         data : {},
-        success : function(responseData) {    
+        success : function(responseData) {
+            console.log('adminsData--->', responseData);
             for (var i=0;i<5;i++)
             {
                 AT.row.add([
@@ -81,14 +83,12 @@ function fetchadmin_table()
 function fetchagent_table()
 {
     var AT = $('#agents_table').DataTable();
-  //  formsDataArray.forEach(formResponse => {
-       // var date = new Date(formResponse.createDate).toString();
-       // var response_date = date.substr(0,28);
-    var AT = $('#admin_table').DataTable();
-    $.get({
-        url : '',
+
+    $.post({
+        url : appLocation + '/admin/allAgents',
         data : {},
-        success : function(responseData) {  
+        success : function(responseData) {
+        console.log('agentsData--->', responseData);
         var agent_status;
         var agent_request_status = 0;
 

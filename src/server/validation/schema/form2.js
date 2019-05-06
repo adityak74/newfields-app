@@ -75,6 +75,7 @@ const schema = Joi.object().keys({
   trips: JoiGenericTripsSchema,
   ifOtherTrips: JoiYesNo,
   otherTrips: JoiGenericTripsSchema,
+  additionalInfoText: Joi.string().allow(''),
 }).unknown(true);
 
 export default schema;

@@ -2,11 +2,15 @@ import express from 'express';
 import isAdmin from '../util/isAdmin';
 import validateFormProgress from '../validation/validator/formProgress';
 import validateSignUp from '../validation/validator/signUp';
+import validateUserID from '../validation/validator/userID';
 import userFormsReadAll from '../model/userAllForms';
+import adminsReadAll from '../model/adminRead';
+import agentsReadAll from '../model/agentRead';
+import agentUpdate from '../model/agentUpdate';
 import formProgress from '../model/formProgress';
 import { SUBMIT } from '../constants/formType';
 
-export default ({ appUrl, sqlConn }) => {
+export default ({ appUrl, emailService, passport, sqlConn }) => {
   const router = express.Router();
 
   router.get('/homepage', isAdmin, (req, res) => res.render('pages/admin_dashboard', { appLocation: appUrl }));
@@ -40,13 +44,48 @@ export default ({ appUrl, sqlConn }) => {
     });
   });
 
+  router.post('/all', isAdmin, (req, res) => {
+    const getAllAdmins = adminsReadAll(sqlConn);
+    getAllAdmins((err, result) => {
+      if (err) return res.status(400).send(err);
+      else res.send(result);
+    });
+  });
+
+  router.post('/allAgents', isAdmin, (req, res) => {
+    const getAllAgents = agentsReadAll(sqlConn);
+    getAllAgents((err, result) => {
+      if (err) return res.status(400).send(err);
+      else res.send(result);
+    });
+  });
+
+  router.post('/agent/authorize', isAdmin, (req, res) => {
+    const { agent_user_id } = req.body;
+    const input = { userID: agent_user_id };
+    validateUserID(input, {}, (validationErr, sanitizedInput) => {
+      if (validationErr) res.status(400).send(validationErr);
+      const updateAgent = agentUpdate(sqlConn, sanitizedInput, emailService);
+      updateAgent((err, result) => {
+        if (err) return res.status(400).send(err);
+        else res.send(result);
+      });
+    });
+  });
+
   router.post('/add-admin', (req, res) => {
-    const input = req.body;
+    const { first_name, last_name, user_name, password } = req.body;
+
+    const input = {
+      name: `${first_name} ${last_name}`,
+      email: user_name,
+      password,
+    };
   
     validateSignUp(input, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
       else {
-        req.body = sanitizedInput;
+        req.body = { ...sanitizedInput, isAdmin: true };
         passport.authenticate('local-signup',
           function(err, user) {
             if (user) {

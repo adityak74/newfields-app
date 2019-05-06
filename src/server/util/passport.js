@@ -41,9 +41,11 @@ export default (appConfig, emailService, passport, sqlConn) => {
     },
     function(req, email, password, done) {
       const name = req.body.name;
+      const isAdmin = req.body.isAdmin ? 1 : 0;
+      const isAgent = req.body.isAgent ? 1 : 0;
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        sqlConn.query("SELECT * FROM users WHERE email = ?", [email], (err, rows) => {
+        sqlConn.query("SELECT * FROM users WHERE email = ? and admin = ?", [email, isAdmin], (err, rows) => {
             if (err)
                 return done(err);
             if (rows.length) {
@@ -55,32 +57,40 @@ export default (appConfig, emailService, passport, sqlConn) => {
                   name: name,
                   email: email,
                   password: bcrypt.hashSync(password, null, null),
-                  token: md5(`${appConfig.get('secret')}-${email}`),
+                  token: md5(bcrypt.hashSync(`${appConfig.get('secret')}-${email}-${isAdmin}`, null, null)),
+                  admin: isAdmin,
+                  agent: isAgent,
                 };
 
-                var insertQuery = "INSERT INTO users ( name, email, password, token ) values (?, ?, ?, ?)";
+                var insertQuery = "INSERT INTO users ( name, email, password, token, admin, agent ) values (?, ?, ?, ?, ?, ?)";
 
                 sqlConn.query(insertQuery, 
                   [ newUserMysql.name, 
                     newUserMysql.email, 
                     newUserMysql.password,
-                    newUserMysql.token
+                    newUserMysql.token,
+                    newUserMysql.admin,
+                    newUserMysql.agent,
                   ], function(err, rows) {
+                    if (err) return done(err, null);
                     newUserMysql.id = rows.insertId;
-                    ejsRenderFile(
-                      emaiLVerificationHTMLFile,
-                      {
-                        userName: capitalizeFirst(newUserMysql.name),
-                        verifyEmailLink: `${appUrl}/user/email/verify?email=${email}&token=${newUserMysql.token}`
-                      },
-                      (err, htmlString) => {
-                        emailService({
-                          toAddress: newUserMysql.email,
-                          emailHtmlData: htmlString,
-                          emailTextData: htmlString,
-                          emailSubject: "Newfields - Email Verification",
-                        });
-                    });
+                    // if agent then admin will set isVerified true
+                    if (!newUserMysql.agent) {
+                      ejsRenderFile(
+                        emaiLVerificationHTMLFile,
+                        {
+                          userName: capitalizeFirst(newUserMysql.name),
+                          verifyEmailLink: `${appUrl}/user/email/verify?email=${email}&token=${newUserMysql.token}`
+                        },
+                        (err, htmlString) => {
+                          emailService({
+                            toAddress: newUserMysql.email,
+                            emailHtmlData: htmlString,
+                            emailTextData: htmlString,
+                            emailSubject: "Newfields - Email Verification",
+                          });
+                      });
+                    }
                     return done(null, newUserMysql);
                 });
             }
@@ -97,19 +107,23 @@ export default (appConfig, emailService, passport, sqlConn) => {
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) { // callback with email and password from our form
-      sqlConn.query("SELECT * FROM users WHERE email = ?", [email], (err, rows) => {
+      const isAdmin = req.body.isAdmin ? 1 : 0;
+      sqlConn.query("SELECT * FROM users WHERE email = ? and admin = ?", [email, isAdmin], (err, rows) => {
             if (err)
               return done(err);
             if (!rows.length) {
-              return done(new Error("userNotFound"), false); // req.flash is the way to set flashdata using connect-flash
+              return done(new Error("userNotFound"), false); 
             }
 
             // if the user is found but the password is wrong
             if (!bcrypt.compareSync(password, rows[0].password))
-              return done(new Error("wrongPassword"), false); // create the loginMessage and save it to session as flashdata
+              return done(new Error("wrongPassword"), false); 
             
+            if (!rows[0].isVerified && rows[0].agent)
+              return done(new Error("unverifiedAgentAccount"), false);
+
             if (!rows[0].isVerified)
-              return done(new Error("unverifiedAccount"), false); // create the loginMessage and save it to session as flashdata
+              return done(new Error("unverifiedAccount"), false);
             // all is well, return successful user
             return done(null, rows[0]);
         });

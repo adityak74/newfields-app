@@ -24,18 +24,22 @@ function getFormDataOnAction(action) {
     let email = '';
     let password = '';
     let name = '';
+    let isAdmin = '';
+    let isAgent = '';
 
     switch (action) {
         case actions.signin:
             email = $("#email").val();
             password = $("#password").val();
-            form_data = { email, password };
+            isAdmin = $('#isAdmin').prop('checked');
+            form_data = { email, password, isAdmin };
             break;
         case actions.signup:
             email = $("#register_email").val();
             password = $("#register_password").val();
             name = $("#register_name").val();
-            form_data = { email, password, name };
+            isAgent = $('#isAgent').prop('checked');
+            form_data = { email, password, name, isAgent };
             break;
         case actions.forgot:
             email = $('#forgot_password_email').val();
@@ -123,6 +127,9 @@ $(document).ready(function() {
                             break;
                         case 'userNotFound':
                             message = "No such email or password found on the system. Please sign up before you can log-in.";
+                            break;
+                        case 'unverifiedAgentAccount':
+                            message = "You will be able to log-in once admin verifies your agent account.";
                             break;
                         case 'unverifiedAccount':
                             message = "Please verify your account by link sent to your email before you could log-in.";
