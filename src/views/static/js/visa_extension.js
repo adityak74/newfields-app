@@ -209,16 +209,6 @@ $(document).ready(function() {
                     $("#BRP_front_page").attr("required", "required");
                 }
 
-                if(response.biometric_residence_permit_back_link) {
-                    $("#upload_div4").css("display","block");
-                    $("#BRP_back_page_link").attr("href", response.biometric_residence_permit_back_link);
-                    $("#uploaded_BRP_back_page").val(response.biometric_residence_permit_back);
-                    $("#BRP_back_page").removeAttr("required", "required");
-                } else {
-                    $("#upload_div4").css("display","none");
-                    $("#BRP_back_page").attr("required", "required");
-                }
-
             //    $("#additional_info_text_area").val();
 
 
@@ -673,9 +663,9 @@ function getFormInput() {
     var uk_visa_photo           = $('#uk_visa_photo').prop('files')[0]; 
     var passport_front_page     = $('#passport_front_page').prop('files')[0];
     var BRP_front_page          = $('#BRP_front_page').prop('files')[0];
-    var BRP_back_page           = $('#BRP_back_page').prop('files')[0];
+  
 
-    var additional_info_text_area = $('#additional_info_text_area').val();
+  //  var additional_info_text_area = $('#additional_info_text_area').val();
     
     var form_data = new FormData();
 
@@ -727,7 +717,7 @@ function getFormInput() {
     form_data.append('uk_visa_photo', uk_visa_photo);
     form_data.append('passport_front_page', passport_front_page);
     form_data.append('BRP_front_page', BRP_front_page);
-    form_data.append('BRP_back_page', BRP_back_page);
+   
 
     //form_data.append('additional_info_text_area', additional_info_text_area);
 
@@ -806,12 +796,10 @@ function formreadonly()
     $('#uk_visa_photo').hide(); 
     $('#passport_front_page').hide();
     $('#BRP_front_page').hide();
-    $('#BRP_back_page').hide();
 
     $("#uploaded_uk_visa_photo").prop('disabled', true);
     $("#uploaded_passport_front_page").prop('disabled', true);
     $("#uploaded_BRP_front_page").prop('disabled', true);
-    $("#uploaded_BRP_back_page").prop('disabled', true);
    
     //    $("#additional_info_text_area").prop('disabled', true);
    
