@@ -96,24 +96,18 @@ $(document).ready(function() {
                     $("#visa_refusals_textarea").css("display","none");
                 }
 
-                $('#UK_NINo').val(response.nationalInsuranceNumber);
-
-// for UK nino--- enter UK nino text-area value by default, show text area on condition
-     /*           $('#UK_NINo').val(response.nationalInsuranceNumber);
+                $('#uk_nino_textarea').val(response.nationalInsuranceNumber);
                 var $radios = $('input:radio[name=uk_NINo]');
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.ukNino +']').prop('checked', true);
                 }
                 if (response.ukNino === 'Yes')
                 {
-                    $("#UK_NINo").css("display","block");
-                    $("#nino_I").css("display","block");
+                    $("#uk_nino_textarea").css("display","block");
                 }
                 else{
-                    $("#UK_NINo").css("display","none");
-                    $("#nino_I").css("display","none");
+                    $("#uk_nino_textarea").css("display","none");
                 }
-*/
                 
                 if(response.publicFunds==='select option')
                 {
@@ -359,16 +353,16 @@ function NINo(option)
 {
     if(option==="yes")
     {
-        $("#UK_NINo").css("display","block");
-        $("#UK_NINo").attr("required", "required");
+        $("#uk_nino_textarea").css("display","block");
+        $("#uk_nino_textarea").attr("required", "required");
         $("#nino_I").css("display","block");
     }
     else if(option==="no")
     {
-        $("#UK_NINo").css("display","none");
+        $("#uk_nino_textarea").css("display","none");
         $("#nino_I").css("display","none");
-        $("#UK_NINo").removeAttr("required", "required");
-        $("#UK_NINo").val("");
+        $("#uk_nino_textarea").removeAttr("required", "required");
+        $("#uk_nino_textarea").val("");
     }
 }
 
@@ -645,8 +639,8 @@ function getFormInput() {
     
     var details_public_funds    = $('#details_public_funds :selected').text(); 
     
-    
-    var UK_NINo                 = $('#UK_NINo').val();
+    var uk_NINo                 = $("input[name=uk_NINo]:checked").val();
+    var uk_nino_textarea        = $('#uk_nino_textarea').val();
     
     var BB2                     = document.getElementById("next_planned_departure");
     var next_planned_departure  = $(BB2).val();
@@ -706,7 +700,8 @@ function getFormInput() {
 
     form_data.append('visa_refusals_textarea', visa_refusals_textarea);
     form_data.append('details_public_funds', details_public_funds);
-    form_data.append('UK_NINo', UK_NINo);
+    form_data.append('uk_NINo', uk_NINo);
+    form_data.append('uk_nino_textarea', uk_nino_textarea);
     form_data.append('next_planned_departure', next_planned_departure);
     form_data.append('UK_date_arrival_back', UK_date_arrival_back);
     form_data.append('any_children', any_children);
@@ -778,7 +773,7 @@ function formreadonly()
     $('input:radio[name=visa_refusals]').prop('disabled', true);
   
     $('#details_public_funds').prop('disabled', true);
-    $('#UK_NINo').prop('disabled', true);
+    $('#uk_nino_textarea').prop('disabled', true);
     $('#next_planned_departure').prop('disabled', true);
     $('#UK_date_arrival_back').prop('disabled', true);
  
