@@ -4,6 +4,9 @@
 $(document).ready(function () {
     fetchadmin_table();
     fetchagent_table();
+    $("#add_new_admin_form").submit(function(){
+        return false;
+    });
 });
 
 
@@ -16,10 +19,9 @@ function create_new_admin()
     var password    = $('#Na_password').val();
     
     $.post({
-        url : '',
-        data: {  },
+        url : appLocation + '/admin/add-admin',
+        data: { first_name, last_name, user_name, password },
         success : function(responseText) {
-            
             swal({
                 title: "Success",
                 text: "New admin account created successfully",
@@ -40,7 +42,6 @@ function create_new_admin()
                 buttons: false,
                 dangerMode: true,
                 timer: 2500,
-               
             });
         }
     });

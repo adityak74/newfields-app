@@ -24,12 +24,14 @@ function getFormDataOnAction(action) {
     let email = '';
     let password = '';
     let name = '';
+    let isAdmin = '';
 
     switch (action) {
         case actions.signin:
             email = $("#email").val();
             password = $("#password").val();
-            form_data = { email, password };
+            isAdmin = $('#isAdmin').prop('checked');
+            form_data = { email, password, isAdmin };
             break;
         case actions.signup:
             email = $("#register_email").val();

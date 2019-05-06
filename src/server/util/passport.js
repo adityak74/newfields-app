@@ -41,9 +41,10 @@ export default (appConfig, emailService, passport, sqlConn) => {
     },
     function(req, email, password, done) {
       const name = req.body.name;
+      const isAdmin = req.body.isAdmin ? 1 : 0;
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        sqlConn.query("SELECT * FROM users WHERE email = ?", [email], (err, rows) => {
+        sqlConn.query("SELECT * FROM users WHERE email = ? and admin = ?", [email, isAdmin], (err, rows) => {
             if (err)
                 return done(err);
             if (rows.length) {
@@ -55,16 +56,18 @@ export default (appConfig, emailService, passport, sqlConn) => {
                   name: name,
                   email: email,
                   password: bcrypt.hashSync(password, null, null),
-                  token: md5(`${appConfig.get('secret')}-${email}`),
+                  token: md5(bcrypt.hashSync(`${appConfig.get('secret')}-${email}-${isAdmin}`, null, null)),
+                  admin: isAdmin,
                 };
 
-                var insertQuery = "INSERT INTO users ( name, email, password, token ) values (?, ?, ?, ?)";
+                var insertQuery = "INSERT INTO users ( name, email, password, token, admin ) values (?, ?, ?, ?, ?)";
 
                 sqlConn.query(insertQuery, 
                   [ newUserMysql.name, 
                     newUserMysql.email, 
                     newUserMysql.password,
-                    newUserMysql.token
+                    newUserMysql.token,
+                    newUserMysql.admin,
                   ], function(err, rows) {
                     newUserMysql.id = rows.insertId;
                     ejsRenderFile(
@@ -97,7 +100,8 @@ export default (appConfig, emailService, passport, sqlConn) => {
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) { // callback with email and password from our form
-      sqlConn.query("SELECT * FROM users WHERE email = ?", [email], (err, rows) => {
+      const isAdmin = req.body.isAdmin ? 1 : 0;
+      sqlConn.query("SELECT * FROM users WHERE email = ? and admin = ?", [email, isAdmin], (err, rows) => {
             if (err)
               return done(err);
             if (!rows.length) {

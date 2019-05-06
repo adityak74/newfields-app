@@ -6,7 +6,7 @@ import userFormsReadAll from '../model/userAllForms';
 import formProgress from '../model/formProgress';
 import { SUBMIT } from '../constants/formType';
 
-export default ({ appUrl, sqlConn }) => {
+export default ({ appUrl, passport, sqlConn }) => {
   const router = express.Router();
 
   router.get('/homepage', isAdmin, (req, res) => res.render('pages/admin_dashboard', { appLocation: appUrl }));
@@ -41,12 +41,18 @@ export default ({ appUrl, sqlConn }) => {
   });
 
   router.post('/add-admin', (req, res) => {
-    const input = req.body;
+    const { first_name, last_name, user_name, password } = req.body;
+
+    const input = {
+      name: `${first_name} ${last_name}`,
+      email: user_name,
+      password,
+    };
   
     validateSignUp(input, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
       else {
-        req.body = sanitizedInput;
+        req.body = { ...sanitizedInput, isAdmin: true };
         passport.authenticate('local-signup',
           function(err, user) {
             if (user) {
