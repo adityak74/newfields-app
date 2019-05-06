@@ -352,37 +352,39 @@ and open the template in the editor.
                         <textarea style="display:none;" class="form-control" id="family_member_travelalong_textarea" rows="3" autocomplete="nope" placeholder="any family member travelling along, please provide details here" ></textarea>
                     </div>
                 </div>
-                ********   Condition required  ********              
+                   
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-5 col-form-label">21.	Please list any overseas travels you have planned which will require you to have your passport before the date you intend to travel to the UK</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="any_overseas_travel" placeholder="Country" autocomplete="nope" required>
+                        <input type="text" class="form-control" id="any_overseas_travel" placeholder="please enter country if planned travels or type 'na' if no planned travels"  autocomplete="nope" required>
                     </div>
                 </div>
                 
-                <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-5 col-form-label"> 	-- Departure Date</label>
-                    <div class="input-group col-sm-5">
-                        <input data-provide="datepicker" class="form-control" id="Departuredate_UK"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button" onclick="show_date('2')">
-                                <i class="fa fa-calendar"></i>
-                            </button>
-                        </div>
-                    </div> 
+                <div id="anyplanned_travels_div" style="display:none;">
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-5 col-form-label"> 	-- Departure Date</label>
+                        <div class="input-group col-sm-5">
+                            <input data-provide="datepicker" class="form-control" id="Departuredate_UK"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="button" onclick="show_date('2')">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-5 col-form-label"> 	-- Return Date</label>
+                        <div class="input-group col-sm-5">
+                            <input data-provide="datepicker" class="form-control" id="Returndate_UK"  placeholder="dd/mm/yyyy" autocomplete="nope"> 
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="button" onclick="show_date('3')">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </div>
+                        </div> 
+                    </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-5 col-form-label"> 	-- Return Date</label>
-                    <div class="input-group col-sm-5">
-                        <input data-provide="datepicker" class="form-control" id="Returndate_UK"  placeholder="dd/mm/yyyy" required autocomplete="nope"> 
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button" onclick="show_date('3')">
-                                <i class="fa fa-calendar"></i>
-                            </button>
-                        </div>
-                    </div> 
-                </div>
-                
+
                 <br>
                 
                 

@@ -12,6 +12,8 @@ $(document).ready(function(){
         $('#myModal').modal('show');
         return false;
     });
+
+    $("#any_overseas_travel").on('input', any_overseas_travel_condition);
   
     
     $("#addr_move_indate").datepicker({format: 'dd/mm/yyyy'});
@@ -494,8 +496,28 @@ $(document).ready(function(){
             },
         });
     }
-
 });
+
+function any_overseas_travel_condition()
+{
+    var any_overseas_travel = $('#any_overseas_travel').val();
+
+    if(any_overseas_travel.toLowerCase()==='na' || any_overseas_travel.toLowerCase()==='')
+    {
+        $('#anyplanned_travels_div').hide();
+        $('#Departuredate_UK').val();
+        $('#Returndate_UK').val();
+        $('#Departuredate_UK').removeAttr("required", "required");
+        $('#Returndate_UK').removeAttr("required", "required");
+    }
+    else{
+        $('#anyplanned_travels_div').show();
+        $('#Departuredate_UK').attr("required", "required");
+        $('#Returndate_UK').attr("required", "required");
+    }
+
+}
+
 
 function show_date(option){
     

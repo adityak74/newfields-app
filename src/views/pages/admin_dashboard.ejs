@@ -1511,54 +1511,6 @@ and open the template in the editor.
 </div>       
  <!-- admin page tab 2 modal end  -->
 
-<style>
-#page_footer{
-background-color: grey;
-opacity: 0.6;
-text-align:right;
-}
-
-#page_footer label{
-display: inline-block;
-margin: 2px;
-margin-right: 10px;
-}
-
-.overlay
-{
-    position: fixed;
-    left: 0; 
-    top: 0; 
-    right: 0; 
-    bottom: 0; 
-    z-index: 2;
-    background-color: rgba(255,255,255,0.8);
-    
-    
-}
-.overlay-content {
-    position: absolute;
-    transform: translateY(-50%);
-     -webkit-transform: translateY(-50%);
-     -ms-transform: translateY(-50%);
-    top: 40%;
-    left: 0;
-    right: 0;
-    text-align: center;
-    color: #555;
-}
-</style>
-
-    <div id="overlay1" style="display:none" class="overlay">
-        <div class="overlay-content">
-            <label id="overlay_label_text" style="font-size: 25px;">Processing...</label><br>
-            <img id="img" style="display:none" src="<%= appLocation %>/images/Dual Ring.gif" />
-        </div>
-    </div>
-
- <footer class="fixed-bottom" id="page_footer">
-    <label>Version 1.0</label>    
-</footer>
 
 
 
