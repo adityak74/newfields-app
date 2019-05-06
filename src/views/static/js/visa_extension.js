@@ -225,6 +225,9 @@ $(document).ready(function() {
                     $("#BRP_back_page").attr("required", "required");
                 }
 
+            //    $("#additional_info_text_area").val();
+
+
                 if(currentFormStatus===3)
                 {
                     formreadonly(); //hide submit and save option and make all fields readonly
@@ -673,10 +676,12 @@ function getFormInput() {
     var child2_dob              = $('#child2_dob').val();
     var child2_placeofbirth     = $('#child2_placeofbirth').val();
 
-    var uk_visa_photo       = $('#uk_visa_photo').prop('files')[0]; 
-    var passport_front_page = $('#passport_front_page').prop('files')[0];
-    var BRP_front_page      = $('#BRP_front_page').prop('files')[0];
-    var BRP_back_page       = $('#BRP_back_page').prop('files')[0];
+    var uk_visa_photo           = $('#uk_visa_photo').prop('files')[0]; 
+    var passport_front_page     = $('#passport_front_page').prop('files')[0];
+    var BRP_front_page          = $('#BRP_front_page').prop('files')[0];
+    var BRP_back_page           = $('#BRP_back_page').prop('files')[0];
+
+    var additional_info_text_area = $('#additional_info_text_area').val();
     
     var form_data = new FormData();
 
@@ -728,6 +733,10 @@ function getFormInput() {
     form_data.append('passport_front_page', passport_front_page);
     form_data.append('BRP_front_page', BRP_front_page);
     form_data.append('BRP_back_page', BRP_back_page);
+
+    //form_data.append('additional_info_text_area', additional_info_text_area);
+
+    
 
     return form_data;
 }
@@ -809,5 +818,6 @@ function formreadonly()
     $("#uploaded_BRP_front_page").prop('disabled', true);
     $("#uploaded_BRP_back_page").prop('disabled', true);
    
+    //    $("#additional_info_text_area").prop('disabled', true);
    
 }

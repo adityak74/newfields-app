@@ -211,6 +211,7 @@ function Openclient_form1(id, status)
             $("#BRP_back_page_link").attr("href", responseText.biometric_residence_permit_back_link);
             $("#uploaded_BRP_back_page").val(responseText.biometric_residence_permit_back);
             
+         //   $("#form1_additional_info_text_area").val();
 
             $('#img').hide();
             $('#overlay1').hide();
@@ -447,7 +448,7 @@ function Openclient_form2(id, status)
             $('#img').hide();
             $('#overlay1').hide();
 
-
+         //   $("#form2_additional_info_text_area").val();
             
         $('#form2_request_modal').modal('show');   
         }
