@@ -12,7 +12,6 @@ const { ONE, TWO } = formNumber;
 const { DOCUMENTS } = sqlQueries;
 const {
   BIOMETRIC_RESIDENCE_PERMIT_FRONT,
-  BIOMETRIC_RESIDENCE_PERMIT_BACK,
   CURRENT_COUNTRY_RESIDENCE_PERMIT,
   PREVIOUS_UK_VISA,
   PASSPORT_FRONT,
@@ -53,16 +52,6 @@ const getRawFilesArray = (filesInput, formNumber, formUID) => {
         file: null,
         formUID,
         documentType: BIOMETRIC_RESIDENCE_PERMIT_FRONT,
-      });
-      filesData.push(filesInput.biometric_residence_permit_back ? {
-        ...filesInput.biometric_residence_permit_back,
-        formUID,
-        file: true,
-        documentType: BIOMETRIC_RESIDENCE_PERMIT_BACK,
-      } : {
-        file: null,
-        formUID,
-        documentType: BIOMETRIC_RESIDENCE_PERMIT_BACK,
       });
       break;
     case TWO:

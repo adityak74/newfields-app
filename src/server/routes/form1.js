@@ -36,6 +36,7 @@ export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
     visa_refusals_textarea,
     details_public_funds,
     UK_NINo,
+    uk_nino_textarea,
     next_planned_departure,
     UK_date_arrival_back,
     any_children,
@@ -75,6 +76,7 @@ export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
     visaRefusalText: visa_refusals_textarea,
     detailsPublicFund: details_public_funds,
     UKNINumber: UK_NINo,
+    UKNINumberInfo: uk_nino_textarea,
     nextPlannedDeparture: next_planned_departure,
     nextDateArrival: UK_date_arrival_back,
     ifHasChildren: any_children,
@@ -99,19 +101,16 @@ export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
     uk_visa_photo,
     passport_front_page,
     BRP_front_page,
-    BRP_back_page,
   }) => ({
     previous_uk_visa: getValueIfNotNull(uk_visa_photo) ? uk_visa_photo[0] : null,
     passport_front: getValueIfNotNull(passport_front_page) ? passport_front_page[0]: null,
     biometric_residence_permit_front: getValueIfNotNull(BRP_front_page) ? BRP_front_page[0]: null,
-    biometric_residence_permit_back: getValueIfNotNull(BRP_back_page) ? BRP_back_page[0] : null,
   });
 
   router.post('/submit', multer().fields([
     { name: 'uk_visa_photo', maxCount: 1 },
     { name: 'passport_front_page', maxCount: 1 },
     { name: 'BRP_front_page', maxCount: 1 },
-    { name: 'BRP_back_page', maxCount: 1 },
     ]), isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
@@ -136,7 +135,6 @@ export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
     { name: 'uk_visa_photo', maxCount: 1 },
     { name: 'passport_front_page', maxCount: 1 },
     { name: 'BRP_front_page', maxCount: 1 },
-    { name: 'BRP_back_page', maxCount: 1 },
     ]), isLoggedIn, (req, res) => {
       const input = req.body;
       const inputObj = buildInputObject(input);

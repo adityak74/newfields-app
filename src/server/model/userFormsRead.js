@@ -13,7 +13,6 @@ import sqlQueries from '../sqlQueries';
 const { FORM_READ, FORM_RELATIONS, RELATIONSHIP_INFO, TRIPS, FORM_TRIPS, DOCUMENTS } = sqlQueries;
 const {
   BIOMETRIC_RESIDENCE_PERMIT_FRONT,
-  BIOMETRIC_RESIDENCE_PERMIT_BACK,
   CURRENT_COUNTRY_RESIDENCE_PERMIT,
   PREVIOUS_UK_VISA,
   PASSPORT_FRONT,
@@ -70,10 +69,6 @@ const documentsDataTransform = documentsData => {
     case BIOMETRIC_RESIDENCE_PERMIT_FRONT:
       documentsLinkData.biometric_residence_permit_front_link = documentsData.url;
       documentsLinkData.biometric_residence_permit_front = documentsData.fileKey;
-      break;
-    case BIOMETRIC_RESIDENCE_PERMIT_BACK:
-      documentsLinkData.biometric_residence_permit_back_link = documentsData.url;
-      documentsLinkData.biometric_residence_permit_back = documentsData.fileKey;
       break;
     case PASSPORT_FRONT_TWO:
       documentsLinkData.passport_front_two_link = documentsData.url;
