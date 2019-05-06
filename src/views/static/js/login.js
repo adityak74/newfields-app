@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 
+$(document).ready(function(){
+$('#confirm_admin').modal('show');
+
+});
 const actions = {
     'signup': 0,
     'signin': 1,
@@ -33,6 +37,7 @@ function getFormDataOnAction(action) {
             password = $("#password").val();
             isAdmin = $('#isAdmin').prop('checked');
             form_data = { email, password, isAdmin };
+            
             break;
         case actions.signup:
             email = $("#register_email").val();
@@ -50,7 +55,9 @@ function getFormDataOnAction(action) {
 }
 
 function handleSuccess(action, responseText) {
+    
     switch (action) {
+        
         case actions.signin:
             if (responseText.userId && responseText.admin) {
                 window.location.href = appLocation + '/admin/page';
@@ -129,7 +136,7 @@ $(document).ready(function() {
                             message = "No such email or password found on the system. Please sign up before you can log-in.";
                             break;
                         case 'unverifiedAgentAccount':
-                            message = "You will be able to log-in once admin verifies your agent account.";
+                            message = "You will be able to log-in once Newfields Law verifies your agent account.";
                             break;
                         case 'unverifiedAccount':
                             message = "Please verify your account by link sent to your email before you could log-in.";

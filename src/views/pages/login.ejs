@@ -65,10 +65,17 @@ and open the template in the editor.
                                     </div>
                                     <input type="password" class="form-control" id="password" placeholder="password">
                                 </div>
-                                <div class="form-group">
-                                    <input type="checkbox" id="isAdmin" name="isAdmin">
-                                    <label style="color:white; font-size: 14px;">Admin</label>
-                                    <input type="submit" value="Login" class="btn float-right login_btn">
+                                <div class="form-group row">
+                                    <div class="col-sm-8">
+                                        <label style="color:white; font-size: 14px; display:inline-block;">
+                                            <input type="checkbox" id="isAdmin" name="isAdmin">
+                                            Please check this box if you are a Newfields Law team member
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-3">
+                                        <input type="submit" value="Login" class="btn float-right login_btn">
+                                    </div>
                                 </div>
                             </div>
                             <div id="register" style="display:none;">
@@ -96,10 +103,18 @@ and open the template in the editor.
                                     </div>
                                     <input type="password" class="form-control" id="register_confirmpassword" placeholder="confirm password">
                                 </div>
-                                <div class="form-group">
-                                    <input type="checkbox" id="isAgent" name="isAgent">
-                                    <label style="color:white; font-size: 14px;">Are you an agent?</label>
-                                    <input type="submit" value="Register" id="register_button" class="btn float-right login_btn">
+                                <div class="form-group row">
+                                    <div class="col-sm-8">
+                                        <label style="color:white; font-size: 14px;">    
+                                            <input type="checkbox" id="isAgent" name="isAgent">
+                                            Please check this box if you are signing up as an agent
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-3">
+                                        <input type="submit" value="Register" id="register_button" class="btn float-right login_btn">
+                                    </div>
+                                    
                                 </div>
                             </div>
                             <div id="forget_password" style="display:none;">
@@ -140,6 +155,37 @@ and open the template in the editor.
                 <div class="overlay-content">
                     <label id="overlay_label_text" style="font-size: 25px;"></label><br>
                     <img id="img" style="display:none" src="<%= appLocation %>/images/Dual Ring.gif" />
+                </div>
+            </div>
+
+<!-- admin signup modal -->
+            <!-- Modal -->
+            <div class="modal fade" id="confirm_admin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Confirm to login as Admin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="add_new_admin_form">
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-5 col-form-label">Enter Code</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="email_code" placeholder="enter code here" autocomplete="nope" required>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" id="Admin_login">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
 

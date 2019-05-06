@@ -24,8 +24,8 @@ function create_new_admin()
         url : appLocation + '/admin/add-admin',
         data: { first_name, last_name, user_name, password },
         success : function(responseText) {
-            $('#img').hide();
-            $('#overlay1').hide();
+           // $('#img').hide();
+           // $('#overlay1').hide();
             swal({
                 title: "Success",
                 text: "New admin account created successfully",
@@ -37,6 +37,7 @@ function create_new_admin()
             $('#Na_lastname').val('');
             $('#Na_username').val('');
             $('#Na_password').val('');
+            fetchadmin_table();
         },
         error: function(xhr) {
             $('#img').hide();
@@ -117,17 +118,17 @@ function fetchagent_table()
         
                 if(formResponse.isVerified===0)
                 {
-                    agent_status ="Authenticate account";
+                    agent_status ="Activation required";
                 }
                 else if (formResponse.isVerified===1){
                     agent_status ="Active";
                 }
-
+               
                 AT.row.add([
                     response_date ,
                     formResponse.name,
                     formResponse.email,
-                    "<button onclick=\"activate_agent('"+formResponse.id+"');\"  class='btn btn-link btn-sm' type='button'>"+agent_status+"</button>",
+                    "<button onclick=\"activate_agent('"+formResponse.id+"',"+formResponse.isVerified+");\"  class='btn btn-link btn-sm' type='button'>"+agent_status+"</button>",
                 ]).draw(false);
             });
         },
@@ -145,33 +146,45 @@ function fetchagent_table()
     });
 }
 
-function activate_agent(agent_id)
+function activate_agent(agent_id,isVerified)
 {
-    alert(agent_id);
-   $.post({
-        url : appLocation + '/admin/agent/authorize',
-        data : {agent_user_id: agent_id},
-        success : function(responseData) {
-            $('#img').hide();
-            $('#overlay1').hide();
-            swal({
-                title: "Success",
-                text: "Agent account successfully activated and mail has been formwarded to the agent.",
-                type: "success",
-                showCancelButton: true,
-                closeOnConfirm: true
-              });
-        },
-        error: function(xhr) {
-            $('#img').hide();
-            $('#overlay1').hide();
-            swal({
-                title: "Server Error",
-                text: "It seems like the server is down or under maintainance, please check back later.",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            });
-        },
-    });
+    if(isVerified===0)
+    {
+        $.post({
+            url : appLocation + '/admin/agent/authorize',
+            data : {agent_user_id: agent_id},
+            success : function(responseData) {
+                $('#img').hide();
+                $('#overlay1').hide();
+                swal({
+                    title: "Success",
+                    text: "Account successfully activated and mail has been forwarded to the agent.",
+                    type: "success",
+                    showCancelButton: false,
+                    closeOnConfirm: true
+                  });
+            },
+            error: function(xhr) {
+                $('#img').hide();
+                $('#overlay1').hide();
+                swal({
+                    title: "Server Error",
+                    text: "It seems like the server is down or under maintainance, please check back later.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                });
+            },
+        });
+    }
+    else if(isVerified===1)
+    {
+        swal({
+            title: "Info",
+            text: "This account is already active.",
+            icon: "info",
+            buttons: true,
+        });
+    }
+    
 }

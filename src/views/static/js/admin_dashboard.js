@@ -165,7 +165,7 @@ function incomplete_forms_request_table(formsDataArray)
 function processed_forms_request_table(formsDataArray)
 { 
     var LCT = $('#processed_forms_client_table').DataTable();
-    console.log("wec",formsDataArray);
+    
     formsDataArray.forEach(formResponse => {
         var date = new Date(formResponse.createDate).toString();
         var response_date = date.substr(0,28);
