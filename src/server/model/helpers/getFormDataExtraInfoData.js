@@ -59,4 +59,5 @@ export default (formUID, sanitizedInput) => ({
   anyVisits: getValueIfNotNull(sanitizedInput.ifVisit),
   anyTrips: getValueIfNotNull(sanitizedInput.ifTrip),
   anyOtherTrips: getValueIfNotNull(sanitizedInput.ifOtherTrips),
+  additionalInfoText: getValueIfNotNull(sanitizedInput.additionalInfoText),
 });
