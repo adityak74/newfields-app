@@ -45,11 +45,14 @@ function updateFormStatus(identifier) {
         formId = $('#Unique_id_two').val();
         statusCode = parseInt($('#status_update_second').val(), 10);
     }
-
+    $('#overlay1').show();
+    $('#img').show();
     $.post({
         url : appLocation + '/admin/updateProgress',
         data : { formId, progressStatusCode: statusCode },
         success : function(responseData) {
+            $('#img').hide();
+            $('#overlay1').hide();
             swal({
                 title: "Form Status Updated",
                 text: "Form status has been successfully updated. Email notifications will be sent.",
@@ -59,6 +62,8 @@ function updateFormStatus(identifier) {
             });
         },
         error: function(xhr) {
+            $('#img').hide();
+            $('#overlay1').hide();
             swal({
                 title: "Server Error",
                 text: "It seems like the server is down or under maintainance, please check back later.",
@@ -118,25 +123,78 @@ function form1_request_table(formsDataArray)
             formResponse.name,
             formResponse.email,
             getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+","+formResponse.processingStatus+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
         ]).draw(false);
     });
 }
 
-function form_classification(formnumber, formUID, status)
+function form2_request_table(formsDataArray)
+{ 
+    var LCT = $('#form2_client_table').DataTable();
+    formsDataArray.forEach(formResponse => {
+        var date = new Date(formResponse.createDate).toString();
+        var response_date = date.substr(0,28);
+        LCT.row.add([
+            response_date,
+            formResponse.formRefNumber || formResponse.formUID,
+            formResponse.name,
+            formResponse.email,
+            getStatusFromCode(formResponse.status),
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+","+formResponse.processingStatus+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
+        ]).draw(false);
+    });
+}
+
+function incomplete_forms_request_table(formsDataArray)
+{ 
+    var LCT = $('#incomplete_forms_client_table').DataTable();
+    formsDataArray.forEach(formResponse => {
+        var date = new Date(formResponse.createDate).toString();
+        var response_date = date.substr(0,28);
+        LCT.row.add([
+            response_date,
+            formResponse.formRefNumber || formResponse.formUID,
+            formResponse.name,
+            formResponse.email,
+            getStatusFromCode(formResponse.status),
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+","+formResponse.processingStatus+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
+        ]).draw(false);
+    });
+}
+
+function processed_forms_request_table(formsDataArray)
+{ 
+    var LCT = $('#processed_forms_client_table').DataTable();
+    console.log("wec",formsDataArray);
+    formsDataArray.forEach(formResponse => {
+        var date = new Date(formResponse.createDate).toString();
+        var response_date = date.substr(0,28);
+        LCT.row.add([
+            response_date,
+            formResponse.formRefNumber || formResponse.formUID,
+            formResponse.name,
+            formResponse.email,
+            getStatusFromCode(formResponse.status),
+            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+","+formResponse.processingStatus+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
+        ]).draw(false);
+    });
+}
+
+
+function form_classification(formnumber, formUID, status, processingStatus)
 {
     if(formnumber==="1")
     {
-        Openclient_form1(formUID, status);
+        Openclient_form1(formUID, status, processingStatus);
     }
     else if(formnumber==="2")
     {
-        Openclient_form2(formUID,status);
+        Openclient_form2(formUID,status, processingStatus);
     }
 }
 
 
-function Openclient_form1(id, status)
+function Openclient_form1(id, status, processingStatus)
 {
     var reference_id = id;
     $("#ref_no").val(reference_id);
@@ -146,8 +204,8 @@ function Openclient_form1(id, status)
         url : appLocation + '/form1/getFormData',
         data: { formId: reference_id },
         success : function(responseText) {
-            console.log('formdata', responseText, status);
-            if([1,2].includes(status))
+            console.log('formdata', responseText, status, processingStatus);
+            if([1,2].includes(status)||[3].includes(processingStatus) )
             {
                 $('#form_one_status').hide();
             }
@@ -207,7 +265,7 @@ function Openclient_form1(id, status)
             $("#uploaded_BRP_front_page").val(responseText.biometric_residence_permit_front);
           
             
-            $("#form1_additional_info_text_area").val(response.additionalInfoText);
+            $("#form1_additional_info_text_area").val(responseText.additionalInfoText);
 
             $('#img').hide();
             $('#overlay1').hide();
@@ -216,58 +274,6 @@ function Openclient_form1(id, status)
         }
     });
  }
-
-
-function form2_request_table(formsDataArray)
-{ 
-    var LCT = $('#form2_client_table').DataTable();
-    formsDataArray.forEach(formResponse => {
-        var date = new Date(formResponse.createDate).toString();
-        var response_date = date.substr(0,28);
-        LCT.row.add([
-            response_date,
-            formResponse.formRefNumber || formResponse.formUID,
-            formResponse.name,
-            formResponse.email,
-            getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
-        ]).draw(false);
-    });
-}
-
-function incomplete_forms_request_table(formsDataArray)
-{ 
-    var LCT = $('#incomplete_forms_client_table').DataTable();
-    formsDataArray.forEach(formResponse => {
-        var date = new Date(formResponse.createDate).toString();
-        var response_date = date.substr(0,28);
-        LCT.row.add([
-            response_date,
-            formResponse.formRefNumber || formResponse.formUID,
-            formResponse.name,
-            formResponse.email,
-            getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
-        ]).draw(false);
-    });
-}
-
-function processed_forms_request_table(formsDataArray)
-{ 
-    var LCT = $('#processed_forms_client_table').DataTable();
-    formsDataArray.forEach(formResponse => {
-        var date = new Date(formResponse.createDate).toString();
-        var response_date = date.substr(0,28);
-        LCT.row.add([
-            response_date,
-            formResponse.formRefNumber || formResponse.formUID,
-            formResponse.name,
-            formResponse.email,
-            getStatusFromCode(formResponse.status),
-            "<button onclick=\"(function(){form_classification(\'"+formResponse.formNumber+"','"+formResponse.formUID+"',"+formResponse.status+")})()\" class='btn btn-link btn-sm' type='button'>View application</button>",
-        ]).draw(false);
-    });
-}
 
 function Openclient_form2(id, status)
 {   
@@ -282,7 +288,7 @@ function Openclient_form2(id, status)
         data:{ formId: reference_id },
         success : function(responseText) {
             console.log(responseText)
-            if([1,2].includes(status))
+            if([1,2].includes(status)||[3].includes(processingStatus))
             {
                 $('#form_second_status').hide();
             }
@@ -444,7 +450,7 @@ function Openclient_form2(id, status)
             $('#img').hide();
             $('#overlay1').hide();
 
-            $("#form2_additional_info_text_area").val(response.additionalInfoText);
+            $("#form2_additional_info_text_area").val(responseText.additionalInfoText);
             
         $('#form2_request_modal').modal('show');   
         }

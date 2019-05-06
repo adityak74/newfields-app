@@ -13,6 +13,8 @@ $(document).ready(function () {
 
 function create_new_admin()
 {
+    $('#overlay1').show();
+    $('#img').show();
     var first_name  = $('#Na_firstname').val();
     var last_name   = $('#Na_lastname').val();
     var user_name   = $('#Na_username').val();
@@ -22,6 +24,8 @@ function create_new_admin()
         url : appLocation + '/admin/add-admin',
         data: { first_name, last_name, user_name, password },
         success : function(responseText) {
+            $('#img').hide();
+            $('#overlay1').hide();
             swal({
                 title: "Success",
                 text: "New admin account created successfully",
@@ -35,6 +39,8 @@ function create_new_admin()
             $('#Na_password').val('');
         },
         error: function(xhr) {
+            $('#img').hide();
+            $('#overlay1').hide();
             swal({
                 title: "Server Error",
                 text: xhr.responseText,
@@ -49,23 +55,32 @@ function create_new_admin()
 
 function fetchadmin_table()
 {
+    $('#overlay1').show();
+    $('#img').show();
     var AT = $('#admin_table').DataTable();
+    AT.clear();
     $.post({
         url : appLocation + '/admin/all',
         data : {},
         success : function(responseData) {
+            $('#img').hide();
+            $('#overlay1').hide();
             console.log('adminsData--->', responseData);
-            for (var i=0;i<5;i++)
-            {
+            
+            responseData.forEach(formResponse => {
+                var date = new Date(formResponse.createdDate).toString();
+                var response_date = date.substr(0,28);
                 AT.row.add([
-                    "Date" ,
-                    "name",
-                    "Email",
-                    "Status",
+                    response_date ,
+                    formResponse.name,
+                    formResponse.email,
+                    "Active",
                 ]).draw(false);
-            }
+            });
+         
         },
         error: function(xhr) {
+            
             $('#img').hide();
             $('#overlay1').hide();
             swal({
@@ -81,37 +96,40 @@ function fetchadmin_table()
 
 
 function fetchagent_table()
-{
-    var AT = $('#agents_table').DataTable();
+{   $('#overlay1').show();
+    $('#img').show();
 
+    var AT = $('#agents_table').DataTable();
+    AT.clear();
     $.post({
         url : appLocation + '/admin/allAgents',
         data : {},
         success : function(responseData) {
-        console.log('agentsData--->', responseData);
-        var agent_status;
-        var agent_request_status = 0;
+            $('#img').hide();
+            $('#overlay1').hide();
+            console.log('agentsData--->', responseData);
+            
+            var agent_status;
 
-        if(agent_request_status===0)
-        {
-                agent_status ="Authenticate account";
-        }
-        else if (agent_request_status===1){
-                agent_status ="Active";
-        }
+            responseData.forEach(formResponse => {
+                var date = new Date(formResponse.createdDate).toString();
+                var response_date = date.substr(0,28);
+        
+                if(formResponse.isVerified===0)
+                {
+                    agent_status ="Authenticate account";
+                }
+                else if (formResponse.isVerified===1){
+                    agent_status ="Active";
+                }
 
-
-        for (var i=0;i<5;i++)
-        {
-
-            AT.row.add([
-                "Date" ,
-                "name",
-                "Email",
-                "Password",
-                "<button onclick=\"alert('activating agent account');\"  class='btn btn-link btn-sm' type='button'>"+agent_status+"</button>",
-            ]).draw(false);
-        }
+                AT.row.add([
+                    response_date ,
+                    formResponse.name,
+                    formResponse.email,
+                    "<button onclick=\"activate_agent('"+formResponse.id+"');\"  class='btn btn-link btn-sm' type='button'>"+agent_status+"</button>",
+                ]).draw(false);
+            });
         },
         error: function(xhr) {
             $('#img').hide();
@@ -127,7 +145,33 @@ function fetchagent_table()
     });
 }
 
-function activate_agent()
+function activate_agent(agent_id)
 {
-    
+    alert(agent_id);
+   $.post({
+        url : appLocation + '/admin/agent/authorize',
+        data : {agent_user_id: agent_id},
+        success : function(responseData) {
+            $('#img').hide();
+            $('#overlay1').hide();
+            swal({
+                title: "Success",
+                text: "Agent account successfully activated and mail has been formwarded to the agent.",
+                type: "success",
+                showCancelButton: true,
+                closeOnConfirm: true
+              });
+        },
+        error: function(xhr) {
+            $('#img').hide();
+            $('#overlay1').hide();
+            swal({
+                title: "Server Error",
+                text: "It seems like the server is down or under maintainance, please check back later.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            });
+        },
+    });
 }
