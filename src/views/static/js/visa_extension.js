@@ -209,7 +209,7 @@ $(document).ready(function() {
                     $("#BRP_front_page").attr("required", "required");
                 }
 
-            //    $("#additional_info_text_area").val();
+                $("#additional_info_text_area").val(response.additionalInfoText);
 
 
                 if(currentFormStatus===3)
@@ -372,7 +372,6 @@ function radio_option(option)
     }
 }
 
-
 function add_children2()
 {
    // $("#remove_children").css("display","block"); 
@@ -416,8 +415,6 @@ function remove_children(identifier)
     }
     
 }
-
-
 
 function radio_option1(option)
 {
@@ -665,7 +662,7 @@ function getFormInput() {
     var BRP_front_page          = $('#BRP_front_page').prop('files')[0];
   
 
-  //  var additional_info_text_area = $('#additional_info_text_area').val();
+    var additional_info_text_area = $('#additional_info_text_area').val();
     
     var form_data = new FormData();
 
@@ -718,10 +715,7 @@ function getFormInput() {
     form_data.append('passport_front_page', passport_front_page);
     form_data.append('BRP_front_page', BRP_front_page);
    
-
-    //form_data.append('additional_info_text_area', additional_info_text_area);
-
-    
+    form_data.append('additional_info_text_area', additional_info_text_area);
 
     return form_data;
 }
@@ -801,6 +795,6 @@ function formreadonly()
     $("#uploaded_passport_front_page").prop('disabled', true);
     $("#uploaded_BRP_front_page").prop('disabled', true);
    
-    //    $("#additional_info_text_area").prop('disabled', true);
+    $("#additional_info_text_area").prop('disabled', true);
    
 }

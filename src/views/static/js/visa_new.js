@@ -466,7 +466,7 @@ $(document).ready(function(){
                     $("#previous_uk_visa").attr("required", "required");
                 }
 
-                //    $("#additional_info_text_area").val();
+                $("#additional_info_text_area").val(response.additionalInfoText);
 
                 if(currentFormStatus===3)
                 {
@@ -1518,10 +1518,12 @@ function getFormInput() {
     var OR555                                   = OR55.options[OR55.selectedIndex];
     var othertripreason_ofvisit5                = $(OR555).val();
 
-    var current_country_permit_photo               = $('#current_country_permit_photo').prop('files')[0]; 
-    var passport_front_page         = $('#passport_front_page').prop('files')[0];  
-    var secondpassport_front_page   = $('#secondpassport_front_page').prop('files')[0];  
-    var previous_uk_visa            = $('#previous_uk_visa').prop('files')[0];
+    var current_country_permit_photo            = $('#current_country_permit_photo').prop('files')[0]; 
+    var passport_front_page                     = $('#passport_front_page').prop('files')[0];  
+    var secondpassport_front_page               = $('#secondpassport_front_page').prop('files')[0];  
+    var previous_uk_visa                        = $('#previous_uk_visa').prop('files')[0];
+
+    var additional_info_text_area               = $('#additional_info_text_area').val();
 
     var form_data = new FormData();
     
@@ -1700,7 +1702,7 @@ function getFormInput() {
     form_data.append('secondpassport_front_page', secondpassport_front_page);
     form_data.append('previous_uk_visa', previous_uk_visa);
 
-    //form_data.append('additional_info_text_area', additional_info_text_area);
+    form_data.append('additional_info_text_area', additional_info_text_area);
 
     return form_data;
 }
@@ -1961,6 +1963,6 @@ function formreadonly()
     $("#uploaded_secondpassport_front_page").prop('disabled', true);
     $("#uploaded_previous_uk_visa").prop('disabled', true);
 
-   //    $("#additional_info_text_area").prop('disabled', true); 
+    $("#additional_info_text_area").prop('disabled', true); 
     
 }

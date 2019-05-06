@@ -174,7 +174,7 @@ function Openclient_form1(id, status)
             $('#visa_refusals_textarea').val(responseText.visaRefusalText);
 
             $('#details_public_funds').val(responseText.publicFunds);
-            $('#UK_NINo').val(responseText.nationalInsuranceNumber);
+            $('#f1_uk_nino_textarea').val(responseText.nationalInsuranceNumber);
             $('#next_planned_departure').val(responseText.ukNextDepartureDate);
             $('#UK_date_arrival_back').val(responseText.ukNextArrivalDate);
             
@@ -205,11 +205,9 @@ function Openclient_form1(id, status)
 
             $("#BRP_front_page_link").attr("href", responseText.biometric_residence_permit_front_link);
             $("#uploaded_BRP_front_page").val(responseText.biometric_residence_permit_front);
+          
             
-            $("#BRP_back_page_link").attr("href", responseText.biometric_residence_permit_back_link);
-            $("#uploaded_BRP_back_page").val(responseText.biometric_residence_permit_back);
-            
-         //   $("#form1_additional_info_text_area").val();
+            $("#form1_additional_info_text_area").val(response.additionalInfoText);
 
             $('#img').hide();
             $('#overlay1').hide();
@@ -446,7 +444,7 @@ function Openclient_form2(id, status)
             $('#img').hide();
             $('#overlay1').hide();
 
-         //   $("#form2_additional_info_text_area").val();
+            $("#form2_additional_info_text_area").val(response.additionalInfoText);
             
         $('#form2_request_modal').modal('show');   
         }
