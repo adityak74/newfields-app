@@ -96,24 +96,18 @@ $(document).ready(function() {
                     $("#visa_refusals_textarea").css("display","none");
                 }
 
-                $('#UK_NINo').val(response.nationalInsuranceNumber);
-
-// for UK nino--- enter UK nino text-area value by default, show text area on condition
-     /*           $('#UK_NINo').val(response.nationalInsuranceNumber);
+                $('#uk_nino_textarea').val(response.nationalInsuranceNumber);
                 var $radios = $('input:radio[name=uk_NINo]');
                 if($radios.is(':checked') === false) {
                     $radios.filter('[value='+ response.ukNino +']').prop('checked', true);
                 }
                 if (response.ukNino === 'Yes')
                 {
-                    $("#UK_NINo").css("display","block");
-                    $("#nino_I").css("display","block");
+                    $("#uk_nino_textarea").css("display","block");
                 }
                 else{
-                    $("#UK_NINo").css("display","none");
-                    $("#nino_I").css("display","none");
+                    $("#uk_nino_textarea").css("display","none");
                 }
-*/
                 
                 if(response.publicFunds==='select option')
                 {
@@ -213,16 +207,6 @@ $(document).ready(function() {
                 } else {
                     $("#upload_div3").css("display","none");
                     $("#BRP_front_page").attr("required", "required");
-                }
-
-                if(response.biometric_residence_permit_back_link) {
-                    $("#upload_div4").css("display","block");
-                    $("#BRP_back_page_link").attr("href", response.biometric_residence_permit_back_link);
-                    $("#uploaded_BRP_back_page").val(response.biometric_residence_permit_back);
-                    $("#BRP_back_page").removeAttr("required", "required");
-                } else {
-                    $("#upload_div4").css("display","none");
-                    $("#BRP_back_page").attr("required", "required");
                 }
 
             //    $("#additional_info_text_area").val();
@@ -359,16 +343,16 @@ function NINo(option)
 {
     if(option==="yes")
     {
-        $("#UK_NINo").css("display","block");
-        $("#UK_NINo").attr("required", "required");
+        $("#uk_nino_textarea").css("display","block");
+        $("#uk_nino_textarea").attr("required", "required");
         $("#nino_I").css("display","block");
     }
     else if(option==="no")
     {
-        $("#UK_NINo").css("display","none");
+        $("#uk_nino_textarea").css("display","none");
         $("#nino_I").css("display","none");
-        $("#UK_NINo").removeAttr("required", "required");
-        $("#UK_NINo").val("");
+        $("#uk_nino_textarea").removeAttr("required", "required");
+        $("#uk_nino_textarea").val("");
     }
 }
 
@@ -645,8 +629,8 @@ function getFormInput() {
     
     var details_public_funds    = $('#details_public_funds :selected').text(); 
     
-    
-    var UK_NINo                 = $('#UK_NINo').val();
+    var uk_NINo                 = $("input[name=uk_NINo]:checked").val();
+    var uk_nino_textarea        = $('#uk_nino_textarea').val();
     
     var BB2                     = document.getElementById("next_planned_departure");
     var next_planned_departure  = $(BB2).val();
@@ -679,9 +663,9 @@ function getFormInput() {
     var uk_visa_photo           = $('#uk_visa_photo').prop('files')[0]; 
     var passport_front_page     = $('#passport_front_page').prop('files')[0];
     var BRP_front_page          = $('#BRP_front_page').prop('files')[0];
-    var BRP_back_page           = $('#BRP_back_page').prop('files')[0];
+  
 
-    var additional_info_text_area = $('#additional_info_text_area').val();
+  //  var additional_info_text_area = $('#additional_info_text_area').val();
     
     var form_data = new FormData();
 
@@ -706,7 +690,8 @@ function getFormInput() {
 
     form_data.append('visa_refusals_textarea', visa_refusals_textarea);
     form_data.append('details_public_funds', details_public_funds);
-    form_data.append('UK_NINo', UK_NINo);
+    form_data.append('uk_NINo', uk_NINo);
+    form_data.append('uk_nino_textarea', uk_nino_textarea);
     form_data.append('next_planned_departure', next_planned_departure);
     form_data.append('UK_date_arrival_back', UK_date_arrival_back);
     form_data.append('any_children', any_children);
@@ -732,7 +717,7 @@ function getFormInput() {
     form_data.append('uk_visa_photo', uk_visa_photo);
     form_data.append('passport_front_page', passport_front_page);
     form_data.append('BRP_front_page', BRP_front_page);
-    form_data.append('BRP_back_page', BRP_back_page);
+   
 
     //form_data.append('additional_info_text_area', additional_info_text_area);
 
@@ -778,7 +763,7 @@ function formreadonly()
     $('input:radio[name=visa_refusals]').prop('disabled', true);
   
     $('#details_public_funds').prop('disabled', true);
-    $('#UK_NINo').prop('disabled', true);
+    $('#uk_nino_textarea').prop('disabled', true);
     $('#next_planned_departure').prop('disabled', true);
     $('#UK_date_arrival_back').prop('disabled', true);
  
@@ -811,12 +796,10 @@ function formreadonly()
     $('#uk_visa_photo').hide(); 
     $('#passport_front_page').hide();
     $('#BRP_front_page').hide();
-    $('#BRP_back_page').hide();
 
     $("#uploaded_uk_visa_photo").prop('disabled', true);
     $("#uploaded_passport_front_page").prop('disabled', true);
     $("#uploaded_BRP_front_page").prop('disabled', true);
-    $("#uploaded_BRP_back_page").prop('disabled', true);
    
     //    $("#additional_info_text_area").prop('disabled', true);
    
