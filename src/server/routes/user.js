@@ -51,6 +51,7 @@ export default ({ appUrl, emailService, passport, sqlConn }) => {
                 userId: user.id,
                 name: user.name,
                 email: user.email,
+                agent: user.agent,
               };
               res.status(200).send(newUser);
             } else {

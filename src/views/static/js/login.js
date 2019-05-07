@@ -75,16 +75,20 @@ function handleSuccess(action, responseText) {
             }
             break;
         case actions.signup:
-            if (responseText.userId) {
-                swal({
-                    title: "Sign up success!",
-                    text: "Successfully registered. Check your email for verification link to log in.",
-                    icon: "success",
-                    buttons: false,
-                    dangerMode: false,
-                });
-                register(actions.signin);
+            let message = "";
+            if (responseText.userId && responseText.agent) {
+                message = "Successfully registered. Check your email for verification link to log in. You can login when an admin approves your agent account.";
+            } else {
+                message = "Successfully registered. Check your email for verification link to log in.";
             }
+            swal({
+                title: "Sign up success!",
+                text: message,
+                icon: "success",
+                buttons: false,
+                dangerMode: false,
+            });
+            register(actions.signin);
             break;
         case actions.forgot:
             if (responseText.userId) {
