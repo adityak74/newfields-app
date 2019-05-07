@@ -4,6 +4,7 @@ import passwordGenerator from 'generate-password';
 import { renderFile as ejsRenderFile } from 'ejs';
 import path from 'path';
 import validateSignIn from '../validation/validator/signIn';
+import validateTokenSignIn from '../validation/validator/tokenSignIn';
 import validateSignUp from '../validation/validator/signUp';
 import validateVerifyEmail from '../validation/validator/verifyEmail';
 import validateChangePassword from '../validation/validator/changePassword';
@@ -11,6 +12,8 @@ import validateResetPassword from '../validation/validator/resetPassword';
 import isLoggedIn from '../util/getIfAuthenticated';
 import capitalizeFirst from '../util/capitalizeFirst';
 import userFormsReadAll from '../model/userAllForms';
+import adminSessionToken from '../model/adminSessionToken';
+import adminSessionTokenReset from '../model/adminSessionTokenReset';
 import { SUBMIT } from '../constants/formType';
 
 const resetPasswordHTMLFile = path.join(
@@ -67,6 +70,42 @@ export default ({ appUrl, emailService, passport, sqlConn }) => {
         req.body = sanitizedInput;
         passport.authenticate('local-login',
           function(err, user) {
+            if(err) return res.status(400).send(err.message);
+            if (user) {
+              const newUser = {
+                userId: user.id,
+                admin: user.admin,
+              }
+              // if admin generate session token and enter in db 
+              // do not login yet until he verifies token
+              if (newUser.admin) { 
+                const adminTokenModel = adminSessionToken(sqlConn, user, emailService);
+                adminTokenModel((err, tokenData) => {
+                  if (err) return res.status(500).send(err.message);
+                  return res.status(200).send(tokenData);
+                });
+              } else {
+                req.logIn(user, (err) => {
+                  if (err) return res.status(500).send(err.message);
+                  return res.status(200).send(newUser);
+                });
+              }
+            } 
+        })(req, res);
+      }
+    });
+  });
+
+  router.post('/sign-in/verify/token', (req, res) => {
+    const input = req.body;
+
+    validateTokenSignIn(input, {}, (validationErr, sanitizedInput) => {
+      if (validationErr) res.status(400).send(validationErr);
+      else {
+        req.body = sanitizedInput;
+        passport.authenticate('local-login',
+          function(err, user) {
+            if(err) return res.status(400).send(err.message);
             if (user) {
               const newUser = {
                 userId: user.id,
@@ -74,11 +113,14 @@ export default ({ appUrl, emailService, passport, sqlConn }) => {
               }
               req.logIn(user, (err) => {
                 if (err) return res.status(500).send(err.message);
-                else res.status(200).send(newUser);
+                // reset token to null and sign in
+                const resetSessionTokenModel = adminSessionTokenReset(sqlConn, user);
+                resetSessionTokenModel((err, response) => {
+                  if (err) return res.status(500).send(err.message);
+                  return res.status(200).send(newUser);
+                });
               });
-            } else {
-              return res.status(400).send(err.message);
-            }  
+            }
         })(req, res);
       }
     });

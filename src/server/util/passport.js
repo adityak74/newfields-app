@@ -108,6 +108,7 @@ export default (appConfig, emailService, passport, sqlConn) => {
     },
     function(req, email, password, done) { // callback with email and password from our form
       const isAdmin = req.body.isAdmin ? 1 : 0;
+      const adminSessionToken = req.body.session_token ? req.body.session_token : null;
       sqlConn.query("SELECT * FROM users WHERE email = ? and admin = ?", [email, isAdmin], (err, rows) => {
             if (err)
               return done(err);
@@ -124,7 +125,12 @@ export default (appConfig, emailService, passport, sqlConn) => {
 
             if (!rows[0].isVerified)
               return done(new Error("unverifiedAccount"), false);
-            // all is well, return successful user
+            
+            if (rows[0].admin && (adminSessionToken !== null)) {
+              if ((rows[0].sessionToken !== adminSessionToken))
+                return done(new Error("badSessionToken"), false);
+            }
+
             return done(null, rows[0]);
         });
     })
