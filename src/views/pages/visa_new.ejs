@@ -19,7 +19,11 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.28.12/sweetalert2.all.js"></script>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
-        
+        <script>
+            $.ajaxSetup({
+                timeout: 10000 //Time in milliseconds
+            });
+        </script>
         <script type="text/javascript" src="<%= appLocation %>/js/visa_new.js"></script>
         <link type ="text/css" rel="stylesheet" href="<%= appLocation %>/css/FormStyle.css">
     </head>
