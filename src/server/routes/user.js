@@ -34,7 +34,7 @@ const userContactHTMLFile = path.join(
   'user_contact_email.ejs',
 );
 
-export default ({ appUrl, emailService, passport, sqlConn }) => {
+export default ({ appUrl, appConfig, emailService, passport, sqlConn }) => {
   const router = express.Router();
   
   router.post('/sign-up', (req, res) => {
@@ -154,7 +154,7 @@ export default ({ appUrl, emailService, passport, sqlConn }) => {
       },
       (err, htmlString) => {
         emailService({
-          toAddress: 'gagansingh2822@gmail.com',
+          toAddress: appConfig.get('supportEmail'),
           emailHtmlData: htmlString,
           emailTextData: htmlString,
           emailSubject: "Newfields - Contact",
