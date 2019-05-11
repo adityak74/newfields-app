@@ -505,6 +505,27 @@ function doFormAction(form_data, isSubmitted) {
                         });
                         $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
                     }
+                    if(xhr.status === 403) {
+                        console.log(xhr);
+                        const error = xhr.responseText;
+                        switch (error) {
+                            case 'userFormsLimit':
+                                message = "You have reached maximum forms limit for this form. Contact admin for more details.";
+                                break;
+                            case 'userFormsLimitError':
+                                message = "Cannot read forms. Please reload the page.";
+                                break;
+                            default: 
+                                message = "Unidentified error occurred";
+                        }
+                        swal({
+                            title: "Oops?",
+                            text: message,
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        });
+                    }
                 },
             });
         } else if (formAction === 'update') {
@@ -545,6 +566,26 @@ function doFormAction(form_data, isSubmitted) {
                             $("#errors_list").append('<li>' + error.message + '</li>');
                         });
                         $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+                    }
+                    if(xhr.status === 403) {
+                        const error = xhr.responseText;
+                        switch (error) {
+                            case 'userFormsLimit':
+                                message = "You have reached maximum forms limit for this form. Contact admin for more details.";
+                                break;
+                            case 'userFormsLimitError':
+                                message = "Cannot read forms. Please reload the page.";
+                                break;
+                            default: 
+                                message = "Unidentified error occurred";
+                        }
+                        swal({
+                            title: "Oops?",
+                            text: message,
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        });
                     }
                 },
             });
@@ -591,6 +632,26 @@ function doFormAction(form_data, isSubmitted) {
                         $("#errors_list").append('<li>' + error.message + '</li>');
                     });
                     $('html, body').animate({ scrollTop: $('#errors').offset().top }, 'slow');
+                }
+                if(xhr.status === 403) {
+                    const error = xhr.responseText;
+                    switch (error) {
+                        case 'userFormsLimit':
+                            message = "You have reached maximum forms limit for this form. Contact admin for more details.";
+                            break;
+                        case 'userFormsLimitError':
+                            message = "Cannot read forms. Please reload the page.";
+                            break;
+                        default: 
+                            message = "Unidentified error occurred";
+                    }
+                    swal({
+                        title: "Oops?",
+                        text: message,
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    });
                 }
             },
         });

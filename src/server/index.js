@@ -96,8 +96,8 @@ app.use('/images', express.static(path.join(staticPath, 'images')));
 
 app.use('/admin', adminRouteHandler({ appUrl, emailService, passport, sqlConn: sql }));
 app.use('/user', userRouteHandler({ appUrl, appConfig, emailService, passport, sqlConn: sql }));
-app.use('/form1', form1RouteHandler({ appUrl, emailService, sqlConn: sql, awsS3: { s3FileUploadService, s3FileDownloadService } }));
-app.use('/form2', form2RouteHandler({ appUrl, emailService, sqlConn: sql, awsS3: { s3FileUploadService, s3FileDownloadService } }));
+app.use('/form1', form1RouteHandler({ appUrl, appConfig, emailService, sqlConn: sql, awsS3: { s3FileUploadService, s3FileDownloadService } }));
+app.use('/form2', form2RouteHandler({ appUrl, appConfig, emailService, sqlConn: sql, awsS3: { s3FileUploadService, s3FileDownloadService } }));
 
 app.get('/', (req, res) => {
   res.redirect('/user/sign-in');

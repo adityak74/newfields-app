@@ -7,13 +7,15 @@ import userFormModel from '../model/userForms';
 import formType from '../constants/formType';
 import formNumberIdentifier from '../constants/formNumber';
 import userFormReadModel from '../model/userFormsRead';
+import userFormsCount from '../model/userFormsCount';
 import getValueIfNotNull from '../model/helpers/getValueIfNotNull';
 
 const actionStringToId = action => formType[action.toUpperCase()];
 
-export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
+export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
   const router = express.Router();
   const { s3FileUploadService, s3FileDownloadService } = awsS3;
+  const formLimits = appConfig.get('formLimits');
 
   const buildInputObject = ({ 
     formAction,
@@ -177,18 +179,23 @@ export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
     const inputFiles = buildFilesObject(req.files);
-  
-    form2Validator(inputObj, {}, (validationErr, sanitizedInput) => {
-      if (validationErr) res.status(400).send(validationErr);
-      else {
-        const userModelSave = userFormModel(req, sanitizedInput, inputFiles, sqlConn, s3FileUploadService, emailService, formActionIdentifier, formNumberIdentifier.TWO);
-        userModelSave((err, data) => {
-          if (err) return res.status(400).send(err);
-          console.log('form retval', data);
-          const retData = { data };
-          res.status(200).send(retData);
-        });
-      }
+
+    const userFormsCountModel = userFormsCount(sqlConn, req.user.id);
+    userFormsCountModel((userFormsCountErr, userFormCountsResponse) => {
+      if (userFormsCountErr) return res.status(403).send(new Error("userFormsLimitError").message);
+      if (userFormCountsResponse.FORM2COUNT === formLimits.two) return res.status(403).send(new Error("userFormsLimit").message);
+      form2Validator(inputObj, {}, (validationErr, sanitizedInput) => {
+        if (validationErr) res.status(400).send(validationErr);
+        else {
+          const userModelSave = userFormModel(req, sanitizedInput, inputFiles, sqlConn, s3FileUploadService, emailService, formActionIdentifier, formNumberIdentifier.TWO);
+          userModelSave((err, data) => {
+            if (err) return res.status(400).send(err);
+            console.log('form retval', data);
+            const retData = { data };
+            res.status(200).send(retData);
+          });
+        }
+      });
     });
   });
   
@@ -203,15 +210,17 @@ export default ({ appUrl, emailService, sqlConn, awsS3 }) => {
     const formActionIdentifier = actionStringToId(inputObj.formAction);
     const inputFiles = buildFilesObject(req.files);
 
-    console.log('input', inputObj);
-  
-    const userModelSave = userFormModel(req, inputObj, inputFiles, sqlConn, s3FileUploadService, emailService, formActionIdentifier, formNumberIdentifier.TWO);
-
-    userModelSave((err, data) => {
-      if (err) return res.status(400).send(err);
-      console.log('form retval', data);
-      const retData = { data };
-      res.status(200).send(retData);
+    const userFormsCountModel = userFormsCount(sqlConn, req.user.id);
+    userFormsCountModel((userFormsCountErr, userFormCountsResponse) => {
+      if (userFormsCountErr) return res.status(403).send(new Error("userFormsLimitError").message);
+      if (userFormCountsResponse.FORM2COUNT === formLimits.two) return res.status(403).send(new Error("userFormsLimit").message);
+      const userModelSave = userFormModel(req, inputObj, inputFiles, sqlConn, s3FileUploadService, emailService, formActionIdentifier, formNumberIdentifier.TWO);
+      userModelSave((err, data) => {
+        if (err) return res.status(400).send(err);
+        console.log('form retval', data);
+        const retData = { data };
+        res.status(200).send(retData);
+      });
     });
   });
 

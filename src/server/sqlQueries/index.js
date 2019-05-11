@@ -1,4 +1,5 @@
 import { SUBMIT } from '../constants/formType';
+import { ONE, TWO } from '../constants/formNumber';
 
 const FORM_CREATE = {
   CREATE_NEW_FORM_ENTRY: 'INSERT INTO userForms SET ?',
@@ -16,6 +17,8 @@ const FORM_READ = {
   USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE: `SELECT * FROM userForms WHERE formUID = ? and userId = ? and status != ${SUBMIT}`,
   USERFORMS_SELECT_BY_FORMID_INCOMPLETE: `SELECT * FROM userForms WHERE formUID = ? and status != ${SUBMIT}`,
   USERFORMS_SELECT_BY_FORMID_ALL: `SELECT * FROM userForms WHERE formUID = ?`,
+  USERFORMS_SELECT_FORM_COUNTS_BY_USERID: `SELECT (SELECT COUNT(*) FROM userForms where userId = ? and formNumber = ${ONE} and status = ${SUBMIT}) AS FORM1COUNT, 
+    (SELECT COUNT(*) FROM userForms where userId = ? and formNumber = ${TWO} and status = ${SUBMIT}) AS FORM2COUNT`,
   USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID: 'SELECT fd.*, fdEI.* from formData fd, formDataExtraInfo fdEI where fd.uniqueId = ? and fdEI.formUniqueId = ?',
 }
 

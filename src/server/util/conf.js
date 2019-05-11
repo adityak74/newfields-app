@@ -39,6 +39,16 @@ export default (env = 'development') => {
         env: 'AWS_SECRET'
       }
     },
+    formLimits: {
+      one: {
+        default: 10,
+        env: 'FORM_ONE_PER_USER',
+      },
+      two: {
+        default: 10,
+        env: 'FORM_TWO_PER_USER',
+      },
+    },
     secret: {
       default: 'tempsecret',
       env: 'APP_SECRET',
