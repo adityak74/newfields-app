@@ -44,7 +44,11 @@ const s3FileDownloadService = getS3SignedDocument(appConfig);
 
 const appPort = appConfig.get('port');
 const appLocation = appConfig.get('location');
-const appUrl = `${appLocation}:${appPort}`;
+let appUrl = `${appLocation}:${appPort}`;
+
+if (process.env.NODE_ENV === 'production') {
+  appUrl = `${appLocation}:443`;
+}
 
 const viewsPath = path.join(__dirname, '..', 'views');
 
