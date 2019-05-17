@@ -10,5 +10,5 @@ export default ({
   nationality,
   alternateNationality,
   dateOfBirth,
-  relationType: relationType,
+  relationType,
 });
