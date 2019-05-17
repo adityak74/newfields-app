@@ -1,5 +1,5 @@
 import Joi from '../customJoi';
-import JoiEmail from  './email';
+import JoiEmail from './email';
 
 const schema = Joi.object().keys({
   email: JoiEmail,

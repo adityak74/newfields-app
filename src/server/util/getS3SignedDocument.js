@@ -8,9 +8,8 @@ export default appConfig => (file, cb) => {
     secretAccessKey: secret,
   });
 
-  var s3 = new AWS.S3();
-  //configuring parameters
-  var params = {
+  const s3 = new AWS.S3();
+  const params = {
     Bucket: 'newfields-documents',
     Key: file.fileKey,
   };
@@ -19,5 +18,4 @@ export default appConfig => (file, cb) => {
     if (err) return cb(err, null);
     cb(null, { ...file, url });
   });
-
 };

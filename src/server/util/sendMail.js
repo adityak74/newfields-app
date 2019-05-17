@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 
-export default appConfig => ({ 
+export default appConfig => ({
   toAddress,
   emailHtmlData,
   emailTextData,
@@ -16,7 +16,7 @@ export default appConfig => ({
     region: 'eu-west-1',
   });
 
-  const ses = new AWS.SES({ apiVersion: "2010-12-01" });
+  const ses = new AWS.SES({ apiVersion: '2010-12-01' });
   const params = {
     Destination: {
       ToAddresses: [toAddress] // Email address/addresses that you want to send your email
@@ -25,20 +25,20 @@ export default appConfig => ({
       Body: {
         Html: {
           // HTML Format of the email
-          Charset: "UTF-8",
+          Charset: 'UTF-8',
           Data: emailHtmlData,
         },
         Text: {
-          Charset: "UTF-8",
+          Charset: 'UTF-8',
           Data: emailTextData,
         }
       },
       Subject: {
-        Charset: "UTF-8",
+        Charset: 'UTF-8',
         Data: emailSubject,
       }
     },
-    Source: fromAddress ? fromAddress : supportEmail,
+    Source: fromAddress || supportEmail,
   };
 
   ses.sendEmail(params)

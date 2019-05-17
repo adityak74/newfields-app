@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import AWS from 'aws-sdk';
 
 export default appConfig => (file, cb) => {
@@ -8,16 +9,15 @@ export default appConfig => (file, cb) => {
     secretAccessKey: secret,
   });
 
-  var s3 = new AWS.S3();
-  //configuring parameters
-  var params = {
+  const s3 = new AWS.S3();
+
+  const params = {
     Bucket: 'newfields-documents',
-    Body : file.buffer,
-    Key : `${Date.now()}_${file.originalname}`,
+    Body: file.buffer,
+    Key: `${Date.now()}_${file.originalname}`,
   };
 
   s3.upload(params, (err, data) => {
-    //handle error
     if (err) return cb(err, null);
     cb(null, data);
   });

@@ -8,11 +8,12 @@ import passport from 'passport';
 import connectRedis from 'connect-redis';
 import expressWinston from 'express-winston';
 import redis from 'redis';
+import bodyParser from 'body-parser';
+
 import form1RouteHandler from './routes/form1';
 import form2RouteHandler from './routes/form2';
 import userRouteHandler from './routes/user';
 import adminRouteHandler from './routes/admin';
-import bodyParser from 'body-parser';
 import sqlInit from './util/sqlInit';
 import config from './util/conf';
 import passportConfig from './util/passport';
@@ -29,7 +30,7 @@ const redisClient = redis.createClient({
   port: appConfig.get('redisPort'),
 });
 
-const redisStore = connectRedis(session);
+const RedisStore = connectRedis(session);
 
 // redisClient.on("error", function (err) {
 //   console.log("Error " + err);
@@ -66,7 +67,7 @@ app.use(session({
   secret: appConfig.get('secret'),
   resave: false,
   saveUninitialized: false,
-  store: new redisStore({
+  store: new RedisStore({
     host: appConfig.get('redisHost'),
     port: appConfig.get('redisPort'),
     client: redisClient,
@@ -98,10 +99,42 @@ app.use('/js', express.static(path.join(staticPath, 'js')));
 app.use('/css', express.static(path.join(staticPath, 'css')));
 app.use('/images', express.static(path.join(staticPath, 'images')));
 
-app.use('/admin', adminRouteHandler({ appUrl, emailService, passport, sqlConn: sql }));
-app.use('/user', userRouteHandler({ appUrl, appConfig, emailService, passport, sqlConn: sql }));
-app.use('/form1', form1RouteHandler({ appUrl, appConfig, emailService, sqlConn: sql, awsS3: { s3FileUploadService, s3FileDownloadService } }));
-app.use('/form2', form2RouteHandler({ appUrl, appConfig, emailService, sqlConn: sql, awsS3: { s3FileUploadService, s3FileDownloadService } }));
+app.use('/admin', adminRouteHandler({
+  appUrl,
+  emailService,
+  passport,
+  sqlConn: sql,
+}));
+
+app.use('/user', userRouteHandler({
+  appUrl,
+  appConfig,
+  emailService,
+  passport,
+  sqlConn: sql,
+}));
+
+app.use('/form1', form1RouteHandler({
+  appUrl,
+  appConfig,
+  awsS3: {
+    s3FileUploadService,
+    s3FileDownloadService,
+  },
+  emailService,
+  sqlConn: sql,
+}));
+
+app.use('/form2', form2RouteHandler({
+  appUrl,
+  appConfig,
+  awsS3: {
+    s3FileUploadService,
+    s3FileDownloadService,
+  },
+  emailService,
+  sqlConn: sql,
+}));
 
 app.get('/', (req, res) => {
   res.redirect('/user/sign-in');
@@ -119,11 +152,11 @@ app.use(expressWinston.errorLogger({
       colorize: true
     })
   ]
-}))
+}));
 
 app.listen(appPort, () => console.log(`Listening on port ${appPort}!`));
 
-process.on('SIGINT', function() {
+process.on('SIGINT', () => {
   sql.end();
   process.exit();
 });

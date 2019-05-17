@@ -1,5 +1,5 @@
-import Joi from '../customJoi';
 import { clone } from 'lodash';
+import Joi from '../customJoi';
 import schema from '../schema/signUp';
 
 export default (input, context = {}, callback) => {

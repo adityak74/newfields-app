@@ -5,15 +5,15 @@ const schema = Joi.object().keys({
   confirm_password: Joi
     .any()
     .valid(Joi.ref('password'))
-      .required()
-      .options({ 
-        language: 
-          { 
-            any: { 
-              allowOnly: 'must match password',
-            } 
-          } 
-      }),
+    .required()
+    .options({
+      language:
+        {
+          any: {
+            allowOnly: 'must match password',
+          }
+        }
+    }),
 });
 
 export default schema;

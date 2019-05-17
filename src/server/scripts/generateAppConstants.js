@@ -4,7 +4,12 @@ import config from '../util/conf';
 
 const appConfig = config(process.env.NODE_ENV);
 const dbConfig = appConfig.get('db');
-const { host, user, password, name } = dbConfig;
+const {
+  host,
+  user,
+  password,
+  name,
+} = dbConfig;
 
 sqlConstants.createConstantFiles(
   {
@@ -58,7 +63,7 @@ sqlConstants.createConstantFiles(
       valueColumns: ['id'],
     }),
   ],
-  function(err) {
+  (err) => {
     if (err) {
       console.warn(err);
       return process.exit(1);

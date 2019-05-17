@@ -10,11 +10,11 @@ import joiDateExtension from 'joi-date-extensions';
 // the risk of using it.
 
 const customJoi = Joi
-  .extend((joi) => ({
+  .extend(joi => ({
     base: joi.string(),
     name: 'unescapedString',
   }))
-  .extend((joi) => ({
+  .extend(joi => ({
     base: joi.string(),
     name: 'string',
     pre(value, state, options) {

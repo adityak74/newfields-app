@@ -16,11 +16,11 @@ const FORM_READ = {
   USERFORMS_SELECT_BY_FORMID_USERID: 'SELECT * from userForms where formUID = ? and userId = ?',
   USERFORMS_SELECT_BY_FORMID_USERID_INCOMPLETE: `SELECT * FROM userForms WHERE formUID = ? and userId = ? and status != ${SUBMIT}`,
   USERFORMS_SELECT_BY_FORMID_INCOMPLETE: `SELECT * FROM userForms WHERE formUID = ? and status != ${SUBMIT}`,
-  USERFORMS_SELECT_BY_FORMID_ALL: `SELECT * FROM userForms WHERE formUID = ?`,
+  USERFORMS_SELECT_BY_FORMID_ALL: 'SELECT * FROM userForms WHERE formUID = ?',
   USERFORMS_SELECT_FORM_COUNTS_BY_USERID: `SELECT (SELECT COUNT(*) FROM userForms where userId = ? and formNumber = ${ONE} and status = ${SUBMIT}) AS FORM1COUNT, 
     (SELECT COUNT(*) FROM userForms where userId = ? and formNumber = ${TWO} and status = ${SUBMIT}) AS FORM2COUNT`,
   USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID: 'SELECT fd.*, fdEI.* from formData fd, formDataExtraInfo fdEI where fd.uniqueId = ? and fdEI.formUniqueId = ?',
-}
+};
 
 const FORM_UPDATE = {
   UPDATE_NEW_FORM_ENTRY: 'UPDATE userForms SET ? where formUID = ?',
@@ -66,7 +66,7 @@ const USERS = {
   SELECT_USER_BY_ID: 'SELECT * from users where id = ?',
   UPDATE_AGENT: 'UPDATE users SET ? WHERE id = ? and agent = 1',
   UPDATE_USERS_BY_ID: 'UPDATE users SET ? where id = ?',
-}
+};
 
 export default {
   DOCUMENTS,
