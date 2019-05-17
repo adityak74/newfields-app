@@ -1,4 +1,4 @@
-import _omit from 'lodash/fp/omit';
+/* eslint-disable consistent-return */
 import path from 'path';
 import { renderFile as ejsRenderFile } from 'ejs';
 import capitalizeFirst from '../util/capitalizeFirst';
@@ -26,12 +26,13 @@ const sendAgentConfirmationEmail = (agentUser, emailService) => {
         toAddress: agentUser.email,
         emailHtmlData: htmlString,
         emailTextData: htmlString,
-        emailSubject: "Newfields - Agent Authorization",
+        emailSubject: 'Newfields - Agent Authorization',
       });
-  });
+    }
+  );
 };
 
-export default (sqlConnPool, sanitizedInput, emailService) => cb => {
+export default (sqlConnPool, sanitizedInput, emailService) => (cb) => {
   sqlConnPool.getConnection((err, connection) => {
     if (err) cb(err, null);
     connection.beginTransaction((err1) => {
@@ -45,20 +46,21 @@ export default (sqlConnPool, sanitizedInput, emailService) => cb => {
             return cb(null, { agentID: user.id, isVerified: 1 });
           }
           connection.query(
-            USERS.UPDATE_AGENT, [{isVerified: 1}, sanitizedInput.userID], (err3, rows3) => {
-            if (err2) cb(err2, null);
-            connection.commit((commitErr) => {
-              if (commitErr) {
-                return connection.rollback(() => {
-                  throw commitErr;
-                });
-              }
-              sendAgentConfirmationEmail(user, emailService);
-              cb(null, { agentID: sanitizedInput.userID, isVerified: 1 });
-            });
-          });
+            USERS.UPDATE_AGENT, [{ isVerified: 1 }, sanitizedInput.userID], () => {
+              if (err2) cb(err2, null);
+              connection.commit((commitErr) => {
+                if (commitErr) {
+                  return connection.rollback(() => {
+                    throw commitErr;
+                  });
+                }
+                sendAgentConfirmationEmail(user, emailService);
+                cb(null, { agentID: sanitizedInput.userID, isVerified: 1 });
+              });
+            }
+          );
         } else cb(null, null);
-      }); 
+      });
     });
   });
 };

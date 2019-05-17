@@ -1,8 +1,13 @@
 import mysql from 'mysql';
 
-const createMysqlConn = config => {
+const createMysqlConn = (config) => {
   const dbConfig = config.get('db');
-  const { host, user, password, name } = dbConfig;
+  const {
+    host,
+    user,
+    password,
+    name,
+  } = dbConfig;
   const pool = mysql.createPool({
     host,
     user,
@@ -13,6 +18,3 @@ const createMysqlConn = config => {
 };
 
 export default appConfig => createMysqlConn(appConfig);
-
-
-

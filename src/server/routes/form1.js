@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable max-len */
+/* eslint-disable camelcase */
 import express from 'express';
 import multer from 'multer';
 import form1Validator from '../validation/validator/form1';
@@ -12,7 +15,13 @@ import getValueIfNotNull from '../model/helpers/getValueIfNotNull';
 
 const actionStringToId = action => formType[action.toUpperCase()];
 
-export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
+export default ({
+  appUrl,
+  appConfig,
+  emailService,
+  sqlConn,
+  awsS3,
+}) => {
   const router = express.Router();
   const { s3FileUploadService, s3FileDownloadService } = awsS3;
   const formLimits = appConfig.get('formLimits');
@@ -100,22 +109,22 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
     child2PlaceOfBirth: child2_placeofbirth,
     additionalInfoText: additional_info_text_area,
   });
-  
+
   const buildFilesObject = ({
     uk_visa_photo,
     passport_front_page,
     BRP_front_page,
   }) => ({
     previous_uk_visa: getValueIfNotNull(uk_visa_photo) ? uk_visa_photo[0] : null,
-    passport_front: getValueIfNotNull(passport_front_page) ? passport_front_page[0]: null,
-    biometric_residence_permit_front: getValueIfNotNull(BRP_front_page) ? BRP_front_page[0]: null,
+    passport_front: getValueIfNotNull(passport_front_page) ? passport_front_page[0] : null,
+    biometric_residence_permit_front: getValueIfNotNull(BRP_front_page) ? BRP_front_page[0] : null,
   });
 
   router.post('/submit', multer().fields([
     { name: 'uk_visa_photo', maxCount: 1 },
     { name: 'passport_front_page', maxCount: 1 },
     { name: 'BRP_front_page', maxCount: 1 },
-    ]), isLoggedIn, (req, res) => {
+  ]), isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
     const formActionIdentifier = actionStringToId(inputObj.formAction);
@@ -123,8 +132,8 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
 
     const userFormsCountModel = userFormsCount(sqlConn, req.user.id);
     userFormsCountModel((userFormsCountErr, userFormCountsResponse) => {
-      if (userFormsCountErr) return res.status(403).send(new Error("userFormsLimitError").message);
-      if (userFormCountsResponse.FORM1COUNT === formLimits.one) return res.status(403).send(new Error("userFormsLimit").message);
+      if (userFormsCountErr) return res.status(403).send(new Error('userFormsLimitError').message);
+      if (userFormCountsResponse.FORM1COUNT === formLimits.one) return res.status(403).send(new Error('userFormsLimit').message);
       form1Validator(inputObj, {}, (validationErr, sanitizedInput) => {
         if (validationErr) res.status(400).send(validationErr);
         else {
@@ -139,30 +148,30 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
       });
     });
   });
-  
+
   router.post('/save', multer().fields([
     { name: 'uk_visa_photo', maxCount: 1 },
     { name: 'passport_front_page', maxCount: 1 },
     { name: 'BRP_front_page', maxCount: 1 },
-    ]), isLoggedIn, (req, res) => {
-      const input = req.body;
-      const inputObj = buildInputObject(input);
-      const formActionIdentifier = actionStringToId(inputObj.formAction);
-      const inputFiles = buildFilesObject(req.files);
-      
-      const userFormsCountModel = userFormsCount(sqlConn, req.user.id);
-      userFormsCountModel((userFormsCountErr, userFormCountsResponse) => {
-        if (userFormsCountErr) return res.status(403).send(new Error("userFormsLimitError").message);
-        if (userFormCountsResponse.FORM1COUNT === formLimits.one) return res.status(403).send(new Error("userFormsLimit").message);
-        const userModelSave = userFormModel(req, inputObj, inputFiles, sqlConn, s3FileUploadService, emailService, formActionIdentifier, formNumberIdentifier.ONE);
-        userModelSave((err, data) => {
-          if (err) return res.status(400).send(err);
-          const retData = { data };
-          res.status(200).send(retData);
-        });
+  ]), isLoggedIn, (req, res) => {
+    const input = req.body;
+    const inputObj = buildInputObject(input);
+    const formActionIdentifier = actionStringToId(inputObj.formAction);
+    const inputFiles = buildFilesObject(req.files);
+
+    const userFormsCountModel = userFormsCount(sqlConn, req.user.id);
+    userFormsCountModel((userFormsCountErr, userFormCountsResponse) => {
+      if (userFormsCountErr) return res.status(403).send(new Error('userFormsLimitError').message);
+      if (userFormCountsResponse.FORM1COUNT === formLimits.one) return res.status(403).send(new Error('userFormsLimit').message);
+      const userModelSave = userFormModel(req, inputObj, inputFiles, sqlConn, s3FileUploadService, emailService, formActionIdentifier, formNumberIdentifier.ONE);
+      userModelSave((err, data) => {
+        if (err) return res.status(400).send(err);
+        const retData = { data };
+        res.status(200).send(retData);
       });
+    });
   });
-  
+
   router.get('/show', isLoggedIn, (req, res) => res.render('pages/visa_extension', { appLocation: appUrl }));
 
   router.post('/getFormData', isLoggedIn, (req, res) => {
@@ -172,8 +181,8 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
       formUIDValidator(input, {}, (err, sanitizedInput) => {
         if (err) return res.status(400).send('Unknown data');
         const userModelRead = userFormReadModel(req, sanitizedInput, sqlConn, s3FileDownloadService);
-        userModelRead((err, data) => {
-          if (err) return res.status(400).send(err.message || err);
+        userModelRead((err1, data) => {
+          if (err1) return res.status(400).send(err1.message || err1);
           res.status(200).send(data);
         });
       });
@@ -181,7 +190,6 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
       res.status(400).send('Unknown form identifier');
     }
   });
-  
-  return router;  
-};
 
+  return router;
+};

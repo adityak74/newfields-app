@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import express from 'express';
 import bcrypt from 'bcrypt-nodejs';
 import passwordGenerator from 'generate-password';
@@ -34,18 +35,24 @@ const userContactHTMLFile = path.join(
   'user_contact_email.ejs',
 );
 
-export default ({ appUrl, appConfig, emailService, passport, sqlConn }) => {
+export default ({
+  appUrl,
+  appConfig,
+  emailService,
+  passport,
+  sqlConn,
+}) => {
   const router = express.Router();
-  
+
   router.post('/sign-up', (req, res) => {
     const input = req.body;
-  
+
     validateSignUp(input, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
       else {
         req.body = sanitizedInput;
         passport.authenticate('local-signup',
-          function(err, user) {
+          (err, user) => {
             if (user) {
               const newUser = {
                 userId: user.id,
@@ -57,11 +64,11 @@ export default ({ appUrl, appConfig, emailService, passport, sqlConn }) => {
             } else {
               res.status(400).send(err.message);
             }
-        })(req, res);
+          })(req, res);
       }
     });
   });
-  
+
   router.post('/sign-in', (req, res) => {
     const input = req.body;
 
@@ -70,29 +77,29 @@ export default ({ appUrl, appConfig, emailService, passport, sqlConn }) => {
       else {
         req.body = sanitizedInput;
         passport.authenticate('local-login',
-          function(err, user) {
-            if(err) return res.status(400).send(err.message);
+          (err, user) => {
+            if (err) return res.status(400).send(err.message);
             if (user) {
               const newUser = {
                 userId: user.id,
                 admin: user.admin,
-              }
-              // if admin generate session token and enter in db 
+              };
+              // if admin generate session token and enter in db
               // do not login yet until he verifies token
-              if (newUser.admin) { 
+              if (newUser.admin) {
                 const adminTokenModel = adminSessionToken(sqlConn, user, emailService);
-                adminTokenModel((err, tokenData) => {
-                  if (err) return res.status(500).send(err.message);
+                adminTokenModel((err1, tokenData) => {
+                  if (err1) return res.status(500).send(err1.message);
                   return res.status(200).send(tokenData);
                 });
               } else {
-                req.logIn(user, (err) => {
-                  if (err) return res.status(500).send(err.message);
+                req.logIn(user, (err2) => {
+                  if (err2) return res.status(500).send(err2.message);
                   return res.status(200).send(newUser);
                 });
               }
-            } 
-        })(req, res);
+            }
+          })(req, res);
       }
     });
   });
@@ -105,45 +112,46 @@ export default ({ appUrl, appConfig, emailService, passport, sqlConn }) => {
       else {
         req.body = sanitizedInput;
         passport.authenticate('local-login',
-          function(err, user) {
-            if(err) return res.status(400).send(err.message);
+          (err, user) => {
+            if (err) return res.status(400).send(err.message);
             if (user) {
               const newUser = {
                 userId: user.id,
                 admin: user.admin,
-              }
-              req.logIn(user, (err) => {
-                if (err) return res.status(500).send(err.message);
+              };
+              req.logIn(user, (err1) => {
+                if (err1) return res.status(500).send(err1.message);
                 // reset token to null and sign in
                 const resetSessionTokenModel = adminSessionTokenReset(sqlConn, user);
-                resetSessionTokenModel((err, response) => {
-                  if (err) return res.status(500).send(err.message);
+                resetSessionTokenModel((err2) => {
+                  if (err2) return res.status(500).send(err2.message);
                   return res.status(200).send(newUser);
                 });
               });
             }
-        })(req, res);
+          })(req, res);
       }
     });
   });
 
   router.get('/sign-in', (req, res) => {
-    if (req.user && parseInt(req.user.admin)) return res.redirect('/admin/page');
+    if (req.user && parseInt(req.user.admin, 10)) return res.redirect('/admin/page');
     if (req.user) return res.redirect('/user/dashboard');
-    else return res.render('pages/login', { appLocation: appUrl });
+    return res.render('pages/login', { appLocation: appUrl });
   });
 
   router.get('/dashboard', isLoggedIn, (req, res) => {
     res.header('Cache-Control', 'no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0');
     res.header('Pragma', 'no-cache');
-    res.render('pages/user_homepage', { appLocation: appUrl, username: capitalizeFirst(req.user.name) })
+    res.render('pages/user_homepage', { appLocation: appUrl, username: capitalizeFirst(req.user.name) });
   });
 
   router.get('/homepage', isLoggedIn, (req, res) => res.render('pages/user_dashboard', { appLocation: appUrl }));
 
   router.get('/contact', isLoggedIn, (req, res) => res.render('pages/user_contact', { appLocation: appUrl }));
-  
+
   router.post('/contact', isLoggedIn, (req, res) => {
+    // eslint-disable-next-line camelcase
     const { client_name, client_email, message_text } = req.body;
     ejsRenderFile(
       userContactHTMLFile,
@@ -157,19 +165,20 @@ export default ({ appUrl, appConfig, emailService, passport, sqlConn }) => {
           toAddress: appConfig.get('supportEmail'),
           emailHtmlData: htmlString,
           emailTextData: htmlString,
-          emailSubject: "Newfields - Contact",
+          emailSubject: 'Newfields - Contact',
         });
-    });
+      }
+    );
     res.status(200).send();
   });
 
-  router.get('/settings', isLoggedIn, (req, res) => { 
+  router.get('/settings', isLoggedIn, (req, res) => {
     const newUser = {
       name: capitalizeFirst(req.user.name),
       location: req.user.location ? req.user.location : 'N.A.',
       dateOfBirth: req.user.dateOfBirth ? req.user.dateOfBirth : 'N.A.',
       email: req.user.email,
-    }
+    };
     res.render('pages/user_settings', { appLocation: appUrl, userData: newUser });
   });
 
@@ -210,51 +219,49 @@ export default ({ appUrl, appConfig, emailService, passport, sqlConn }) => {
     validateResetPassword(input, {}, (err, sanitizedInput) => {
       if (err) res.status(400).send(err);
       else {
-        sqlConn.query('SELECT * from users where email = ?', [sanitizedInput.email], (err, rows) => {
-          if (err) res.status(500).send();
-          else {
-            if (rows.length) {
-              // generate random password for user. and send the email
-              const randomGeneratedPassword = passwordGenerator.generate({
-                length: 8,
-                uppercase: false,
-                strict: true,
-              });
-              const hashedRandomGeneratedPassword = bcrypt.hashSync(randomGeneratedPassword, null, null);
-              sqlConn.query('UPDATE users SET password = ? where id = ?', [hashedRandomGeneratedPassword, rows[0].id], (err2, rows2) => {
-                if (err2) res.status(500).send(err2);
-                if (rows2.changedRows) {
-                  const responseData = { userId: rows[0].id };
-                  ejsRenderFile(
-                    resetPasswordHTMLFile,
-                    {
-                      userName: rows[0].name,
-                      updatedPassword: randomGeneratedPassword,
-                    },
-                    (err, htmlString) => {
-                      emailService({
-                        toAddress: rows[0].email,
-                        emailHtmlData: htmlString,
-                        emailTextData: htmlString,
-                        emailSubject: "Newfields - Reset Password",
-                      });
-                  });
-                  res.status(200).send(responseData);
-                }
-              });
-            } else {
-              res.status(400).send('userNotFound');
-            }
+        sqlConn.query('SELECT * from users where email = ?', [sanitizedInput.email], (err1, rows) => {
+          if (err1) res.status(500).send(err1);
+          if (rows.length) {
+            // generate random password for user. and send the email
+            const randomGeneratedPassword = passwordGenerator.generate({
+              length: 8,
+              uppercase: false,
+              strict: true,
+            });
+            // eslint-disable-next-line max-len
+            const hashedRandomGeneratedPassword = bcrypt.hashSync(randomGeneratedPassword, null, null);
+            sqlConn.query('UPDATE users SET password = ? where id = ?', [hashedRandomGeneratedPassword, rows[0].id], (err2, rows2) => {
+              if (err2) res.status(500).send(err2);
+              if (rows2.changedRows) {
+                const responseData = { userId: rows[0].id };
+                ejsRenderFile(
+                  resetPasswordHTMLFile,
+                  {
+                    userName: rows[0].name,
+                    updatedPassword: randomGeneratedPassword,
+                  },
+                  (err3, htmlString) => {
+                    emailService({
+                      toAddress: rows[0].email,
+                      emailHtmlData: htmlString,
+                      emailTextData: htmlString,
+                      emailSubject: 'Newfields - Reset Password',
+                    });
+                  }
+                );
+                res.status(200).send(responseData);
+              }
+            });
+          } else {
+            res.status(400).send('userNotFound');
           }
         });
       }
     });
-
   });
 
   router.get('/email/verify', (req, res) => {
-    const email = req.query.email;
-    const token = req.query.token;
+    const { email, token } = req.query;
 
     const input = {
       email,
@@ -269,17 +276,17 @@ export default ({ appUrl, appConfig, emailService, passport, sqlConn }) => {
 
     validateVerifyEmail(input, {}, (err, sanitizedInput) => {
       if (err) res.status(400).send(err);
-      sqlConn.query("SELECT * FROM users WHERE email = ? and token = ?", 
-        [sanitizedInput.email, sanitizedInput.token], 
-        (err, rows) => {
+      sqlConn.query('SELECT * FROM users WHERE email = ? and token = ?',
+        [sanitizedInput.email, sanitizedInput.token],
+        (err1, rows) => {
           // found the user
-          if (err) res.status(500).send(err);
+          if (err1) res.status(500).send(err1);
           if (rows.length) {
             const userId = rows[0].id;
             if (rows[0].isVerified) {
               return redirectToSignIn();
             }
-            sqlConn.query("UPDATE users SET isVerified = 1 where id = ?", [userId], (err2, rows2) => {
+            sqlConn.query('UPDATE users SET isVerified = 1 where id = ?', [userId], (err2, rows2) => {
               if (err2) res.status(500).send(err2);
               if (rows2.changedRows) {
                 // redirect to login
@@ -292,11 +299,9 @@ export default ({ appUrl, appConfig, emailService, passport, sqlConn }) => {
             // user not found
             res.status(400).send("Couldn't find email on database. Please sign up");
           }
-      });
+        });
     });
-
   });
-  
+
   return router;
 };
-

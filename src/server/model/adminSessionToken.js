@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import path from 'path';
 import { renderFile as ejsRenderFile } from 'ejs';
 import capitalizeFirst from '../util/capitalizeFirst';
@@ -27,17 +28,19 @@ const sendAdminTokenConfirmationEmail = (adminUser, token, emailService) => {
         toAddress: adminUser.email,
         emailHtmlData: htmlString,
         emailTextData: htmlString,
-        emailSubject: "Newfields - Admin Session Token",
+        emailSubject: 'Newfields - Admin Session Token',
       });
-  });
+    }
+  );
 };
 
-export default (sqlConnPool, sanitizedUser, emailService) => cb => {
+export default (sqlConnPool, sanitizedUser, emailService) => (cb) => {
   sqlConnPool.getConnection((err, connection) => {
     if (err) cb(err, null);
     connection.beginTransaction((err1) => {
       if (err1) cb(err1, null);
       const token = generateSessionToken();
+      // eslint-disable-next-line max-len
       connection.query(USERS.UPDATE_USERS_BY_ID, [{ sessionToken: token }, sanitizedUser.id], (err2, rows2) => {
         if (err2) cb(err2, null);
         if (rows2) {
@@ -51,7 +54,7 @@ export default (sqlConnPool, sanitizedUser, emailService) => cb => {
             cb(null, { userId: sanitizedUser.id, tokenGenerated: 1, admin: sanitizedUser.admin });
           });
         } else cb(null, null);
-      }); 
+      });
     });
   });
 };

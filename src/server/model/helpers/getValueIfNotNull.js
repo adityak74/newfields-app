@@ -1,1 +1,1 @@
-export default input => input ? input : null;
+export default input => (input || null);

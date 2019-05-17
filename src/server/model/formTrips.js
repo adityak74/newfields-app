@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable max-len */
 import asyncMapSeries from 'async/mapSeries';
 import {
   formType,
@@ -14,7 +16,7 @@ const getTripsDataObject = (sanitizedInput, formNumber) => {
   const tripsData = [];
   if (formNumber === formNumberContant.TWO) {
     if (sanitizedInput.visits.length) {
-      sanitizedInput.visits.forEach(visit => {
+      sanitizedInput.visits.forEach((visit) => {
         tripsData.push({
           country: visit.country,
           arrivalDate: visit.arrivalDate,
@@ -25,7 +27,7 @@ const getTripsDataObject = (sanitizedInput, formNumber) => {
       });
     }
     if (sanitizedInput.trips.length) {
-      sanitizedInput.trips.forEach(trip => {
+      sanitizedInput.trips.forEach((trip) => {
         tripsData.push({
           country: trip.country,
           arrivalDate: trip.arrivalDate,
@@ -36,7 +38,7 @@ const getTripsDataObject = (sanitizedInput, formNumber) => {
       });
     }
     if (sanitizedInput.otherTrips.length) {
-      sanitizedInput.otherTrips.forEach(otherTrip => {
+      sanitizedInput.otherTrips.forEach((otherTrip) => {
         tripsData.push({
           country: otherTrip.country,
           arrivalDate: otherTrip.arrivalDate,
@@ -65,13 +67,13 @@ const updateTripData = (connection, tripObject, onCb) => {
 };
 
 const insertFormTrips = (connection, formUID, tripId, onCb) => {
-  connection.query(FORM_TRIPS.CREATE_NEW_FORM_TRIPS_ENTRY, { formId: formUID, tripId: tripId }, (err, result) => {
+  connection.query(FORM_TRIPS.CREATE_NEW_FORM_TRIPS_ENTRY, { formId: formUID, tripId }, (err, result) => {
     if (err) onCb(err, null);
     onCb(null, result.insertId);
   });
 };
 
-export default (formUID, formNumber, sanitizedInput, connection, action = formType.NEW, formDataExtraInfoInput) => cb => {
+export default (formUID, formNumber, sanitizedInput, connection, action = formType.NEW) => (cb) => {
   switch (action) {
     case NEW:
       connection.beginTransaction((err1) => {
@@ -79,16 +81,17 @@ export default (formUID, formNumber, sanitizedInput, connection, action = formTy
         const allTripsData = getTripsDataObject(sanitizedInput, formNumber);
         asyncMapSeries(
           allTripsData,
-          (tripData, next) => insertTripData(connection, tripData, next), 
+          (tripData, next) => insertTripData(connection, tripData, next),
           (err, results) => {
             if (err) return cb(err, null);
             asyncMapSeries(
               results,
               (tripId, next) => insertFormTrips(connection, formUID, tripId, next),
-              (err1, results1) => {
-                if (err1) return cb(err1, null);
+              (err2, results1) => {
+                if (err2) return cb(err2, null);
                 cb(null, results1);
-              });
+              }
+            );
           },
         );
       });
@@ -101,14 +104,15 @@ export default (formUID, formNumber, sanitizedInput, connection, action = formTy
           connection.query(FORM_TRIPS.FORM_TRIPS_SELECT_BY_FORM_ID, [formUID], (err2, results) => {
             if (err2) cb(err2, null);
             if (results.length) {
-              const tripIdsData = results.map((trip, index) => ({ id : trip.tripId, data: allTripsData[index] }));
+              const tripIdsData = results.map((trip, index) => ({ id: trip.tripId, data: allTripsData[index] }));
               asyncMapSeries(
-                tripIdsData, 
-                (trip, next) => updateTripData(connection, trip, next), 
+                tripIdsData,
+                (trip, next) => updateTripData(connection, trip, next),
                 (err3, results3) => {
                   if (err3) cb(err3, null);
                   cb(null, results3);
-                });
+                }
+              );
             } else cb(null, null);
           });
         });
@@ -122,37 +126,40 @@ export default (formUID, formNumber, sanitizedInput, connection, action = formTy
             (err, results) => {
               if (err) cb(err, null);
               asyncMapSeries(
-                results, 
+                results,
                 (tripId, next) => insertFormTrips(connection, formUID, tripId, next),
-                (err1, results1) => {
-                  if (err1) cb(err1, null);
+                (err2, results1) => {
+                  if (err2) cb(err2, null);
                   cb(null, results1);
-                });
+                }
+              );
             },
           );
         });
       }
       break;
     case UPDATE:
+      // eslint-disable-next-line no-case-declarations
       const allTripsData = getTripsDataObject(sanitizedInput, formNumber);
       connection.beginTransaction((err1) => {
         if (err1) cb(err1, null);
         connection.query(FORM_TRIPS.FORM_TRIPS_SELECT_BY_FORM_ID, [formUID], (err2, results) => {
           if (err2) cb(err2, null);
           if (results.length) {
-            const tripIdsData = results.map((trip, index) => ({ id : trip.tripId, data: allTripsData[index] }));
+            const tripIdsData = results.map((trip, index) => ({ id: trip.tripId, data: allTripsData[index] }));
             asyncMapSeries(
-              tripIdsData, 
-              (trip, next) => updateTripData(connection, trip, next), 
+              tripIdsData,
+              (trip, next) => updateTripData(connection, trip, next),
               (err3, results3) => {
                 if (err3) cb(err3, null);
                 cb(null, results3);
-              });
+              }
+            );
           } else cb(null, null);
         });
       });
       break;
-    default: 
+    default:
       return -1;
   }
 };

@@ -1,8 +1,9 @@
+/* eslint-disable consistent-return */
 import sqlQueries from '../sqlQueries';
 
 const { FORM_UPDATE } = sqlQueries;
 
-export default (sqlConnPool, sanitizedInput) => cb => {
+export default (sqlConnPool, sanitizedInput) => (cb) => {
   const updateProgressInput = {
     formUID: sanitizedInput.formId,
     processingStatus: sanitizedInput.progressStatusCode,
@@ -17,16 +18,17 @@ export default (sqlConnPool, sanitizedInput) => cb => {
           { processingStatus: updateProgressInput.processingStatus },
           updateProgressInput.formUID
         ], (err2) => {
-        if (err2) cb(err2, null);
-        connection.commit((commitErr) => {
-          if (commitErr) {
-            return connection.rollback(() => {
-              throw commitErr;
-            });
-          }
-          cb(null, updateProgressInput);
-        });
-      });  
+          if (err2) cb(err2, null);
+          connection.commit((commitErr) => {
+            if (commitErr) {
+              return connection.rollback(() => {
+                throw commitErr;
+              });
+            }
+            cb(null, updateProgressInput);
+          });
+        }
+      );
     });
   });
 };

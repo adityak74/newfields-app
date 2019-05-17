@@ -1,16 +1,24 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable consistent-return */
+/* eslint-disable max-len */
 import asyncMapSeries from 'async/mapSeries';
 import parallel from 'async/parallel';
 import groupBy from 'lodash/fp/groupBy';
 import {
-  formNumber as formNumberConstants,
-  formType,
-  relationTypes as relation,
+  relationTypes,
   tripTypes as trip,
   documentType,
 } from '../constants';
 import sqlQueries from '../sqlQueries';
 
-const { FORM_READ, FORM_RELATIONS, RELATIONSHIP_INFO, TRIPS, FORM_TRIPS, DOCUMENTS } = sqlQueries;
+const {
+  FORM_READ,
+  FORM_RELATIONS,
+  RELATIONSHIP_INFO,
+  TRIPS,
+  FORM_TRIPS,
+  DOCUMENTS,
+} = sqlQueries;
 const {
   BIOMETRIC_RESIDENCE_PERMIT_FRONT,
   CURRENT_COUNTRY_RESIDENCE_PERMIT,
@@ -30,10 +38,12 @@ const getRelationData = (connection, relationId, onCb) => {
 
 let childIndex = 1;
 
-const relationDataTranform = relationshipData => {
-  const { CHILD, MOTHER, FATHER } = relation;
+const relationDataTranform = (relationshipData) => {
+  const { CHILD, MOTHER, FATHER } = relationTypes;
+  // eslint-disable-next-line default-case
   switch (relationshipData.relationType) {
     case CHILD:
+      // eslint-disable-next-line no-case-declarations
       const childData = {
         [`child${childIndex}FullName`]: relationshipData.firstName,
         [`child${childIndex}Nationalitites`]: relationshipData.nationality,
@@ -63,8 +73,9 @@ const relationDataTranform = relationshipData => {
   }
 };
 
-const documentsDataTransform = documentsData => {
+const documentsDataTransform = (documentsData) => {
   const documentsLinkData = {};
+  // eslint-disable-next-line default-case
   switch (documentsData.type) {
     case BIOMETRIC_RESIDENCE_PERMIT_FRONT:
       documentsLinkData.biometric_residence_permit_front_link = documentsData.url;
@@ -98,13 +109,14 @@ const tripDataTransform = tripData => ({
   type: tripData.type,
 });
 
-const groupByTripType = tripData => {
+const groupByTripType = (tripData) => {
   const { VISIT, NORMAL_TRIP, OTHER_TRIP } = trip;
+  // eslint-disable-next-line default-case
   switch (tripData.type) {
     case VISIT:
       return 'visitInfo';
     case NORMAL_TRIP:
-      return 'tripInfo'
+      return 'tripInfo';
     case OTHER_TRIP:
       return 'otherTripInfo';
   }
@@ -119,7 +131,7 @@ const getTripData = (connection, tripId, onCb) => {
   });
 };
 
-const getFormRelationsData = (connection, sanitizedInput) => callback => {
+const getFormRelationsData = (connection, sanitizedInput) => (callback) => {
   connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err, result1) => {
     if (err) return callback(err, null);
     if (result1.length) {
@@ -133,7 +145,7 @@ const getFormRelationsData = (connection, sanitizedInput) => callback => {
   });
 };
 
-const getFormTripData = (connection, sanitizedInput) => callback => {
+const getFormTripData = (connection, sanitizedInput) => (callback) => {
   connection.query(FORM_TRIPS.FORM_TRIPS_SELECT_BY_FORM_ID, [sanitizedInput.formUID], (err, result1) => {
     if (err) return callback(err, null);
     if (result1.length) {
@@ -148,7 +160,7 @@ const getFormTripData = (connection, sanitizedInput) => callback => {
   });
 };
 
-const getFormDocumentsData = (connection, sanitizedInput, s3FileDownloadService, currentFormNumber) => callback => {
+const getFormDocumentsData = (connection, sanitizedInput, s3FileDownloadService) => (callback) => {
   connection.query(DOCUMENTS.DOCUMENTS_SELECT_BY_FORMUID, [sanitizedInput.formUID], (err, result1) => {
     if (err) return callback(err, null);
     if (result1.length) {
@@ -162,7 +174,7 @@ const getFormDocumentsData = (connection, sanitizedInput, s3FileDownloadService,
   });
 };
 
-export default (req, sanitizedInput, sqlConnPool, s3FileDownloadService) => cb => {
+export default (req, sanitizedInput, sqlConnPool, s3FileDownloadService) => (cb) => {
   const incompleteForms = {};
   incompleteForms.query = FORM_READ.USERFORMS_SELECT_BY_FORMID_ALL;
   incompleteForms.params = [sanitizedInput.formUID];
@@ -176,7 +188,7 @@ export default (req, sanitizedInput, sqlConnPool, s3FileDownloadService) => cb =
           const currentFormNumber = result[0].formNumber;
           const currentFormRefNumber = result[0].formRefNumber;
           const currentFormStatus = result[0].status;
-          connection.query(FORM_READ.USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID, [result[0].formUID, result[0].formUID] , (err3, rows) => {
+          connection.query(FORM_READ.USERFORMDATA_EXTRAINFO_SELECT_BY_FORMID, [result[0].formUID, result[0].formUID], (err3, rows) => {
             if (err3) return cb(err3, null);
             const userFormDataWithInfo = rows[0];
             const formTripsData = getFormTripData(connection, sanitizedInput);
@@ -187,22 +199,18 @@ export default (req, sanitizedInput, sqlConnPool, s3FileDownloadService) => cb =
               if (asyncParallelErr) return cb(asyncParallelErr, null);
               if (formDataResults.length) {
                 const relationDataShimmed = formDataResults[0];
-                relationDataShimmed.forEach(relation => 
-                  resultObj = { ...resultObj, ...relation }
-                );
+                relationDataShimmed.forEach(relation => resultObj = { ...resultObj, ...relation });
                 const documentDataShimmed = formDataResults[2];
-                documentDataShimmed.forEach(doc => 
-                  resultObj = { ...resultObj, ...doc }
-                );
+                documentDataShimmed.forEach(doc => resultObj = { ...resultObj, ...doc });
                 resultObj = { ...resultObj, ...formDataResults[1] };
               }
               return cb(null, resultObj);
             });
           });
         } else {
-          cb(new Error("Form not found or already submitted. Redirecting to dashboard."), null);
+          cb(new Error('Form not found or already submitted. Redirecting to dashboard.'), null);
         }
-      });  
+      });
     });
   });
 };

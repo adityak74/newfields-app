@@ -1,8 +1,10 @@
+/* eslint-disable consistent-return */
+/* eslint-disable max-len */
 import asyncMapSeries from 'async/mapSeries';
 import {
   formType,
   formNumber as formNumberContant,
-  relationTypes as relation,
+  relationTypes,
 } from '../constants';
 import sqlQueries from '../sqlQueries';
 import getRelationData from './helpers/getRelationData';
@@ -12,14 +14,14 @@ const { NEW, SUBMIT, UPDATE } = formType;
 
 const getRelationsDataObject = (sanitizedInput, formNumber) => {
   const relationsData = [];
-  for (var index = 1; index < 3; index++) {
+  for (let index = 1; index < 3; index += 1) {
     relationsData.push(getRelationData({
       firstName: sanitizedInput[`child${index}FullName`] || null,
       nationality: sanitizedInput[`child${index}Nationalitites`] || sanitizedInput[`child${index}Nationality`] || null,
       alternateNationality: sanitizedInput[`child${index}AlternateNationality`] || null,
       dateOfBirth: sanitizedInput[`child${index}DateOfBirth`] || null,
       countryOfBirth: sanitizedInput[`child${index}PlaceOfBirth`] || sanitizedInput[`child${index}CountryOfBirth`] || null,
-    }, relation.CHILD));
+    }, relationTypes.CHILD));
   }
   if (formNumber === formNumberContant.TWO) {
     relationsData.push(getRelationData({
@@ -28,14 +30,14 @@ const getRelationsDataObject = (sanitizedInput, formNumber) => {
       nationality: sanitizedInput.fatherNationality || null,
       alternateNationality: sanitizedInput.fatherAlternateNationality || null,
       dateOfBirth: sanitizedInput.fatherDateOfBirth || null,
-    }, relation.FATHER));
+    }, relationTypes.FATHER));
     relationsData.push(getRelationData({
       firstName: sanitizedInput.motherFullName,
       countryOfBirth: sanitizedInput.motherCountryOfBirth,
       nationality: sanitizedInput.motherNationality,
       alternateNationality: sanitizedInput.motherAlternateNationality,
       dateOfBirth: sanitizedInput.motherDateOfBirth,
-    }, relation.MOTHER));
+    }, relationTypes.MOTHER));
   }
 
   return relationsData;
@@ -62,7 +64,7 @@ const insertFormRelations = (connection, formUID, relationId, onCb) => {
   });
 };
 
-export default (formUID, formNumber, sanitizedInput, connection, action = formType.NEW, formDataExtraInfoInput) => cb => {
+export default (formUID, formNumber, sanitizedInput, connection, action = formType.NEW, formDataExtraInfoInput) => (cb) => {
   switch (action) {
     case NEW:
       connection.beginTransaction((err1) => {
@@ -74,12 +76,13 @@ export default (formUID, formNumber, sanitizedInput, connection, action = formTy
           (err, results) => {
             if (err) cb(err, null);
             asyncMapSeries(
-              results, 
+              results,
               (relationId, next) => insertFormRelations(connection, formUID, relationId, next),
-              (err1, results1) => {
-                if (err1) cb(err1, null);
+              (err2, results1) => {
+                if (err2) cb(err2, null);
                 cb(null, results1);
-              });
+              }
+            );
           },
         );
       });
@@ -91,14 +94,15 @@ export default (formUID, formNumber, sanitizedInput, connection, action = formTy
           if (err1) cb(err1, null);
           connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [formUID], (err2, results) => {
             if (results.length) {
-              const relationIdsData = results.map((relation, index) => ({ id : relation.relationshipId, data: allRelationsData[index] }));
+              const relationIdsData = results.map((relation, index) => ({ id: relation.relationshipId, data: allRelationsData[index] }));
               asyncMapSeries(
-                relationIdsData, 
-                (relation, next) => updateRelationData(connection, relation, next), 
+                relationIdsData,
+                (relation, next) => updateRelationData(connection, relation, next),
                 (err3, results3) => {
                   if (err3) cb(err3, null);
                   cb(null, results3);
-                });
+                }
+              );
             } else cb(null, null);
           });
         });
@@ -112,36 +116,39 @@ export default (formUID, formNumber, sanitizedInput, connection, action = formTy
             (err, results) => {
               if (err) cb(err, null);
               asyncMapSeries(
-                results, 
+                results,
                 (relationId, next) => insertFormRelations(connection, formUID, relationId, next),
-                (err1, results1) => {
-                  if (err1) cb(err1, null);
+                (err2, results1) => {
+                  if (err2) cb(err2, null);
                   cb(null, results1);
-                });
+                }
+              );
             },
           );
         });
       }
       break;
     case UPDATE:
+      // eslint-disable-next-line no-case-declarations
       const allRelationsData = getRelationsDataObject(sanitizedInput, formNumber);
       connection.beginTransaction((err1) => {
         if (err1) cb(err1, null);
         connection.query(FORM_RELATIONS.FORM_RELATIONS_SELECT_BY_FORM_ID, [formUID], (err2, results) => {
           if (results.length) {
-            const relationIdsData = results.map((relation, index) => ({ id : relation.relationshipId, data: allRelationsData[index] }));
+            const relationIdsData = results.map((relation, index) => ({ id: relation.relationshipId, data: allRelationsData[index] }));
             asyncMapSeries(
-              relationIdsData, 
-              (relation, next) => updateRelationData(connection, relation, next), 
+              relationIdsData,
+              (relation, next) => updateRelationData(connection, relation, next),
               (err3, results3) => {
                 if (err3) cb(err3, null);
                 cb(null, results3);
-              });
+              }
+            );
           } else cb(null, null);
         });
       });
       break;
-    default: 
+    default:
       return -1;
   }
 };

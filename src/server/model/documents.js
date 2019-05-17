@@ -1,14 +1,14 @@
+/* eslint-disable consistent-return */
 import asyncMapSeries from 'async/mapSeries';
 import {
   formType,
-  formNumber,
-  relationTypes as relation,
+  formNumber as formNumberConstants,
   documentType,
 } from '../constants';
 import sqlQueries from '../sqlQueries';
 import getDocumentsData from './helpers/getDocumentsData';
 
-const { ONE, TWO } = formNumber;
+const { ONE, TWO } = formNumberConstants;
 const { DOCUMENTS } = sqlQueries;
 const {
   BIOMETRIC_RESIDENCE_PERMIT_FRONT,
@@ -26,8 +26,8 @@ const getRawFilesArray = (filesInput, formNumber, formUID) => {
     file: true,
     formUID,
     documentType: PREVIOUS_UK_VISA,
-  } : { 
-    file: null, 
+  } : {
+    file: null,
     formUID,
     documentType: PREVIOUS_UK_VISA
   });
@@ -41,6 +41,7 @@ const getRawFilesArray = (filesInput, formNumber, formUID) => {
     formUID,
     documentType: PASSPORT_FRONT,
   });
+  // eslint-disable-next-line default-case
   switch (formNumber) {
     case ONE:
       filesData.push(filesInput.biometric_residence_permit_front ? {
@@ -88,25 +89,32 @@ const insertDocumentsData = (connection, documentsObject, onCb) => {
 };
 
 const updateDocumentsDataByFormAndType = (connection, documentsObject, onCb) => {
-  connection.query(DOCUMENTS.UPDATE_DOCUMENTS_ENTRY_BY_FORMUID_TYPE, [documentsObject, documentsObject.formUID, documentsObject.type], (err, result) => {
-    if (err) onCb(err, null);
-    onCb(null, result.changedRows || result.affectedRows);
-  });
+  connection.query(
+    DOCUMENTS.UPDATE_DOCUMENTS_ENTRY_BY_FORMUID_TYPE,
+    [documentsObject, documentsObject.formUID, documentsObject.type],
+    (err, result) => {
+      if (err) onCb(err, null);
+      onCb(null, result.changedRows || result.affectedRows);
+    }
+  );
 };
 
 const uploadFiles = (fileData, s3FileUploadService, action, onCb) => {
   if (fileData.file) {
     s3FileUploadService(fileData, (err, responseFileData) => {
       if (err) return onCb(err, null);
-      onCb(null, getDocumentsData(fileData.formUID, responseFileData.Key, fileData.documentType ));
+      onCb(null, getDocumentsData(fileData.formUID, responseFileData.Key, fileData.documentType));
     });
-  } else onCb(null, 
-    action === formType.NEW 
-    ? getDocumentsData(fileData.formUID, null, fileData.documentType)
-    : null);
+  } else {
+    onCb(null,
+      action === formType.NEW
+        ? getDocumentsData(fileData.formUID, null, fileData.documentType)
+        : null);
+  }
 };
 
-export default (formUID, formNumber, sanitizedInput, filesInput, connection, s3FileUploadService, action = formType.NEW) => cb => {
+// eslint-disable-next-line max-len
+export default (formUID, formNumber, sanitizedInput, filesInput, connection, s3FileUploadService, action = formType.NEW) => (cb) => {
   switch (action) {
     case NEW:
       connection.beginTransaction((err1) => {
@@ -118,12 +126,13 @@ export default (formUID, formNumber, sanitizedInput, filesInput, connection, s3F
           (err, results) => {
             if (err) return cb(err, null);
             asyncMapSeries(
-              results, 
+              results,
               (document, next) => insertDocumentsData(connection, document, next),
-              (err1, results1) => {
-                if (err1) cb(err1, null);
+              (err2, results1) => {
+                if (err2) cb(err2, null);
                 cb(null, results1);
-              });
+              }
+            );
           }
         );
       });
@@ -142,10 +151,11 @@ export default (formUID, formNumber, sanitizedInput, filesInput, connection, s3F
               asyncMapSeries(
                 filesDataToUpdate,
                 (document, next) => updateDocumentsDataByFormAndType(connection, document, next),
-                (err1, results1) => {
-                  if (err1) cb(err1, null);
+                (err2, results1) => {
+                  if (err2) cb(err2, null);
                   cb(null, results1);
-                });
+                }
+              );
             }
           );
         });
@@ -159,12 +169,13 @@ export default (formUID, formNumber, sanitizedInput, filesInput, connection, s3F
             (err, results) => {
               if (err) return cb(err, null);
               asyncMapSeries(
-                results, 
+                results,
                 (document, next) => insertDocumentsData(connection, document, next),
-                (err1, results1) => {
-                  if (err1) cb(err1, null);
+                (err2, results1) => {
+                  if (err2) cb(err2, null);
                   cb(null, results1);
-                });
+                }
+              );
             }
           );
         });
@@ -183,14 +194,16 @@ export default (formUID, formNumber, sanitizedInput, filesInput, connection, s3F
             asyncMapSeries(
               filesDataToUpdate,
               (document, next) => updateDocumentsDataByFormAndType(connection, document, next),
-              (err1, results1) => {
-                if (err1) cb(err1, null);
+              (err2, results1) => {
+                if (err2) cb(err2, null);
                 cb(null, results1);
-              });
+              }
+            );
           }
         );
       });
-    default: 
+      break;
+    default:
       return -1;
   }
 };

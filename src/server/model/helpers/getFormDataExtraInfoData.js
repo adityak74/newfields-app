@@ -1,18 +1,22 @@
 import getValueIfNotNull from './getValueIfNotNull';
 
-const getPartnerNationalitites = sanitizedInput => {
-  if (sanitizedInput.partnerNationalities)
+const getPartnerNationalitites = (sanitizedInput) => {
+  if (sanitizedInput.partnerNationalities) {
     return sanitizedInput.partnerNationalities;
-  if (sanitizedInput.partnerNationality)
+  }
+  if (sanitizedInput.partnerNationality) {
     return sanitizedInput.partnerNationality;
+  }
   return '';
 };
 
-const getPlaceOfBirth = sanitizedInput => {
-  if (sanitizedInput.partnerPlaceOfBirth)
+const getPlaceOfBirth = (sanitizedInput) => {
+  if (sanitizedInput.partnerPlaceOfBirth) {
     return sanitizedInput.partnerPlaceOfBirth;
-  if (sanitizedInput.partnerCountryOfBirth)
+  }
+  if (sanitizedInput.partnerCountryOfBirth) {
     return sanitizedInput.partnerCountryOfBirth;
+  }
   return '';
 };
 
@@ -30,7 +34,6 @@ export default (formUID, sanitizedInput) => ({
     : getValueIfNotNull(sanitizedInput.UKNINumber),
   ukNextDepartureDate: sanitizedInput.nextPlannedDeparture,
   ukNextArrivalDate: sanitizedInput.nextDateArrival,
-  // only applicable for form1, form2 is serialzed in relationships table  
   partnerTitle: getValueIfNotNull(sanitizedInput.partnerTitle),
   partnerFullName: getValueIfNotNull(sanitizedInput.partnerFullName),
   partnerMobile: getValueIfNotNull(sanitizedInput.partnerMobileNumber),

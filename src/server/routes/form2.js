@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable max-len */
+/* eslint-disable camelcase */
 import express from 'express';
 import multer from 'multer';
 import form2Validator from '../validation/validator/form2';
@@ -12,12 +15,18 @@ import getValueIfNotNull from '../model/helpers/getValueIfNotNull';
 
 const actionStringToId = action => formType[action.toUpperCase()];
 
-export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
+export default ({
+  appUrl,
+  appConfig,
+  emailService,
+  sqlConn,
+  awsS3,
+}) => {
   const router = express.Router();
   const { s3FileUploadService, s3FileDownloadService } = awsS3;
   const formLimits = appConfig.get('formLimits');
 
-  const buildInputObject = ({ 
+  const buildInputObject = ({
     formAction,
     UniqueID,
     Title,
@@ -50,35 +59,35 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
     Proposaldate_UK_entry,
     familymembertravelalong,
     family_member_travelalong_textarea,
-    any_overseas_travel,              
-    Departuredate_UK,                  
-    Returndate_UK,                     
-    fa_frst,                           
-    father_country_of_birth,           
-    father_nationality,                
-    father_Secondnationality,          
-    father_DOB,                        
-    mothers_f_na,                      
-    mothersCountryofBirth,             
-    mother_nationality,                
-    mother_Secondnationality,          
-    mother_DOB,                        
-    partner_fna,                       
-    partner_countryofbirth,            
-    partner_nationlity,                
-    partner_Snationality,              
-    partner_DOB,                       
-    firstchild1,                       
-    child1_f_na,                       
-    child1_countryofbirth,             
-    child1_nationality,                
-    child1_Snationality,               
-    child1_DOB,                        
-    child2_f_na,                       
-    child2_countryofbirth,             
-    child2_nationality,                
-    child2_Snationality,               
-    child2_DOB,                        
+    any_overseas_travel,
+    Departuredate_UK,
+    Returndate_UK,
+    fa_frst,
+    father_country_of_birth,
+    father_nationality,
+    father_Secondnationality,
+    father_DOB,
+    mothers_f_na,
+    mothersCountryofBirth,
+    mother_nationality,
+    mother_Secondnationality,
+    mother_DOB,
+    partner_fna,
+    partner_countryofbirth,
+    partner_nationlity,
+    partner_Snationality,
+    partner_DOB,
+    firstchild1,
+    child1_f_na,
+    child1_countryofbirth,
+    child1_nationality,
+    child1_Snationality,
+    child1_DOB,
+    child2_f_na,
+    child2_countryofbirth,
+    child2_nationality,
+    child2_Snationality,
+    child2_DOB,
     visit,
     visitInfo,
     trip,
@@ -165,25 +174,26 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
     previous_uk_visa,
   }) => ({
     current_visa: getValueIfNotNull(current_country_permit_photo) ? current_country_permit_photo[0] : null,
-    passport_front: getValueIfNotNull(passport_front_page) ? passport_front_page[0]: null,
-    passport_front_two: getValueIfNotNull(secondpassport_front_page) ? secondpassport_front_page[0]: null,
+    passport_front: getValueIfNotNull(passport_front_page) ? passport_front_page[0] : null,
+    passport_front_two: getValueIfNotNull(secondpassport_front_page) ? secondpassport_front_page[0] : null,
     previous_uk_visa: getValueIfNotNull(previous_uk_visa) ? previous_uk_visa[0] : null,
   });
-  
+
   router.post('/submit', multer().fields([
     { name: 'current_country_permit_photo', maxCount: 1 },
     { name: 'passport_front_page', maxCount: 1 },
     { name: 'secondpassport_front_page', maxCount: 1 },
     { name: 'previous_uk_visa', maxCount: 1 },
-    ]), isLoggedIn, (req, res) => {
+  ]), isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
     const inputFiles = buildFilesObject(req.files);
+    const formActionIdentifier = actionStringToId(inputObj.formAction);
 
     const userFormsCountModel = userFormsCount(sqlConn, req.user.id);
     userFormsCountModel((userFormsCountErr, userFormCountsResponse) => {
-      if (userFormsCountErr) return res.status(403).send(new Error("userFormsLimitError").message);
-      if (userFormCountsResponse.FORM2COUNT === formLimits.two) return res.status(403).send(new Error("userFormsLimit").message);
+      if (userFormsCountErr) return res.status(403).send(new Error('userFormsLimitError').message);
+      if (userFormCountsResponse.FORM2COUNT === formLimits.two) return res.status(403).send(new Error('userFormsLimit').message);
       form2Validator(inputObj, {}, (validationErr, sanitizedInput) => {
         if (validationErr) res.status(400).send(validationErr);
         else {
@@ -198,13 +208,13 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
       });
     });
   });
-  
+
   router.post('/save', multer().fields([
     { name: 'current_country_permit_photo', maxCount: 1 },
     { name: 'passport_front_page', maxCount: 1 },
     { name: 'secondpassport_front_page', maxCount: 1 },
     { name: 'previous_uk_visa', maxCount: 1 },
-    ]), isLoggedIn, (req, res) => {
+  ]), isLoggedIn, (req, res) => {
     const input = req.body;
     const inputObj = buildInputObject(input);
     const formActionIdentifier = actionStringToId(inputObj.formAction);
@@ -212,8 +222,8 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
 
     const userFormsCountModel = userFormsCount(sqlConn, req.user.id);
     userFormsCountModel((userFormsCountErr, userFormCountsResponse) => {
-      if (userFormsCountErr) return res.status(403).send(new Error("userFormsLimitError").message);
-      if (userFormCountsResponse.FORM2COUNT === formLimits.two) return res.status(403).send(new Error("userFormsLimit").message);
+      if (userFormsCountErr) return res.status(403).send(new Error('userFormsLimitError').message);
+      if (userFormCountsResponse.FORM2COUNT === formLimits.two) return res.status(403).send(new Error('userFormsLimit').message);
       const userModelSave = userFormModel(req, inputObj, inputFiles, sqlConn, s3FileUploadService, emailService, formActionIdentifier, formNumberIdentifier.TWO);
       userModelSave((err, data) => {
         if (err) return res.status(400).send(err);
@@ -233,8 +243,8 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
       formUIDValidator(input, {}, (err, sanitizedInput) => {
         if (err) return res.status(400).send('Unknown data');
         const userModelRead = userFormReadModel(req, sanitizedInput, sqlConn, s3FileDownloadService);
-        userModelRead((err, data) => {
-          if (err) return res.status(400).send(err.message || err);
+        userModelRead((err1, data) => {
+          if (err1) return res.status(400).send(err1.message || err1);
           res.status(200).send(data);
         });
       });
@@ -242,7 +252,6 @@ export default ({ appUrl, appConfig, emailService, sqlConn, awsS3 }) => {
       res.status(400).send('Unknown form identifier');
     }
   });
-  
+
   return router;
 };
-

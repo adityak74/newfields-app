@@ -1,12 +1,14 @@
+/* eslint-disable consistent-return */
 import sqlQueries from '../sqlQueries';
 
 const { USERS } = sqlQueries;
 
-export default (sqlConnPool, sanitizedUser) => cb => {
+export default (sqlConnPool, sanitizedUser) => (cb) => {
   sqlConnPool.getConnection((err, connection) => {
     if (err) cb(err, null);
     connection.beginTransaction((err1) => {
       if (err1) cb(err1, null);
+      // eslint-disable-next-line max-len
       connection.query(USERS.UPDATE_USERS_BY_ID, [{ sessionToken: null }, sanitizedUser.id], (err2, rows2) => {
         if (err2) cb(err2, null);
         if (rows2) {
