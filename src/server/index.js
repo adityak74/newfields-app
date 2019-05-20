@@ -9,6 +9,7 @@ import connectRedis from 'connect-redis';
 import expressWinston from 'express-winston';
 import redis from 'redis';
 import bodyParser from 'body-parser';
+import { ApolloServer, gql } from 'apollo-server-express';
 
 import form1RouteHandler from './routes/form1';
 import form2RouteHandler from './routes/form2';
@@ -20,6 +21,8 @@ import passportConfig from './util/passport';
 import sendMail from './util/sendMail';
 import uploadDocument from './util/uploadDocument';
 import getS3SignedDocument from './util/getS3SignedDocument';
+import typeDefs from './graphql/schema';
+import resolvers from './graphql/resolvers';
 
 const app = express();
 const appConfig = config(process.env.NODE_ENV);
@@ -135,6 +138,14 @@ app.use('/form2', form2RouteHandler({
   emailService,
   sqlConn: sql,
 }));
+
+// GraphQL setup
+const apolloServer = new ApolloServer({
+  typeDefs: gql(typeDefs),
+  resolvers,
+  context: { sql }
+});
+apolloServer.applyMiddleware({ app });
 
 app.get('/', (req, res) => {
   res.redirect('/user/sign-in');
