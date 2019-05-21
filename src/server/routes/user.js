@@ -1,7 +1,4 @@
 /* eslint-disable consistent-return */
-import ApolloClient from 'apollo-boost';
-import gql from 'graphql-tag';
-import fetch from 'node-fetch';
 import express from 'express';
 import bcrypt from 'bcrypt-nodejs';
 import passwordGenerator from 'generate-password';
@@ -303,26 +300,6 @@ export default ({
             res.status(400).send("Couldn't find email on database. Please sign up");
           }
         });
-    });
-  });
-
-  router.get('/testall', (req, res) => {
-    const client = new ApolloClient({ uri: `${appUrl}/graphql`, fetch });
-    const query = gql`
-      query {
-        users {
-          id
-          name
-          email
-          sessionToken
-          isVerified
-          admin
-          agent
-        }
-      }
-    `;
-    client.query({ query }).then((results) => {
-      res.send(results.data);
     });
   });
 

@@ -10,6 +10,8 @@ export default `
     createdDate: String,
   }
   type Query {
-    users: [User!]!
+    users: [User!]!,
+    admins: [User!]!,
+    agents: [User!]!,
   }
 `;

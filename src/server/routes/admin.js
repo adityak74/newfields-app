@@ -1,13 +1,14 @@
 /* eslint-disable camelcase */
 /* eslint-disable consistent-return */
+import ApolloClient from 'apollo-boost';
+import gql from 'graphql-tag';
+import fetch from 'node-fetch';
 import express from 'express';
 import isAdmin from '../util/isAdmin';
 import validateFormProgress from '../validation/validator/formProgress';
 import validateSignUp from '../validation/validator/signUp';
 import validateUserID from '../validation/validator/userID';
 import userFormsReadAll from '../model/userAllForms';
-import adminsReadAll from '../model/adminRead';
-import agentsReadAll from '../model/agentRead';
 import agentUpdate from '../model/agentUpdate';
 import formProgress from '../model/formProgress';
 import { SUBMIT } from '../constants/formType';
@@ -19,6 +20,7 @@ export default ({
   sqlConn,
 }) => {
   const router = express.Router();
+  const client = new ApolloClient({ uri: `${appUrl}/graphql`, fetch });
 
   router.get('/homepage', isAdmin, (req, res) => res.render('pages/admin_dashboard', { appLocation: appUrl }));
 
@@ -52,18 +54,48 @@ export default ({
   });
 
   router.post('/all', isAdmin, (req, res) => {
-    const getAllAdmins = adminsReadAll(sqlConn);
-    getAllAdmins((err, result) => {
-      if (err) return res.status(400).send(err);
-      res.send(result);
+    const adminsQuery = gql`
+      query {
+        admins {
+          id
+          name
+          email
+          sessionToken
+          isVerified
+          admin
+          agent
+          createdDate
+        }
+      }
+    `;
+
+    client.query({ query: adminsQuery }).then((results) => {
+      res.send(results.data.admins);
+    }).catch((error) => {
+      if (error) return res.status(400).send(error);
     });
   });
 
   router.post('/allAgents', isAdmin, (req, res) => {
-    const getAllAgents = agentsReadAll(sqlConn);
-    getAllAgents((err, result) => {
-      if (err) return res.status(400).send(err);
-      res.send(result);
+    const agentsQuery = gql`
+      query {
+        agents {
+          id
+          name
+          email
+          sessionToken
+          isVerified
+          admin
+          agent
+          createdDate
+        }
+      }
+    `;
+
+    client.query({ query: agentsQuery }).then((results) => {
+      res.send(results.data.agents);
+    }).catch((error) => {
+      if (error) return res.status(400).send(error);
     });
   });
 
