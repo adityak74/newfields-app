@@ -9,13 +9,11 @@ import validateFormProgress from '../validation/validator/formProgress';
 import validateSignUp from '../validation/validator/signUp';
 import validateUserID from '../validation/validator/userID';
 import userFormsReadAll from '../model/userAllForms';
-import agentUpdate from '../model/agentUpdate';
 import formProgress from '../model/formProgress';
 import { SUBMIT } from '../constants/formType';
 
 export default ({
   appUrl,
-  emailService,
   passport,
   sqlConn,
 }) => {
@@ -69,7 +67,7 @@ export default ({
       }
     `;
 
-    client.query({ query: adminsQuery }).then((results) => {
+    client.query({ query: adminsQuery, fetchPolicy: 'network-only' }).then((results) => {
       res.send(results.data.admins);
     }).catch((error) => {
       if (error) return res.status(400).send(error);
@@ -92,23 +90,30 @@ export default ({
       }
     `;
 
-    client.query({ query: agentsQuery }).then((results) => {
+    client.query({ query: agentsQuery, fetchPolicy: 'network-only' }).then((results) => {
       res.send(results.data.agents);
-    }).catch((error) => {
-      if (error) return res.status(400).send(error);
-    });
+    }).catch(error => res.status(400).send(error));
   });
 
   router.post('/agent/authorize', isAdmin, (req, res) => {
+    const authorizeAgentMutation = gql`
+      mutation authorizeAgent($agentId: ID!) {
+        authorizeAgent(agentId: $agentId) {
+          agentID
+          isVerified
+        }
+      }
+    `;
     const { agent_user_id } = req.body;
     const input = { userID: agent_user_id };
     validateUserID(input, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
-      const updateAgent = agentUpdate(sqlConn, sanitizedInput, emailService);
-      updateAgent((err, result) => {
-        if (err) return res.status(400).send(err);
-        res.send(result);
-      });
+      client.mutate({
+        mutation: authorizeAgentMutation,
+        variables: { agentId: sanitizedInput.userID }
+      }).then((results) => {
+        res.send(results.data.authorizeAgent);
+      }).catch(error => res.status(400).send(error));
     });
   });
 

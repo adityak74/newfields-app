@@ -32,12 +32,12 @@ const sendAgentConfirmationEmail = (agentUser, emailService) => {
   );
 };
 
-export default (sqlConnPool, sanitizedInput, emailService) => (cb) => {
+export default (sqlConnPool, agentId, emailService) => (cb) => {
   sqlConnPool.getConnection((err, connection) => {
     if (err) cb(err, null);
     connection.beginTransaction((err1) => {
       if (err1) cb(err1, null);
-      connection.query(USERS.SELECT_USER_BY_ID, [sanitizedInput.userID], (err2, rows2) => {
+      connection.query(USERS.SELECT_USER_BY_ID, [agentId], (err2, rows2) => {
         if (err2) cb(err2, null);
         const user = rows2[0];
         if (user) {
@@ -46,7 +46,7 @@ export default (sqlConnPool, sanitizedInput, emailService) => (cb) => {
             return cb(null, { agentID: user.id, isVerified: 1 });
           }
           connection.query(
-            USERS.UPDATE_AGENT, [{ isVerified: 1 }, sanitizedInput.userID], () => {
+            USERS.UPDATE_AGENT, [{ isVerified: 1 }, agentId], () => {
               if (err2) cb(err2, null);
               connection.commit((commitErr) => {
                 if (commitErr) {
@@ -55,7 +55,7 @@ export default (sqlConnPool, sanitizedInput, emailService) => (cb) => {
                   });
                 }
                 sendAgentConfirmationEmail(user, emailService);
-                cb(null, { agentID: sanitizedInput.userID, isVerified: 1 });
+                cb(null, { agentID: agentId, isVerified: 1 });
               });
             }
           );

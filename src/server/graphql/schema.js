@@ -1,4 +1,8 @@
 export default `
+  type AuthorizeAgentResponse {
+    agentID: ID!,
+    isVerified: Int!
+  }
   type User {
     id: ID!
     name: String!
@@ -13,5 +17,8 @@ export default `
     users: [User!]!,
     admins: [User!]!,
     agents: [User!]!,
+  }
+  type Mutation {
+    authorizeAgent(agentId: ID!): AuthorizeAgentResponse!
   }
 `;

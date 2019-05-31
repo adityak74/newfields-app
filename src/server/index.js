@@ -143,7 +143,7 @@ app.use('/form2', form2RouteHandler({
 const apolloServer = new ApolloServer({
   typeDefs: gql(typeDefs),
   resolvers,
-  context: { sql }
+  context: { emailService, sql }
 });
 apolloServer.applyMiddleware({ app });
 
