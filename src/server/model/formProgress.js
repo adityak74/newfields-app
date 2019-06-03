@@ -5,7 +5,7 @@ const { FORM_UPDATE } = sqlQueries;
 
 export default (sqlConnPool, sanitizedInput) => (cb) => {
   const updateProgressInput = {
-    formUID: sanitizedInput.formId,
+    formUID: sanitizedInput.formID,
     processingStatus: sanitizedInput.progressStatusCode,
   };
   sqlConnPool.getConnection((err, connection) => {

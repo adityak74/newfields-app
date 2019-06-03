@@ -3,6 +3,7 @@ import userRead from '../model/userRead';
 import adminsReadAll from '../model/adminRead';
 import agentsReadAll from '../model/agentRead';
 import agentUpdate from '../model/agentUpdate';
+import formProgress from '../model/formProgress';
 
 export default {
   User: {
@@ -38,6 +39,13 @@ export default {
     authorizeAgent: (parent, { agentId }, { emailService, sql }) => new Promise((resolve, reject) => {
       const updateAgent = agentUpdate(sql, agentId, emailService);
       updateAgent((err, response) => {
+        if (err) reject(err);
+        resolve(response);
+      });
+    }),
+    updateProgress: (parent, input, { sql }) => new Promise((resolve, reject) => {
+      const formProgressUpdate = formProgress(sql, input);
+      formProgressUpdate((err, response) => {
         if (err) reject(err);
         resolve(response);
       });

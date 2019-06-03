@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable camelcase */
 /* eslint-disable consistent-return */
 import ApolloClient from 'apollo-boost';
@@ -9,7 +10,6 @@ import validateFormProgress from '../validation/validator/formProgress';
 import validateSignUp from '../validation/validator/signUp';
 import validateUserID from '../validation/validator/userID';
 import userFormsReadAll from '../model/userAllForms';
-import formProgress from '../model/formProgress';
 import { SUBMIT } from '../constants/formType';
 
 export default ({
@@ -32,14 +32,22 @@ export default ({
 
   router.post('/updateProgress', isAdmin, (req, res) => {
     const input = req.body;
-
+    const updateProgressMutation = gql`
+      mutation updateProgress($formID: ID!, $progressStatusCode: Int!) {
+        updateProgress(formID: $formID, progressStatusCode: $progressStatusCode) {
+          formUID
+          processingStatus
+        }
+      }
+    `;
     validateFormProgress(input, {}, (err, sanitizedInput) => {
       if (err) return res.status(400).send(err);
-      const formProgressUpdate = formProgress(sqlConn, sanitizedInput);
-      formProgressUpdate((err1, response) => {
-        if (err1) return res.status(400).send(err1);
-        res.status(200).send(response);
-      });
+      client.mutate({
+        mutation: updateProgressMutation,
+        variables: { formID: sanitizedInput.formId, progressStatusCode: sanitizedInput.progressStatusCode }
+      }).then((results) => {
+        res.send(results.data.updateProgress);
+      }).catch(error => res.status(400).send(error));
     });
   });
 

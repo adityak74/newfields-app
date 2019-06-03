@@ -3,6 +3,10 @@ export default `
     agentID: ID!,
     isVerified: Int!
   }
+  type UpdateProgressResponse {
+    formUID: ID!,
+    processingStatus: Int!
+  }
   type User {
     id: ID!
     name: String!
@@ -20,5 +24,6 @@ export default `
   }
   type Mutation {
     authorizeAgent(agentId: ID!): AuthorizeAgentResponse!
+    updateProgress(formID: ID!, progressStatusCode: Int!): UpdateProgressResponse!
   }
 `;
