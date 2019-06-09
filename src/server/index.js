@@ -9,6 +9,10 @@ import connectRedis from 'connect-redis';
 import expressWinston from 'express-winston';
 import redis from 'redis';
 import bodyParser from 'body-parser';
+import fetch from 'node-fetch';
+import ApolloClient from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { createHttpLink } from 'apollo-link-http';
 import { ApolloServer, gql } from 'apollo-server-express';
 
 import form1RouteHandler from './routes/form1';
@@ -96,6 +100,59 @@ app.use(expressWinston.logger({
   ]
 }));
 
+// GraphQL setup
+// const myGqlSchema = makeExecutableSchema({ typeDefs, resolvers });
+// app.use(
+//   '/graphql',
+//   (req, res, next) => {
+//     console.log('mygqlschema---->>', req.session);
+//     return graphqlExpress({
+//       schema: myGqlSchema,
+//       context: {
+//         emailService,
+//         passport,
+//         req,
+//         res,
+//         sql,
+//       },
+//       graphiql: true,
+//       tracing: true,
+//       cacheControl: true,
+//     })(req, res, next);
+//   }
+// );
+
+// app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: myGqlSchema }));
+
+app.use((req, res, next) => {
+  const apolloClient = new ApolloClient({
+    link: createHttpLink({
+      uri: `${appUrl}/graphql`,
+      credentials: 'same-origin',
+      fetch,
+      headers: { cookie: req.header('Cookie') || null },
+    }),
+    cache: new InMemoryCache(),
+    ssrMode: true,
+  });
+  req.apolloClient = apolloClient;
+  next();
+});
+
+const apolloServer = new ApolloServer({
+  typeDefs: gql(typeDefs),
+  resolvers,
+  context: ({ req, res }) => ({
+    emailService,
+    passport,
+    req,
+    res,
+    sql,
+  }),
+  playground: { settings: { 'request.credentials': 'include' } },
+});
+apolloServer.applyMiddleware({ app, cors: { origin: appUrl, credentials: true } });
+
 // Website static stuff
 const staticPath = path.join(viewsPath, 'static');
 app.use('/js', express.static(path.join(staticPath, 'js')));
@@ -138,14 +195,6 @@ app.use('/form2', form2RouteHandler({
   emailService,
   sqlConn: sql,
 }));
-
-// GraphQL setup
-const apolloServer = new ApolloServer({
-  typeDefs: gql(typeDefs),
-  resolvers,
-  context: { emailService, sql }
-});
-apolloServer.applyMiddleware({ app });
 
 app.get('/', (req, res) => {
   res.redirect('/user/sign-in');

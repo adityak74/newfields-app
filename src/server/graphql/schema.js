@@ -1,29 +1,40 @@
+import userType from './query/user';
+import formType from './query/form';
+
+import { admins } from './query/allAdmins';
+import { agents } from './query/allAgents';
+import { forms } from './query/allForms';
+import { users } from './query/allUsers';
+
+import { addAdmin, addAdminResponse } from './mutation/addAdmin';
+import { authorizeAgent, authorizeAgentResponse } from './mutation/authorizeAgent';
+import { signIn, signInResponse } from './mutation/signIn';
+import { signUp, signUpResponse } from './mutation/signUp';
+import { changePassword, changePasswordResponse } from './mutation/changePassword';
+import { updateProgress, updateProgressResponse } from './mutation/updateProgress';
+
+
 export default `
-  type AuthorizeAgentResponse {
-    agentID: ID!,
-    isVerified: Int!
-  }
-  type UpdateProgressResponse {
-    formUID: ID!,
-    processingStatus: Int!
-  }
-  type User {
-    id: ID!
-    name: String!
-    email: String!
-    isVerified: Int!,
-    admin: Int!,
-    agent: Int!,
-    sessionToken: String,
-    createdDate: String,
-  }
+  ${authorizeAgentResponse}
+  ${updateProgressResponse}
+  ${changePasswordResponse}
+  ${addAdminResponse}
+  ${signInResponse}
+  ${signUpResponse}
+  ${userType}
+  ${formType}
   type Query {
-    users: [User!]!,
-    admins: [User!]!,
-    agents: [User!]!,
+    ${users}
+    ${admins}
+    ${agents}
+    ${forms}
   }
   type Mutation {
-    authorizeAgent(agentId: ID!): AuthorizeAgentResponse!
-    updateProgress(formID: ID!, progressStatusCode: Int!): UpdateProgressResponse!
+    ${addAdmin}
+    ${authorizeAgent}
+    ${signIn}
+    ${signUp}
+    ${changePassword}
+    ${updateProgress}
   }
 `;
