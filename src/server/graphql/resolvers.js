@@ -95,6 +95,28 @@ export default {
           resolve({ user });
         })(req, res);
     }),
+    signInWithToken: (parent, {
+      email,
+      password,
+      isAdmin,
+      sessionToken,
+    }, {
+      passport,
+      req,
+      res,
+    }) => new Promise((resolve, reject) => {
+      req.body = {
+        email,
+        password,
+        isAdmin,
+        session_token: sessionToken,
+      };
+      passport.authenticate('local-login',
+        (err, user) => {
+          if (err) return reject(err.message);
+          resolve({ user });
+        })(req, res);
+    }),
     signUp: (parent, {
       name,
       email,

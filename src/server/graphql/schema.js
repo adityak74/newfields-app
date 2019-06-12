@@ -9,6 +9,7 @@ import { users } from './query/allUsers';
 import { addAdmin, addAdminResponse } from './mutation/addAdmin';
 import { authorizeAgent, authorizeAgentResponse } from './mutation/authorizeAgent';
 import { signIn, signInResponse } from './mutation/signIn';
+import { signInWithToken, signInWithTokenResponse } from './mutation/signInWithToken';
 import { signUp, signUpResponse } from './mutation/signUp';
 import { changePassword, changePasswordResponse } from './mutation/changePassword';
 import { updateProgress, updateProgressResponse } from './mutation/updateProgress';
@@ -20,6 +21,7 @@ export default `
   ${changePasswordResponse}
   ${addAdminResponse}
   ${signInResponse}
+  ${signInWithTokenResponse}
   ${signUpResponse}
   ${userType}
   ${formType}
@@ -33,6 +35,7 @@ export default `
     ${addAdmin}
     ${authorizeAgent}
     ${signIn}
+    ${signInWithToken}
     ${signUp}
     ${changePassword}
     ${updateProgress}

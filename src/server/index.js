@@ -9,11 +9,11 @@ import connectRedis from 'connect-redis';
 import expressWinston from 'express-winston';
 import redis from 'redis';
 import bodyParser from 'body-parser';
-import fetch from 'node-fetch';
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { createHttpLink } from 'apollo-link-http';
 import { ApolloServer, gql } from 'apollo-server-express';
+import { SchemaLink } from 'apollo-link-schema';
+import { makeExecutableSchema } from 'graphql-tools';
 
 import form1RouteHandler from './routes/form1';
 import form2RouteHandler from './routes/form2';
@@ -100,44 +100,25 @@ app.use(expressWinston.logger({
   ]
 }));
 
-// GraphQL setup
-// const myGqlSchema = makeExecutableSchema({ typeDefs, resolvers });
-// app.use(
-//   '/graphql',
-//   (req, res, next) => {
-//     console.log('mygqlschema---->>', req.session);
-//     return graphqlExpress({
-//       schema: myGqlSchema,
-//       context: {
-//         emailService,
-//         passport,
-//         req,
-//         res,
-//         sql,
-//       },
-//       graphiql: true,
-//       tracing: true,
-//       cacheControl: true,
-//     })(req, res, next);
-//   }
-// );
-
-// app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: myGqlSchema }));
-
+// GraphQL && Apollo setup
+const myGqlSchema = makeExecutableSchema({ typeDefs, resolvers });
 app.use((req, res, next) => {
-  const apolloClient = new ApolloClient({
-    link: createHttpLink({
-      uri: `${appUrl}/graphql`,
-      credentials: 'same-origin',
-      fetch,
-      headers: { cookie: req.header('Cookie') || null },
-    }),
+  req.apolloClient = new ApolloClient({
     cache: new InMemoryCache(),
-    ssrMode: true,
+    link: new SchemaLink({
+      schema: myGqlSchema,
+      context: {
+        emailService,
+        passport,
+        req,
+        res,
+        sql,
+      }
+    })
   });
-  req.apolloClient = apolloClient;
   next();
 });
+
 
 const apolloServer = new ApolloServer({
   typeDefs: gql(typeDefs),

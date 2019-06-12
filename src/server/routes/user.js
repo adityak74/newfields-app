@@ -18,6 +18,7 @@ import adminSessionTokenReset from '../model/adminSessionTokenReset';
 import {
   changePasswordMutation,
   signInMutation,
+  signInWithTokenMutation,
   signUpMutation,
 } from '../graphql/mutation';
 import { allFormsQuery } from '../graphql/query';
@@ -108,26 +109,33 @@ export default ({
     validateTokenSignIn(input, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
       else {
-        req.body = sanitizedInput;
-        passport.authenticate('local-login',
-          (err, user) => {
-            if (err) return res.status(400).send(err.message);
-            if (user) {
-              const newUser = {
-                userId: user.id,
-                admin: user.admin,
-              };
-              req.logIn(user, (err1) => {
-                if (err1) return res.status(500).send(err1.message);
-                // reset token to null and sign in
-                const resetSessionTokenModel = adminSessionTokenReset(sqlConn, user);
-                resetSessionTokenModel((err2) => {
-                  if (err2) return res.status(500).send(err2.message);
-                  return res.status(200).send(newUser);
-                });
-              });
-            }
-          })(req, res);
+        const {
+          email,
+          password,
+          isAdmin,
+          // eslint-disable-next-line camelcase
+          session_token,
+        } = sanitizedInput;
+        req.apolloClient.mutate({
+          mutation: signInWithTokenMutation,
+          variables: {
+            email,
+            password,
+            isAdmin,
+            sessionToken: session_token,
+          }
+        }).then((results) => {
+          const currentUser = results.data.signInWithToken.user;
+          req.logIn(currentUser, (err1) => {
+            if (err1) return res.status(500).send(err1.message);
+            // reset token to null and sign in
+            const resetSessionTokenModel = adminSessionTokenReset(sqlConn, currentUser);
+            resetSessionTokenModel((err2) => {
+              if (err2) return res.status(500).send(err2.message);
+              return res.status(200).send(currentUser);
+            });
+          });
+        }).catch(error => res.status(400).send(error));
       }
     });
   });
@@ -186,7 +194,7 @@ export default ({
   });
 
   router.get('/getForms', isLoggedIn, (req, res) => {
-    req.apolloClient.query({ query: allFormsQuery, fetchPolicy: 'network-only' })
+    req.apolloClient.query({ context: { req, res }, query: allFormsQuery, fetchPolicy: 'network-only' })
       .then((results) => {
         res.send(results.data.forms);
       }).catch((error) => {
