@@ -13,12 +13,14 @@ import { signInWithToken, signInWithTokenResponse } from './mutation/signInWithT
 import { signUp, signUpResponse } from './mutation/signUp';
 import { changePassword, changePasswordResponse } from './mutation/changePassword';
 import { updateProgress, updateProgressResponse } from './mutation/updateProgress';
+import { forgotPassword, forgotPasswordResponse } from './mutation/forgotPassword';
 
 
 export default `
   ${authorizeAgentResponse}
   ${updateProgressResponse}
   ${changePasswordResponse}
+  ${forgotPasswordResponse}
   ${addAdminResponse}
   ${signInResponse}
   ${signInWithTokenResponse}
@@ -38,6 +40,7 @@ export default `
     ${signInWithToken}
     ${signUp}
     ${changePassword}
+    ${forgotPassword}
     ${updateProgress}
   }
 `;

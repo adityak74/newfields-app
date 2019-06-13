@@ -14,7 +14,14 @@ export default (sqlConnPool, userId, password) => (cb) => {
         USERS.UPDATE_USERS_BY_ID, [{ password: hashedPassword }, userId], (err2, rows2) => {
           if (err2) cb(err2, null);
           if (rows2.changedRows) {
-            return cb(null, { user: { id: userId } });
+            connection.commit((commitErr) => {
+              if (commitErr) {
+                return connection.rollback(() => {
+                  throw commitErr;
+                });
+              }
+              cb(null, { user: { id: userId } });
+            });
           }
         }
       );

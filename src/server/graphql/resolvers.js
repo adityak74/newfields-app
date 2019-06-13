@@ -6,15 +6,19 @@ import agentUpdate from '../model/agentUpdate';
 import changePassword from '../model/changePassword';
 import formProgress from '../model/formProgress';
 import userFormsReadAll from '../model/userAllForms';
+import forgotPassword from '../model/forgotPassword';
 
 import { SUBMIT } from '../constants/formType';
 
+const timestampStringFromDateEpoch = date => new Date(date).toUTCString();
+
 export default {
+  Form: {
+    createDate: ({ createDate }) => timestampStringFromDateEpoch(createDate),
+    updateDate: ({ updateDate }) => timestampStringFromDateEpoch(updateDate),
+  },
   User: {
-    createdDate: (parent) => {
-      const date = new Date(parent.createdDate);
-      return date.toUTCString();
-    },
+    createdDate: ({ createdDate }) => timestampStringFromDateEpoch(createdDate),
   },
   Query: {
     forms: (parent, args, { sql, req }) => new Promise((resolve, reject) => {
@@ -81,6 +85,13 @@ export default {
       userChangePassword((err, response) => {
         if (err) reject(err);
         resolve(response);
+      });
+    }),
+    forgotPassword: (parent, { email }, { emailService, sql }) => new Promise((resolve, reject) => {
+      const userPasswordForgot = forgotPassword(sql, emailService, email);
+      userPasswordForgot((err, user) => {
+        if (err) reject(err);
+        resolve({ user });
       });
     }),
     signIn: (parent, { email, password, isAdmin }, {

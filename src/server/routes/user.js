@@ -1,7 +1,5 @@
 /* eslint-disable consistent-return */
 import express from 'express';
-import bcrypt from 'bcrypt-nodejs';
-import passwordGenerator from 'generate-password';
 import { renderFile as ejsRenderFile } from 'ejs';
 import path from 'path';
 import validateSignIn from '../validation/validator/signIn';
@@ -17,20 +15,12 @@ import adminSessionTokenReset from '../model/adminSessionTokenReset';
 
 import {
   changePasswordMutation,
+  forgotPasswordMutation,
   signInMutation,
   signInWithTokenMutation,
   signUpMutation,
 } from '../graphql/mutation';
 import { allFormsQuery } from '../graphql/query';
-
-const resetPasswordHTMLFile = path.join(
-  __dirname,
-  '..',
-  '..',
-  'views',
-  'pages',
-  'reset_email.ejs',
-);
 
 const userContactHTMLFile = path.join(
   __dirname,
@@ -45,7 +35,6 @@ export default ({
   appUrl,
   appConfig,
   emailService,
-  passport,
   sqlConn,
 }) => {
   const router = express.Router();
@@ -223,46 +212,17 @@ export default ({
     const input = req.body;
 
     validateResetPassword(input, {}, (err, sanitizedInput) => {
-      if (err) res.status(400).send(err);
-      else {
-        sqlConn.query('SELECT * from users where email = ?', [sanitizedInput.email], (err1, rows) => {
-          if (err1) res.status(500).send(err1);
-          if (rows.length) {
-            // generate random password for user. and send the email
-            const randomGeneratedPassword = passwordGenerator.generate({
-              length: 8,
-              uppercase: false,
-              strict: true,
-            });
-            // eslint-disable-next-line max-len
-            const hashedRandomGeneratedPassword = bcrypt.hashSync(randomGeneratedPassword, null, null);
-            sqlConn.query('UPDATE users SET password = ? where id = ?', [hashedRandomGeneratedPassword, rows[0].id], (err2, rows2) => {
-              if (err2) res.status(500).send(err2);
-              if (rows2.changedRows) {
-                const responseData = { userId: rows[0].id };
-                ejsRenderFile(
-                  resetPasswordHTMLFile,
-                  {
-                    userName: rows[0].name,
-                    updatedPassword: randomGeneratedPassword,
-                  },
-                  (err3, htmlString) => {
-                    emailService({
-                      toAddress: rows[0].email,
-                      emailHtmlData: htmlString,
-                      emailTextData: htmlString,
-                      emailSubject: 'Newfields - Reset Password',
-                    });
-                  }
-                );
-                res.status(200).send(responseData);
-              }
-            });
-          } else {
-            res.status(400).send('userNotFound');
-          }
-        });
-      }
+      if (err) return res.status(400).send(err);
+      const { email } = sanitizedInput;
+      req.apolloClient.mutate({
+        mutation: forgotPasswordMutation,
+        variables: {
+          email,
+        },
+      }).then((results) => {
+        const currentUser = results.data.forgotPassword.user;
+        res.status(200).send(currentUser);
+      }).catch(error => res.status(400).send(error));
     });
   });
 
