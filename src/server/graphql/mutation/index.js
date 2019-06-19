@@ -7,3 +7,4 @@ export { default as signUpMutation } from './signUp';
 export { default as updateProgressMutation } from './updateProgress';
 export { default as changePasswordMutation } from './changePassword';
 export { default as forgotPasswordMutation } from './forgotPassword';
+export { default as verifyEmailMutation } from './verifyEmail';

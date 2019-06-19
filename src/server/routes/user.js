@@ -19,6 +19,7 @@ import {
   signInMutation,
   signInWithTokenMutation,
   signUpMutation,
+  verifyEmailMutation,
 } from '../graphql/mutation';
 import { allFormsQuery } from '../graphql/query';
 
@@ -242,30 +243,20 @@ export default ({
 
     validateVerifyEmail(input, {}, (err, sanitizedInput) => {
       if (err) res.status(400).send(err);
-      sqlConn.query('SELECT * FROM users WHERE email = ? and token = ?',
-        [sanitizedInput.email, sanitizedInput.token],
-        (err1, rows) => {
-          // found the user
-          if (err1) res.status(500).send(err1);
-          if (rows.length) {
-            const userId = rows[0].id;
-            if (rows[0].isVerified) {
-              return redirectToSignIn();
-            }
-            sqlConn.query('UPDATE users SET isVerified = 1 where id = ?', [userId], (err2, rows2) => {
-              if (err2) res.status(500).send(err2);
-              if (rows2.changedRows) {
-                // redirect to login
-                redirectToSignIn();
-              } else {
-                res.status(400).send("Couldn't verify email. Please try again or contact admin.");
-              }
-            });
-          } else {
-            // user not found
-            res.status(400).send("Couldn't find email on database. Please sign up");
-          }
-        });
+      // eslint-disable-next-line no-shadow
+      const { email, token } = sanitizedInput;
+      req.apolloClient.mutate({
+        mutation: verifyEmailMutation,
+        variables: {
+          email,
+          token,
+        },
+      }).then((results) => {
+        const currentUser = results.data.verifyEmail.user;
+        if (currentUser.isVerified) {
+          return redirectToSignIn();
+        }
+      }).catch(error => res.status(400).send(error));
     });
   });
 

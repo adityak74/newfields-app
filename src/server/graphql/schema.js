@@ -14,7 +14,7 @@ import { signUp, signUpResponse } from './mutation/signUp';
 import { changePassword, changePasswordResponse } from './mutation/changePassword';
 import { updateProgress, updateProgressResponse } from './mutation/updateProgress';
 import { forgotPassword, forgotPasswordResponse } from './mutation/forgotPassword';
-
+import { verifyEmail, verifyEmailResponse } from './mutation/verifyEmail';
 
 export default `
   ${authorizeAgentResponse}
@@ -25,6 +25,7 @@ export default `
   ${signInResponse}
   ${signInWithTokenResponse}
   ${signUpResponse}
+  ${verifyEmailResponse}
   ${userType}
   ${formType}
   type Query {
@@ -39,6 +40,7 @@ export default `
     ${signIn}
     ${signInWithToken}
     ${signUp}
+    ${verifyEmail}
     ${changePassword}
     ${forgotPassword}
     ${updateProgress}

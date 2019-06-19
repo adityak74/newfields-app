@@ -7,6 +7,7 @@ import changePassword from '../model/changePassword';
 import formProgress from '../model/formProgress';
 import userFormsReadAll from '../model/userAllForms';
 import forgotPassword from '../model/forgotPassword';
+import verifyEmail from '../model/verifyEmail';
 
 import { SUBMIT } from '../constants/formType';
 
@@ -149,6 +150,13 @@ export default {
     updateProgress: (parent, input, { sql }) => new Promise((resolve, reject) => {
       const formProgressUpdate = formProgress(sql, input);
       formProgressUpdate((err, response) => {
+        if (err) reject(err);
+        resolve(response);
+      });
+    }),
+    verifyEmail: (parent, input, { sql }) => new Promise((resolve, reject) => {
+      const emailVerify = verifyEmail(sql, input);
+      emailVerify((err, response) => {
         if (err) reject(err);
         resolve(response);
       });
