@@ -9,6 +9,11 @@ import connectRedis from 'connect-redis';
 import expressWinston from 'express-winston';
 import redis from 'redis';
 import bodyParser from 'body-parser';
+import ApolloClient from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloServer, gql } from 'apollo-server-express';
+import { SchemaLink } from 'apollo-link-schema';
+import { makeExecutableSchema } from 'graphql-tools';
 
 import form1RouteHandler from './routes/form1';
 import form2RouteHandler from './routes/form2';
@@ -20,6 +25,8 @@ import passportConfig from './util/passport';
 import sendMail from './util/sendMail';
 import uploadDocument from './util/uploadDocument';
 import getS3SignedDocument from './util/getS3SignedDocument';
+import typeDefs from './graphql/schema';
+import resolvers from './graphql/resolvers';
 
 const app = express();
 const appConfig = config(process.env.NODE_ENV);
@@ -92,6 +99,40 @@ app.use(expressWinston.logger({
     })
   ]
 }));
+
+// GraphQL && Apollo setup
+const myGqlSchema = makeExecutableSchema({ typeDefs, resolvers });
+app.use((req, res, next) => {
+  req.apolloClient = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: new SchemaLink({
+      schema: myGqlSchema,
+      context: {
+        emailService,
+        passport,
+        req,
+        res,
+        sql,
+      }
+    })
+  });
+  next();
+});
+
+
+const apolloServer = new ApolloServer({
+  typeDefs: gql(typeDefs),
+  resolvers,
+  context: ({ req, res }) => ({
+    emailService,
+    passport,
+    req,
+    res,
+    sql,
+  }),
+  playground: { settings: { 'request.credentials': 'include' } },
+});
+apolloServer.applyMiddleware({ app, cors: { origin: appUrl, credentials: true } });
 
 // Website static stuff
 const staticPath = path.join(viewsPath, 'static');

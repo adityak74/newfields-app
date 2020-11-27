@@ -61,6 +61,9 @@ const DOCUMENTS = {
 };
 
 const USERS = {
+  SELECT_USER_BY_EMAIL: 'SELECT * from users where email = ?',
+  SELECT_USER_BY_EMAIL_TOKEN: 'SELECT * FROM users WHERE email = ? and token = ?',
+  SELECT_ALL_USERS: 'SELECT * from users',
   SELECT_ALL_ADMINS: 'SELECT * from users where admin = 1',
   SELECT_ALL_AGENTS: 'SELECT * from users where agent = 1',
   SELECT_USER_BY_ID: 'SELECT * from users where id = ?',

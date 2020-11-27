@@ -12,7 +12,7 @@ export default sqlConnPool => (cb) => {
     connection.beginTransaction((err1) => {
       if (err1) cb(err1, null);
       connection.query(
-        USERS.SELECT_ALL_ADMINS, (err2, rows2) => {
+        USERS.SELECT_ALL_USERS, (err2, rows2) => {
           if (err2) cb(err2, null);
           if (rows2.length) {
             const shimmedAdmins = rows2.map(shimUserData);

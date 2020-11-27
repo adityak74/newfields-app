@@ -1,7 +1,5 @@
 /* eslint-disable consistent-return */
 import express from 'express';
-import bcrypt from 'bcrypt-nodejs';
-import passwordGenerator from 'generate-password';
 import { renderFile as ejsRenderFile } from 'ejs';
 import path from 'path';
 import validateSignIn from '../validation/validator/signIn';
@@ -12,19 +10,18 @@ import validateChangePassword from '../validation/validator/changePassword';
 import validateResetPassword from '../validation/validator/resetPassword';
 import isLoggedIn from '../util/getIfAuthenticated';
 import capitalizeFirst from '../util/capitalizeFirst';
-import userFormsReadAll from '../model/userAllForms';
 import adminSessionToken from '../model/adminSessionToken';
 import adminSessionTokenReset from '../model/adminSessionTokenReset';
-import { SUBMIT } from '../constants/formType';
 
-const resetPasswordHTMLFile = path.join(
-  __dirname,
-  '..',
-  '..',
-  'views',
-  'pages',
-  'reset_email.ejs',
-);
+import {
+  changePasswordMutation,
+  forgotPasswordMutation,
+  signInMutation,
+  signInWithTokenMutation,
+  signUpMutation,
+  verifyEmailMutation,
+} from '../graphql/mutation';
+import { allFormsQuery } from '../graphql/query';
 
 const userContactHTMLFile = path.join(
   __dirname,
@@ -39,7 +36,6 @@ export default ({
   appUrl,
   appConfig,
   emailService,
-  passport,
   sqlConn,
 }) => {
   const router = express.Router();
@@ -49,23 +45,24 @@ export default ({
 
     validateSignUp(input, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
-      else {
-        req.body = sanitizedInput;
-        passport.authenticate('local-signup',
-          (err, user) => {
-            if (user) {
-              const newUser = {
-                userId: user.id,
-                name: user.name,
-                email: user.email,
-                agent: user.agent,
-              };
-              res.status(200).send(newUser);
-            } else {
-              res.status(400).send(err.message);
-            }
-          })(req, res);
-      }
+      const {
+        name,
+        email,
+        password,
+        isAgent
+      } = sanitizedInput;
+      req.apolloClient.mutate({
+        mutation: signUpMutation,
+        variables: {
+          name,
+          email,
+          password,
+          isAgent,
+        },
+      }).then((results) => {
+        const signUpUser = results.data.signUp.user;
+        res.status(200).send(signUpUser);
+      }).catch(error => res.status(400).send(error));
     });
   });
 
@@ -73,34 +70,26 @@ export default ({
     const input = req.body;
 
     validateSignIn(input, {}, (validationErr, sanitizedInput) => {
-      if (validationErr) res.status(400).send(validationErr);
-      else {
-        req.body = sanitizedInput;
-        passport.authenticate('local-login',
-          (err, user) => {
-            if (err) return res.status(400).send(err.message);
-            if (user) {
-              const newUser = {
-                userId: user.id,
-                admin: user.admin,
-              };
-              // if admin generate session token and enter in db
-              // do not login yet until he verifies token
-              if (newUser.admin) {
-                const adminTokenModel = adminSessionToken(sqlConn, user, emailService);
-                adminTokenModel((err1, tokenData) => {
-                  if (err1) return res.status(500).send(err1.message);
-                  return res.status(200).send(tokenData);
-                });
-              } else {
-                req.logIn(user, (err2) => {
-                  if (err2) return res.status(500).send(err2.message);
-                  return res.status(200).send(newUser);
-                });
-              }
-            }
-          })(req, res);
-      }
+      if (validationErr) return res.status(400).send(validationErr);
+      const { email, password, isAdmin } = sanitizedInput;
+      req.apolloClient.mutate({
+        mutation: signInMutation,
+        variables: { email, password, isAdmin }
+      }).then((results) => {
+        const currentUser = results.data.signIn.user;
+        if (currentUser.admin) {
+          const adminTokenModel = adminSessionToken(sqlConn, currentUser, emailService);
+          adminTokenModel((err1, tokenData) => {
+            if (err1) return res.status(400).send(err1.message);
+            res.status(200).send(tokenData);
+          });
+        } else {
+          return req.logIn(currentUser, (err2) => {
+            if (err2) return res.status(400).send(err2.message);
+            return res.status(200).send({ userId: currentUser.id });
+          });
+        }
+      }).catch(error => res.status(400).send(error));
     });
   });
 
@@ -110,26 +99,33 @@ export default ({
     validateTokenSignIn(input, {}, (validationErr, sanitizedInput) => {
       if (validationErr) res.status(400).send(validationErr);
       else {
-        req.body = sanitizedInput;
-        passport.authenticate('local-login',
-          (err, user) => {
-            if (err) return res.status(400).send(err.message);
-            if (user) {
-              const newUser = {
-                userId: user.id,
-                admin: user.admin,
-              };
-              req.logIn(user, (err1) => {
-                if (err1) return res.status(500).send(err1.message);
-                // reset token to null and sign in
-                const resetSessionTokenModel = adminSessionTokenReset(sqlConn, user);
-                resetSessionTokenModel((err2) => {
-                  if (err2) return res.status(500).send(err2.message);
-                  return res.status(200).send(newUser);
-                });
-              });
-            }
-          })(req, res);
+        const {
+          email,
+          password,
+          isAdmin,
+          // eslint-disable-next-line camelcase
+          session_token,
+        } = sanitizedInput;
+        req.apolloClient.mutate({
+          mutation: signInWithTokenMutation,
+          variables: {
+            email,
+            password,
+            isAdmin,
+            sessionToken: session_token,
+          }
+        }).then((results) => {
+          const currentUser = results.data.signInWithToken.user;
+          req.logIn(currentUser, (err1) => {
+            if (err1) return res.status(500).send(err1.message);
+            // reset token to null and sign in
+            const resetSessionTokenModel = adminSessionTokenReset(sqlConn, currentUser);
+            resetSessionTokenModel((err2) => {
+              if (err2) return res.status(500).send(err2.message);
+              return res.status(200).send(currentUser);
+            });
+          });
+        }).catch(error => res.status(400).send(error));
       }
     });
   });
@@ -188,28 +184,28 @@ export default ({
   });
 
   router.get('/getForms', isLoggedIn, (req, res) => {
-    const getAllForms = userFormsReadAll(req, sqlConn, SUBMIT, true);
-    getAllForms((err, result) => {
-      if (err) res.status(400).send(err);
-      else res.send(result);
-    });
+    req.apolloClient.query({ context: { req, res }, query: allFormsQuery, fetchPolicy: 'network-only' })
+      .then((results) => {
+        res.send(results.data.forms);
+      }).catch((error) => {
+        if (error) return res.status(400).send(error);
+      });
   });
 
   router.post('/change-password', isLoggedIn, (req, res) => {
     const input = req.body;
 
     validateChangePassword(input, {}, (err, sanitizedInput) => {
-      if (err) res.status(400).send(err);
-      else {
-        const userId = req.user.id;
-        const hashedPassword = bcrypt.hashSync(sanitizedInput.password, null, null);
-        sqlConn.query('UPDATE users SET password = ? where id = ?', [hashedPassword, userId], (err2, rows) => {
-          if (err2) res.status(500).send(err2);
-          if (rows.changedRows) {
-            res.status(200).send();
-          }
-        });
-      }
+      if (err) return res.status(400).send(err);
+      const { password } = sanitizedInput;
+      req.apolloClient.mutate({
+        mutation: changePasswordMutation,
+        variables: {
+          password,
+        },
+      }).then(() => {
+        res.status(200).send();
+      }).catch(error => res.status(400).send(error));
     });
   });
 
@@ -217,46 +213,17 @@ export default ({
     const input = req.body;
 
     validateResetPassword(input, {}, (err, sanitizedInput) => {
-      if (err) res.status(400).send(err);
-      else {
-        sqlConn.query('SELECT * from users where email = ?', [sanitizedInput.email], (err1, rows) => {
-          if (err1) res.status(500).send(err1);
-          if (rows.length) {
-            // generate random password for user. and send the email
-            const randomGeneratedPassword = passwordGenerator.generate({
-              length: 8,
-              uppercase: false,
-              strict: true,
-            });
-            // eslint-disable-next-line max-len
-            const hashedRandomGeneratedPassword = bcrypt.hashSync(randomGeneratedPassword, null, null);
-            sqlConn.query('UPDATE users SET password = ? where id = ?', [hashedRandomGeneratedPassword, rows[0].id], (err2, rows2) => {
-              if (err2) res.status(500).send(err2);
-              if (rows2.changedRows) {
-                const responseData = { userId: rows[0].id };
-                ejsRenderFile(
-                  resetPasswordHTMLFile,
-                  {
-                    userName: rows[0].name,
-                    updatedPassword: randomGeneratedPassword,
-                  },
-                  (err3, htmlString) => {
-                    emailService({
-                      toAddress: rows[0].email,
-                      emailHtmlData: htmlString,
-                      emailTextData: htmlString,
-                      emailSubject: 'Newfields - Reset Password',
-                    });
-                  }
-                );
-                res.status(200).send(responseData);
-              }
-            });
-          } else {
-            res.status(400).send('userNotFound');
-          }
-        });
-      }
+      if (err) return res.status(400).send(err);
+      const { email } = sanitizedInput;
+      req.apolloClient.mutate({
+        mutation: forgotPasswordMutation,
+        variables: {
+          email,
+        },
+      }).then((results) => {
+        const currentUser = results.data.forgotPassword.user;
+        res.status(200).send(currentUser);
+      }).catch(error => res.status(400).send(error));
     });
   });
 
@@ -276,30 +243,20 @@ export default ({
 
     validateVerifyEmail(input, {}, (err, sanitizedInput) => {
       if (err) res.status(400).send(err);
-      sqlConn.query('SELECT * FROM users WHERE email = ? and token = ?',
-        [sanitizedInput.email, sanitizedInput.token],
-        (err1, rows) => {
-          // found the user
-          if (err1) res.status(500).send(err1);
-          if (rows.length) {
-            const userId = rows[0].id;
-            if (rows[0].isVerified) {
-              return redirectToSignIn();
-            }
-            sqlConn.query('UPDATE users SET isVerified = 1 where id = ?', [userId], (err2, rows2) => {
-              if (err2) res.status(500).send(err2);
-              if (rows2.changedRows) {
-                // redirect to login
-                redirectToSignIn();
-              } else {
-                res.status(400).send("Couldn't verify email. Please try again or contact admin.");
-              }
-            });
-          } else {
-            // user not found
-            res.status(400).send("Couldn't find email on database. Please sign up");
-          }
-        });
+      // eslint-disable-next-line no-shadow
+      const { email, token } = sanitizedInput;
+      req.apolloClient.mutate({
+        mutation: verifyEmailMutation,
+        variables: {
+          email,
+          token,
+        },
+      }).then((results) => {
+        const currentUser = results.data.verifyEmail.user;
+        if (currentUser.isVerified) {
+          return redirectToSignIn();
+        }
+      }).catch(error => res.status(400).send(error));
     });
   });
 
