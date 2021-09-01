@@ -60,7 +60,7 @@
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "recompose": "0.30.0",
-    "redis": "^2.8.0",
+    "redis": "^3.0.0",
     "redux": "4.0.1",
     "sql-constants": "github:adityak74/sql-constants#master",
     "winston": "^3.2.1",
