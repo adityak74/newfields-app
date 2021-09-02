@@ -49,7 +49,7 @@
     "joi": "17.4.2",
     "joi-date-extensions": "^1.2.0",
     "joi-phone-number": "^2.1.1",
-    "joi-postalcode": "^1.0.0",
+    "joi-postalcode": "^2.0.0",
     "lodash": "^4.17.11",
     "md5": "^2.2.1",
     "multer": "^1.4.1",
