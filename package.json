@@ -61,7 +61,7 @@
     "react-dom": "17.0.2",
     "recompose": "0.30.0",
     "redis": "^2.8.0",
-    "redux": "4.0.1",
+    "redux": "4.1.1",
     "sql-constants": "github:adityak74/sql-constants#master",
     "winston": "^3.2.1",
     "xss": "^1.0.3"
