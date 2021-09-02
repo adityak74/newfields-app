@@ -46,7 +46,7 @@
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.1",
     "graphql-tools": "^4.0.4",
-    "joi": "14.3.1",
+    "joi": "17.4.2",
     "joi-date-extensions": "^1.2.0",
     "joi-phone-number": "^2.1.1",
     "joi-postalcode": "^1.0.0",
