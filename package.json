@@ -90,7 +90,7 @@
     "nodemon": "1.18.10",
     "style-loader": "0.23.0",
     "url-loader": "1.1.2",
-    "webpack": "4.5.0",
+    "webpack": "5.51.1",
     "webpack-cli": "3.0.8",
     "webpack-dev-server": "3.11.0"
   }
